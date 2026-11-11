@@ -122,3 +122,37 @@ class AppNotification {
     );
   }
 }
+
+class WeatherCondition {
+  final String locationName;
+  final double temperature;
+  final String condition;
+  final int humidity;
+  final String iconCode;
+
+  WeatherCondition({
+    required this.locationName,
+    required this.temperature,
+    required this.condition,
+    required this.humidity,
+    required this.iconCode,
+  });
+
+  factory WeatherCondition.fromJson(Map<String, dynamic> json) {
+    return WeatherCondition(
+      locationName: json['locationName'] ?? 'Farm Location',
+      temperature: (json['temperature'] ?? 28.0).toDouble(),
+      condition: json['condition'] ?? 'Sunny',
+      humidity: json['humidity'] ?? 70,
+      iconCode: json['iconCode'] ?? '01d',
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'locationName': locationName,
+    'temperature': temperature,
+    'condition': condition,
+    'humidity': humidity,
+    'iconCode': iconCode,
+  };
+}

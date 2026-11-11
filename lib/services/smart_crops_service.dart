@@ -194,4 +194,40 @@ class SmartCropsService with ChangeNotifier {
     await _supabase.from('notifications').update({'is_read': true}).eq('id', notificationId);
     await initializeUserData();
   }
+
+  Future<void> signInWithPhoneOtp(String phoneNumber) async {
+    try {
+      await _supabase.auth.signInWithOtp(
+        phone: phoneNumber,
+      );
+    } catch (e) {
+      debugPrint('Phone OTP send error: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> verifyPhoneOtp(String phoneNumber, String token) async {
+    try {
+      final res = await _supabase.auth.verifyOTP(
+        phone: phoneNumber,
+        token: token,
+        type: OtpType.sms,
+      );
+      if (res.user != null) {
+        await initializeUserData();
+      }
+    } catch (e) {
+      debugPrint('Phone OTP verify error: $e');
+      rethrow;
+    }
+  }
+
+  Future<bool> signInWithOAuth(dynamic provider) async {
+    try {
+      return await _supabase.auth.signInWithOAuth(provider);
+    } catch (e) {
+      debugPrint('OAuth sign-in error: $e');
+      rethrow;
+    }
+  }
 }

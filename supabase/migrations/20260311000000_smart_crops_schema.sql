@@ -126,7 +126,7 @@ create policy "No direct public access to ai_keys_pool" on public.ai_keys_pool
     for all using (false);
 
 -- Function & Trigger to automatically create profile on signup
-create or function public.handle_new_user()
+create or replace function public.handle_new_user()
 returns trigger
 language plpgsql
 security definer set search_path = ''

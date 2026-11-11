@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/smart_crops_service.dart';
 import 'profile_setup_screen.dart';
 
@@ -66,6 +67,82 @@ class _AuthScreenState extends State<AuthScreen> {
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
+  }
+
+  void _showPhoneOtpDialog(BuildContext context) {
+    final phoneController = TextEditingController();
+    final otpController = TextEditingController();
+    bool isOtpSent = false;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setStateDialog) {
+            return AlertDialog(
+              title: const Text('Phone Number (OTP) Login'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    controller: phoneController,
+                    decoration: const InputDecoration(labelText: 'Mobile Number (+63...)', prefixIcon: Icon(Icons.phone)),
+                    keyboardType: TextInputType.phone,
+                  ),
+                  if (isOtpSent) ...[
+                    const SizedBox(height: 12),
+                    TextField(
+                      controller: otpController,
+                      decoration: const InputDecoration(labelText: 'Enter OTP Code', prefixIcon: Icon(Icons.lock_clock)),
+                      keyboardType: TextInputType.number,
+                    ),
+                  ],
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Cancel'),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    final service = Provider.of<SmartCropsService>(context, listen: false);
+                    try {
+                      if (!isOtpSent) {
+                        if (phoneController.text.trim().isEmpty) return;
+                        await service.signInWithPhoneOtp(phoneController.text.trim());
+                        setStateDialog(() => isOtpSent = true);
+                        if (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('OTP sent successfully to your mobile number!')),
+                          );
+                        }
+                      } else {
+                        if (otpController.text.trim().isEmpty) return;
+                        await service.verifyPhoneOtp(phoneController.text.trim(), otpController.text.trim());
+                        if (mounted) {
+                          Navigator.pop(context);
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (_) => const ProfileSetupScreen()),
+                          );
+                        }
+                      }
+                    } catch (e) {
+                      if (mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Error: ${e.toString().replaceAll('Exception: ', '')}')),
+                        );
+                      }
+                    }
+                  },
+                  child: Text(isOtpSent ? 'Verify OTP' : 'Send OTP'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -189,14 +266,51 @@ class _AuthScreenState extends State<AuthScreen> {
                         ),
                         const Divider(height: 32),
                         OutlinedButton.icon(
-                          onPressed: () {
-                            // Social auth placeholder demonstration
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Google / Facebook OAuth integration active via Supabase Auth.')),
-                            );
+                          onPressed: () async {
+                            try {
+                              final service = Provider.of<SmartCropsService>(context, listen: false);
+                               await service.signInWithOAuth(OAuthProvider.google);
+                            } catch (e) {
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Google Sign-In: $e')),
+                                );
+                              }
+                            }
                           },
-                          icon: const Icon(Icons.g_mobiledata, size: 28),
+                          icon: const Icon(Icons.g_mobiledata, size: 28, color: Colors.red),
                           label: const Text('Continue with Google'),
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        OutlinedButton.icon(
+                          onPressed: () async {
+                            try {
+                              final service = Provider.of<SmartCropsService>(context, listen: false);
+                               await service.signInWithOAuth(OAuthProvider.facebook);
+                            } catch (e) {
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Facebook Sign-In: $e')),
+                                );
+                              }
+                            }
+                          },
+                          icon: const Icon(Icons.facebook, size: 24, color: Colors.blue),
+                          label: const Text('Continue with Facebook'),
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        OutlinedButton.icon(
+                          onPressed: () => _showPhoneOtpDialog(context),
+                          icon: const Icon(Icons.phone_android, size: 24, color: primaryGreen),
+                          label: const Text('Continue with Phone (OTP)'),
                           style: OutlinedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),

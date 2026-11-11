@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../services/smart_crops_service.dart';
+import '../services/weather_service.dart';
 import 'auth_screen.dart';
 import 'scan_crop_screen.dart';
 import 'my_crops_screen.dart';
@@ -19,7 +20,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<SmartCropsService>(context, listen: false).initializeUserData();
+      final cropsService = Provider.of<SmartCropsService>(context, listen: false);
+      cropsService.initializeUserData().then((_) {
+        final location = cropsService.currentUserProfile?.location ?? 'Philippines';
+        Provider.of<WeatherService>(context, listen: false).fetchWeatherForLocation(location);
+      });
     });
   }
 
@@ -173,28 +178,59 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
                 const SizedBox(height: 16),
                 // Weather Widget
-                Card(
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                Consumer<WeatherService>(
+                  builder: (context, weatherService, child) {
+                    final weather = weatherService.currentWeather;
+                    return Card(
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('Local Farm Weather', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: primaryGreen)),
-                            const SizedBox(height: 4),
-                            Text(profile?.location ?? 'Philippines', style: const TextStyle(color: Colors.grey, fontSize: 13)),
-                            const SizedBox(height: 8),
-                            const Text('28°C • Sunny & Humid', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text('Local Farm Weather', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: primaryGreen)),
+                                      IconButton(
+                                        icon: const Icon(Icons.refresh, size: 18, color: primaryGreen),
+                                        onPressed: () {
+                                          final profile = Provider.of<SmartCropsService>(context, listen: false).currentUserProfile;
+                                          Provider.of<WeatherService>(context, listen: false).fetchWeatherForLocation(profile?.location ?? 'Philippines');
+                                        },
+                                        tooltip: 'Refresh Weather',
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(weather?.locationName ?? profile?.location ?? 'Philippines', style: const TextStyle(color: Colors.grey, fontSize: 13)),
+                                  const SizedBox(height: 8),
+                                  weatherService.isLoading
+                                      ? const SizedBox(height: 24, width: 24, child: CircularProgressIndicator(strokeWidth: 2))
+                                      : Text(
+                                          '${weather?.temperature.toStringAsFixed(1) ?? '28.0'}°C • ${weather?.condition ?? 'Sunny'} (Humidity: ${weather?.humidity ?? 70}%)',
+                                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                        ),
+                                  if (weatherService.errorMessage != null)
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 4.0),
+                                      child: Text(weatherService.errorMessage!, style: const TextStyle(fontSize: 10, color: Colors.orange)),
+                                    ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            const Icon(Icons.wb_sunny, size: 48, color: Colors.amber),
                           ],
                         ),
-                        const Icon(Icons.wb_sunny, size: 54, color: Colors.amber),
-                      ],
-                    ),
-                  ),
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(height: 24),
                 const Text(
