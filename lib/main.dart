@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:app_links/app_links.dart';
 import 'services/smart_crops_service.dart';
 import 'services/weather_service.dart';
+import 'services/localization_service.dart';
 import 'screens/auth_screen.dart';
 import 'screens/main_navigation_screen.dart';
 
@@ -66,6 +67,7 @@ class _SmartCropsAppState extends State<SmartCropsApp> {
       providers: [
         ChangeNotifierProvider(create: (_) => SmartCropsService()),
         ChangeNotifierProvider(create: (_) => WeatherService()),
+        ChangeNotifierProvider(create: (_) => LocalizationService()),
       ],
       child: MaterialApp(
         title: 'Smart Crops (Agri Lynk)',

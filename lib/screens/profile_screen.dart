@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../services/smart_crops_service.dart';
+import '../services/localization_service.dart';
 import 'auth_screen.dart';
 import 'profile_setup_screen.dart';
 
@@ -231,6 +232,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 const SizedBox(height: 24),
+
+                // Language Selector Card
+                Card(
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('App Language / Wika / Pinulongan', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: primaryGreen)),
+                        const SizedBox(height: 12),
+                        Consumer<LocalizationService>(
+                          builder: (context, l10n, child) {
+                            return DropdownButtonFormField<String>(
+                              value: l10n.currentLocale,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                                filled: true,
+                                fillColor: Colors.white,
+                              ),
+                              items: const [
+                                DropdownMenuItem(value: 'en', child: Text('English')),
+                                DropdownMenuItem(value: 'tl', child: Text('Tagalog')),
+                                DropdownMenuItem(value: 'ceb', child: Text('Cebuano')),
+                              ],
+                              onChanged: (val) {
+                                if (val != null) {
+                                  l10n.setLocale(val);
+                                }
+                              },
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
 
                 // Sign Out Button
                 OutlinedButton.icon(

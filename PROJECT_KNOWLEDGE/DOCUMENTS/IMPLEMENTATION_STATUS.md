@@ -34,7 +34,7 @@ This document tracks the implementation status of all features outlined in `PROJ
 | **Push Notifications (FCM / Realtime)** | Project Planning Sec 4 (Phase 2) | **[x] Implemented** | Supabase Realtime channel subscriptions on `notifications` table, badge updates, and alert modals. |
 | **Personalized Crop Calendar (Unique Edge)** | Core Differentiation Strategy | **[x] Implemented** | `crop_calendar_events` table, `PersonalizedCropCalendarScreen`, weather-adjusted timeline optimization, and TDD unit tests in `test/crop_calendar_test.dart`. |
 | **Offline Caching (Hive / Isar)** | Project Planning Sec 4 (Phase 2), Weather Plan Sec 5 | **[x] Implemented** | `lib/services/offline_cache_service.dart`, optimistic offline mutation sync queue verified via unit tests in `test/sync_queue_test.dart`. |
-| **Localized Language Support (Tagalog, Cebuano)** | Project Planning Sec 4 (Phase 2) | **[ ] Not Yet Implemented** | Scheduled for Phase 2. |
+| **Localized Language Support (Tagalog, Cebuano)** | Project Planning Sec 4 (Phase 2) | **[x] Implemented** | `lib/services/localization_service.dart`, persistent language selector in `ProfileScreen`, and unit tests in `test/localization_test.dart`. |
 | **Monetization & Marketplace Affiliate Links** | Project Planning Sec 4 (Phase 3) & Sec 8 | **[ ] Not Yet Implemented** | Scheduled for Phase 3. |
 | **Cooperative / Enterprise Dashboard** | Project Planning Sec 4 (Phase 3) & Sec 8 | **[ ] Not Yet Implemented** | Scheduled for Phase 3. |
 
