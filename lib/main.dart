@@ -6,7 +6,7 @@ import 'package:app_links/app_links.dart';
 import 'services/smart_crops_service.dart';
 import 'services/weather_service.dart';
 import 'screens/auth_screen.dart';
-import 'screens/profile_setup_screen.dart';
+import 'screens/main_navigation_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -58,7 +58,7 @@ class _SmartCropsAppState extends State<SmartCropsApp> {
     Widget homeScreen = const AuthScreen();
     try {
       if (Supabase.instance.client.auth.currentSession != null) {
-        homeScreen = const ProfileSetupScreen();
+        homeScreen = const MainNavigationScreen();
       }
     } catch (_) {}
 

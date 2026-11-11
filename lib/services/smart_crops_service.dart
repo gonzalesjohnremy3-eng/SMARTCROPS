@@ -10,6 +10,7 @@ class SmartCropsService with ChangeNotifier {
   List<CropItem> _userSelectedCrops = [];
   List<ScanHistoryItem> _scanHistory = [];
   List<AppNotification> _notifications = [];
+  List<CropCalendarEvent> _calendarEvents = [];
   bool _isLoading = false;
 
   UserProfile? get currentUserProfile => _currentUserProfile;
@@ -17,29 +18,34 @@ class SmartCropsService with ChangeNotifier {
   List<CropItem> get userSelectedCrops => _userSelectedCrops;
   List<ScanHistoryItem> get scanHistory => _scanHistory;
   List<AppNotification> get notifications => _notifications;
+  List<CropCalendarEvent> get calendarEvents => _calendarEvents;
   bool get isLoading => _isLoading;
 
   int get unreadNotificationCount => _notifications.where((n) => !n.isRead).length;
 
   Future<void> initializeUserData() async {
-    final session = _supabase.auth.currentSession;
-    if (session == null) return;
-
     _isLoading = true;
     notifyListeners();
 
     try {
+      // 1. Always fetch Master Crops Catalog (publicly accessible)
+      try {
+        final cropsRes = await _supabase.from('crops').select();
+        _availableCrops = (cropsRes as List).map((c) => CropItem.fromJson(c)).toList();
+      } catch (e) {
+        debugPrint('Error fetching crops catalog: $e');
+      }
+
+      final session = _supabase.auth.currentSession;
+      if (session == null) return;
+
       final userId = session.user.id;
 
-      // 1. Fetch Profile
+      // 2. Fetch Profile
       final profileRes = await _supabase.from('profiles').select().eq('id', userId).maybeSingle();
       if (profileRes != null) {
         _currentUserProfile = UserProfile.fromJson(profileRes);
       }
-
-      // 2. Fetch Master Crops Catalog
-      final cropsRes = await _supabase.from('crops').select();
-      _availableCrops = (cropsRes as List).map((c) => CropItem.fromJson(c)).toList();
 
       // 3. Fetch User Selected Crops
       final userCropsRes = await _supabase
@@ -69,12 +75,85 @@ class SmartCropsService with ChangeNotifier {
 
       _notifications = (notifRes as List).map((n) => AppNotification.fromJson(n)).toList();
 
+      // 6. Fetch Personalized Crop Calendar Events
+      final calendarRes = await _supabase
+          .from('crop_calendar_events')
+          .select()
+          .eq('user_id', userId)
+          .order('scheduled_date', ascending: true);
+
+      _calendarEvents = (calendarRes as List).map((c) => CropCalendarEvent.fromJson(c)).toList();
+
+      // If calendar is empty, generate default personalized calendar events for user crops
+      if (_calendarEvents.isEmpty && _userSelectedCrops.isNotEmpty) {
+        await _generateDefaultCalendarEvents(userId);
+      }
+
     } catch (e) {
       debugPrint('Error initializing user data: $e');
     } finally {
       _isLoading = false;
       notifyListeners();
     }
+  }
+
+  Future<void> _generateDefaultCalendarEvents(String userId) async {
+    final now = DateTime.now();
+    final defaultEvents = [
+      {
+        'user_id': userId,
+        'event_title': 'Soil Organic Enrichment & Composting',
+        'event_category': 'Nutrition',
+        'scheduled_date': now.toIso8601String(),
+        'is_completed': false,
+        'priority': 'High'
+      },
+      {
+        'user_id': userId,
+        'event_title': 'Deep Root Irrigation & Moisture Check',
+        'event_category': 'Water Management',
+        'scheduled_date': now.add(const Duration(days: 1)).toIso8601String(),
+        'is_completed': false,
+        'priority': 'Normal'
+      },
+      {
+        'user_id': userId,
+        'event_title': 'Preventive Fungal Inspection (Neem Oil)',
+        'event_category': 'Pest Control',
+        'scheduled_date': now.add(const Duration(days: 3)).toIso8601String(),
+        'is_completed': false,
+        'priority': 'High'
+      },
+      {
+        'user_id': userId,
+        'event_title': 'Growth Stage Audit & Foliar Feeding',
+        'event_category': 'Harvesting',
+        'scheduled_date': now.add(const Duration(days: 7)).toIso8601String(),
+        'is_completed': false,
+        'priority': 'Normal'
+      },
+    ];
+
+    for (var ev in defaultEvents) {
+      try {
+        await _supabase.from('crop_calendar_events').insert(ev);
+      } catch (_) {}
+    }
+
+    final calendarRes = await _supabase
+        .from('crop_calendar_events')
+        .select()
+        .eq('user_id', userId)
+        .order('scheduled_date', ascending: true);
+    _calendarEvents = (calendarRes as List).map((c) => CropCalendarEvent.fromJson(c)).toList();
+  }
+
+  Future<void> toggleCalendarEventCompletion(String eventId, bool isCompleted) async {
+    final session = _supabase.auth.currentSession;
+    if (session == null) return;
+
+    await _supabase.from('crop_calendar_events').update({'is_completed': isCompleted}).eq('id', eventId);
+    await initializeUserData();
   }
 
   Future<void> signInWithEmail(String email, String password) async {
@@ -105,6 +184,21 @@ class SmartCropsService with ChangeNotifier {
     _scanHistory = [];
     _notifications = [];
     notifyListeners();
+  }
+
+  Future<void> updateProfile(String fullName, String farmName, String location, String? phoneNumber) async {
+    final session = _supabase.auth.currentSession;
+    if (session == null) return;
+    final userId = session.user.id;
+
+    await _supabase.from('profiles').update({
+      'full_name': fullName,
+      'farm_name': farmName,
+      'location': location,
+      'phone_number': phoneNumber,
+    }).eq('id', userId);
+
+    await initializeUserData();
   }
 
   Future<void> saveUserCrops(List<String> cropIds) async {

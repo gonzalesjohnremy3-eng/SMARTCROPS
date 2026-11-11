@@ -1,7 +1,12 @@
 # Smart Crops (Agri Lynk) - Comprehensive Project Planning & Handoff Document
 
-## 1. Executive Summary & Product Vision
+## 1. Executive Summary, Product Vision & Marketing Psychology
 **Smart Crops** (by *Agri Lynk*) is an AI-powered digital crop monitoring and early disease detection mobile application designed for farmers across Android and iOS. Built with **Flutter** (frontend) and **Supabase** (backend), the system enables farmers to snap or upload photos of crops, instantly identify pests and diseases using a managed pool of AI model API keys (ChatGPT/Gemini vision), track farm health, receive tailored recommendations, and maintain a complete historical log of farm interventions—all while operating on a **0-cost infrastructure tier** for initial deployment and bootstrapping.
+
+### Marketing Psychology & Brand Identity
+- **Proactive Empowerment:** Positioning Smart Crops not merely as a diagnostic tool, but as an indispensable agricultural partner that eliminates crop anxiety and replaces guesswork with actionable certainty.
+- **Trust & Relief:** Fostering deep trust among rural and commercial farmers by providing instant, reassuring feedback ("Detect Early. Protect Your Harvest.") combined with weather-intelligent scheduling.
+- **Unique Differentiation:** The **Personalized Crop Calendar** sets Smart Crops apart from competitors by auto-adapting farming milestones to live meteorological conditions and crop-specific growth cycles.
 
 ---
 

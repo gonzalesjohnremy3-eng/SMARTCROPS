@@ -90,9 +90,9 @@ create policy "Users can insert own profile" on public.profiles
 create policy "Users can update own profile" on public.profiles
     for update using (auth.uid() = id);
 
--- Crops: Everyone authenticated can read master crops catalog
-create policy "Authenticated users can read crops catalog" on public.crops
-    for select to authenticated using (true);
+-- Crops: Everyone can read master crops catalog
+create policy "Everyone can read crops catalog" on public.crops
+    for select using (true);
 
 -- User Crops: Users manage their own selected crops
 create policy "Users can view own user_crops" on public.user_crops

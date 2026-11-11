@@ -156,3 +156,49 @@ class WeatherCondition {
     'iconCode': iconCode,
   };
 }
+
+class CropCalendarEvent {
+  final String id;
+  final String userId;
+  final String? cropId;
+  final String eventTitle;
+  final String eventCategory;
+  final DateTime scheduledDate;
+  final bool isCompleted;
+  final String priority;
+
+  CropCalendarEvent({
+    required this.id,
+    required this.userId,
+    this.cropId,
+    required this.eventTitle,
+    required this.eventCategory,
+    required this.scheduledDate,
+    required this.isCompleted,
+    required this.priority,
+  });
+
+  factory CropCalendarEvent.fromJson(Map<String, dynamic> json) {
+    return CropCalendarEvent(
+      id: json['id'] ?? '',
+      userId: json['user_id'] ?? '',
+      cropId: json['crop_id'],
+      eventTitle: json['event_title'] ?? '',
+      eventCategory: json['event_category'] ?? 'General',
+      scheduledDate: json['scheduled_date'] != null ? DateTime.parse(json['scheduled_date']) : DateTime.now(),
+      isCompleted: json['is_completed'] ?? false,
+      priority: json['priority'] ?? 'Normal',
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'user_id': userId,
+    'crop_id': cropId,
+    'event_title': eventTitle,
+    'event_category': eventCategory,
+    'scheduled_date': scheduledDate.toIso8601String(),
+    'is_completed': isCompleted,
+    'priority': priority,
+  };
+}

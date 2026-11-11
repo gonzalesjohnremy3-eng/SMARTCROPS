@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../services/smart_crops_service.dart';
-import 'dashboard_screen.dart';
+import 'main_navigation_screen.dart';
 
 class ProfileSetupScreen extends StatefulWidget {
   const ProfileSetupScreen({super.key});
@@ -19,10 +19,12 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final service = Provider.of<SmartCropsService>(context, listen: false);
-      for (var crop in service.userSelectedCrops) {
-        _selectedCropIds.add(crop.id);
-      }
-      setState(() {});
+      service.initializeUserData().then((_) {
+        for (var crop in service.userSelectedCrops) {
+          _selectedCropIds.add(crop.id);
+        }
+        setState(() {});
+      });
     });
   }
 
@@ -40,7 +42,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
       await service.saveUserCrops(_selectedCropIds.toList());
       if (mounted) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const DashboardScreen()),
+          MaterialPageRoute(builder: (_) => const MainNavigationScreen()),
         );
       }
     } catch (e) {

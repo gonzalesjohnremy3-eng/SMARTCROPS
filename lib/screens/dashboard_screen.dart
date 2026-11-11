@@ -7,6 +7,7 @@ import 'scan_crop_screen.dart';
 import 'my_crops_screen.dart';
 import 'recommendations_screen.dart';
 import 'history_screen.dart';
+import 'personalized_crop_calendar_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -274,6 +275,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       icon: Icons.history,
                       color: const Color(0xFF2E7D32),
                       onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const HistoryScreen())),
+                    ),
+                    _DashboardCard(
+                      title: 'Crop Calendar',
+                      subtitle: 'Personalized Smart Schedule',
+                      icon: Icons.calendar_month,
+                      color: const Color(0xFF00897B),
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const PersonalizedCropCalendarScreen())),
                     ),
                   ],
                 ),
