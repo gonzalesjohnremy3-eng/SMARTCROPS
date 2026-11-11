@@ -246,7 +246,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   physics: const NeverScrollableScrollPhysics(),
                   crossAxisSpacing: 16,
                   mainAxisSpacing: 16,
-                  childAspectRatio: 1.2,
+                  childAspectRatio: 1.05,
                   children: [
                     _DashboardCard(
                       title: 'Scan Crop',
@@ -318,14 +318,14 @@ class _DashboardCard extends StatelessWidget {
         elevation: 3,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(12.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, size: 36, color: color),
-              const SizedBox(height: 12),
-              Text(title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: color)),
+              Icon(icon, size: 30, color: color),
+              const SizedBox(height: 8),
+              Text(title, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: color)),
               const SizedBox(height: 2),
               Text(subtitle, style: const TextStyle(fontSize: 11, color: Colors.grey), maxLines: 2, overflow: TextOverflow.ellipsis),
             ],
