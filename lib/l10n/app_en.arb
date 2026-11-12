@@ -24,5 +24,509 @@
         "type": "int"
       }
     }
+  },
+  "skip": "Skip",
+  "back": "Back",
+  "next": "Next",
+  "getStarted": "Get Started",
+  "onboardingTitle1": "Protect Your Harvest",
+  "@onboarding.title.1": {
+    "description": "Onboarding page 1 title"
+  },
+  "onboardingBody1": "Smart Crops helps you detect crop problems early so you can protect your harvest.",
+  "@onboarding.body.1": {
+    "description": "Onboarding page 1 body"
+  },
+  "onboardingTitle2": "Scan and Know",
+  "@onboarding.title.2": {
+    "description": "Onboarding page 2 title"
+  },
+  "onboardingBody2": "Take a photo of your crop and get an instant diagnosis with clear next steps.",
+  "@onboarding.body.2": {
+    "description": "Onboarding page 2 body"
+  },
+  "onboardingTitle3": "Plan with Weather",
+  "@onboarding.title.3": {
+    "description": "Onboarding page 3 title"
+  },
+  "onboardingBody3": "Your Field Calendar adjusts tasks based on the forecast so you never waste effort.",
+  "@onboarding.body.3": {
+    "description": "Onboarding page 3 body"
+  },
+  "profileSetupStep1Title": "About You",
+  "@profileSetup.step1.title": {
+    "description": "Profile setup step 1 title"
+  },
+  "profileSetupStep1Subtitle": "Tell us about yourself and your farm",
+  "@profileSetup.step1.subtitle": {
+    "description": "Profile setup step 1 subtitle"
+  },
+  "fullName": "Full Name",
+  "@fullName": {
+    "description": "Farmer's full name field"
+  },
+  "farmName": "Farm Name",
+  "@farmName": {
+    "description": "Farm name field"
+  },
+  "location": "Location",
+  "@location": {
+    "description": "Farm location field"
+  },
+  "phoneNumber": "Phone Number (optional)",
+  "@phoneNumber": {
+    "description": "Phone number field"
+  },
+  "profileSetupStep2Title": "Your Main Crops",
+  "@profileSetup.step2.title": {
+    "description": "Profile setup step 2 title"
+  },
+  "profileSetupStep2Subtitle": "Select the crops you grow so we can personalize your care",
+  "@profileSetup.step2.subtitle": {
+    "description": "Profile setup step 2 subtitle"
+  },
+  "searchCrops": "Search crops",
+  "@searchCrops": {
+    "description": "Search crops placeholder"
+  },
+  "profileSetupStep3Title": "Permissions",
+  "@profileSetup.step3.title": {
+    "description": "Profile setup step 3 title"
+  },
+  "profileSetupStep3Subtitle": "Allow access so we can give you the best experience",
+  "@profileSetup.step3.subtitle": {
+    "description": "Profile setup step 3 subtitle"
+  },
+  "cameraPermission": "Camera",
+  "@cameraPermission": {
+    "description": "Camera permission label"
+  },
+  "cameraPermissionDescription": "Required to scan your crops",
+  "@cameraPermissionDescription": {
+    "description": "Camera permission description"
+  },
+  "locationPermission": "Location",
+  "@locationPermission": {
+    "description": "Location permission label"
+  },
+  "locationPermissionDescription": "Used for local weather and advisories",
+  "@locationPermissionDescription": {
+    "description": "Location permission description"
+  },
+  "notificationsPermission": "Notifications",
+  "@notificationsPermission": {
+    "description": "Notifications permission label"
+  },
+  "notificationsPermissionDescription": "Get alerts for weather risks and scan results",
+  "@notificationsPermissionDescription": {
+    "description": "Notifications permission description"
+  },
+  "allow": "Allow",
+  "@allow": {
+    "description": "Allow permission button"
+  },
+  "notNow": "Not Now",
+  "@notNow": {
+    "description": "Not now permission button"
+  },
+  "completeSetup": "Complete Setup",
+  "@completeSetup": {
+    "description": "Complete profile setup button"
+  },
+  "homeFieldbriefing": "Today's Field Briefing",
+  "@home.fieldBriefing": {
+    "description": "Home screen field briefing title"
+  },
+  "homePriorityaction": "Priority Action",
+  "@home.priorityAction": {
+    "description": "Home screen priority action label"
+  },
+  "homeScancta": "Scan a Crop",
+  "@home.scanCTA": {
+    "description": "Home screen scan CTA"
+  },
+  "homeCareplan": "This Week's Care Plan",
+  "@home.carePlan": {
+    "description": "Home screen care plan title"
+  },
+  "homeRecentscans": "Recent Diagnoses",
+  "@home.recentScans": {
+    "description": "Home screen recent scans title"
+  },
+  "homeEmptyfarm": "Your field office is ready. Take your first scan to start your crop's health record.",
+  "@home.emptyFarm": {
+    "description": "Home screen empty farm message"
+  },
+  "homeMonitoring": "All clear. We'll keep monitoring your crops.",
+  "@home.monitoring": {
+    "description": "Home screen monitoring message"
+  },
+  "cropsTitle": "My Crops",
+  "@crops.title": {
+    "description": "Crops screen title"
+  },
+  "cropsAddcrop": "Add a Crop",
+  "@crops.addCrop": {
+    "description": "Add crop button"
+  },
+  "cropsEmpty": "No crops yet. Add your first crop to get personalized care.",
+  "@crops.empty": {
+    "description": "Crops empty state"
+  },
+  "cropDetailCareguide": "Care Guide",
+  "@cropDetail.careGuide": {
+    "description": "Crop detail care guide section"
+  },
+  "cropDetailGrowingconditions": "Growing Conditions",
+  "@cropDetail.growingConditions": {
+    "description": "Crop detail growing conditions section"
+  },
+  "cropDetailGrowthtimeline": "Growth Timeline",
+  "@cropDetail.growthTimeline": {
+    "description": "Crop detail growth timeline section"
+  },
+  "scanCaptureTitle": "Scan Your Crop",
+  "@scan.capture.title": {
+    "description": "Scan capture screen title"
+  },
+  "scanCaptureGuidance": "Fill the frame with one leaf. Avoid shadows.",
+  "@scan.capture.guidance": {
+    "description": "Scan capture guidance"
+  },
+  "scanReviewTitle": "Review Your Photo",
+  "@scan.review.title": {
+    "description": "Scan review screen title"
+  },
+  "scanReviewRetake": "Retake",
+  "@scan.review.retake": {
+    "description": "Retake button"
+  },
+  "scanReviewAnalyze": "Analyze",
+  "@scan.review.analyze": {
+    "description": "Analyze button"
+  },
+  "scanAnalyzing": "Analyzing your crop...",
+  "@scan.analyzing": {
+    "description": "Analyzing state message"
+  },
+  "scanResultTitle": "Scan Result",
+  "@scan.result.title": {
+    "description": "Scan result screen title"
+  },
+  "scanResultConfidence": "Confidence",
+  "@scan.result.confidence": {
+    "description": "Confidence label"
+  },
+  "scanResultSeverity": "Severity",
+  "@scan.result.severity": {
+    "description": "Severity label"
+  },
+  "scanResultDiagnosis": "Diagnosis",
+  "@scan.result.diagnosis": {
+    "description": "Diagnosis label"
+  },
+  "scanResultTreatmentsteps": "Treatment Steps",
+  "@scan.result.treatmentSteps": {
+    "description": "Treatment steps label"
+  },
+  "scanResultAddtocalendar": "Add to Field Calendar",
+  "@scan.result.addToCalendar": {
+    "description": "Add to calendar button"
+  },
+  "scanResultSetreminder": "Set Reminder",
+  "@scan.result.setReminder": {
+    "description": "Set reminder button"
+  },
+  "scanResultShare": "Share",
+  "@scan.result.share": {
+    "description": "Share button"
+  },
+  "scanResultLowconfidenceretake": "Retake in better light",
+  "@scan.result.lowConfidenceRetake": {
+    "description": "Low confidence retake CTA"
+  },
+  "calendarTitle": "Field Calendar",
+  "@calendar.title": {
+    "description": "Calendar screen title"
+  },
+  "calendarToday": "Today",
+  "@calendar.today": {
+    "description": "Calendar today filter"
+  },
+  "calendarWeek": "This Week",
+  "@calendar.week": {
+    "description": "Calendar week filter"
+  },
+  "calendarMonth": "Month",
+  "@calendar.month": {
+    "description": "Calendar month filter"
+  },
+  "calendarTaskCompleted": "Completed",
+  "@calendar.task.completed": {
+    "description": "Task completed label"
+  },
+  "calendarWeatheradjusted": "Weather-adjusted",
+  "@calendar.weatherAdjusted": {
+    "description": "Weather adjusted badge"
+  },
+  "advisoriesTitle": "Advisories",
+  "@advisories.title": {
+    "description": "Advisories screen title"
+  },
+  "advisoriesEmpty": "No advisories yet. We'll tell you when something needs attention.",
+  "@advisories.empty": {
+    "description": "Advisories empty state"
+  },
+  "carePlanTitle": "Care Plan",
+  "@carePlan.title": {
+    "description": "Care plan screen title"
+  },
+  "carePlanToday": "Today",
+  "@carePlan.today": {
+    "description": "Care plan today section"
+  },
+  "carePlanThisweek": "This Week",
+  "@carePlan.thisWeek": {
+    "description": "Care plan this week section"
+  },
+  "carePlanPreventive": "Preventive",
+  "@carePlan.preventive": {
+    "description": "Care plan preventive section"
+  },
+  "carePlanEmpty": "Your plan will appear after your first scan or when your crops need care.",
+  "@carePlan.empty": {
+    "description": "Care plan empty state"
+  },
+  "healthLogTitle": "Health Log",
+  "@healthLog.title": {
+    "description": "Health log screen title"
+  },
+  "healthLogEmpty": "No scans yet. Your first diagnosis starts here.",
+  "@healthLog.empty": {
+    "description": "Health log empty state"
+  },
+  "profileTitle": "Farmer Profile",
+  "@profile.title": {
+    "description": "Profile screen title"
+  },
+  "profileEdit": "Edit Profile",
+  "@profile.edit": {
+    "description": "Edit profile button"
+  },
+  "profileCrops": "Main Crops",
+  "@profile.crops": {
+    "description": "Profile crops section"
+  },
+  "profileLanguage": "Language",
+  "@profile.language": {
+    "description": "Profile language section"
+  },
+  "profileNotifications": "Notifications",
+  "@profile.notifications": {
+    "description": "Profile notifications section"
+  },
+  "profileAgripro": "Agri Pro",
+  "@profile.agriPro": {
+    "description": "Profile Agri Pro section"
+  },
+  "profileCooperative": "Cooperative Hub",
+  "@profile.cooperative": {
+    "description": "Profile cooperative section"
+  },
+  "profilePrivacy": "Privacy and Data",
+  "@profile.privacy": {
+    "description": "Profile privacy section"
+  },
+  "profileHelp": "Help and Support",
+  "@profile.help": {
+    "description": "Profile help section"
+  },
+  "profileAbout": "About",
+  "@profile.about": {
+    "description": "Profile about section"
+  },
+  "profileSignout": "Sign Out",
+  "@profile.signOut": {
+    "description": "Sign out button"
+  },
+  "settingsTitle": "Settings",
+  "@settings.title": {
+    "description": "Settings screen title"
+  },
+  "languageEnglish": "English",
+  "@language.english": {
+    "description": "English language option"
+  },
+  "languageTagalog": "Tagalog",
+  "@language.tagalog": {
+    "description": "Tagalog language option"
+  },
+  "languageCebuano": "Cebuano",
+  "@language.cebuano": {
+    "description": "Cebuano language option"
+  },
+  "notificationsScanresults": "Scan Results",
+  "@notifications.scanResults": {
+    "description": "Scan results notification toggle"
+  },
+  "notificationsWeatheradvisories": "Weather Advisories",
+  "@notifications.weatherAdvisories": {
+    "description": "Weather advisories notification toggle"
+  },
+  "notificationsCalendarreminders": "Calendar Reminders",
+  "@notifications.calendarReminders": {
+    "description": "Calendar reminders notification toggle"
+  },
+  "notificationsCooperativeadvisories": "Cooperative Advisories",
+  "@notifications.cooperativeAdvisories": {
+    "description": "Cooperative advisories notification toggle"
+  },
+  "notificationsQuiethours": "Quiet Hours",
+  "@notifications.quietHours": {
+    "description": "Quiet hours setting"
+  },
+  "agriProTitle": "Agri Pro",
+  "@agriPro.title": {
+    "description": "Agri Pro screen title"
+  },
+  "agriProHeadline": "Protect more of what you grow.",
+  "@agriPro.headline": {
+    "description": "Agri Pro headline"
+  },
+  "agriProFreesummary": "Free plan: 5 scans/week, basic calendar.",
+  "@agriPro.freeSummary": {
+    "description": "Free plan summary"
+  },
+  "agriProProsummary": "Agri Pro: unlimited scans, priority analysis, health trends, weather-adjusted reminders, offline pack.",
+  "@agriPro.proSummary": {
+    "description": "Pro plan summary"
+  },
+  "agriProMonthly": "Monthly",
+  "@agriPro.monthly": {
+    "description": "Monthly plan label"
+  },
+  "agriProSeasonal": "Seasonal (6 months)",
+  "@agriPro.seasonal": {
+    "description": "Seasonal plan label"
+  },
+  "agriProStart": "Start Agri Pro",
+  "@agriPro.start": {
+    "description": "Start Agri Pro button"
+  },
+  "agriProNotnow": "Not now",
+  "@agriPro.notNow": {
+    "description": "Not now button"
+  },
+  "shopTitle": "Agri Shop",
+  "@shop.title": {
+    "description": "Agri Shop screen title"
+  },
+  "shopPartneroffer": "Partner offer",
+  "@shop.partnerOffer": {
+    "description": "Partner offer label"
+  },
+  "shopEmpty": "No matching products for this diagnosis. Your care plan still works without them.",
+  "@shop.empty": {
+    "description": "Shop empty state"
+  },
+  "cooperativeTitle": "Cooperative Hub",
+  "@cooperative.title": {
+    "description": "Cooperative hub screen title"
+  },
+  "cooperativeJoin": "Join a Cooperative",
+  "@cooperative.join": {
+    "description": "Join cooperative button"
+  },
+  "cooperativeInvitecode": "Invite Code",
+  "@cooperative.inviteCode": {
+    "description": "Invite code field"
+  },
+  "cooperativeMembers": "Members",
+  "@cooperative.members": {
+    "description": "Members section"
+  },
+  "cooperativeBroadcasts": "Broadcasts",
+  "@cooperative.broadcasts": {
+    "description": "Broadcasts section"
+  },
+  "cooperativeOutbreaksummary": "Outbreak Summary",
+  "@cooperative.outbreakSummary": {
+    "description": "Outbreak summary section"
+  },
+  "severityHealthy": "Healthy",
+  "@severity.healthy": {
+    "description": "Severity healthy label"
+  },
+  "severityWatch": "Watch",
+  "@severity.watch": {
+    "description": "Severity watch label"
+  },
+  "severityAtrisk": "At Risk",
+  "@severity.atRisk": {
+    "description": "Severity at risk label"
+  },
+  "confidenceHigh": "High",
+  "@confidence.high": {
+    "description": "Confidence high label"
+  },
+  "confidenceMedium": "Medium",
+  "@confidence.medium": {
+    "description": "Confidence medium label"
+  },
+  "confidenceLow": "Low",
+  "@confidence.low": {
+    "description": "Confidence low label"
+  },
+  "errorGeneric": "Something went wrong. Please try again.",
+  "@error.generic": {
+    "description": "Generic error message"
+  },
+  "errorNetwork": "No connection. Check your internet and try again.",
+  "@error.network": {
+    "description": "Network error message"
+  },
+  "errorPermission": "Permission denied. Please enable in settings.",
+  "@error.permission": {
+    "description": "Permission error message"
+  },
+  "retry": "Try Again",
+  "@retry": {
+    "description": "Retry button"
+  },
+  "offlineBanner": "You're offline. Showing cached data.",
+  "@offline.banner": {
+    "description": "Offline banner message"
+  },
+  "offlineScanqueued": "Saved. We'll analyze this when you're back online.",
+  "@offline.scanQueued": {
+    "description": "Offline scan queued message"
+  },
+  "viewAll": "View all",
+  "@viewAll": {
+    "description": "viewAll"
+  },
+  "homePriorityAction": "Priority Action",
+  "@homePriorityAction": {
+    "description": "homePriorityAction"
+  },
+  "homeCarePlan": "This Week's Care Plan",
+  "@homeCarePlan": {
+    "description": "homeCarePlan"
+  },
+  "homeRecentScans": "Recent Diagnoses",
+  "@homeRecentScans": {
+    "description": "homeRecentScans"
+  },
+  "homeScanCTA": "Scan a Crop",
+  "@homeScanCTA": {
+    "description": "homeScanCTA"
+  },
+  "homeFieldBriefing": "Today's Field Briefing",
+  "@homeFieldBriefing": {
+    "description": "homeFieldBriefing"
+  },
+  "calendarSetReminder": "Set Reminder",
+  "@calendarSetReminder": {
+    "description": "calendarSetReminder"
   }
 }

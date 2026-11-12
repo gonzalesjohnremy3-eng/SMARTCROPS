@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:go_router/go_router.dart';
 import '../services/smart_crops_service.dart';
-import 'profile_setup_screen.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -56,9 +56,7 @@ class _AuthScreenState extends State<AuthScreen> {
         );
       }
       if (mounted) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const ProfileSetupScreen()),
-        );
+        context.go('/setup/profile');
       }
     } catch (e) {
       setState(() {
@@ -122,9 +120,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         await service.verifyPhoneOtp(phoneController.text.trim(), otpController.text.trim());
                         if (mounted) {
                           Navigator.pop(context);
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (_) => const ProfileSetupScreen()),
-                          );
+                          context.go('/setup/profile');
                         }
                       }
                     } catch (e) {
