@@ -1,0 +1,28 @@
+{
+  "@@locale": "en",
+  "appTitle": "Smart Crops by Agri Lynk",
+  "@appTitle": {
+    "description": "Product name shown in the app and about screen"
+  },
+  "scanCrop": "Scan crop",
+  "@scanCrop": {
+    "description": "Primary action to start a crop scan"
+  },
+  "fieldCalendar": "Field Calendar",
+  "@fieldCalendar": {
+    "description": "Name of the weather-aware task calendar"
+  },
+  "scanQueuedOffline": "Saved. We'll analyze this when you're back online.",
+  "@scanQueuedOffline": {
+    "description": "Confirmation shown when a scan is queued offline"
+  },
+  "cropsSelectedCount": "{count, plural, =0{No crops selected} =1{1 crop selected} other{{count} crops selected}}",
+  "@cropsSelectedCount": {
+    "description": "Number of Main Crops selected during profile setup",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
+}

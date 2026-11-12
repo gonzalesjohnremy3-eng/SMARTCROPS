@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:smart_crops/features/calendar/domain/weather_adjustment.dart';
 import 'package:smart_crops/models/app_models.dart';
 
 void main() {
@@ -12,7 +13,7 @@ void main() {
         'event_category': 'Nutrition',
         'scheduled_date': '2026-05-01T08:00:00Z',
         'is_completed': false,
-        'priority': 'High'
+        'priority': 'High',
       };
 
       final event = CropCalendarEvent.fromJson(json);
@@ -36,27 +37,14 @@ void main() {
         priority: 'Normal',
       );
 
-      // Weather condition: Heavy Rain
-      final adjusted = adjustEventForWeather(initialEvent, 'Heavy Rain');
-      expect(adjusted.eventTitle.contains('Postponed due to Rain'), true);
-      expect(adjusted.priority, 'Weather-Adjusted');
+      final adjustment = adjustForWeather(
+        event: initialEvent,
+        forecast: const WeatherForecast(precipitationMmNext24h: 15),
+      );
+
+      expect(adjustment.isAdjusted, isTrue);
+      expect(adjustment.adjustedDate, DateTime(2026, 5, 3));
+      expect(adjustment.reasonKey, 'calendar.weatherAdjusted.rain');
     });
   });
-}
-
-// Helper function to be implemented in models or service
-CropCalendarEvent adjustEventForWeather(CropCalendarEvent event, String weatherCondition) {
-  if (event.eventCategory == 'Water Management' && (weatherCondition.toLowerCase().contains('rain') || weatherCondition.toLowerCase().contains('shower'))) {
-    return CropCalendarEvent(
-      id: event.id,
-      userId: event.userId,
-      cropId: event.cropId,
-      eventTitle: '${event.eventTitle} (Postponed due to Rain)',
-      eventCategory: event.eventCategory,
-      scheduledDate: event.scheduledDate.add(const Duration(days: 1)),
-      isCompleted: event.isCompleted,
-      priority: 'Weather-Adjusted',
-    );
-  }
-  return event;
 }

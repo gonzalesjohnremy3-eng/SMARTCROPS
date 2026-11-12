@@ -1,0 +1,8 @@
+{
+  "@@locale": "tl",
+  "appTitle": "Smart Crops ng Agri Lynk",
+  "scanCrop": "I-scan ang pananim",
+  "fieldCalendar": "Kalendaryo ng Bukid",
+  "scanQueuedOffline": "Nai-save. Susuriin namin ito kapag may koneksyon ka na.",
+  "cropsSelectedCount": "{count, plural, =0{Wala pang napiling pananim} =1{{count} pananim ang napili} other{{count} pananim ang napili}}"
+}

@@ -1,0 +1,8 @@
+{
+  "@@locale": "ceb",
+  "appTitle": "Smart Crops sa Agri Lynk",
+  "scanCrop": "I-scan ang tanom",
+  "fieldCalendar": "Kalendaryo sa Uma",
+  "scanQueuedOffline": "Na-save. Susihon namo kini kung naa na kay koneksyon.",
+  "cropsSelectedCount": "{count, plural, =0{Wala pay napiling tanom} =1{{count} tanom ang napili} other{{count} tanom ang napili}}"
+}
