@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:app_links/app_links.dart';
 import 'services/smart_crops_service.dart';
 import 'services/weather_service.dart';
 import 'services/localization_service.dart';
@@ -32,26 +31,6 @@ class SmartCropsApp extends StatefulWidget {
 }
 
 class _SmartCropsAppState extends State<SmartCropsApp> {
-  final _appLinks = AppLinks();
-
-  @override
-  void initState() {
-    super.initState();
-    _initDeepLinks();
-  }
-
-  void _initDeepLinks() {
-    _appLinks.uriLinkStream.listen((uri) async {
-      if (uri.queryParameters.containsKey('code')) {
-        try {
-          await Supabase.instance.client.auth.exchangeCodeForSession(uri.toString());
-        } catch (e) {
-          debugPrint('Error exchanging code for session: $e');
-        }
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     const primaryGreen = Color(0xFF2E7D32);

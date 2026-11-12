@@ -318,7 +318,10 @@ class SmartCropsService with ChangeNotifier {
 
   Future<bool> signInWithOAuth(dynamic provider) async {
     try {
-      return await _supabase.auth.signInWithOAuth(provider);
+      return await _supabase.auth.signInWithOAuth(
+        provider,
+        redirectTo: kIsWeb ? '${Uri.base.origin}/' : null,
+      );
     } catch (e) {
       debugPrint('OAuth sign-in error: $e');
       rethrow;
