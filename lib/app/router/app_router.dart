@@ -10,6 +10,7 @@ import 'package:smart_crops/features/crops/screens/crop_detail_screen.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
 import 'package:smart_crops/features/scan/screens/scan_capture_screen.dart';
 import 'package:smart_crops/features/calendar/screens/field_calendar_screen.dart';
+import 'package:smart_crops/features/calendar/screens/task_detail_screen.dart';
 import 'package:smart_crops/features/profile/screens/profile_screen.dart';
 import 'package:smart_crops/features/profile/screens/profile_setup_screen.dart';
 import 'package:smart_crops/features/onboarding/screens/onboarding_screen.dart';
@@ -17,6 +18,8 @@ import 'package:smart_crops/features/advisories/screens/advisories_screen.dart';
 import 'package:smart_crops/features/care_plan/screens/care_plan_screen.dart';
 import 'package:smart_crops/features/health_log/screens/health_log_screen.dart';
 import 'package:smart_crops/features/auth/screens/auth_screen.dart';
+import 'package:smart_crops/features/pro/screens/agri_pro_manage_screen.dart';
+import 'package:smart_crops/features/pro/screens/agri_pro_paywall_screen.dart';
 
 GoRouter buildAppRouter({
   String initialLocation = '/home',
@@ -55,6 +58,15 @@ GoRouter buildAppRouter({
       GoRoute(
         path: '/care-plan',
         builder: (context, state) => const CarePlanScreen(),
+      ),
+      GoRoute(
+        path: '/pro',
+        builder: (context, state) =>
+            AgriProPaywallScreen(fromQuota: state.extra == 'quota'),
+      ),
+      GoRoute(
+        path: '/pro/manage',
+        builder: (context, state) => const AgriProManageScreen(),
       ),
       GoRoute(
         path: '/health-log',
@@ -110,6 +122,21 @@ GoRouter buildAppRouter({
               GoRoute(
                 path: '/calendar',
                 builder: (context, state) => const FieldCalendarScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'events/:eventId',
+                    builder: (context, state) {
+                      final eventId = state.pathParameters['eventId']!;
+                      final events = context.read<SmartCropsService>().calendarEvents;
+                      for (final event in events) {
+                        if (event.id == eventId) {
+                          return TaskDetailScreen(event: event);
+                        }
+                      }
+                      return const FieldCalendarScreen();
+                    },
+                  ),
+                ],
               ),
             ],
           ),

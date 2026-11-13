@@ -16,16 +16,28 @@ class DeepLinkHandler {
   StreamSubscription<Uri>? _subscription;
 
   Future<void> start() async {
-    final appLinks = AppLinks();
+    try {
+      final appLinks = AppLinks();
 
-    // Initial link (app opened from a link)
-    final initialUri = await appLinks.getInitialLink();
-    if (initialUri != null) {
-      _handleUri(initialUri);
+      // Initial link (app opened from a link)
+      Uri? initialUri;
+      try {
+        initialUri = await appLinks.getInitialLink();
+      } catch (_) {
+        initialUri = null;
+      }
+      if (initialUri != null) {
+        _handleUri(initialUri);
+      }
+
+      // Foreground links while the app is running
+      _subscription = appLinks.uriLinkStream.listen(
+        _handleUri,
+        onError: (_) {},
+      );
+    } catch (_) {
+      // Deep links are unsupported on this platform; stay alive without them.
     }
-
-    // Foreground links while the app is running
-    _subscription = appLinks.uriLinkStream.listen(_handleUri);
   }
 
   void stop() {

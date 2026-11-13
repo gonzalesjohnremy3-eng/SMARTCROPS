@@ -5,6 +5,7 @@ import 'package:smart_crops/app/localization/locale_provider.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/models/app_models.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
+import 'package:smart_crops/features/pro/services/agri_pro_entitlement.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -108,6 +109,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           const SizedBox(height: 16),
           _CropsSection(crops: crops, l10n: l10n, theme: theme),
+          const SizedBox(height: 16),
+          _AgriProSection(l10n: l10n, theme: theme),
           const SizedBox(height: 16),
           _LanguageSection(l10n: l10n, theme: theme),
           const SizedBox(height: 16),
@@ -338,6 +341,33 @@ class _CropsSection extends StatelessWidget {
               ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _AgriProSection extends StatelessWidget {
+  const _AgriProSection({required this.l10n, required this.theme});
+
+  final AppLocalizations l10n;
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    final entitlement = context.watch<AgriProEntitlement>();
+    final isPro = entitlement.isPro;
+
+    return Card(
+      child: ListTile(
+        leading: Icon(isPro
+            ? Icons.workspace_premium
+            : Icons.workspace_premium_outlined),
+        title: Text(l10n.agriProTitle),
+        subtitle: Text(
+          isPro ? l10n.agriProPlanActive : l10n.agriProFeatureUnlimited,
+        ),
+        trailing: const Icon(Icons.chevron_right),
+        onTap: () => context.push(isPro ? '/pro/manage' : '/pro'),
       ),
     );
   }

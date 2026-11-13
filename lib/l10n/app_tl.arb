@@ -33,7 +33,7 @@
   "notificationsPermission": "Notipikasyon",
   "notificationsPermissionDescription": "Makakuha ng abiso para sa panganib ng panahon at resulta ng scan",
   "allow": "Payagan",
-  "notNow": "Hindi Muna",
+  "notNow": "Mamaya na",
   "completeSetup": "Kumpletuhin ang Setup",
   "homeFieldBriefing": "Field Briefing Ngayon",
   "homePriorityAction": "Pangunahing Kilos",
@@ -103,7 +103,7 @@
   "notificationsCooperativeAdvisories": "Mga Abiso ng Kooperatiba",
   "notificationsQuietHours": "Mga Tahimik na Oras",
   "agriProTitle": "Agri Pro",
-  "agriProHeadline": "Protektahan nang higit pa ang iyong pinag-aanihan.",
+  "agriProHeadline": "Protektahan ang mas marami sa iyong itinatanim.",
   "agriProFreeSummary": "Libreng plano: 5 scan/linggo, batayan na kalendaryo.",
   "agriProProSummary": "Agri Pro: walang limit na scan, prayoridad na pagsusuri, trend ng kalusugan, paalala na naaayon sa panahon, offline pack.",
   "agriProMonthly": "Buwanan",
@@ -446,5 +446,338 @@
   "homeOfflineBanner": "Offline ka. Ipinapakita ang cached na panahon.",
   "@homeOfflineBanner": {
     "description": "homeOfflineBanner"
+  },
+  "calendarAddTask": "Magdagdag ng Gawain",
+  "@calendarAddTask": {
+    "description": "calendarAddTask"
+  },
+  "taskEditTitle": "I-edit ang Gawain",
+  "@taskEditTitle": {
+    "description": "taskEditTitle"
+  },
+  "taskTitleLabel": "Pamagat ng Gawain",
+  "@taskTitleLabel": {
+    "description": "taskTitleLabel"
+  },
+  "taskTitleRequired": "Ilagay ang pamagat ng gawain",
+  "@taskTitleRequired": {
+    "description": "taskTitleRequired"
+  },
+  "taskCategoryLabel": "Kategorya",
+  "@taskCategoryLabel": {
+    "description": "taskCategoryLabel"
+  },
+  "taskCropLabel": "Kaugnay na pananim (opsyonal)",
+  "@taskCropLabel": {
+    "description": "taskCropLabel"
+  },
+  "taskNoCrop": "Walang pananim",
+  "@taskNoCrop": {
+    "description": "taskNoCrop"
+  },
+  "taskPriorityLabel": "Priyoridad",
+  "@taskPriorityLabel": {
+    "description": "taskPriorityLabel"
+  },
+  "taskPriorityNormal": "Karaniwan",
+  "@taskPriorityNormal": {
+    "description": "taskPriorityNormal"
+  },
+  "taskPriorityHigh": "Mataas",
+  "@taskPriorityHigh": {
+    "description": "taskPriorityHigh"
+  },
+  "taskDateLabel": "Takdang-araw",
+  "@taskDateLabel": {
+    "description": "taskDateLabel"
+  },
+  "taskSave": "I-save ang Gawain",
+  "@taskSave": {
+    "description": "taskSave"
+  },
+  "taskSaved": "Na-save ang gawain",
+  "@taskSaved": {
+    "description": "taskSaved"
+  },
+  "taskSaveError": "Hindi ma-save ang gawain. Pakisubukan ulit.",
+  "@taskSaveError": {
+    "description": "taskSaveError"
+  },
+  "taskDetailTitle": "Gawain",
+  "@taskDetailTitle": {
+    "description": "taskDetailTitle"
+  },
+  "taskDetailEdit": "I-edit ang gawain",
+  "@taskDetailEdit": {
+    "description": "taskDetailEdit"
+  },
+  "taskDetailDelete": "Tanggalin ang gawain",
+  "@taskDetailDelete": {
+    "description": "taskDetailDelete"
+  },
+  "taskDeleteConfirmTitle": "Tanggalin ang gawaing ito?",
+  "@taskDeleteConfirmTitle": {
+    "description": "taskDeleteConfirmTitle"
+  },
+  "taskDeleteConfirmBody": "Maaalis nito ang gawain sa iyong field calendar.",
+  "@taskDeleteConfirmBody": {
+    "description": "taskDeleteConfirmBody"
+  },
+  "taskDeleteAction": "Tanggalin",
+  "@taskDeleteAction": {
+    "description": "taskDeleteAction"
+  },
+  "taskDeleteCancel": "Kanselahin",
+  "@taskDeleteCancel": {
+    "description": "taskDeleteCancel"
+  },
+  "taskDeleted": "Natanggal ang gawain",
+  "@taskDeleted": {
+    "description": "taskDeleted"
+  },
+  "taskScheduledFor": "Takda",
+  "@taskScheduledFor": {
+    "description": "taskScheduledFor"
+  },
+  "taskWhyThisDate": "Bakit sa araw na ito",
+  "@taskWhyThisDate": {
+    "description": "taskWhyThisDate"
+  },
+  "taskReasonWeather": "Inilipat dahil sa naulawang ulan.",
+  "@taskReasonWeather": {
+    "description": "taskReasonWeather"
+  },
+  "taskReasonOverdue": "Lampas na ang petsa ng gawaing ito.",
+  "@taskReasonOverdue": {
+    "description": "taskReasonOverdue"
+  },
+  "taskReasonScan": "Iminungkahi batay sa iyong pinakahuling scan.",
+  "@taskReasonScan": {
+    "description": "taskReasonScan"
+  },
+  "taskReasonRoutine": "Mga regular na gawain sa bukid.",
+  "@taskReasonRoutine": {
+    "description": "taskReasonRoutine"
+  },
+  "taskRelatedScan": "Kaugnay na scan",
+  "@taskRelatedScan": {
+    "description": "taskRelatedScan"
+  },
+  "carePlanSuggested": "Iminungkahi para sa iyo",
+  "@carePlanSuggested": {
+    "description": "carePlanSuggested"
+  },
+  "carePlanAddToCalendar": "Idagdag sa kalendaryo",
+  "@carePlanAddToCalendar": {
+    "description": "carePlanAddToCalendar"
+  },
+  "carePlanAdded": "Idinagdag na sa iyong field calendar",
+  "@carePlanAdded": {
+    "description": "carePlanAdded"
+  },
+  "carePlanReasonWeather": "Panahon",
+  "@carePlanReasonWeather": {
+    "description": "carePlanReasonWeather"
+  },
+  "carePlanReasonOverdue": "Lampas na",
+  "@carePlanReasonOverdue": {
+    "description": "carePlanReasonOverdue"
+  },
+  "carePlanReasonScan": "Mula sa scan",
+  "@carePlanReasonScan": {
+    "description": "carePlanReasonScan"
+  },
+  "carePlanReasonRoutine": "Regular",
+  "@carePlanReasonRoutine": {
+    "description": "carePlanReasonRoutine"
+  },
+  "scanResultAddedToCalendar": "Idinagdag na sa iyong field calendar",
+  "@scanResultAddedToCalendar": {
+    "description": "scanResultAddedToCalendar"
+  },
+  "viewCalendar": "Tingnan ang kalendaryo",
+  "@viewCalendar": {
+    "description": "viewCalendar"
+  },
+  "carePlanSuggestionTitle": "Suriin muli ang {crop} pagkatapos ng {diagnosis}",
+  "@carePlanSuggestionTitle": {
+    "description": "Follow-up recheck task title after a diagnosis",
+    "placeholders": {
+      "crop": {
+        "type": "String"
+      },
+      "diagnosis": {
+        "type": "String"
+      }
+    }
+  },
+  "@agriProTitle": {
+    "description": "agriProTitle"
+  },
+  "@agriProHeadline": {
+    "description": "agriProHeadline"
+  },
+  "agriProFreePlanSummary": "5 scan bawat linggo, simpleng kalendaryo.",
+  "@agriProFreePlanSummary": {
+    "description": "agriProFreePlanSummary"
+  },
+  "agriProFeatureUnlimited": "Walang limitasyong scan",
+  "@agriProFeatureUnlimited": {
+    "description": "agriProFeatureUnlimited"
+  },
+  "agriProFeaturePriority": "Prayoridad na pagsusuri",
+  "@agriProFeaturePriority": {
+    "description": "agriProFeaturePriority"
+  },
+  "agriProFeatureTrends": "Mga trend ng kalusugan",
+  "@agriProFeatureTrends": {
+    "description": "agriProFeatureTrends"
+  },
+  "agriProFeatureWeather": "Mga paalala na inayon sa panahon",
+  "@agriProFeatureWeather": {
+    "description": "agriProFeatureWeather"
+  },
+  "agriProFeatureOffline": "Offline na pakete",
+  "@agriProFeatureOffline": {
+    "description": "agriProFeatureOffline"
+  },
+  "agriProPlanMonthly": "Buwanan",
+  "@agriProPlanMonthly": {
+    "description": "agriProPlanMonthly"
+  },
+  "agriProPlanSeasonal": "Panahon ng tanim",
+  "@agriProPlanSeasonal": {
+    "description": "agriProPlanSeasonal"
+  },
+  "agriProPlanSeasonTagline": "Isang panahon ng tanim, anim na buwan ng walang limitasyong scan.",
+  "@agriProPlanSeasonTagline": {
+    "description": "agriProPlanSeasonTagline"
+  },
+  "agriProPlanMonthlyTagline": "Subukan ang Agri Pro buwan-buwan.",
+  "@agriProPlanMonthlyTagline": {
+    "description": "agriProPlanMonthlyTagline"
+  },
+  "agriProPriceMonthly": "₱99/buwan",
+  "@agriProPriceMonthly": {
+    "description": "agriProPriceMonthly"
+  },
+  "agriProPriceSeasonal": "₱499/6 na buwan",
+  "@agriProPriceSeasonal": {
+    "description": "agriProPriceSeasonal"
+  },
+  "agriProPerDay": "₱3 kada araw",
+  "@agriProPerDay": {
+    "description": "agriProPerDay"
+  },
+  "agriProSavePercent": "Makatipid ng 16%",
+  "@agriProSavePercent": {
+    "description": "agriProSavePercent"
+  },
+  "agriProPlanRenewsMonthly": "Nagre-renew buwan-buwan sa ₱99.",
+  "@agriProPlanRenewsMonthly": {
+    "description": "agriProPlanRenewsMonthly"
+  },
+  "agriProPlanRenewsSeasonal": "Nagre-renew kada anim na buwan sa ₱499.",
+  "@agriProPlanRenewsSeasonal": {
+    "description": "agriProPlanRenewsSeasonal"
+  },
+  "agriProCancelAnytime": "Kanselahin anumang oras.",
+  "@agriProCancelAnytime": {
+    "description": "agriProCancelAnytime"
+  },
+  "agriProPaymentNote": "Kasama na ang VAT sa presyo. Ang bayad ay dumadaan sa Google Play o App Store.",
+  "@agriProPaymentNote": {
+    "description": "agriProPaymentNote"
+  },
+  "startAgriPro": "Simulan ang Agri Pro",
+  "@startAgriPro": {
+    "description": "startAgriPro"
+  },
+  "@notNow": {
+    "description": "notNow"
+  },
+  "agriProManageTitle": "Pamahalaan ang Agri Pro",
+  "@agriProManageTitle": {
+    "description": "agriProManageTitle"
+  },
+  "agriProManageCurrentPlan": "Kasalukuyang plano",
+  "@agriProManageCurrentPlan": {
+    "description": "agriProManageCurrentPlan"
+  },
+  "agriProManageRenewal": "Pag-renew",
+  "@agriProManageRenewal": {
+    "description": "agriProManageRenewal"
+  },
+  "agriProManageBilling": "Pagbayad",
+  "@agriProManageBilling": {
+    "description": "agriProManageBilling"
+  },
+  "agriProManageBilledBy": "Pinamamahalaan ng iyong app store.",
+  "@agriProManageBilledBy": {
+    "description": "agriProManageBilledBy"
+  },
+  "agriProManageCancelHow": "Upang kanselahin, buksan ang Google Play → Subscriptions → Smart Crops, o ang App Store → Subscriptions. Mananatili ang access hanggang sa matapos ang bayad na panahon.",
+  "@agriProManageCancelHow": {
+    "description": "agriProManageCancelHow"
+  },
+  "agriProRestore": "Ibalik ang bili",
+  "@agriProRestore": {
+    "description": "agriProRestore"
+  },
+  "agriProPurchaseRestored": "Naibalik ang bili.",
+  "@agriProPurchaseRestored": {
+    "description": "agriProPurchaseRestored"
+  },
+  "billingNotConfigured": "Hindi pa available ang pagbili ng Agri Pro. Maaari kang bumili kapag live na ang store listing.",
+  "@billingNotConfigured": {
+    "description": "billingNotConfigured"
+  },
+  "agriProPurchaseFailed": "Hindi nagtagumpay ang bili. Pakisubukan ulit.",
+  "@agriProPurchaseFailed": {
+    "description": "agriProPurchaseFailed"
+  },
+  "agriProUnlocked": "Na-unlock ang Agri Pro.",
+  "@agriProUnlocked": {
+    "description": "agriProUnlocked"
+  },
+  "agriProPlanActive": "Agri Pro — Aktibo",
+  "@agriProPlanActive": {
+    "description": "agriProPlanActive"
+  },
+  "agriProPlanFree": "Libre",
+  "@agriProPlanFree": {
+    "description": "agriProPlanFree"
+  },
+  "agriProManageUpgradeTitle": "Nasa Free plan ka",
+  "@agriProManageUpgradeTitle": {
+    "description": "agriProManageUpgradeTitle"
+  },
+  "agriProManageFreeSummary": "Mag-upgrade para sa walang limitasyong scan.",
+  "@agriProManageFreeSummary": {
+    "description": "agriProManageFreeSummary"
+  },
+  "agriProManageProSummary": "May walang limitasyong scan at prayoridad na pagsusuri ka.",
+  "@agriProManageProSummary": {
+    "description": "agriProManageProSummary"
+  },
+  "agriProManageUpgradeCta": "Tingnan ang mga planong Agri Pro",
+  "@agriProManageUpgradeCta": {
+    "description": "agriProManageUpgradeCta"
+  },
+  "agriProRenewalNever": "Hanggang sa magkansela ka",
+  "@agriProRenewalNever": {
+    "description": "agriProRenewalNever"
+  },
+  "agriProQuotaContext": "Nagamit mo na ang {used} sa {limit} libreng scan ngayong linggo. Tinatanggal ng Agri Pro ang limitasyon.",
+  "@agriProQuotaContext": {
+    "description": "agriProQuotaContext",
+    "placeholders": {
+      "used": {
+        "type": "int"
+      },
+      "limit": {
+        "type": "int"
+      }
+    }
   }
 }

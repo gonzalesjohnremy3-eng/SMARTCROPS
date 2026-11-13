@@ -298,10 +298,10 @@ abstract class AppLocalizations {
   /// **'Allow'**
   String get allow;
 
-  /// Not now permission button
+  /// notNow
   ///
   /// In en, this message translates to:
-  /// **'Not Now'**
+  /// **'Not now'**
   String get notNow;
 
   /// Complete profile setup button
@@ -688,13 +688,13 @@ abstract class AppLocalizations {
   /// **'Quiet Hours'**
   String get notificationsQuietHours;
 
-  /// No description provided for @agriProTitle.
+  /// agriProTitle
   ///
   /// In en, this message translates to:
   /// **'Agri Pro'**
   String get agriProTitle;
 
-  /// No description provided for @agriProHeadline.
+  /// agriProHeadline
   ///
   /// In en, this message translates to:
   /// **'Protect more of what you grow.'**
@@ -1341,6 +1341,468 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You\'re offline. Showing cached weather.'**
   String get homeOfflineBanner;
+
+  /// calendarAddTask
+  ///
+  /// In en, this message translates to:
+  /// **'Add Task'**
+  String get calendarAddTask;
+
+  /// taskEditTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Task'**
+  String get taskEditTitle;
+
+  /// taskTitleLabel
+  ///
+  /// In en, this message translates to:
+  /// **'Task title'**
+  String get taskTitleLabel;
+
+  /// taskTitleRequired
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a task title'**
+  String get taskTitleRequired;
+
+  /// taskCategoryLabel
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get taskCategoryLabel;
+
+  /// taskCropLabel
+  ///
+  /// In en, this message translates to:
+  /// **'Related crop (optional)'**
+  String get taskCropLabel;
+
+  /// taskNoCrop
+  ///
+  /// In en, this message translates to:
+  /// **'No crop'**
+  String get taskNoCrop;
+
+  /// taskPriorityLabel
+  ///
+  /// In en, this message translates to:
+  /// **'Priority'**
+  String get taskPriorityLabel;
+
+  /// taskPriorityNormal
+  ///
+  /// In en, this message translates to:
+  /// **'Normal'**
+  String get taskPriorityNormal;
+
+  /// taskPriorityHigh
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get taskPriorityHigh;
+
+  /// taskDateLabel
+  ///
+  /// In en, this message translates to:
+  /// **'Due'**
+  String get taskDateLabel;
+
+  /// taskSave
+  ///
+  /// In en, this message translates to:
+  /// **'Save task'**
+  String get taskSave;
+
+  /// taskSaved
+  ///
+  /// In en, this message translates to:
+  /// **'Task saved'**
+  String get taskSaved;
+
+  /// taskSaveError
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save the task. Please try again.'**
+  String get taskSaveError;
+
+  /// taskDetailTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Task'**
+  String get taskDetailTitle;
+
+  /// taskDetailEdit
+  ///
+  /// In en, this message translates to:
+  /// **'Edit task'**
+  String get taskDetailEdit;
+
+  /// taskDetailDelete
+  ///
+  /// In en, this message translates to:
+  /// **'Delete task'**
+  String get taskDetailDelete;
+
+  /// taskDeleteConfirmTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this task?'**
+  String get taskDeleteConfirmTitle;
+
+  /// taskDeleteConfirmBody
+  ///
+  /// In en, this message translates to:
+  /// **'This removes the task from your field calendar.'**
+  String get taskDeleteConfirmBody;
+
+  /// taskDeleteAction
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get taskDeleteAction;
+
+  /// taskDeleteCancel
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get taskDeleteCancel;
+
+  /// taskDeleted
+  ///
+  /// In en, this message translates to:
+  /// **'Task deleted'**
+  String get taskDeleted;
+
+  /// taskScheduledFor
+  ///
+  /// In en, this message translates to:
+  /// **'Due'**
+  String get taskScheduledFor;
+
+  /// taskWhyThisDate
+  ///
+  /// In en, this message translates to:
+  /// **'Why this date'**
+  String get taskWhyThisDate;
+
+  /// taskReasonWeather
+  ///
+  /// In en, this message translates to:
+  /// **'Postponed because of rain in the forecast.'**
+  String get taskReasonWeather;
+
+  /// taskReasonOverdue
+  ///
+  /// In en, this message translates to:
+  /// **'This task is overdue.'**
+  String get taskReasonOverdue;
+
+  /// taskReasonScan
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested based on your latest scan.'**
+  String get taskReasonScan;
+
+  /// taskReasonRoutine
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled routine care.'**
+  String get taskReasonRoutine;
+
+  /// taskRelatedScan
+  ///
+  /// In en, this message translates to:
+  /// **'Related scan'**
+  String get taskRelatedScan;
+
+  /// carePlanSuggested
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested for you'**
+  String get carePlanSuggested;
+
+  /// carePlanAddToCalendar
+  ///
+  /// In en, this message translates to:
+  /// **'Add to calendar'**
+  String get carePlanAddToCalendar;
+
+  /// carePlanAdded
+  ///
+  /// In en, this message translates to:
+  /// **'Added to your field calendar'**
+  String get carePlanAdded;
+
+  /// carePlanReasonWeather
+  ///
+  /// In en, this message translates to:
+  /// **'Weather'**
+  String get carePlanReasonWeather;
+
+  /// carePlanReasonOverdue
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue'**
+  String get carePlanReasonOverdue;
+
+  /// carePlanReasonScan
+  ///
+  /// In en, this message translates to:
+  /// **'From scan'**
+  String get carePlanReasonScan;
+
+  /// carePlanReasonRoutine
+  ///
+  /// In en, this message translates to:
+  /// **'Routine'**
+  String get carePlanReasonRoutine;
+
+  /// scanResultAddedToCalendar
+  ///
+  /// In en, this message translates to:
+  /// **'Added to your field calendar'**
+  String get scanResultAddedToCalendar;
+
+  /// viewCalendar
+  ///
+  /// In en, this message translates to:
+  /// **'View calendar'**
+  String get viewCalendar;
+
+  /// Follow-up recheck task title after a diagnosis
+  ///
+  /// In en, this message translates to:
+  /// **'Recheck {crop} after {diagnosis}'**
+  String carePlanSuggestionTitle(String crop, String diagnosis);
+
+  /// agriProFreePlanSummary
+  ///
+  /// In en, this message translates to:
+  /// **'5 scans/week, basic calendar.'**
+  String get agriProFreePlanSummary;
+
+  /// agriProFeatureUnlimited
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited scans'**
+  String get agriProFeatureUnlimited;
+
+  /// agriProFeaturePriority
+  ///
+  /// In en, this message translates to:
+  /// **'Priority analysis'**
+  String get agriProFeaturePriority;
+
+  /// agriProFeatureTrends
+  ///
+  /// In en, this message translates to:
+  /// **'Health trends'**
+  String get agriProFeatureTrends;
+
+  /// agriProFeatureWeather
+  ///
+  /// In en, this message translates to:
+  /// **'Weather-adjusted reminders'**
+  String get agriProFeatureWeather;
+
+  /// agriProFeatureOffline
+  ///
+  /// In en, this message translates to:
+  /// **'Offline pack'**
+  String get agriProFeatureOffline;
+
+  /// agriProPlanMonthly
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly'**
+  String get agriProPlanMonthly;
+
+  /// agriProPlanSeasonal
+  ///
+  /// In en, this message translates to:
+  /// **'Seasonal'**
+  String get agriProPlanSeasonal;
+
+  /// agriProPlanSeasonTagline
+  ///
+  /// In en, this message translates to:
+  /// **'One season, six months of unlimited scans.'**
+  String get agriProPlanSeasonTagline;
+
+  /// agriProPlanMonthlyTagline
+  ///
+  /// In en, this message translates to:
+  /// **'Try Agri Pro month by month.'**
+  String get agriProPlanMonthlyTagline;
+
+  /// agriProPriceMonthly
+  ///
+  /// In en, this message translates to:
+  /// **'₱99/month'**
+  String get agriProPriceMonthly;
+
+  /// agriProPriceSeasonal
+  ///
+  /// In en, this message translates to:
+  /// **'₱499/6 months'**
+  String get agriProPriceSeasonal;
+
+  /// agriProPerDay
+  ///
+  /// In en, this message translates to:
+  /// **'₱3 a day'**
+  String get agriProPerDay;
+
+  /// agriProSavePercent
+  ///
+  /// In en, this message translates to:
+  /// **'Save 16%'**
+  String get agriProSavePercent;
+
+  /// agriProPlanRenewsMonthly
+  ///
+  /// In en, this message translates to:
+  /// **'Renews each month at ₱99.'**
+  String get agriProPlanRenewsMonthly;
+
+  /// agriProPlanRenewsSeasonal
+  ///
+  /// In en, this message translates to:
+  /// **'Renews every 6 months at ₱499.'**
+  String get agriProPlanRenewsSeasonal;
+
+  /// agriProCancelAnytime
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel anytime.'**
+  String get agriProCancelAnytime;
+
+  /// agriProPaymentNote
+  ///
+  /// In en, this message translates to:
+  /// **'Prices include VAT. Billing is handled by Google Play or the App Store.'**
+  String get agriProPaymentNote;
+
+  /// startAgriPro
+  ///
+  /// In en, this message translates to:
+  /// **'Start Agri Pro'**
+  String get startAgriPro;
+
+  /// agriProManageTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Agri Pro'**
+  String get agriProManageTitle;
+
+  /// agriProManageCurrentPlan
+  ///
+  /// In en, this message translates to:
+  /// **'Current plan'**
+  String get agriProManageCurrentPlan;
+
+  /// agriProManageRenewal
+  ///
+  /// In en, this message translates to:
+  /// **'Renews'**
+  String get agriProManageRenewal;
+
+  /// agriProManageBilling
+  ///
+  /// In en, this message translates to:
+  /// **'Pagbayad'**
+  String get agriProManageBilling;
+
+  /// agriProManageBilledBy
+  ///
+  /// In en, this message translates to:
+  /// **'Managed by your app store.'**
+  String get agriProManageBilledBy;
+
+  /// agriProManageCancelHow
+  ///
+  /// In en, this message translates to:
+  /// **'To cancel, open Google Play → Subscriptions → Smart Crops, or the App Store → Subscriptions. Access continues until the end of the paid period.'**
+  String get agriProManageCancelHow;
+
+  /// agriProRestore
+  ///
+  /// In en, this message translates to:
+  /// **'Restore purchase'**
+  String get agriProRestore;
+
+  /// agriProPurchaseRestored
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase restored.'**
+  String get agriProPurchaseRestored;
+
+  /// billingNotConfigured
+  ///
+  /// In en, this message translates to:
+  /// **'Agri Pro purchases are not available yet. They will open when the store listing is live.'**
+  String get billingNotConfigured;
+
+  /// agriProPurchaseFailed
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase failed. Please try again.'**
+  String get agriProPurchaseFailed;
+
+  /// agriProUnlocked
+  ///
+  /// In en, this message translates to:
+  /// **'Agri Pro unlocked.'**
+  String get agriProUnlocked;
+
+  /// agriProPlanActive
+  ///
+  /// In en, this message translates to:
+  /// **'Agri Pro — Active'**
+  String get agriProPlanActive;
+
+  /// agriProPlanFree
+  ///
+  /// In en, this message translates to:
+  /// **'Free'**
+  String get agriProPlanFree;
+
+  /// agriProManageUpgradeTitle
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re on the Free plan'**
+  String get agriProManageUpgradeTitle;
+
+  /// agriProManageFreeSummary
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade for unlimited scans.'**
+  String get agriProManageFreeSummary;
+
+  /// agriProManageProSummary
+  ///
+  /// In en, this message translates to:
+  /// **'You have unlimited scans and priority analysis.'**
+  String get agriProManageProSummary;
+
+  /// agriProManageUpgradeCta
+  ///
+  /// In en, this message translates to:
+  /// **'See Agri Pro plans'**
+  String get agriProManageUpgradeCta;
+
+  /// agriProRenewalNever
+  ///
+  /// In en, this message translates to:
+  /// **'Until you cancel'**
+  String get agriProRenewalNever;
+
+  /// agriProQuotaContext
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve used {used} of {limit} free scans this week. Agri Pro removes the limit.'**
+  String agriProQuotaContext(int used, int limit);
 }
 
 class _AppLocalizationsDelegate

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:smart_crops/features/calendar/domain/task_draft.dart';
 import '../models/app_models.dart';
 import 'farm_data_loader.dart';
 import 'farm_snapshot.dart';
@@ -102,6 +103,30 @@ class SmartCropsService with ChangeNotifier {
     if (session == null) return;
 
     await _supabase.from('crop_calendar_events').update({'is_completed': isCompleted}).eq('id', eventId);
+    await initializeUserData();
+  }
+
+  Future<void> addCalendarEvent(TaskDraft draft) async {
+    final session = _supabase.auth.currentSession;
+    if (session == null) throw StateError('Not signed in');
+
+    await _supabase.from('crop_calendar_events').insert(draft.toInsert(session.user.id));
+    await initializeUserData();
+  }
+
+  Future<void> updateCalendarEvent(String eventId, TaskDraft draft) async {
+    final session = _supabase.auth.currentSession;
+    if (session == null) throw StateError('Not signed in');
+
+    await _supabase.from('crop_calendar_events').update(draft.toUpdate()).eq('id', eventId);
+    await initializeUserData();
+  }
+
+  Future<void> deleteCalendarEvent(String eventId) async {
+    final session = _supabase.auth.currentSession;
+    if (session == null) throw StateError('Not signed in');
+
+    await _supabase.from('crop_calendar_events').delete().eq('id', eventId);
     await initializeUserData();
   }
 

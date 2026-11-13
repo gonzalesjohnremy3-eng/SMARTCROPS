@@ -3,14 +3,18 @@ import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:smart_crops/app/theme/app_tokens.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
 import 'package:smart_crops/features/scan/domain/diagnosis_presenter.dart';
+import 'package:smart_crops/features/scan/domain/scan_quota.dart';
+import 'package:smart_crops/features/scan/domain/weekly_scan_window.dart';
 import 'package:smart_crops/features/scan/services/scan_queue_provider.dart';
 import 'package:smart_crops/features/scan/screens/scan_result_screen.dart';
+import 'package:smart_crops/features/pro/services/agri_pro_entitlement.dart';
 
 class ScanReviewScreen extends StatefulWidget {
   const ScanReviewScreen({
@@ -33,6 +37,19 @@ class _ScanReviewScreenState extends State<ScanReviewScreen> {
   Future<void> _analyze() async {
     final service = context.read<SmartCropsService>();
     final queueProvider = context.read<ScanQueueProvider>();
+    final entitlement = context.read<AgriProEntitlement>();
+
+    final usedThisWeek = scansThisWeek(service.scanHistory, DateTime.now());
+    final quota = evaluateScanQuota(
+      tier: entitlement.isPro ? PlanTier.pro : PlanTier.free,
+      scansUsedThisWeek: usedThisWeek,
+      queuedScans: queueProvider.queuedCount,
+      now: DateTime.now(),
+    );
+    if (!quota.allowed) {
+      context.push('/pro', extra: 'quota');
+      return;
+    }
 
     setState(() {
       _isAnalyzing = true;

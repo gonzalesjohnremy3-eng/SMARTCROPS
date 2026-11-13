@@ -126,7 +126,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get allow => 'Allow';
 
   @override
-  String get notNow => 'Not Now';
+  String get notNow => 'Not now';
 
   @override
   String get completeSetup => 'Complete Setup';
@@ -660,4 +660,245 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homeOfflineBanner => 'You\'re offline. Showing cached weather.';
+
+  @override
+  String get calendarAddTask => 'Add Task';
+
+  @override
+  String get taskEditTitle => 'Edit Task';
+
+  @override
+  String get taskTitleLabel => 'Task title';
+
+  @override
+  String get taskTitleRequired => 'Enter a task title';
+
+  @override
+  String get taskCategoryLabel => 'Category';
+
+  @override
+  String get taskCropLabel => 'Related crop (optional)';
+
+  @override
+  String get taskNoCrop => 'No crop';
+
+  @override
+  String get taskPriorityLabel => 'Priority';
+
+  @override
+  String get taskPriorityNormal => 'Normal';
+
+  @override
+  String get taskPriorityHigh => 'High';
+
+  @override
+  String get taskDateLabel => 'Due';
+
+  @override
+  String get taskSave => 'Save task';
+
+  @override
+  String get taskSaved => 'Task saved';
+
+  @override
+  String get taskSaveError => 'Could not save the task. Please try again.';
+
+  @override
+  String get taskDetailTitle => 'Task';
+
+  @override
+  String get taskDetailEdit => 'Edit task';
+
+  @override
+  String get taskDetailDelete => 'Delete task';
+
+  @override
+  String get taskDeleteConfirmTitle => 'Delete this task?';
+
+  @override
+  String get taskDeleteConfirmBody =>
+      'This removes the task from your field calendar.';
+
+  @override
+  String get taskDeleteAction => 'Delete';
+
+  @override
+  String get taskDeleteCancel => 'Cancel';
+
+  @override
+  String get taskDeleted => 'Task deleted';
+
+  @override
+  String get taskScheduledFor => 'Due';
+
+  @override
+  String get taskWhyThisDate => 'Why this date';
+
+  @override
+  String get taskReasonWeather => 'Postponed because of rain in the forecast.';
+
+  @override
+  String get taskReasonOverdue => 'This task is overdue.';
+
+  @override
+  String get taskReasonScan => 'Suggested based on your latest scan.';
+
+  @override
+  String get taskReasonRoutine => 'Scheduled routine care.';
+
+  @override
+  String get taskRelatedScan => 'Related scan';
+
+  @override
+  String get carePlanSuggested => 'Suggested for you';
+
+  @override
+  String get carePlanAddToCalendar => 'Add to calendar';
+
+  @override
+  String get carePlanAdded => 'Added to your field calendar';
+
+  @override
+  String get carePlanReasonWeather => 'Weather';
+
+  @override
+  String get carePlanReasonOverdue => 'Overdue';
+
+  @override
+  String get carePlanReasonScan => 'From scan';
+
+  @override
+  String get carePlanReasonRoutine => 'Routine';
+
+  @override
+  String get scanResultAddedToCalendar => 'Added to your field calendar';
+
+  @override
+  String get viewCalendar => 'View calendar';
+
+  @override
+  String carePlanSuggestionTitle(String crop, String diagnosis) {
+    return 'Recheck $crop after $diagnosis';
+  }
+
+  @override
+  String get agriProFreePlanSummary => '5 scans/week, basic calendar.';
+
+  @override
+  String get agriProFeatureUnlimited => 'Unlimited scans';
+
+  @override
+  String get agriProFeaturePriority => 'Priority analysis';
+
+  @override
+  String get agriProFeatureTrends => 'Health trends';
+
+  @override
+  String get agriProFeatureWeather => 'Weather-adjusted reminders';
+
+  @override
+  String get agriProFeatureOffline => 'Offline pack';
+
+  @override
+  String get agriProPlanMonthly => 'Monthly';
+
+  @override
+  String get agriProPlanSeasonal => 'Seasonal';
+
+  @override
+  String get agriProPlanSeasonTagline =>
+      'One season, six months of unlimited scans.';
+
+  @override
+  String get agriProPlanMonthlyTagline => 'Try Agri Pro month by month.';
+
+  @override
+  String get agriProPriceMonthly => '₱99/month';
+
+  @override
+  String get agriProPriceSeasonal => '₱499/6 months';
+
+  @override
+  String get agriProPerDay => '₱3 a day';
+
+  @override
+  String get agriProSavePercent => 'Save 16%';
+
+  @override
+  String get agriProPlanRenewsMonthly => 'Renews each month at ₱99.';
+
+  @override
+  String get agriProPlanRenewsSeasonal => 'Renews every 6 months at ₱499.';
+
+  @override
+  String get agriProCancelAnytime => 'Cancel anytime.';
+
+  @override
+  String get agriProPaymentNote =>
+      'Prices include VAT. Billing is handled by Google Play or the App Store.';
+
+  @override
+  String get startAgriPro => 'Start Agri Pro';
+
+  @override
+  String get agriProManageTitle => 'Manage Agri Pro';
+
+  @override
+  String get agriProManageCurrentPlan => 'Current plan';
+
+  @override
+  String get agriProManageRenewal => 'Renews';
+
+  @override
+  String get agriProManageBilling => 'Pagbayad';
+
+  @override
+  String get agriProManageBilledBy => 'Managed by your app store.';
+
+  @override
+  String get agriProManageCancelHow =>
+      'To cancel, open Google Play → Subscriptions → Smart Crops, or the App Store → Subscriptions. Access continues until the end of the paid period.';
+
+  @override
+  String get agriProRestore => 'Restore purchase';
+
+  @override
+  String get agriProPurchaseRestored => 'Purchase restored.';
+
+  @override
+  String get billingNotConfigured =>
+      'Agri Pro purchases are not available yet. They will open when the store listing is live.';
+
+  @override
+  String get agriProPurchaseFailed => 'Purchase failed. Please try again.';
+
+  @override
+  String get agriProUnlocked => 'Agri Pro unlocked.';
+
+  @override
+  String get agriProPlanActive => 'Agri Pro — Active';
+
+  @override
+  String get agriProPlanFree => 'Free';
+
+  @override
+  String get agriProManageUpgradeTitle => 'You\'re on the Free plan';
+
+  @override
+  String get agriProManageFreeSummary => 'Upgrade for unlimited scans.';
+
+  @override
+  String get agriProManageProSummary =>
+      'You have unlimited scans and priority analysis.';
+
+  @override
+  String get agriProManageUpgradeCta => 'See Agri Pro plans';
+
+  @override
+  String get agriProRenewalNever => 'Until you cancel';
+
+  @override
+  String agriProQuotaContext(int used, int limit) {
+    return 'You\'ve used $used of $limit free scans this week. Agri Pro removes the limit.';
+  }
 }

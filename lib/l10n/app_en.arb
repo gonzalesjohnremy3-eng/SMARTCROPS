@@ -125,9 +125,9 @@
   "@allow": {
     "description": "Allow permission button"
   },
-  "notNow": "Not Now",
+  "notNow": "Not now",
   "@notNow": {
-    "description": "Not now permission button"
+    "description": "notNow"
   },
   "completeSetup": "Complete Setup",
   "@completeSetup": {
@@ -832,5 +832,335 @@
   "homeOfflineBanner": "You're offline. Showing cached weather.",
   "@homeOfflineBanner": {
     "description": "homeOfflineBanner"
+  },
+  "calendarAddTask": "Add Task",
+  "@calendarAddTask": {
+    "description": "calendarAddTask"
+  },
+  "taskEditTitle": "Edit Task",
+  "@taskEditTitle": {
+    "description": "taskEditTitle"
+  },
+  "taskTitleLabel": "Task title",
+  "@taskTitleLabel": {
+    "description": "taskTitleLabel"
+  },
+  "taskTitleRequired": "Enter a task title",
+  "@taskTitleRequired": {
+    "description": "taskTitleRequired"
+  },
+  "taskCategoryLabel": "Category",
+  "@taskCategoryLabel": {
+    "description": "taskCategoryLabel"
+  },
+  "taskCropLabel": "Related crop (optional)",
+  "@taskCropLabel": {
+    "description": "taskCropLabel"
+  },
+  "taskNoCrop": "No crop",
+  "@taskNoCrop": {
+    "description": "taskNoCrop"
+  },
+  "taskPriorityLabel": "Priority",
+  "@taskPriorityLabel": {
+    "description": "taskPriorityLabel"
+  },
+  "taskPriorityNormal": "Normal",
+  "@taskPriorityNormal": {
+    "description": "taskPriorityNormal"
+  },
+  "taskPriorityHigh": "High",
+  "@taskPriorityHigh": {
+    "description": "taskPriorityHigh"
+  },
+  "taskDateLabel": "Due",
+  "@taskDateLabel": {
+    "description": "taskDateLabel"
+  },
+  "taskSave": "Save task",
+  "@taskSave": {
+    "description": "taskSave"
+  },
+  "taskSaved": "Task saved",
+  "@taskSaved": {
+    "description": "taskSaved"
+  },
+  "taskSaveError": "Could not save the task. Please try again.",
+  "@taskSaveError": {
+    "description": "taskSaveError"
+  },
+  "taskDetailTitle": "Task",
+  "@taskDetailTitle": {
+    "description": "taskDetailTitle"
+  },
+  "taskDetailEdit": "Edit task",
+  "@taskDetailEdit": {
+    "description": "taskDetailEdit"
+  },
+  "taskDetailDelete": "Delete task",
+  "@taskDetailDelete": {
+    "description": "taskDetailDelete"
+  },
+  "taskDeleteConfirmTitle": "Delete this task?",
+  "@taskDeleteConfirmTitle": {
+    "description": "taskDeleteConfirmTitle"
+  },
+  "taskDeleteConfirmBody": "This removes the task from your field calendar.",
+  "@taskDeleteConfirmBody": {
+    "description": "taskDeleteConfirmBody"
+  },
+  "taskDeleteAction": "Delete",
+  "@taskDeleteAction": {
+    "description": "taskDeleteAction"
+  },
+  "taskDeleteCancel": "Cancel",
+  "@taskDeleteCancel": {
+    "description": "taskDeleteCancel"
+  },
+  "taskDeleted": "Task deleted",
+  "@taskDeleted": {
+    "description": "taskDeleted"
+  },
+  "taskScheduledFor": "Due",
+  "@taskScheduledFor": {
+    "description": "taskScheduledFor"
+  },
+  "taskWhyThisDate": "Why this date",
+  "@taskWhyThisDate": {
+    "description": "taskWhyThisDate"
+  },
+  "taskReasonWeather": "Postponed because of rain in the forecast.",
+  "@taskReasonWeather": {
+    "description": "taskReasonWeather"
+  },
+  "taskReasonOverdue": "This task is overdue.",
+  "@taskReasonOverdue": {
+    "description": "taskReasonOverdue"
+  },
+  "taskReasonScan": "Suggested based on your latest scan.",
+  "@taskReasonScan": {
+    "description": "taskReasonScan"
+  },
+  "taskReasonRoutine": "Scheduled routine care.",
+  "@taskReasonRoutine": {
+    "description": "taskReasonRoutine"
+  },
+  "taskRelatedScan": "Related scan",
+  "@taskRelatedScan": {
+    "description": "taskRelatedScan"
+  },
+  "carePlanSuggested": "Suggested for you",
+  "@carePlanSuggested": {
+    "description": "carePlanSuggested"
+  },
+  "carePlanAddToCalendar": "Add to calendar",
+  "@carePlanAddToCalendar": {
+    "description": "carePlanAddToCalendar"
+  },
+  "carePlanAdded": "Added to your field calendar",
+  "@carePlanAdded": {
+    "description": "carePlanAdded"
+  },
+  "carePlanReasonWeather": "Weather",
+  "@carePlanReasonWeather": {
+    "description": "carePlanReasonWeather"
+  },
+  "carePlanReasonOverdue": "Overdue",
+  "@carePlanReasonOverdue": {
+    "description": "carePlanReasonOverdue"
+  },
+  "carePlanReasonScan": "From scan",
+  "@carePlanReasonScan": {
+    "description": "carePlanReasonScan"
+  },
+  "carePlanReasonRoutine": "Routine",
+  "@carePlanReasonRoutine": {
+    "description": "carePlanReasonRoutine"
+  },
+  "scanResultAddedToCalendar": "Added to your field calendar",
+  "@scanResultAddedToCalendar": {
+    "description": "scanResultAddedToCalendar"
+  },
+  "viewCalendar": "View calendar",
+  "@viewCalendar": {
+    "description": "viewCalendar"
+  },
+  "carePlanSuggestionTitle": "Recheck {crop} after {diagnosis}",
+  "@carePlanSuggestionTitle": {
+    "description": "Follow-up recheck task title after a diagnosis",
+    "placeholders": {
+      "crop": {
+        "type": "String"
+      },
+      "diagnosis": {
+        "type": "String"
+      }
+    }
+  },
+  "@agriProTitle": {
+    "description": "agriProTitle"
+  },
+  "@agriProHeadline": {
+    "description": "agriProHeadline"
+  },
+  "agriProFreePlanSummary": "5 scans/week, basic calendar.",
+  "@agriProFreePlanSummary": {
+    "description": "agriProFreePlanSummary"
+  },
+  "agriProFeatureUnlimited": "Unlimited scans",
+  "@agriProFeatureUnlimited": {
+    "description": "agriProFeatureUnlimited"
+  },
+  "agriProFeaturePriority": "Priority analysis",
+  "@agriProFeaturePriority": {
+    "description": "agriProFeaturePriority"
+  },
+  "agriProFeatureTrends": "Health trends",
+  "@agriProFeatureTrends": {
+    "description": "agriProFeatureTrends"
+  },
+  "agriProFeatureWeather": "Weather-adjusted reminders",
+  "@agriProFeatureWeather": {
+    "description": "agriProFeatureWeather"
+  },
+  "agriProFeatureOffline": "Offline pack",
+  "@agriProFeatureOffline": {
+    "description": "agriProFeatureOffline"
+  },
+  "agriProPlanMonthly": "Monthly",
+  "@agriProPlanMonthly": {
+    "description": "agriProPlanMonthly"
+  },
+  "agriProPlanSeasonal": "Seasonal",
+  "@agriProPlanSeasonal": {
+    "description": "agriProPlanSeasonal"
+  },
+  "agriProPlanSeasonTagline": "One season, six months of unlimited scans.",
+  "@agriProPlanSeasonTagline": {
+    "description": "agriProPlanSeasonTagline"
+  },
+  "agriProPlanMonthlyTagline": "Try Agri Pro month by month.",
+  "@agriProPlanMonthlyTagline": {
+    "description": "agriProPlanMonthlyTagline"
+  },
+  "agriProPriceMonthly": "₱99/month",
+  "@agriProPriceMonthly": {
+    "description": "agriProPriceMonthly"
+  },
+  "agriProPriceSeasonal": "₱499/6 months",
+  "@agriProPriceSeasonal": {
+    "description": "agriProPriceSeasonal"
+  },
+  "agriProPerDay": "₱3 a day",
+  "@agriProPerDay": {
+    "description": "agriProPerDay"
+  },
+  "agriProSavePercent": "Save 16%",
+  "@agriProSavePercent": {
+    "description": "agriProSavePercent"
+  },
+  "agriProPlanRenewsMonthly": "Renews each month at ₱99.",
+  "@agriProPlanRenewsMonthly": {
+    "description": "agriProPlanRenewsMonthly"
+  },
+  "agriProPlanRenewsSeasonal": "Renews every 6 months at ₱499.",
+  "@agriProPlanRenewsSeasonal": {
+    "description": "agriProPlanRenewsSeasonal"
+  },
+  "agriProCancelAnytime": "Cancel anytime.",
+  "@agriProCancelAnytime": {
+    "description": "agriProCancelAnytime"
+  },
+  "agriProPaymentNote": "Prices include VAT. Billing is handled by Google Play or the App Store.",
+  "@agriProPaymentNote": {
+    "description": "agriProPaymentNote"
+  },
+  "startAgriPro": "Start Agri Pro",
+  "@startAgriPro": {
+    "description": "startAgriPro"
+  },
+  "agriProManageTitle": "Manage Agri Pro",
+  "@agriProManageTitle": {
+    "description": "agriProManageTitle"
+  },
+  "agriProManageCurrentPlan": "Current plan",
+  "@agriProManageCurrentPlan": {
+    "description": "agriProManageCurrentPlan"
+  },
+  "agriProManageRenewal": "Renews",
+  "@agriProManageRenewal": {
+    "description": "agriProManageRenewal"
+  },
+  "agriProManageBilling": "Pagbayad",
+  "@agriProManageBilling": {
+    "description": "agriProManageBilling"
+  },
+  "agriProManageBilledBy": "Managed by your app store.",
+  "@agriProManageBilledBy": {
+    "description": "agriProManageBilledBy"
+  },
+  "agriProManageCancelHow": "To cancel, open Google Play → Subscriptions → Smart Crops, or the App Store → Subscriptions. Access continues until the end of the paid period.",
+  "@agriProManageCancelHow": {
+    "description": "agriProManageCancelHow"
+  },
+  "agriProRestore": "Restore purchase",
+  "@agriProRestore": {
+    "description": "agriProRestore"
+  },
+  "agriProPurchaseRestored": "Purchase restored.",
+  "@agriProPurchaseRestored": {
+    "description": "agriProPurchaseRestored"
+  },
+  "billingNotConfigured": "Agri Pro purchases are not available yet. They will open when the store listing is live.",
+  "@billingNotConfigured": {
+    "description": "billingNotConfigured"
+  },
+  "agriProPurchaseFailed": "Purchase failed. Please try again.",
+  "@agriProPurchaseFailed": {
+    "description": "agriProPurchaseFailed"
+  },
+  "agriProUnlocked": "Agri Pro unlocked.",
+  "@agriProUnlocked": {
+    "description": "agriProUnlocked"
+  },
+  "agriProPlanActive": "Agri Pro — Active",
+  "@agriProPlanActive": {
+    "description": "agriProPlanActive"
+  },
+  "agriProPlanFree": "Free",
+  "@agriProPlanFree": {
+    "description": "agriProPlanFree"
+  },
+  "agriProManageUpgradeTitle": "You're on the Free plan",
+  "@agriProManageUpgradeTitle": {
+    "description": "agriProManageUpgradeTitle"
+  },
+  "agriProManageFreeSummary": "Upgrade for unlimited scans.",
+  "@agriProManageFreeSummary": {
+    "description": "agriProManageFreeSummary"
+  },
+  "agriProManageProSummary": "You have unlimited scans and priority analysis.",
+  "@agriProManageProSummary": {
+    "description": "agriProManageProSummary"
+  },
+  "agriProManageUpgradeCta": "See Agri Pro plans",
+  "@agriProManageUpgradeCta": {
+    "description": "agriProManageUpgradeCta"
+  },
+  "agriProRenewalNever": "Until you cancel",
+  "@agriProRenewalNever": {
+    "description": "agriProRenewalNever"
+  },
+  "agriProQuotaContext": "You've used {used} of {limit} free scans this week. Agri Pro removes the limit.",
+  "@agriProQuotaContext": {
+    "description": "agriProQuotaContext",
+    "placeholders": {
+      "used": {
+        "type": "int"
+      },
+      "limit": {
+        "type": "int"
+      }
+    }
   }
 }

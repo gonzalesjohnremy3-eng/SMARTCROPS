@@ -5,6 +5,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_crops/app/localization/language_preference.dart';
 import 'package:smart_crops/app/router/onboarding_controller.dart';
+import 'package:smart_crops/features/pro/domain/billing.dart';
+import 'package:smart_crops/features/pro/services/agri_pro_entitlement.dart';
 import 'package:smart_crops/main.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
 import 'package:smart_crops/services/weather_service.dart';
@@ -49,6 +51,10 @@ void main() {
         onboardingComplete: true,
         profileComplete: true,
       ),
+      agriProEntitlement: AgriProEntitlement(
+        fetchRow: () async => null,
+      ),
+      billingRepository: const UnconfiguredBillingRepository(),
     ));
     await tester.pumpAndSettle();
 

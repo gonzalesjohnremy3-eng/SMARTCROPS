@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_crops/app/theme/app_tokens.dart';
 import 'package:smart_crops/app/widgets/feedback_states.dart';
@@ -6,6 +7,7 @@ import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
 import 'package:smart_crops/services/weather_service.dart';
 import 'package:smart_crops/features/calendar/domain/weather_adjustment.dart';
+import 'package:smart_crops/features/calendar/widgets/task_form_sheet.dart';
 
 enum CalendarView { today, week, month }
 
@@ -77,27 +79,56 @@ class _FieldCalendarScreenState extends State<FieldCalendarScreen> {
           }).toList();
 
           if (visible.isEmpty) {
-            return _EmptyState(l10n: l10n, theme: theme);
+            return Scaffold(
+              body: _EmptyState(l10n: l10n, theme: theme),
+              floatingActionButton: FloatingActionButton.extended(
+                onPressed: () => showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  builder: (_) => ChangeNotifierProvider.value(
+                    value: service,
+                    child: const TaskFormSheet(),
+                  ),
+                ),
+                icon: const Icon(Icons.add),
+                label: Text(l10n.calendarAddTask),
+              ),
+            );
           }
 
           final now = DateTime.now();
-          return ListView.separated(
-            padding: const EdgeInsets.all(16),
-            itemCount: visible.length,
-            separatorBuilder: (_, _) => const SizedBox(height: 12),
-            itemBuilder: (context, index) {
-              final item = visible[index];
-              return _TaskCard(
-                item: item,
-                isOverdue: !item.event.isCompleted &&
-                    item.adjustedDate.isBefore(now) &&
-                    !_isSameDay(item.adjustedDate, now),
-                l10n: l10n,
-                theme: theme,
-                onToggle: (value) =>
-                    service.toggleCalendarEventCompletion(item.event.id, value),
-              );
-            },
+          return Scaffold(
+            body: ListView.separated(
+              padding: const EdgeInsets.all(16),
+              itemCount: visible.length,
+              separatorBuilder: (_, _) => const SizedBox(height: 12),
+              itemBuilder: (context, index) {
+                final item = visible[index];
+                return _TaskCard(
+                  item: item,
+                  isOverdue: !item.event.isCompleted &&
+                      item.adjustedDate.isBefore(now) &&
+                      !_isSameDay(item.adjustedDate, now),
+                  l10n: l10n,
+                  theme: theme,
+                  onToggle: (value) =>
+                      service.toggleCalendarEventCompletion(item.event.id, value),
+                  onTap: () => context.push('/calendar/events/${item.event.id}'),
+                );
+              },
+            ),
+            floatingActionButton: FloatingActionButton.extended(
+              onPressed: () => showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                builder: (_) => ChangeNotifierProvider.value(
+                  value: service,
+                  child: const TaskFormSheet(),
+                ),
+              ),
+              icon: const Icon(Icons.add),
+              label: Text(l10n.calendarAddTask),
+            ),
           );
         },
       ),
@@ -144,6 +175,7 @@ class _TaskCard extends StatelessWidget {
     required this.l10n,
     required this.theme,
     required this.onToggle,
+    required this.onTap,
   });
 
   final WeatherAdjustment item;
@@ -151,73 +183,78 @@ class _TaskCard extends StatelessWidget {
   final AppLocalizations l10n;
   final ThemeData theme;
   final ValueChanged<bool> onToggle;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     final event = item.event;
 
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Checkbox(
-              value: event.isCompleted,
-              onChanged: (value) => onToggle(value ?? false),
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    event.eventTitle,
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      decoration: event.isCompleted
-                          ? TextDecoration.lineThrough
-                          : null,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(AppRadius.card),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Checkbox(
+                value: event.isCompleted,
+                onChanged: (value) => onToggle(value ?? false),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      event.eventTitle,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        decoration: event.isCompleted
+                            ? TextDecoration.lineThrough
+                            : null,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 6),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 6,
-                    children: [
-                      _MetaChip(text: event.eventCategory, theme: theme),
-                      if (event.priority == 'High')
-                        _MetaChip(text: '!', theme: theme, emphasized: true),
-                      if (isOverdue)
-                        _MetaChip(
-                          text: l10n.calendarOverdue,
-                          theme: theme,
-                          emphasized: true,
-                        ),
-                      if (!item.isAdjusted)
-                        _MetaChip(text: _formatDate(event.scheduledDate), theme: theme),
-                    ],
-                  ),
-                  if (item.isAdjusted) ...[
-                    const SizedBox(height: 8),
-                    Row(
+                    const SizedBox(height: 6),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 6,
                       children: [
-                        Icon(Icons.water_drop_outlined,
-                            size: 16, color: theme.colorScheme.primary),
-                        const SizedBox(width: 6),
-                        Expanded(
-                          child: Text(
-                            '${l10n.calendarWeatherAdjusted}: ${_formatDate(item.originalDate)} → ${_formatDate(item.adjustedDate)}',
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.primary,
-                            ),
+                        _MetaChip(text: event.eventCategory, theme: theme),
+                        if (event.priority == 'High')
+                          _MetaChip(text: '!', theme: theme, emphasized: true),
+                        if (isOverdue)
+                          _MetaChip(
+                            text: l10n.calendarOverdue,
+                            theme: theme,
+                            emphasized: true,
                           ),
-                        ),
+                        if (!item.isAdjusted)
+                          _MetaChip(text: _formatDate(event.scheduledDate), theme: theme),
                       ],
                     ),
+                    if (item.isAdjusted) ...[
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          Icon(Icons.water_drop_outlined,
+                              size: 16, color: theme.colorScheme.primary),
+                          const SizedBox(width: 6),
+                          Expanded(
+                            child: Text(
+                              '${l10n.calendarWeatherAdjusted}: ${_formatDate(item.originalDate)} → ${_formatDate(item.adjustedDate)}',
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: theme.colorScheme.primary,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ],
-                ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

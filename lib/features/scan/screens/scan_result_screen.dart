@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 import 'package:smart_crops/app/theme/app_tokens.dart';
+import 'package:smart_crops/features/calendar/domain/task_draft.dart';
 import 'package:smart_crops/features/scan/domain/diagnosis_presenter.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
+import 'package:smart_crops/models/app_models.dart';
+import 'package:smart_crops/services/smart_crops_service.dart';
 
 class ScanResultScreen extends StatelessWidget {
   const ScanResultScreen({super.key, required this.input});
@@ -293,7 +298,44 @@ class _Actions extends StatelessWidget {
           )
         else
           FilledButton.icon(
-            onPressed: () {},
+            onPressed: () async {
+              try {
+                final service = context.read<SmartCropsService>();
+                final scan = ScanHistoryItem(
+                  id: DateTime.now().toIso8601String(),
+                  userId: '',
+                  imageUrl: '',
+                  diseaseDetected: view.diagnosis,
+                  confidenceScore: view.confidencePercent,
+                  commonCrop: view.crop,
+                  recommendedActions: view.treatmentSteps,
+                  scannedAt: DateTime.now(),
+                );
+                final draft = TaskDraft.followUpForScan(
+                  scan: scan,
+                  title: 'Recheck ${view.crop} — ${view.diagnosis}',
+                  now: DateTime.now(),
+                );
+                await service.addCalendarEvent(draft);
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(l10n.scanResultAddedToCalendar),
+                      action: SnackBarAction(
+                        label: l10n.viewCalendar,
+                        onPressed: () => context.push('/calendar'),
+                      ),
+                    ),
+                  );
+                }
+              } catch (_) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(l10n.errorGeneric)),
+                  );
+                }
+              }
+            },
             icon: const Icon(Icons.calendar_today_outlined),
             label: Text(l10n.scanResultAddToCalendar),
           ),

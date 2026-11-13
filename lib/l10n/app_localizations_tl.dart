@@ -127,7 +127,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get allow => 'Payagan';
 
   @override
-  String get notNow => 'Hindi Muna';
+  String get notNow => 'Mamaya na';
 
   @override
   String get completeSetup => 'Kumpletuhin ang Setup';
@@ -334,7 +334,7 @@ class AppLocalizationsTl extends AppLocalizations {
 
   @override
   String get agriProHeadline =>
-      'Protektahan nang higit pa ang iyong pinag-aanihan.';
+      'Protektahan ang mas marami sa iyong itinatanim.';
 
   @override
   String get agriProFreeSummary =>
@@ -672,4 +672,250 @@ class AppLocalizationsTl extends AppLocalizations {
   @override
   String get homeOfflineBanner =>
       'Offline ka. Ipinapakita ang cached na panahon.';
+
+  @override
+  String get calendarAddTask => 'Magdagdag ng Gawain';
+
+  @override
+  String get taskEditTitle => 'I-edit ang Gawain';
+
+  @override
+  String get taskTitleLabel => 'Pamagat ng Gawain';
+
+  @override
+  String get taskTitleRequired => 'Ilagay ang pamagat ng gawain';
+
+  @override
+  String get taskCategoryLabel => 'Kategorya';
+
+  @override
+  String get taskCropLabel => 'Kaugnay na pananim (opsyonal)';
+
+  @override
+  String get taskNoCrop => 'Walang pananim';
+
+  @override
+  String get taskPriorityLabel => 'Priyoridad';
+
+  @override
+  String get taskPriorityNormal => 'Karaniwan';
+
+  @override
+  String get taskPriorityHigh => 'Mataas';
+
+  @override
+  String get taskDateLabel => 'Takdang-araw';
+
+  @override
+  String get taskSave => 'I-save ang Gawain';
+
+  @override
+  String get taskSaved => 'Na-save ang gawain';
+
+  @override
+  String get taskSaveError => 'Hindi ma-save ang gawain. Pakisubukan ulit.';
+
+  @override
+  String get taskDetailTitle => 'Gawain';
+
+  @override
+  String get taskDetailEdit => 'I-edit ang gawain';
+
+  @override
+  String get taskDetailDelete => 'Tanggalin ang gawain';
+
+  @override
+  String get taskDeleteConfirmTitle => 'Tanggalin ang gawaing ito?';
+
+  @override
+  String get taskDeleteConfirmBody =>
+      'Maaalis nito ang gawain sa iyong field calendar.';
+
+  @override
+  String get taskDeleteAction => 'Tanggalin';
+
+  @override
+  String get taskDeleteCancel => 'Kanselahin';
+
+  @override
+  String get taskDeleted => 'Natanggal ang gawain';
+
+  @override
+  String get taskScheduledFor => 'Takda';
+
+  @override
+  String get taskWhyThisDate => 'Bakit sa araw na ito';
+
+  @override
+  String get taskReasonWeather => 'Inilipat dahil sa naulawang ulan.';
+
+  @override
+  String get taskReasonOverdue => 'Lampas na ang petsa ng gawaing ito.';
+
+  @override
+  String get taskReasonScan => 'Iminungkahi batay sa iyong pinakahuling scan.';
+
+  @override
+  String get taskReasonRoutine => 'Mga regular na gawain sa bukid.';
+
+  @override
+  String get taskRelatedScan => 'Kaugnay na scan';
+
+  @override
+  String get carePlanSuggested => 'Iminungkahi para sa iyo';
+
+  @override
+  String get carePlanAddToCalendar => 'Idagdag sa kalendaryo';
+
+  @override
+  String get carePlanAdded => 'Idinagdag na sa iyong field calendar';
+
+  @override
+  String get carePlanReasonWeather => 'Panahon';
+
+  @override
+  String get carePlanReasonOverdue => 'Lampas na';
+
+  @override
+  String get carePlanReasonScan => 'Mula sa scan';
+
+  @override
+  String get carePlanReasonRoutine => 'Regular';
+
+  @override
+  String get scanResultAddedToCalendar =>
+      'Idinagdag na sa iyong field calendar';
+
+  @override
+  String get viewCalendar => 'Tingnan ang kalendaryo';
+
+  @override
+  String carePlanSuggestionTitle(String crop, String diagnosis) {
+    return 'Suriin muli ang $crop pagkatapos ng $diagnosis';
+  }
+
+  @override
+  String get agriProFreePlanSummary =>
+      '5 scan bawat linggo, simpleng kalendaryo.';
+
+  @override
+  String get agriProFeatureUnlimited => 'Walang limitasyong scan';
+
+  @override
+  String get agriProFeaturePriority => 'Prayoridad na pagsusuri';
+
+  @override
+  String get agriProFeatureTrends => 'Mga trend ng kalusugan';
+
+  @override
+  String get agriProFeatureWeather => 'Mga paalala na inayon sa panahon';
+
+  @override
+  String get agriProFeatureOffline => 'Offline na pakete';
+
+  @override
+  String get agriProPlanMonthly => 'Buwanan';
+
+  @override
+  String get agriProPlanSeasonal => 'Panahon ng tanim';
+
+  @override
+  String get agriProPlanSeasonTagline =>
+      'Isang panahon ng tanim, anim na buwan ng walang limitasyong scan.';
+
+  @override
+  String get agriProPlanMonthlyTagline => 'Subukan ang Agri Pro buwan-buwan.';
+
+  @override
+  String get agriProPriceMonthly => '₱99/buwan';
+
+  @override
+  String get agriProPriceSeasonal => '₱499/6 na buwan';
+
+  @override
+  String get agriProPerDay => '₱3 kada araw';
+
+  @override
+  String get agriProSavePercent => 'Makatipid ng 16%';
+
+  @override
+  String get agriProPlanRenewsMonthly => 'Nagre-renew buwan-buwan sa ₱99.';
+
+  @override
+  String get agriProPlanRenewsSeasonal =>
+      'Nagre-renew kada anim na buwan sa ₱499.';
+
+  @override
+  String get agriProCancelAnytime => 'Kanselahin anumang oras.';
+
+  @override
+  String get agriProPaymentNote =>
+      'Kasama na ang VAT sa presyo. Ang bayad ay dumadaan sa Google Play o App Store.';
+
+  @override
+  String get startAgriPro => 'Simulan ang Agri Pro';
+
+  @override
+  String get agriProManageTitle => 'Pamahalaan ang Agri Pro';
+
+  @override
+  String get agriProManageCurrentPlan => 'Kasalukuyang plano';
+
+  @override
+  String get agriProManageRenewal => 'Pag-renew';
+
+  @override
+  String get agriProManageBilling => 'Pagbayad';
+
+  @override
+  String get agriProManageBilledBy => 'Pinamamahalaan ng iyong app store.';
+
+  @override
+  String get agriProManageCancelHow =>
+      'Upang kanselahin, buksan ang Google Play → Subscriptions → Smart Crops, o ang App Store → Subscriptions. Mananatili ang access hanggang sa matapos ang bayad na panahon.';
+
+  @override
+  String get agriProRestore => 'Ibalik ang bili';
+
+  @override
+  String get agriProPurchaseRestored => 'Naibalik ang bili.';
+
+  @override
+  String get billingNotConfigured =>
+      'Hindi pa available ang pagbili ng Agri Pro. Maaari kang bumili kapag live na ang store listing.';
+
+  @override
+  String get agriProPurchaseFailed =>
+      'Hindi nagtagumpay ang bili. Pakisubukan ulit.';
+
+  @override
+  String get agriProUnlocked => 'Na-unlock ang Agri Pro.';
+
+  @override
+  String get agriProPlanActive => 'Agri Pro — Aktibo';
+
+  @override
+  String get agriProPlanFree => 'Libre';
+
+  @override
+  String get agriProManageUpgradeTitle => 'Nasa Free plan ka';
+
+  @override
+  String get agriProManageFreeSummary =>
+      'Mag-upgrade para sa walang limitasyong scan.';
+
+  @override
+  String get agriProManageProSummary =>
+      'May walang limitasyong scan at prayoridad na pagsusuri ka.';
+
+  @override
+  String get agriProManageUpgradeCta => 'Tingnan ang mga planong Agri Pro';
+
+  @override
+  String get agriProRenewalNever => 'Hanggang sa magkansela ka';
+
+  @override
+  String agriProQuotaContext(int used, int limit) {
+    return 'Nagamit mo na ang $used sa $limit libreng scan ngayong linggo. Tinatanggal ng Agri Pro ang limitasyon.';
+  }
 }

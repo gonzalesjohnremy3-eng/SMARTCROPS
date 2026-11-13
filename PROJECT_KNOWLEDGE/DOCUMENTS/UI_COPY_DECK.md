@@ -330,9 +330,16 @@ Task categories:
 | Offline pack | Offline na pakete | Offline nga pakete |
 | Monthly | Buwanan | Binulan |
 | Seasonal | Panahon ng tanim | Panahon sa tanom |
+| ₱99/month | ₱99/buwan | ₱99/bulan |
+| ₱499/6 months | ₱499/6 na buwan | ₱499/6 ka bulan |
+| ₱3 a day | ₱3 kada araw | ₱3 kada adlaw |
+| Save 16% | Makatipid ng 16% | Makadaginot og 16% |
+| One season, six months of unlimited scans. | Isang panahon ng tanim, anim na buwan ng walang limitasyong scan. | Usa ka panahon sa tanom, unom ka bulan nga walay limit nga scan. |
 | Start Agri Pro | Simulan ang Agri Pro | Sugdi ang Agri Pro |
 | Not now | Mamaya na | Unya na |
 | Cancel anytime. | Kanselahin anumang oras. | Kanselahon bisan kanus-a. |
+
+Pricing (approved 2026-11-13): Free ₱0 (5 scans/week); Agri Pro Monthly ₱99; Agri Pro Seasonal ₱499 per 6 months (≈₱83/month, ~16% saved vs monthly, pre-selected). Prices include VAT; billed by Google Play or the App Store. No founding/launch offer at launch. Seasonal is anchored to one crop season and pre-selected; the Monthly plan exists for hesitant farmers.
 
 Paywall context:
 

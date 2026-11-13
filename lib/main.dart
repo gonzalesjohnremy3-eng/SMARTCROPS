@@ -15,6 +15,8 @@ import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'services/smart_crops_service.dart';
 import 'services/weather_service.dart';
+import 'features/pro/services/agri_pro_entitlement.dart';
+import 'features/pro/domain/billing.dart';
 import 'features/scan/data/shared_preferences_scan_queue_store.dart';
 import 'features/scan/services/scan_queue_provider.dart';
 
@@ -42,6 +44,9 @@ Future<void> main() async {
   final smartCropsService = SmartCropsService();
   await smartCropsService.initializeUserData();
 
+  final agriProEntitlement = AgriProEntitlement();
+  await agriProEntitlement.load();
+
   // Initialize profile setup completion flags
   final prefs = await SharedPreferences.getInstance();
   final onboardingController = OnboardingController(
@@ -53,7 +58,9 @@ Future<void> main() async {
     languagePreference: languagePreference,
     weatherService: weatherService,
     smartCropsService: smartCropsService,
+    agriProEntitlement: agriProEntitlement,
     onboardingController: onboardingController,
+    billingRepository: const UnconfiguredBillingRepository(),
   ));
 }
 
@@ -64,12 +71,16 @@ class SmartCropsApp extends StatefulWidget {
     required this.weatherService,
     required this.smartCropsService,
     required this.onboardingController,
+    required this.agriProEntitlement,
+    required this.billingRepository,
   });
 
   final LanguagePreference languagePreference;
   final WeatherService weatherService;
   final SmartCropsService smartCropsService;
   final OnboardingController onboardingController;
+  final AgriProEntitlement agriProEntitlement;
+  final BillingRepository billingRepository;
 
   @override
   State<SmartCropsApp> createState() => _SmartCropsAppState();
@@ -102,6 +113,8 @@ class _SmartCropsAppState extends State<SmartCropsApp> {
         ChangeNotifierProvider.value(value: widget.smartCropsService),
         ChangeNotifierProvider.value(value: widget.weatherService),
         ChangeNotifierProvider.value(value: widget.onboardingController),
+        ChangeNotifierProvider.value(value: widget.agriProEntitlement),
+        Provider<BillingRepository>.value(value: widget.billingRepository),
         ChangeNotifierProvider(
           create: (context) => ScanQueueProvider(
             store: SharedPreferencesScanQueueStore(),

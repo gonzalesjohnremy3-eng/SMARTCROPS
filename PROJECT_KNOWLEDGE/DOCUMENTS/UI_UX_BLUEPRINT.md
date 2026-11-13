@@ -675,7 +675,7 @@ Rules:
 - Headline: "Protect more of what you grow."
 - Free plan summary: 5 scans/week, basic calendar.
 - Agri Pro: unlimited scans, priority analysis, health trends, weather-adjusted reminders, offline pack.
-- Plans: Monthly and Seasonal (6 months). Seasonal is anchored to one crop season. Prices are placeholders until approved.
+- Plans: Monthly and Seasonal (6 months). Seasonal is anchored to one crop season. Prices approved 2026-11-13: ₱99/month and ₱499/6 months (~16% saved, pre-selected); VAT-inclusive; billed by Google Play or the App Store. No founding offer at launch. Renewal and cancellation remain plain, honest terms with no pre-checked auto-renew.
 - Primary: `Start Agri Pro`. Secondary: `Not now`.
 - Show renewal and cancellation terms plainly. No pre-checked auto-renew.
 - Trigger moments: after a successful diagnosis, at the weekly quota, and from Profile. Never interrupt the scan result before the farmer sees the diagnosis.
@@ -1064,7 +1064,7 @@ A screen is release-ready only when:
 ## 16. Open items
 
 1. Confirm Phone OTP as primary only when the SMS provider is live; otherwise email is primary.
-2. Confirm Agri Pro prices and billing provider before the paywall copy is finalized.
+2. Agri Pro prices approved 2026-11-13 (₱99/month, ₱499/6 months, ~16% saved, pre-selected). Billing provider: Google Play / App Store in-app subscriptions; the app ships with billing behind config (an honest "not configured yet" path until the store products are live).
 3. Confirm logo retention and variant approval with the brand owner.
 4. Confirm Phase 1 test seams before writing tests.
 5. Confirm photography budget, licensing, and farmer consent process.
