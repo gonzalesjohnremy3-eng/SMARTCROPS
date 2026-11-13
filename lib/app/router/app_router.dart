@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:smart_crops/app/router/route_guard.dart';
+import 'package:smart_crops/app/router/onboarding_controller.dart';
 import 'package:smart_crops/features/home/screens/home_screen.dart';
 import 'package:smart_crops/features/crops/screens/crops_screen.dart';
 import 'package:smart_crops/features/crops/screens/crop_detail_screen.dart';
@@ -22,9 +23,18 @@ GoRouter buildAppRouter({
   bool isOnboardingComplete = true,
   bool isProfileComplete = true,
   bool enforceGuard = true,
+  OnboardingController? onboarding,
+  bool Function()? isAuthenticated,
 }) {
+  final controller = onboarding ??
+      OnboardingController(
+        onboardingComplete: isOnboardingComplete,
+        profileComplete: isProfileComplete,
+      );
+
   return GoRouter(
     initialLocation: initialLocation,
+    refreshListenable: controller,
     routes: [
       GoRoute(
         path: '/onboarding',
@@ -117,12 +127,13 @@ GoRouter buildAppRouter({
     redirect: (context, state) {
       if (!enforceGuard) return null;
 
-      final session = _currentSession();
+      final authenticated =
+          isAuthenticated != null ? isAuthenticated() : _currentSession() != null;
       final decision = resolveRoute(
         RouteContext(
-          isAuthenticated: session != null,
-          onboardingComplete: isOnboardingComplete,
-          profileComplete: isProfileComplete,
+          isAuthenticated: authenticated,
+          onboardingComplete: controller.onboardingComplete,
+          profileComplete: controller.profileComplete,
           requestedLocation: state.uri.path,
           requestedAccess: _accessFor(state.uri.path),
         ),

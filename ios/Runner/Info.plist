@@ -24,6 +24,10 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Smart Crops uses the camera to photograph your crops for diagnosis.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Smart Crops uses your location for local weather and regional advisories.</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>CFBundleURLTypes</key>

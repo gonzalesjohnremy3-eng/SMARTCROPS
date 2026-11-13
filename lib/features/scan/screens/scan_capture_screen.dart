@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_crops/app/theme/app_tokens.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
@@ -19,6 +20,17 @@ class _ScanCaptureScreenState extends State<ScanCaptureScreen> {
   String? _selectedCropName;
 
   Future<void> _capture(String cropName, ImageSource source) async {
+    if (source == ImageSource.camera) {
+      final status = await Permission.camera.request();
+      if (!status.isGranted) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(AppLocalizations.of(context).errorPermission)),
+        );
+        return;
+      }
+    }
+
     final picked = await _picker.pickImage(
       source: source,
       maxWidth: 1600,

@@ -8,6 +8,7 @@ import 'package:smart_crops/app/localization/ceb_fallback_localizations.dart';
 import 'package:smart_crops/app/localization/language_preference.dart';
 import 'package:smart_crops/app/localization/locale_provider.dart';
 import 'package:smart_crops/app/router/app_router.dart';
+import 'package:smart_crops/app/router/onboarding_controller.dart';
 import 'package:smart_crops/features/auth/screens/auth_screen.dart';
 import 'package:smart_crops/features/onboarding/screens/onboarding_screen.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
@@ -28,11 +29,13 @@ Widget _wrap(
   Widget child, {
   String locale = 'en',
   double textScale = 1.0,
+  OnboardingController? onboarding,
 }) {
   return MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => WeatherService()),
       ChangeNotifierProvider(create: (_) => SmartCropsService()),
+      ChangeNotifierProvider(create: (_) => onboarding ?? OnboardingController()),
       ChangeNotifierProvider(
         create: (_) => LocaleProvider(
           preference: LanguagePreference(store: InMemoryLanguageStore(locale)),
@@ -64,11 +67,16 @@ Widget _wrap(
   );
 }
 
-Widget _wrapRouter(GoRouter router, {double textScale = 1.0}) {
+Widget _wrapRouter(
+  GoRouter router, {
+  double textScale = 1.0,
+  OnboardingController? onboarding,
+}) {
   return MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => WeatherService()),
       ChangeNotifierProvider(create: (_) => SmartCropsService()),
+      ChangeNotifierProvider(create: (_) => onboarding ?? OnboardingController()),
       ChangeNotifierProvider(
         create: (_) => LocaleProvider(
           preference: LanguagePreference(store: InMemoryLanguageStore('en')),
@@ -202,12 +210,14 @@ void main() {
     tester.view.devicePixelRatio = 2.0;
     addTearDown(tester.view.reset);
 
+    final onboarding = OnboardingController();
     final router = buildAppRouter(
       initialLocation: '/onboarding',
+      onboarding: onboarding,
       isOnboardingComplete: false,
       isProfileComplete: false,
     );
-    await tester.pumpWidget(_wrapRouter(router));
+    await tester.pumpWidget(_wrapRouter(router, onboarding: onboarding));
     await tester.pumpAndSettle();
 
     await tester.tap(find.text('Skip'));
@@ -223,12 +233,14 @@ void main() {
     tester.view.devicePixelRatio = 2.0;
     addTearDown(tester.view.reset);
 
+    final onboarding = OnboardingController();
     final router = buildAppRouter(
       initialLocation: '/onboarding',
+      onboarding: onboarding,
       isOnboardingComplete: false,
       isProfileComplete: false,
     );
-    await tester.pumpWidget(_wrapRouter(router));
+    await tester.pumpWidget(_wrapRouter(router, onboarding: onboarding));
     await tester.pumpAndSettle();
 
     await tester.drag(find.byType(PageView), const Offset(-800, 0));

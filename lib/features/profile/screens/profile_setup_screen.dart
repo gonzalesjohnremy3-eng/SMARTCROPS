@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_crops/app/router/onboarding_controller.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
 
@@ -86,7 +88,14 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
       await prefs.setBool(profileCompleteKey, true);
 
       if (mounted) {
+        context.read<OnboardingController>().completeProfile();
         context.go('/home');
+      }
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(AppLocalizations.of(context).errorGeneric)),
+        );
       }
     } finally {
       if (mounted) {
@@ -334,7 +343,7 @@ class _MainCropsStep extends StatelessWidget {
   }
 }
 
-class _PermissionsStep extends StatelessWidget {
+class _PermissionsStep extends StatefulWidget {
   const _PermissionsStep({
     required this.l10n,
     required this.theme,
@@ -348,47 +357,113 @@ class _PermissionsStep extends StatelessWidget {
   final VoidCallback onComplete;
 
   @override
+  State<_PermissionsStep> createState() => _PermissionsStepState();
+}
+
+class _PermissionsStepState extends State<_PermissionsStep> {
+  static const _permissions = [
+    Permission.camera,
+    Permission.locationWhenInUse,
+    Permission.notification,
+  ];
+
+  final Map<Permission, PermissionStatus> _statuses = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshStatuses();
+  }
+
+  Future<void> _refreshStatuses() async {
+    try {
+      final statuses = <Permission, PermissionStatus>{};
+      for (final permission in _permissions) {
+        statuses[permission] = await permission.status;
+      }
+      if (!mounted) return;
+      setState(() {
+        _statuses
+          ..clear()
+          ..addAll(statuses);
+      });
+    } catch (_) {
+      // Permission APIs are only available on mobile platforms.
+    }
+  }
+
+  Future<void> _request(Permission permission) async {
+    try {
+      final status = await permission.request();
+      if (!mounted) return;
+      setState(() => _statuses[permission] = status);
+      if (!status.isGranted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(widget.l10n.errorPermission),
+            action: SnackBarAction(
+              label: widget.l10n.settingsTitle,
+              onPressed: openAppSettings,
+            ),
+          ),
+        );
+      }
+    } catch (_) {
+      // Permission APIs are only available on mobile platforms.
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(l10n.profileSetupStep3Title, style: theme.textTheme.headlineMedium),
+          Text(widget.l10n.profileSetupStep3Title,
+              style: widget.theme.textTheme.headlineMedium),
           const SizedBox(height: 8),
-          Text(l10n.profileSetupStep3Subtitle, style: theme.textTheme.bodyMedium),
+          Text(widget.l10n.profileSetupStep3Subtitle,
+              style: widget.theme.textTheme.bodyMedium),
           const SizedBox(height: 24),
           _PermissionTile(
             icon: Icons.camera_alt_outlined,
-            title: l10n.cameraPermission,
-            description: l10n.cameraPermissionDescription,
-            theme: theme,
+            title: widget.l10n.cameraPermission,
+            description: widget.l10n.cameraPermissionDescription,
+            theme: widget.theme,
+            granted: _statuses[Permission.camera]?.isGranted ?? false,
+            onTap: () => _request(Permission.camera),
           ),
           const SizedBox(height: 12),
           _PermissionTile(
             icon: Icons.location_on_outlined,
-            title: l10n.locationPermission,
-            description: l10n.locationPermissionDescription,
-            theme: theme,
+            title: widget.l10n.locationPermission,
+            description: widget.l10n.locationPermissionDescription,
+            theme: widget.theme,
+            granted: _statuses[Permission.locationWhenInUse]?.isGranted ??
+                false,
+            onTap: () => _request(Permission.locationWhenInUse),
           ),
           const SizedBox(height: 12),
           _PermissionTile(
             icon: Icons.notifications_outlined,
-            title: l10n.notificationsPermission,
-            description: l10n.notificationsPermissionDescription,
-            theme: theme,
+            title: widget.l10n.notificationsPermission,
+            description: widget.l10n.notificationsPermissionDescription,
+            theme: widget.theme,
+            granted: _statuses[Permission.notification]?.isGranted ?? false,
+            onTap: () => _request(Permission.notification),
           ),
           const SizedBox(height: 32),
           FilledButton.icon(
-            onPressed: isSaving ? null : onComplete,
-            icon: isSaving
+            onPressed: widget.isSaving ? null : widget.onComplete,
+            icon: widget.isSaving
                 ? const SizedBox(
                     width: 20,
                     height: 20,
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
                 : const Icon(Icons.check),
-            label: Text(l10n.completeSetup),
+            label: Text(widget.l10n.completeSetup),
           ),
         ],
       ),
@@ -402,12 +477,16 @@ class _PermissionTile extends StatelessWidget {
     required this.title,
     required this.description,
     required this.theme,
+    required this.granted,
+    required this.onTap,
   });
 
   final IconData icon;
   final String title;
   final String description;
   final ThemeData theme;
+  final bool granted;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -416,7 +495,11 @@ class _PermissionTile extends StatelessWidget {
         leading: Icon(icon, color: theme.colorScheme.primary),
         title: Text(title),
         subtitle: Text(description),
-        trailing: const Icon(Icons.chevron_right),
+        trailing: Icon(
+          granted ? Icons.check_circle : Icons.chevron_right,
+          color: granted ? theme.colorScheme.primary : null,
+        ),
+        onTap: onTap,
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_crops/app/localization/locale_provider.dart';
+import 'package:smart_crops/app/router/onboarding_controller.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -47,6 +48,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     } catch (_) {
     }
     if (mounted) {
+      context.read<OnboardingController>().completeOnboarding();
       context.go('/auth');
     }
   }

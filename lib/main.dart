@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:smart_crops/app/router/app_router.dart';
+import 'package:smart_crops/app/router/onboarding_controller.dart';
 import 'package:smart_crops/app/theme/app_theme.dart';
 import 'package:smart_crops/app/localization/language_preference.dart';
 import 'package:smart_crops/app/localization/locale_provider.dart';
@@ -43,15 +44,16 @@ Future<void> main() async {
 
   // Initialize profile setup completion flags
   final prefs = await SharedPreferences.getInstance();
-  final isOnboardingComplete = prefs.getBool('onboarding_complete') ?? false;
-  final isProfileComplete = prefs.getBool('profile_complete') ?? false;
+  final onboardingController = OnboardingController(
+    onboardingComplete: prefs.getBool('onboarding_complete') ?? false,
+    profileComplete: prefs.getBool('profile_complete') ?? false,
+  );
 
   runApp(SmartCropsApp(
     languagePreference: languagePreference,
     weatherService: weatherService,
     smartCropsService: smartCropsService,
-    isOnboardingComplete: isOnboardingComplete,
-    isProfileComplete: isProfileComplete,
+    onboardingController: onboardingController,
   ));
 }
 
@@ -61,15 +63,13 @@ class SmartCropsApp extends StatefulWidget {
     required this.languagePreference,
     required this.weatherService,
     required this.smartCropsService,
-    this.isOnboardingComplete = true,
-    this.isProfileComplete = true,
+    required this.onboardingController,
   });
 
   final LanguagePreference languagePreference;
   final WeatherService weatherService;
   final SmartCropsService smartCropsService;
-  final bool isOnboardingComplete;
-  final bool isProfileComplete;
+  final OnboardingController onboardingController;
 
   @override
   State<SmartCropsApp> createState() => _SmartCropsAppState();
@@ -83,8 +83,7 @@ class _SmartCropsAppState extends State<SmartCropsApp> {
   void initState() {
     super.initState();
     _router = buildAppRouter(
-      isOnboardingComplete: widget.isOnboardingComplete,
-      isProfileComplete: widget.isProfileComplete,
+      onboarding: widget.onboardingController,
     );
     _deepLinks = DeepLinkHandler(_router);
     _deepLinks.start();
@@ -102,6 +101,7 @@ class _SmartCropsAppState extends State<SmartCropsApp> {
       providers: [
         ChangeNotifierProvider.value(value: widget.smartCropsService),
         ChangeNotifierProvider.value(value: widget.weatherService),
+        ChangeNotifierProvider.value(value: widget.onboardingController),
         ChangeNotifierProvider(
           create: (context) => ScanQueueProvider(
             store: SharedPreferencesScanQueueStore(),
