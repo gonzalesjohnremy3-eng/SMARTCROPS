@@ -218,6 +218,28 @@ void main() {
         reason: 'the fake critical advisory must not appear without data');
   });
 
+  testWidgets('weather panel never invents data when no weather is known',
+      (tester) async {
+    await tester.binding.setSurfaceSize(const Size(500, 2000));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+
+    await tester.pumpWidget(buildHome(const BriefingFacts(
+      hasCriticalWeather: false,
+      overdueTaskCount: 0,
+      hasRecentAtRiskDiagnosis: false,
+      routineCareCount: 1,
+      hasCrops: true,
+    )));
+    await tester.pumpAndSettle();
+
+    expect(find.text('28°'), findsNothing,
+        reason: 'invented temperature must not be shown');
+    expect(find.textContaining('Humidity 0%'), findsNothing,
+        reason: 'invented humidity must not be shown');
+    expect(find.text('—'), findsWidgets,
+        reason: 'unknown values should be shown honestly as dashes');
+  });
+
   testWidgets('pull-to-refresh reloads farm data', (tester) async {
     final loader = _StubLoader(_farmSnapshot());
     final service = SmartCropsService(loader: loader);

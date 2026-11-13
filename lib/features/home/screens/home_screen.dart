@@ -243,9 +243,9 @@ class _WeatherSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final location = weather?.locationName ?? '—';
-    final temperature = weather?.temperature.round() ?? 28;
+    final temperature = weather == null ? '—' : '${weather!.temperature.round()}°';
     final condition = weather?.condition ?? '—';
-    final humidity = weather?.humidity ?? 0;
+    final humidity = weather == null ? '—' : 'Humidity ${weather!.humidity}%';
 
     return Container(
       padding: const EdgeInsets.all(12),
@@ -262,7 +262,7 @@ class _WeatherSummary extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '$temperature°',
+                temperature,
                 style: theme.textTheme.headlineMedium?.copyWith(
                   fontFamily: 'Fraunces',
                   fontWeight: FontWeight.w600,
@@ -275,7 +275,7 @@ class _WeatherSummary extends StatelessWidget {
                   children: [
                     Text(condition, style: theme.textTheme.bodyMedium),
                     Text(
-                      'Humidity $humidity%',
+                      humidity,
                       style: theme.textTheme.labelSmall,
                     ),
                   ],
