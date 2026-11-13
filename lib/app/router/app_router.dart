@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:smart_crops/app/router/route_guard.dart';
 import 'package:smart_crops/features/home/screens/home_screen.dart';
 import 'package:smart_crops/features/crops/screens/crops_screen.dart';
+import 'package:smart_crops/features/crops/screens/crop_detail_screen.dart';
+import 'package:smart_crops/services/smart_crops_service.dart';
 import 'package:smart_crops/features/scan/screens/scan_capture_screen.dart';
 import 'package:smart_crops/features/calendar/screens/field_calendar_screen.dart';
 import 'package:smart_crops/features/profile/screens/profile_screen.dart';
@@ -11,7 +14,8 @@ import 'package:smart_crops/features/profile/screens/profile_setup_screen.dart';
 import 'package:smart_crops/features/onboarding/screens/onboarding_screen.dart';
 import 'package:smart_crops/features/advisories/screens/advisories_screen.dart';
 import 'package:smart_crops/features/care_plan/screens/care_plan_screen.dart';
-import 'package:smart_crops/screens/auth_screen.dart';
+import 'package:smart_crops/features/health_log/screens/health_log_screen.dart';
+import 'package:smart_crops/features/auth/screens/auth_screen.dart';
 
 GoRouter buildAppRouter({
   String initialLocation = '/home',
@@ -42,6 +46,10 @@ GoRouter buildAppRouter({
         path: '/care-plan',
         builder: (context, state) => const CarePlanScreen(),
       ),
+      GoRoute(
+        path: '/health-log',
+        builder: (context, state) => const HealthLogScreen(),
+      ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return _AppShell(navigationShell: navigationShell);
@@ -60,6 +68,22 @@ GoRouter buildAppRouter({
               GoRoute(
                 path: '/crops',
                 builder: (context, state) => const CropsScreen(),
+                routes: [
+                  GoRoute(
+                    path: ':cropId',
+                    builder: (context, state) {
+                      final cropId = state.pathParameters['cropId']!;
+                      final crops =
+                          context.read<SmartCropsService>().userSelectedCrops;
+                      for (final crop in crops) {
+                        if (crop.id == cropId) {
+                          return CropDetailScreen(crop: crop);
+                        }
+                      }
+                      return const CropsScreen();
+                    },
+                  ),
+                ],
               ),
             ],
           ),

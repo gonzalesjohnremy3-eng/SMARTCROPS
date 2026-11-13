@@ -53,6 +53,13 @@ class RouteAction {
 
 RouteAction resolveRoute(RouteContext context) {
   if (!context.isAuthenticated) {
+    if (context.requestedAccess == RouteAccess.public &&
+        context.requestedLocation != null) {
+      return RouteAction(
+        location: context.requestedLocation!,
+        reason: RouteReason.requested,
+      );
+    }
     return RouteAction(
       location: context.onboardingComplete ? '/auth' : '/onboarding',
       pendingLocation: context.requestedLocation,

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:go_router/go_router.dart';
-import '../services/smart_crops_service.dart';
+import 'package:smart_crops/app/theme/app_tokens.dart';
+import 'package:smart_crops/l10n/app_localizations.dart';
+import 'package:smart_crops/services/smart_crops_service.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -42,7 +44,7 @@ class _AuthScreenState extends State<AuthScreen> {
     });
 
     try {
-      final service = Provider.of<SmartCropsService>(context, listen: false);
+      final service = context.read<SmartCropsService>();
       if (_isLogin) {
         await service.signInWithEmail(_emailController.text.trim(), _passwordController.text);
       } else {
@@ -68,30 +70,37 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   void _showPhoneOtpDialog(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final phoneController = TextEditingController();
     final otpController = TextEditingController();
-    bool isOtpSent = false;
+    var isOtpSent = false;
 
-    showDialog(
+    showDialog<void>(
       context: context,
-      builder: (context) {
+      builder: (dialogContext) {
         return StatefulBuilder(
-          builder: (context, setStateDialog) {
+          builder: (dialogContext, setStateDialog) {
             return AlertDialog(
-              title: const Text('Phone Number (OTP) Login'),
+              title: Text(l10n.authOtpTitle),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   TextField(
                     controller: phoneController,
-                    decoration: const InputDecoration(labelText: 'Mobile Number (+63...)', prefixIcon: Icon(Icons.phone)),
+                    decoration: InputDecoration(
+                      labelText: l10n.authOtpMobile,
+                      prefixIcon: const Icon(Icons.phone),
+                    ),
                     keyboardType: TextInputType.phone,
                   ),
                   if (isOtpSent) ...[
                     const SizedBox(height: 12),
                     TextField(
                       controller: otpController,
-                      decoration: const InputDecoration(labelText: 'Enter OTP Code', prefixIcon: Icon(Icons.lock_clock)),
+                      decoration: InputDecoration(
+                        labelText: l10n.authOtpCode,
+                        prefixIcon: const Icon(Icons.lock_clock),
+                      ),
                       keyboardType: TextInputType.number,
                     ),
                   ],
@@ -99,12 +108,12 @@ class _AuthScreenState extends State<AuthScreen> {
               ),
               actions: [
                 TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('Cancel'),
+                  onPressed: () => Navigator.of(dialogContext).pop(),
+                  child: Text(l10n.authCancel),
                 ),
-                ElevatedButton(
+                FilledButton(
                   onPressed: () async {
-                    final service = Provider.of<SmartCropsService>(context, listen: false);
+                    final service = dialogContext.read<SmartCropsService>();
                     try {
                       if (!isOtpSent) {
                         if (phoneController.text.trim().isEmpty) return;
@@ -112,26 +121,26 @@ class _AuthScreenState extends State<AuthScreen> {
                         setStateDialog(() => isOtpSent = true);
                         if (mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('OTP sent successfully to your mobile number!')),
+                            SnackBar(content: Text(l10n.authOtpSent)),
                           );
                         }
                       } else {
                         if (otpController.text.trim().isEmpty) return;
                         await service.verifyPhoneOtp(phoneController.text.trim(), otpController.text.trim());
                         if (mounted) {
-                          Navigator.pop(context);
+                          Navigator.of(dialogContext).pop();
                           context.go('/setup/profile');
                         }
                       }
                     } catch (e) {
                       if (mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Error: ${e.toString().replaceAll('Exception: ', '')}')),
+                          SnackBar(content: Text(e.toString().replaceAll('Exception: ', ''))),
                         );
                       }
                     }
                   },
-                  child: Text(isOtpSent ? 'Verify OTP' : 'Send OTP'),
+                  child: Text(isOtpSent ? l10n.authVerifyOtp : l10n.authSendOtp),
                 ),
               ],
             );
@@ -141,13 +150,24 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 
+  Future<void> _oauth(OAuthProvider provider, String errorMessage) async {
+    try {
+      await context.read<SmartCropsService>().signInWithOAuth(provider);
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(errorMessage)),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    const primaryGreen = Color(0xFF2E7D32);
-    const lightSurface = Color(0xFFF4F6F4);
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: lightSurface,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -155,8 +175,6 @@ class _AuthScreenState extends State<AuthScreen> {
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 420),
               child: Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                 child: Padding(
                   padding: const EdgeInsets.all(24.0),
                   child: Form(
@@ -165,22 +183,23 @@ class _AuthScreenState extends State<AuthScreen> {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        const Icon(Icons.eco, size: 64, color: primaryGreen),
+                        Icon(Icons.eco, size: 64, color: theme.colorScheme.primary),
                         const SizedBox(height: 12),
-                        const Text(
-                          'Smart Crops',
+                        Text(
+                          l10n.appTitle,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                            color: primaryGreen,
+                          style: theme.textTheme.headlineLarge?.copyWith(
+                            fontFamily: 'Fraunces',
+                            color: theme.colorScheme.primary,
                           ),
                         ),
                         const SizedBox(height: 4),
-                        const Text(
-                          'Detect Early. Protect Your Harvest.',
+                        Text(
+                          l10n.authTagline,
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 14, color: Colors.grey),
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
                         ),
                         const SizedBox(height: 24),
                         if (_errorMessage != null)
@@ -188,129 +207,121 @@ class _AuthScreenState extends State<AuthScreen> {
                             padding: const EdgeInsets.all(12),
                             margin: const EdgeInsets.only(bottom: 16),
                             decoration: BoxDecoration(
-                              color: Colors.red.shade50,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: Colors.red.shade200),
+                              color: theme.colorScheme.errorContainer,
+                              borderRadius: BorderRadius.circular(AppRadius.button),
+                              border: Border.all(color: theme.colorScheme.error),
                             ),
                             child: Text(
                               _errorMessage!,
-                              style: TextStyle(color: Colors.red.shade800, fontSize: 13),
+                              style: TextStyle(
+                                color: theme.colorScheme.onErrorContainer,
+                                fontSize: 13,
+                              ),
                             ),
                           ),
-                        if (!_isLogin) ... [
+                        if (!_isLogin) ...[
                           TextFormField(
                             controller: _fullNameController,
-                            decoration: const InputDecoration(labelText: 'Full Name', prefixIcon: Icon(Icons.person)),
-                            validator: (v) => v == null || v.isEmpty ? 'Please enter your full name' : null,
+                            decoration: InputDecoration(
+                              labelText: l10n.fullName,
+                              prefixIcon: const Icon(Icons.person),
+                            ),
+                            validator: (value) =>
+                                value == null || value.isEmpty ? l10n.authFullNameRequired : null,
                           ),
                           const SizedBox(height: 12),
                           TextFormField(
                             controller: _farmNameController,
-                            decoration: const InputDecoration(labelText: 'Farm Name', prefixIcon: Icon(Icons.agriculture)),
-                            validator: (v) => v == null || v.isEmpty ? 'Please enter farm name' : null,
+                            decoration: InputDecoration(
+                              labelText: l10n.farmName,
+                              prefixIcon: const Icon(Icons.agriculture),
+                            ),
+                            validator: (value) =>
+                                value == null || value.isEmpty ? l10n.authFarmNameRequired : null,
                           ),
                           const SizedBox(height: 12),
                           TextFormField(
                             controller: _locationController,
-                            decoration: const InputDecoration(labelText: 'Location / Region', prefixIcon: Icon(Icons.location_on)),
-                            validator: (v) => v == null || v.isEmpty ? 'Please enter location' : null,
+                            decoration: InputDecoration(
+                              labelText: l10n.location,
+                              prefixIcon: const Icon(Icons.location_on),
+                            ),
+                            validator: (value) =>
+                                value == null || value.isEmpty ? l10n.authLocationRequired : null,
                           ),
                           const SizedBox(height: 12),
                           TextFormField(
                             controller: _phoneController,
-                            decoration: const InputDecoration(labelText: 'Mobile Number / Phone (Optional)', prefixIcon: Icon(Icons.phone)),
+                            decoration: InputDecoration(
+                              labelText: l10n.authPhoneLabel,
+                              prefixIcon: const Icon(Icons.phone),
+                            ),
                           ),
                           const SizedBox(height: 12),
                         ],
                         TextFormField(
                           controller: _emailController,
                           keyboardType: TextInputType.emailAddress,
-                          decoration: const InputDecoration(labelText: 'Email Address', prefixIcon: Icon(Icons.email)),
-                          validator: (v) => v == null || !v.contains('@') ? 'Please enter a valid email' : null,
+                          decoration: InputDecoration(
+                            labelText: l10n.authEmail,
+                            prefixIcon: const Icon(Icons.email),
+                          ),
+                          validator: (value) =>
+                              value == null || !value.contains('@') ? l10n.authEmailInvalid : null,
                         ),
                         const SizedBox(height: 12),
                         TextFormField(
                           controller: _passwordController,
                           obscureText: true,
-                          decoration: const InputDecoration(labelText: 'Password', prefixIcon: Icon(Icons.lock)),
-                          validator: (v) => v == null || v.length < 6 ? 'Password must be at least 6 characters' : null,
+                          decoration: InputDecoration(
+                            labelText: l10n.authPassword,
+                            prefixIcon: const Icon(Icons.lock),
+                          ),
+                          validator: (value) =>
+                              value == null || value.length < 6 ? l10n.authPasswordMinLength : null,
                         ),
                         const SizedBox(height: 24),
-                        ElevatedButton(
+                        FilledButton(
                           onPressed: _isLoading ? null : _submit,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: primaryGreen,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          style: FilledButton.styleFrom(
+                            minimumSize: const Size.fromHeight(48),
                           ),
                           child: _isLoading
                               ? const SizedBox(
                                   height: 20,
                                   width: 20,
-                                  child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Colors.white,
+                                  ),
                                 )
-                              : Text(_isLogin ? 'Sign In' : 'Create Account', style: const TextStyle(fontSize: 16)),
+                              : Text(_isLogin ? l10n.authSignIn : l10n.authCreateAccount),
                         ),
                         const SizedBox(height: 16),
                         TextButton(
                           onPressed: () => setState(() => _isLogin = !_isLogin),
-                          child: Text(
-                            _isLogin ? "Don't have an account? Sign Up" : "Already have an account? Sign In",
-                            style: const TextStyle(color: primaryGreen),
-                          ),
+                          child: Text(_isLogin ? l10n.authSignUpPrompt : l10n.authSignInPrompt),
                         ),
                         const Divider(height: 32),
                         OutlinedButton.icon(
-                          onPressed: () async {
-                            try {
-                              final service = Provider.of<SmartCropsService>(context, listen: false);
-                               await service.signInWithOAuth(OAuthProvider.google);
-                            } catch (e) {
-                              if (context.mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('Google Sign-In: $e')),
-                                );
-                              }
-                            }
-                          },
-                          icon: const Icon(Icons.g_mobiledata, size: 28, color: Colors.red),
-                          label: const Text('Continue with Google'),
-                          style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                          ),
+                          onPressed: () => _oauth(OAuthProvider.google, l10n.authGoogleError),
+                          icon: const Icon(Icons.g_mobiledata, size: 28),
+                          label: Text(l10n.authContinueGoogle),
+                          style: OutlinedButton.styleFrom(minimumSize: const Size.fromHeight(48)),
                         ),
                         const SizedBox(height: 8),
                         OutlinedButton.icon(
-                          onPressed: () async {
-                            try {
-                              final service = Provider.of<SmartCropsService>(context, listen: false);
-                               await service.signInWithOAuth(OAuthProvider.facebook);
-                            } catch (e) {
-                              if (context.mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('Facebook Sign-In: $e')),
-                                );
-                              }
-                            }
-                          },
-                          icon: const Icon(Icons.facebook, size: 24, color: Colors.blue),
-                          label: const Text('Continue with Facebook'),
-                          style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                          ),
+                          onPressed: () => _oauth(OAuthProvider.facebook, l10n.authFacebookError),
+                          icon: const Icon(Icons.facebook, size: 24),
+                          label: Text(l10n.authContinueFacebook),
+                          style: OutlinedButton.styleFrom(minimumSize: const Size.fromHeight(48)),
                         ),
                         const SizedBox(height: 8),
                         OutlinedButton.icon(
                           onPressed: () => _showPhoneOtpDialog(context),
-                          icon: const Icon(Icons.phone_android, size: 24, color: primaryGreen),
-                          label: const Text('Continue with Phone (OTP)'),
-                          style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                          ),
+                          icon: const Icon(Icons.phone_android, size: 24),
+                          label: Text(l10n.authContinuePhone),
+                          style: OutlinedButton.styleFrom(minimumSize: const Size.fromHeight(48)),
                         ),
                       ],
                     ),

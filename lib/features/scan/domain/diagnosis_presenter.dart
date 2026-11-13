@@ -43,7 +43,7 @@ class DiagnosisView {
 DiagnosisView presentDiagnosis(DiagnosisInput input) {
   final confidence = _normalizeConfidence(input.confidenceScore);
   final band = _confidenceBand(confidence);
-  final severity = _severity(input.diseaseDetected);
+  final severity = diagnosisSeverity(input.diseaseDetected);
 
   return DiagnosisView(
     diagnosis: input.diseaseDetected,
@@ -70,7 +70,7 @@ ConfidenceBand _confidenceBand(double percent) {
   return ConfidenceBand.high;
 }
 
-DiagnosisSeverity _severity(String diagnosis) {
+DiagnosisSeverity diagnosisSeverity(String diagnosis) {
   final text = diagnosis.toLowerCase();
   if (text.contains('healthy') ||
       text.contains('no disease') ||

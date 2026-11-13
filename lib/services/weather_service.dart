@@ -2,15 +2,37 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import '../models/app_models.dart';
+import '../features/home/data/weather_cache_store.dart';
 
 class WeatherService with ChangeNotifier {
+  WeatherService({WeatherCacheStore? cacheStore})
+      : _cacheStore = cacheStore ?? WeatherCacheStore();
+
+  final WeatherCacheStore _cacheStore;
   WeatherCondition? _currentWeather;
   bool _isLoading = false;
   String? _errorMessage;
+  DateTime? _lastUpdated;
 
   WeatherCondition? get currentWeather => _currentWeather;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
+  DateTime? get lastUpdated => _lastUpdated;
+
+  /// Restore the last cached weather so the farmer sees something offline.
+  Future<void> restoreCachedWeather() async {
+    final cached = await _cacheStore.load();
+    if (cached != null) {
+      _currentWeather = cached;
+      _lastUpdated = await _cacheStore.lastUpdated();
+      notifyListeners();
+    }
+  }
+
+  Future<void> _persistCurrentWeather(WeatherCondition condition) async {
+    _lastUpdated = DateTime.now();
+    await _cacheStore.save(condition);
+  }
 
   Future<void> fetchWeatherForLocation(String location) async {
     _isLoading = true;
@@ -30,6 +52,10 @@ class WeatherService with ChangeNotifier {
 
         final tempC = double.tryParse(currentCondition['temp_C'].toString()) ?? 28.0;
         final humidity = int.tryParse(currentCondition['humidity'].toString()) ?? 75;
+        final precipMm = double.tryParse(
+              (currentCondition['precipMM'] ?? '0').toString(),
+            ) ??
+            0.0;
         final weatherDescList = currentCondition['weatherDesc'] as List;
         final conditionText = weatherDescList.isNotEmpty ? weatherDescList[0]['value'] : 'Sunny';
 
@@ -39,7 +65,9 @@ class WeatherService with ChangeNotifier {
           condition: conditionText,
           humidity: humidity,
           iconCode: _mapConditionToIcon(conditionText),
+          precipitationMm: precipMm,
         );
+        await _persistCurrentWeather(_currentWeather!);
       } else {
         throw Exception('Failed to load weather data (status code ${response.statusCode})');
       }

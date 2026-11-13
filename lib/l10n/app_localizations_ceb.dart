@@ -133,22 +133,22 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get completeSetup => 'Kompletoha ang Setup';
 
   @override
-  String get homeFieldbriefing => 'Field Briefing Karon';
+  String get homeFieldBriefing => 'Field Briefing Karon';
 
   @override
-  String get homePriorityaction => 'Pangunahing Lakang';
+  String get homePriorityAction => 'Pangunahing Lakang';
 
   @override
-  String get homeScancta => 'I-scan ang Tanom';
+  String get homeScanCta => 'I-scan ang Tanom';
 
   @override
-  String get homeCareplan => 'Care Plan Sa Semana Karon';
+  String get homeCarePlan => 'Care Plan Sa Semana Karon';
 
   @override
-  String get homeRecentscans => 'Mga Miaging Diagnosis';
+  String get homeRecentScans => 'Mga Miaging Diagnosis';
 
   @override
-  String get homeEmptyfarm =>
+  String get homeEmptyFarm =>
       'Andam na ang imong field office. Kuhaa ang una nga scan aron sugdan ang health record sa imong tanom.';
 
   @override
@@ -159,20 +159,20 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get cropsTitle => 'Akong mga Tanom';
 
   @override
-  String get cropsAddcrop => 'Magdugang og Tanom';
+  String get cropsAddCrop => 'Magdugang og Tanom';
 
   @override
   String get cropsEmpty =>
       'Wala pay tanom. Magdugang ug una nga tanom para sa personalisadong atiman.';
 
   @override
-  String get cropDetailCareguide => 'Gabay sa Atiman';
+  String get cropDetailCareGuide => 'Gabay sa Atiman';
 
   @override
-  String get cropDetailGrowingconditions => 'Kondisyon sa Paglago';
+  String get cropDetailGrowingConditions => 'Kondisyon sa Paglago';
 
   @override
-  String get cropDetailGrowthtimeline => 'Timeline sa Paglago';
+  String get cropDetailGrowthTimeline => 'Timeline sa Paglago';
 
   @override
   String get scanCaptureTitle => 'I-scan ang Imong Tanom';
@@ -206,19 +206,19 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get scanResultDiagnosis => 'Diagnosis';
 
   @override
-  String get scanResultTreatmentsteps => 'Mga Lakang sa Tambal';
+  String get scanResultTreatmentSteps => 'Mga Lakang sa Tambal';
 
   @override
-  String get scanResultAddtocalendar => 'Idugang sa Kalendaryo sa Uma';
+  String get scanResultAddToCalendar => 'Idugang sa Kalendaryo sa Uma';
 
   @override
-  String get scanResultSetreminder => 'Butangi og Pahinumdom';
+  String get scanResultSetReminder => 'Butangi og Pahinumdom';
 
   @override
   String get scanResultShare => 'Ibahin';
 
   @override
-  String get scanResultLowconfidenceretake =>
+  String get scanResultLowConfidenceRetake =>
       'Mobalik kunan sa mas maayong kangitngit';
 
   @override
@@ -237,7 +237,7 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get calendarTaskCompleted => 'Natapos';
 
   @override
-  String get calendarWeatheradjusted => 'Naayon sa panahon';
+  String get calendarWeatherAdjusted => 'Naayon sa panahon';
 
   @override
   String get advisoriesTitle => 'Mga Abiso';
@@ -253,7 +253,7 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get carePlanToday => 'Karon';
 
   @override
-  String get carePlanThisweek => 'Semana Karon';
+  String get carePlanThisWeek => 'Semana Karon';
 
   @override
   String get carePlanPreventive => 'Prebentibo';
@@ -315,19 +315,19 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get languageCebuano => 'Cebuano';
 
   @override
-  String get notificationsScanresults => 'Mga Resulta sa Scan';
+  String get notificationsScanResults => 'Mga Resulta sa Scan';
 
   @override
-  String get notificationsWeatheradvisories => 'Mga Abiso sa Panahon';
+  String get notificationsWeatherAdvisories => 'Mga Abiso sa Panahon';
 
   @override
-  String get notificationsCalendarreminders => 'Mga Pahinumdom sa Kalendaryo';
+  String get notificationsCalendarReminders => 'Mga Pahinumdom sa Kalendaryo';
 
   @override
-  String get notificationsCooperativeadvisories => 'Mga Abiso sa Kooperatiba';
+  String get notificationsCooperativeAdvisories => 'Mga Abiso sa Kooperatiba';
 
   @override
-  String get notificationsQuiethours => 'Mga Tahimik nga Oras';
+  String get notificationsQuietHours => 'Mga Tahimik nga Oras';
 
   @override
   String get agriProTitle => 'Agri Pro';
@@ -336,11 +336,11 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get agriProHeadline => 'Pangtagaan og daghan ang imong ginatanom.';
 
   @override
-  String get agriProFreesummary =>
+  String get agriProFreeSummary =>
       'Gawas nga plano: 5 scan/semana, basic kalendaryo.';
 
   @override
-  String get agriProProsummary =>
+  String get agriProProSummary =>
       'Agri Pro: walay limit nga scan, priority nga pagsusi, trend sa kalawasan, weather-adjusted nga paalala, offline pack.';
 
   @override
@@ -353,13 +353,13 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get agriProStart => 'Sugda ang Agri Pro';
 
   @override
-  String get agriProNotnow => 'Di karon';
+  String get agriProNotNow => 'Di karon';
 
   @override
   String get shopTitle => 'Agri Shop';
 
   @override
-  String get shopPartneroffer => 'Alok sa partner';
+  String get shopPartnerOffer => 'Alok sa partner';
 
   @override
   String get shopEmpty =>
@@ -372,7 +372,7 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get cooperativeJoin => 'Mosalapi sa Kooperatiba';
 
   @override
-  String get cooperativeInvitecode => 'Kodigo sa Patawag';
+  String get cooperativeInviteCode => 'Kodigo sa Patawag';
 
   @override
   String get cooperativeMembers => 'Mga Miyembro';
@@ -381,7 +381,7 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get cooperativeBroadcasts => 'Mga Broadcast';
 
   @override
-  String get cooperativeOutbreaksummary => 'Summary sa Pagkalat';
+  String get cooperativeOutbreakSummary => 'Summary sa Pagkalat';
 
   @override
   String get severityHealthy => 'Malipayon';
@@ -390,7 +390,7 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get severityWatch => 'Bantayi';
 
   @override
-  String get severityAtrisk => 'Nasa Danger';
+  String get severityAtRisk => 'Nasa Danger';
 
   @override
   String get confidenceHigh => 'Taas';
@@ -418,27 +418,256 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get offlineBanner => 'Offline ka. Gipakita ang cached nga data.';
 
   @override
-  String get offlineScanqueued =>
+  String get offlineScanQueued =>
       'Na-save. Susihon namo kini kung naa na kay koneksyon.';
 
   @override
   String get viewAll => 'Tan-awa ang tanan';
 
   @override
-  String get homePriorityAction => 'Pangunahing Lakang';
-
-  @override
-  String get homeCarePlan => 'Care Plan Sa Semana Karon';
-
-  @override
-  String get homeRecentScans => 'Mga Miaging Diagnosis';
-
-  @override
   String get homeScanCTA => 'I-scan ang Tanom';
 
   @override
-  String get homeFieldBriefing => 'Field Briefing Karon';
+  String get calendarSetReminder => 'Magbutang og Pahinumdom';
 
   @override
-  String get calendarSetReminder => 'Magbutang og Pahinumdom';
+  String get homeCriticalWeatherTitle => 'Delikado nga panahon';
+
+  @override
+  String get homeCriticalWeatherBody =>
+      'Gilauman ang bagyo o maayong hangin. Iyong aseguhon ang imong tanom ug mga istraktura.';
+
+  @override
+  String get homeOverdueTaskTitle => 'Naengganan nga mga buluhaton';
+
+  @override
+  String get homeOverdueTaskBody =>
+      'Naay mga buluhaton nga napalipas sa gitakda nga petsa. Ablihi ang Kalendaryo sa Uma.';
+
+  @override
+  String get homeAtRiskDiagnosisTitle => 'Kinahanglan og atensyon ang tanom';
+
+  @override
+  String get homeAtRiskDiagnosisBody =>
+      'Naay nadiskobre ang pinakabag-o nga scan nga nagkinahanglan og aksyon. Susiha ang Talaan sa Kalawasan.';
+
+  @override
+  String get homeRoutineCareTitle => 'Kinahanglan og atiman';
+
+  @override
+  String get homeRoutineCareBody =>
+      'Naay mga buluhaton sa atiman nga naghulat karon nga semana.';
+
+  @override
+  String get homeEmptyFarmTitle => 'Andam na ang imong field office';
+
+  @override
+  String get homeMonitorTitle => 'Luwas tanan';
+
+  @override
+  String get cropsScanThisCrop => 'I-scan kini nga tanom';
+
+  @override
+  String get cropsLastScan => 'Katapusang scan';
+
+  @override
+  String get cropsNoScans => 'Wala pay scan';
+
+  @override
+  String get cropsGrowingConditions => 'Kondisyon sa pagtubo';
+
+  @override
+  String get cropsInOptimal => 'Sulod sa optimal nga range';
+
+  @override
+  String get cropsTapToScan => 'I-tap ang tanom aron i-scan';
+
+  @override
+  String get cropDetailNotAvailable => 'Wala pa available';
+
+  @override
+  String get cropDetailYourScans => 'Imong mga scan para niining tanom';
+
+  @override
+  String get cropDetailUpcomingTasks => 'Umaabot nga buluhaton';
+
+  @override
+  String get cropDetailOpenCalendar => 'Ablihi ang kalendaryo';
+
+  @override
+  String get calendarViewToday => 'Karon';
+
+  @override
+  String get calendarViewWeek => 'Kini nga semana';
+
+  @override
+  String get calendarViewMonth => 'Buwan';
+
+  @override
+  String get calendarEmpty =>
+      'Wala pay buluhaton. Makita dinhi ang imong plano.';
+
+  @override
+  String get calendarCompleteTask => 'Markahi nga tapos';
+
+  @override
+  String get calendarOverdue => 'Na-engganyo';
+
+  @override
+  String get calendarUpcoming => 'Nagsingabot';
+
+  @override
+  String get advisoriesMarkAllRead => 'Markahi tanan isip nabasa';
+
+  @override
+  String get advisoriesMarkRead => 'Markahi isip nabasa';
+
+  @override
+  String get advisoriesSource => 'Ginikanan';
+
+  @override
+  String get advisoriesUnread => 'Wala pa nabasa';
+
+  @override
+  String get healthLogScans => 'Mga scan';
+
+  @override
+  String get healthLogHealthy => 'Malig-on';
+
+  @override
+  String get healthLogAtRisk => 'Kinahanglan og atiman';
+
+  @override
+  String get healthLogFilterAll => 'Tanan';
+
+  @override
+  String get healthLogConfidence => 'Kompiyansa';
+
+  @override
+  String get carePlanNoItems =>
+      'Wala kay kinahanglan nga atiman. Maayo ang imong mga tanom.';
+
+  @override
+  String get carePlanItemReason => 'Ngano karon';
+
+  @override
+  String get carePlanOpenTask => 'Ablihi sa Kalendaryo sa Uma';
+
+  @override
+  String get profileSignOutConfirm => 'Mo-sign out?';
+
+  @override
+  String get profileSignOutConfirmBody =>
+      'Kinahanglan mo mo-sign in pag-usab aron makita ang imong mga tanom.';
+
+  @override
+  String get profileSignOutAction => 'Mo-sign out';
+
+  @override
+  String get profileCancel => 'Kanselarha';
+
+  @override
+  String get profileManageCrops => 'Dumalaa';
+
+  @override
+  String get profileName => 'Mag-uuma';
+
+  @override
+  String get languageSheetTitle => 'Pinulongan';
+
+  @override
+  String get languageApply => 'I-apply';
+
+  @override
+  String get profileUpdated => 'Na-save ang mga kausaban.';
+
+  @override
+  String get authSignIn => 'Mag-sign in';
+
+  @override
+  String get authCreateAccount => 'Paghimo og Account';
+
+  @override
+  String get authSignUpPrompt => 'Wala pa ka account? Sign up';
+
+  @override
+  String get authSignInPrompt => 'Naay account ka na? Sign in';
+
+  @override
+  String get authForgotPassword => 'Nakalimtan ang password?';
+
+  @override
+  String get authContinueGoogle => 'Padayon sa Google';
+
+  @override
+  String get authContinueFacebook => 'Padayon sa Facebook';
+
+  @override
+  String get authContinuePhone => 'Padayon sa Telepono (OTP)';
+
+  @override
+  String get authTagline => 'Diskubreha Agad. Panggawi ang Imong Ani.';
+
+  @override
+  String get authEmail => 'Email Address';
+
+  @override
+  String get authPassword => 'Password';
+
+  @override
+  String get authFullNameRequired => 'Palihug og ngalan';
+
+  @override
+  String get authFarmNameRequired => 'Palihug og ngalan sa uma';
+
+  @override
+  String get authLocationRequired => 'Palihug og lokasyon';
+
+  @override
+  String get authEmailInvalid => 'Palihug og valid nga email';
+
+  @override
+  String get authPasswordMinLength =>
+      'Ang password kinahanglan 6 ka karakter o labaw pa';
+
+  @override
+  String get authPhoneLabel => 'Numero sa Telepono / Mobile (Opsyonal)';
+
+  @override
+  String get authOtpMobile => 'Numero sa Mobile (+63...)';
+
+  @override
+  String get authOtpCode => 'Ibutang ang OTP Code';
+
+  @override
+  String get authSendOtp => 'Ipadala ang OTP';
+
+  @override
+  String get authVerifyOtp => 'I-verify ang OTP';
+
+  @override
+  String get authOtpTitle => 'Login gamit ang Telepono (OTP)';
+
+  @override
+  String get authOtpSent => 'Naipadala na ang OTP sa imong mobile number!';
+
+  @override
+  String get authCancel => 'Kanselarha';
+
+  @override
+  String get authRequired => 'Kinahanglan';
+
+  @override
+  String get authGoogleError => 'Napakalas ang Google Sign-In. Sulaya usab.';
+
+  @override
+  String get authFacebookError =>
+      'Napakalas ang Facebook Sign-In. Sulaya usab.';
+
+  @override
+  String get homeWeatherUpdated => 'Na-update';
+
+  @override
+  String get homeOfflineBanner =>
+      'Offline ka. Gipakita ang cached nga panahon.';
 }

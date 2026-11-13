@@ -54,6 +54,12 @@ class CropItem {
       optimalConditions: json['optimal_conditions'] ?? {},
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'crop_name': cropName,
+        'optimal_conditions': optimalConditions,
+      };
 }
 
 class ScanHistoryItem {
@@ -89,6 +95,17 @@ class ScanHistoryItem {
       scannedAt: json['scanned_at'] != null ? DateTime.parse(json['scanned_at']) : DateTime.now(),
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'user_id': userId,
+        'image_url': imageUrl,
+        'disease_detected': diseaseDetected,
+        'confidence_score': confidenceScore,
+        'common_crop': commonCrop,
+        'recommended_actions': recommendedActions,
+        'scanned_at': scannedAt.toIso8601String(),
+      };
 }
 
 class AppNotification {
@@ -121,6 +138,16 @@ class AppNotification {
       createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : DateTime.now(),
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'user_id': userId,
+        'title': title,
+        'message': message,
+        'scan_id': scanId,
+        'is_read': isRead,
+        'created_at': createdAt.toIso8601String(),
+      };
 }
 
 class WeatherCondition {
@@ -129,6 +156,7 @@ class WeatherCondition {
   final String condition;
   final int humidity;
   final String iconCode;
+  final double precipitationMm;
 
   WeatherCondition({
     required this.locationName,
@@ -136,6 +164,7 @@ class WeatherCondition {
     required this.condition,
     required this.humidity,
     required this.iconCode,
+    this.precipitationMm = 0,
   });
 
   factory WeatherCondition.fromJson(Map<String, dynamic> json) {
@@ -145,6 +174,7 @@ class WeatherCondition {
       condition: json['condition'] ?? 'Sunny',
       humidity: json['humidity'] ?? 70,
       iconCode: json['iconCode'] ?? '01d',
+      precipitationMm: (json['precipitationMm'] ?? 0.0).toDouble(),
     );
   }
 
@@ -154,6 +184,7 @@ class WeatherCondition {
     'condition': condition,
     'humidity': humidity,
     'iconCode': iconCode,
+    'precipitationMm': precipitationMm,
   };
 }
 

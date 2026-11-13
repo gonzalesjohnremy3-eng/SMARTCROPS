@@ -310,41 +310,41 @@ abstract class AppLocalizations {
   /// **'Complete Setup'**
   String get completeSetup;
 
-  /// No description provided for @homeFieldbriefing.
+  /// homeFieldBriefing
   ///
   /// In en, this message translates to:
   /// **'Today\'s Field Briefing'**
-  String get homeFieldbriefing;
+  String get homeFieldBriefing;
 
-  /// No description provided for @homePriorityaction.
+  /// homePriorityAction
   ///
   /// In en, this message translates to:
   /// **'Priority Action'**
-  String get homePriorityaction;
+  String get homePriorityAction;
 
-  /// No description provided for @homeScancta.
+  /// No description provided for @homeScanCta.
   ///
   /// In en, this message translates to:
   /// **'Scan a Crop'**
-  String get homeScancta;
+  String get homeScanCta;
 
-  /// No description provided for @homeCareplan.
+  /// homeCarePlan
   ///
   /// In en, this message translates to:
   /// **'This Week\'s Care Plan'**
-  String get homeCareplan;
+  String get homeCarePlan;
 
-  /// No description provided for @homeRecentscans.
+  /// homeRecentScans
   ///
   /// In en, this message translates to:
   /// **'Recent Diagnoses'**
-  String get homeRecentscans;
+  String get homeRecentScans;
 
-  /// No description provided for @homeEmptyfarm.
+  /// No description provided for @homeEmptyFarm.
   ///
   /// In en, this message translates to:
   /// **'Your field office is ready. Take your first scan to start your crop\'s health record.'**
-  String get homeEmptyfarm;
+  String get homeEmptyFarm;
 
   /// No description provided for @homeMonitoring.
   ///
@@ -358,11 +358,11 @@ abstract class AppLocalizations {
   /// **'My Crops'**
   String get cropsTitle;
 
-  /// No description provided for @cropsAddcrop.
+  /// No description provided for @cropsAddCrop.
   ///
   /// In en, this message translates to:
   /// **'Add a Crop'**
-  String get cropsAddcrop;
+  String get cropsAddCrop;
 
   /// No description provided for @cropsEmpty.
   ///
@@ -370,23 +370,23 @@ abstract class AppLocalizations {
   /// **'No crops yet. Add your first crop to get personalized care.'**
   String get cropsEmpty;
 
-  /// No description provided for @cropDetailCareguide.
+  /// No description provided for @cropDetailCareGuide.
   ///
   /// In en, this message translates to:
   /// **'Care Guide'**
-  String get cropDetailCareguide;
+  String get cropDetailCareGuide;
 
-  /// No description provided for @cropDetailGrowingconditions.
+  /// No description provided for @cropDetailGrowingConditions.
   ///
   /// In en, this message translates to:
   /// **'Growing Conditions'**
-  String get cropDetailGrowingconditions;
+  String get cropDetailGrowingConditions;
 
-  /// No description provided for @cropDetailGrowthtimeline.
+  /// No description provided for @cropDetailGrowthTimeline.
   ///
   /// In en, this message translates to:
   /// **'Growth Timeline'**
-  String get cropDetailGrowthtimeline;
+  String get cropDetailGrowthTimeline;
 
   /// No description provided for @scanCaptureTitle.
   ///
@@ -448,23 +448,23 @@ abstract class AppLocalizations {
   /// **'Diagnosis'**
   String get scanResultDiagnosis;
 
-  /// No description provided for @scanResultTreatmentsteps.
+  /// No description provided for @scanResultTreatmentSteps.
   ///
   /// In en, this message translates to:
   /// **'Treatment Steps'**
-  String get scanResultTreatmentsteps;
+  String get scanResultTreatmentSteps;
 
-  /// No description provided for @scanResultAddtocalendar.
+  /// No description provided for @scanResultAddToCalendar.
   ///
   /// In en, this message translates to:
   /// **'Add to Field Calendar'**
-  String get scanResultAddtocalendar;
+  String get scanResultAddToCalendar;
 
-  /// No description provided for @scanResultSetreminder.
+  /// No description provided for @scanResultSetReminder.
   ///
   /// In en, this message translates to:
   /// **'Set Reminder'**
-  String get scanResultSetreminder;
+  String get scanResultSetReminder;
 
   /// No description provided for @scanResultShare.
   ///
@@ -472,11 +472,11 @@ abstract class AppLocalizations {
   /// **'Share'**
   String get scanResultShare;
 
-  /// No description provided for @scanResultLowconfidenceretake.
+  /// No description provided for @scanResultLowConfidenceRetake.
   ///
   /// In en, this message translates to:
   /// **'Retake in better light'**
-  String get scanResultLowconfidenceretake;
+  String get scanResultLowConfidenceRetake;
 
   /// No description provided for @calendarTitle.
   ///
@@ -508,11 +508,11 @@ abstract class AppLocalizations {
   /// **'Completed'**
   String get calendarTaskCompleted;
 
-  /// No description provided for @calendarWeatheradjusted.
+  /// No description provided for @calendarWeatherAdjusted.
   ///
   /// In en, this message translates to:
   /// **'Weather-adjusted'**
-  String get calendarWeatheradjusted;
+  String get calendarWeatherAdjusted;
 
   /// No description provided for @advisoriesTitle.
   ///
@@ -538,11 +538,11 @@ abstract class AppLocalizations {
   /// **'Today'**
   String get carePlanToday;
 
-  /// No description provided for @carePlanThisweek.
+  /// No description provided for @carePlanThisWeek.
   ///
   /// In en, this message translates to:
   /// **'This Week'**
-  String get carePlanThisweek;
+  String get carePlanThisWeek;
 
   /// No description provided for @carePlanPreventive.
   ///
@@ -658,35 +658,35 @@ abstract class AppLocalizations {
   /// **'Cebuano'**
   String get languageCebuano;
 
-  /// No description provided for @notificationsScanresults.
+  /// No description provided for @notificationsScanResults.
   ///
   /// In en, this message translates to:
   /// **'Scan Results'**
-  String get notificationsScanresults;
+  String get notificationsScanResults;
 
-  /// No description provided for @notificationsWeatheradvisories.
+  /// No description provided for @notificationsWeatherAdvisories.
   ///
   /// In en, this message translates to:
   /// **'Weather Advisories'**
-  String get notificationsWeatheradvisories;
+  String get notificationsWeatherAdvisories;
 
-  /// No description provided for @notificationsCalendarreminders.
+  /// No description provided for @notificationsCalendarReminders.
   ///
   /// In en, this message translates to:
   /// **'Calendar Reminders'**
-  String get notificationsCalendarreminders;
+  String get notificationsCalendarReminders;
 
-  /// No description provided for @notificationsCooperativeadvisories.
+  /// No description provided for @notificationsCooperativeAdvisories.
   ///
   /// In en, this message translates to:
   /// **'Cooperative Advisories'**
-  String get notificationsCooperativeadvisories;
+  String get notificationsCooperativeAdvisories;
 
-  /// No description provided for @notificationsQuiethours.
+  /// No description provided for @notificationsQuietHours.
   ///
   /// In en, this message translates to:
   /// **'Quiet Hours'**
-  String get notificationsQuiethours;
+  String get notificationsQuietHours;
 
   /// No description provided for @agriProTitle.
   ///
@@ -700,17 +700,17 @@ abstract class AppLocalizations {
   /// **'Protect more of what you grow.'**
   String get agriProHeadline;
 
-  /// No description provided for @agriProFreesummary.
+  /// No description provided for @agriProFreeSummary.
   ///
   /// In en, this message translates to:
   /// **'Free plan: 5 scans/week, basic calendar.'**
-  String get agriProFreesummary;
+  String get agriProFreeSummary;
 
-  /// No description provided for @agriProProsummary.
+  /// No description provided for @agriProProSummary.
   ///
   /// In en, this message translates to:
   /// **'Agri Pro: unlimited scans, priority analysis, health trends, weather-adjusted reminders, offline pack.'**
-  String get agriProProsummary;
+  String get agriProProSummary;
 
   /// No description provided for @agriProMonthly.
   ///
@@ -730,11 +730,11 @@ abstract class AppLocalizations {
   /// **'Start Agri Pro'**
   String get agriProStart;
 
-  /// No description provided for @agriProNotnow.
+  /// No description provided for @agriProNotNow.
   ///
   /// In en, this message translates to:
   /// **'Not now'**
-  String get agriProNotnow;
+  String get agriProNotNow;
 
   /// No description provided for @shopTitle.
   ///
@@ -742,11 +742,11 @@ abstract class AppLocalizations {
   /// **'Agri Shop'**
   String get shopTitle;
 
-  /// No description provided for @shopPartneroffer.
+  /// No description provided for @shopPartnerOffer.
   ///
   /// In en, this message translates to:
   /// **'Partner offer'**
-  String get shopPartneroffer;
+  String get shopPartnerOffer;
 
   /// No description provided for @shopEmpty.
   ///
@@ -766,11 +766,11 @@ abstract class AppLocalizations {
   /// **'Join a Cooperative'**
   String get cooperativeJoin;
 
-  /// No description provided for @cooperativeInvitecode.
+  /// No description provided for @cooperativeInviteCode.
   ///
   /// In en, this message translates to:
   /// **'Invite Code'**
-  String get cooperativeInvitecode;
+  String get cooperativeInviteCode;
 
   /// No description provided for @cooperativeMembers.
   ///
@@ -784,11 +784,11 @@ abstract class AppLocalizations {
   /// **'Broadcasts'**
   String get cooperativeBroadcasts;
 
-  /// No description provided for @cooperativeOutbreaksummary.
+  /// No description provided for @cooperativeOutbreakSummary.
   ///
   /// In en, this message translates to:
   /// **'Outbreak Summary'**
-  String get cooperativeOutbreaksummary;
+  String get cooperativeOutbreakSummary;
 
   /// No description provided for @severityHealthy.
   ///
@@ -802,11 +802,11 @@ abstract class AppLocalizations {
   /// **'Watch'**
   String get severityWatch;
 
-  /// No description provided for @severityAtrisk.
+  /// No description provided for @severityAtRisk.
   ///
   /// In en, this message translates to:
   /// **'At Risk'**
-  String get severityAtrisk;
+  String get severityAtRisk;
 
   /// No description provided for @confidenceHigh.
   ///
@@ -856,11 +856,11 @@ abstract class AppLocalizations {
   /// **'You\'re offline. Showing cached data.'**
   String get offlineBanner;
 
-  /// No description provided for @offlineScanqueued.
+  /// No description provided for @offlineScanQueued.
   ///
   /// In en, this message translates to:
   /// **'Saved. We\'ll analyze this when you\'re back online.'**
-  String get offlineScanqueued;
+  String get offlineScanQueued;
 
   /// viewAll
   ///
@@ -868,41 +868,479 @@ abstract class AppLocalizations {
   /// **'View all'**
   String get viewAll;
 
-  /// homePriorityAction
-  ///
-  /// In en, this message translates to:
-  /// **'Priority Action'**
-  String get homePriorityAction;
-
-  /// homeCarePlan
-  ///
-  /// In en, this message translates to:
-  /// **'This Week\'s Care Plan'**
-  String get homeCarePlan;
-
-  /// homeRecentScans
-  ///
-  /// In en, this message translates to:
-  /// **'Recent Diagnoses'**
-  String get homeRecentScans;
-
   /// homeScanCTA
   ///
   /// In en, this message translates to:
   /// **'Scan a Crop'**
   String get homeScanCTA;
 
-  /// homeFieldBriefing
-  ///
-  /// In en, this message translates to:
-  /// **'Today\'s Field Briefing'**
-  String get homeFieldBriefing;
-
   /// calendarSetReminder
   ///
   /// In en, this message translates to:
   /// **'Set Reminder'**
   String get calendarSetReminder;
+
+  /// homeCriticalWeatherTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Critical weather'**
+  String get homeCriticalWeatherTitle;
+
+  /// homeCriticalWeatherBody
+  ///
+  /// In en, this message translates to:
+  /// **'Storm or high-wind conditions expected. Secure your crops and structures.'**
+  String get homeCriticalWeatherBody;
+
+  /// homeOverdueTaskTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue tasks'**
+  String get homeOverdueTaskTitle;
+
+  /// homeOverdueTaskBody
+  ///
+  /// In en, this message translates to:
+  /// **'You have tasks past their scheduled date. Open the Field Calendar to catch up.'**
+  String get homeOverdueTaskBody;
+
+  /// homeAtRiskDiagnosisTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Crop needs attention'**
+  String get homeAtRiskDiagnosisTitle;
+
+  /// homeAtRiskDiagnosisBody
+  ///
+  /// In en, this message translates to:
+  /// **'A recent scan found a problem that needs action. Review the Health Log.'**
+  String get homeAtRiskDiagnosisBody;
+
+  /// homeRoutineCareTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Care needed'**
+  String get homeRoutineCareTitle;
+
+  /// homeRoutineCareBody
+  ///
+  /// In en, this message translates to:
+  /// **'You have care tasks waiting this week.'**
+  String get homeRoutineCareBody;
+
+  /// homeEmptyFarmTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Your field office is ready'**
+  String get homeEmptyFarmTitle;
+
+  /// homeMonitorTitle
+  ///
+  /// In en, this message translates to:
+  /// **'All clear'**
+  String get homeMonitorTitle;
+
+  /// cropsScanThisCrop
+  ///
+  /// In en, this message translates to:
+  /// **'Scan this crop'**
+  String get cropsScanThisCrop;
+
+  /// cropsLastScan
+  ///
+  /// In en, this message translates to:
+  /// **'Last scan'**
+  String get cropsLastScan;
+
+  /// cropsNoScans
+  ///
+  /// In en, this message translates to:
+  /// **'Not scanned yet'**
+  String get cropsNoScans;
+
+  /// cropsGrowingConditions
+  ///
+  /// In en, this message translates to:
+  /// **'Growing conditions'**
+  String get cropsGrowingConditions;
+
+  /// cropsInOptimal
+  ///
+  /// In en, this message translates to:
+  /// **'Within optimal range'**
+  String get cropsInOptimal;
+
+  /// cropsTapToScan
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a crop to scan it'**
+  String get cropsTapToScan;
+
+  /// Shown when honest crop data is missing
+  ///
+  /// In en, this message translates to:
+  /// **'Not available'**
+  String get cropDetailNotAvailable;
+
+  /// Crop detail scan history section
+  ///
+  /// In en, this message translates to:
+  /// **'Your scans for this crop'**
+  String get cropDetailYourScans;
+
+  /// Crop detail upcoming tasks section
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming tasks'**
+  String get cropDetailUpcomingTasks;
+
+  /// Crop detail link to the field calendar
+  ///
+  /// In en, this message translates to:
+  /// **'Open calendar'**
+  String get cropDetailOpenCalendar;
+
+  /// calendarViewToday
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get calendarViewToday;
+
+  /// calendarViewWeek
+  ///
+  /// In en, this message translates to:
+  /// **'This week'**
+  String get calendarViewWeek;
+
+  /// calendarViewMonth
+  ///
+  /// In en, this message translates to:
+  /// **'Month'**
+  String get calendarViewMonth;
+
+  /// calendarEmpty
+  ///
+  /// In en, this message translates to:
+  /// **'No tasks yet. Your plan will appear here.'**
+  String get calendarEmpty;
+
+  /// calendarCompleteTask
+  ///
+  /// In en, this message translates to:
+  /// **'Mark done'**
+  String get calendarCompleteTask;
+
+  /// calendarOverdue
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue'**
+  String get calendarOverdue;
+
+  /// calendarUpcoming
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming'**
+  String get calendarUpcoming;
+
+  /// advisoriesMarkAllRead
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all as read'**
+  String get advisoriesMarkAllRead;
+
+  /// advisoriesMarkRead
+  ///
+  /// In en, this message translates to:
+  /// **'Mark read'**
+  String get advisoriesMarkRead;
+
+  /// advisoriesSource
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get advisoriesSource;
+
+  /// advisoriesUnread
+  ///
+  /// In en, this message translates to:
+  /// **'Unread'**
+  String get advisoriesUnread;
+
+  /// healthLogScans
+  ///
+  /// In en, this message translates to:
+  /// **'Scans'**
+  String get healthLogScans;
+
+  /// healthLogHealthy
+  ///
+  /// In en, this message translates to:
+  /// **'Healthy'**
+  String get healthLogHealthy;
+
+  /// healthLogAtRisk
+  ///
+  /// In en, this message translates to:
+  /// **'Need attention'**
+  String get healthLogAtRisk;
+
+  /// healthLogFilterAll
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get healthLogFilterAll;
+
+  /// healthLogConfidence
+  ///
+  /// In en, this message translates to:
+  /// **'Confidence'**
+  String get healthLogConfidence;
+
+  /// carePlanNoItems
+  ///
+  /// In en, this message translates to:
+  /// **'No care items due. Your crops look good.'**
+  String get carePlanNoItems;
+
+  /// carePlanItemReason
+  ///
+  /// In en, this message translates to:
+  /// **'Why now'**
+  String get carePlanItemReason;
+
+  /// carePlanOpenTask
+  ///
+  /// In en, this message translates to:
+  /// **'Open in Field Calendar'**
+  String get carePlanOpenTask;
+
+  /// profileSignOutConfirm
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out?'**
+  String get profileSignOutConfirm;
+
+  /// profileSignOutConfirmBody
+  ///
+  /// In en, this message translates to:
+  /// **'You will need to sign in again to see your crops.'**
+  String get profileSignOutConfirmBody;
+
+  /// profileSignOutAction
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get profileSignOutAction;
+
+  /// profileCancel
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get profileCancel;
+
+  /// profileManageCrops
+  ///
+  /// In en, this message translates to:
+  /// **'Manage'**
+  String get profileManageCrops;
+
+  /// profileName
+  ///
+  /// In en, this message translates to:
+  /// **'Farmer'**
+  String get profileName;
+
+  /// languageSheetTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get languageSheetTitle;
+
+  /// languageApply
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get languageApply;
+
+  /// profileUpdated
+  ///
+  /// In en, this message translates to:
+  /// **'Changes saved.'**
+  String get profileUpdated;
+
+  /// authSignIn
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get authSignIn;
+
+  /// authCreateAccount
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get authCreateAccount;
+
+  /// authSignUpPrompt
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account? Sign up'**
+  String get authSignUpPrompt;
+
+  /// authSignInPrompt
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account? Sign in'**
+  String get authSignInPrompt;
+
+  /// authForgotPassword
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot password?'**
+  String get authForgotPassword;
+
+  /// authContinueGoogle
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get authContinueGoogle;
+
+  /// authContinueFacebook
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Facebook'**
+  String get authContinueFacebook;
+
+  /// authContinuePhone
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Phone (OTP)'**
+  String get authContinuePhone;
+
+  /// authTagline
+  ///
+  /// In en, this message translates to:
+  /// **'Detect Early. Protect Your Harvest.'**
+  String get authTagline;
+
+  /// authEmail
+  ///
+  /// In en, this message translates to:
+  /// **'Email Address'**
+  String get authEmail;
+
+  /// authPassword
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get authPassword;
+
+  /// authFullNameRequired
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your full name'**
+  String get authFullNameRequired;
+
+  /// authFarmNameRequired
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter farm name'**
+  String get authFarmNameRequired;
+
+  /// authLocationRequired
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter location'**
+  String get authLocationRequired;
+
+  /// authEmailInvalid
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email'**
+  String get authEmailInvalid;
+
+  /// authPasswordMinLength
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters'**
+  String get authPasswordMinLength;
+
+  /// authPhoneLabel
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile Number / Phone (Optional)'**
+  String get authPhoneLabel;
+
+  /// authOtpMobile
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile Number (+63...)'**
+  String get authOtpMobile;
+
+  /// authOtpCode
+  ///
+  /// In en, this message translates to:
+  /// **'Enter OTP Code'**
+  String get authOtpCode;
+
+  /// authSendOtp
+  ///
+  /// In en, this message translates to:
+  /// **'Send OTP'**
+  String get authSendOtp;
+
+  /// authVerifyOtp
+  ///
+  /// In en, this message translates to:
+  /// **'Verify OTP'**
+  String get authVerifyOtp;
+
+  /// authOtpTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number (OTP) Login'**
+  String get authOtpTitle;
+
+  /// authOtpSent
+  ///
+  /// In en, this message translates to:
+  /// **'OTP sent to your mobile number!'**
+  String get authOtpSent;
+
+  /// authCancel
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get authCancel;
+
+  /// authRequired
+  ///
+  /// In en, this message translates to:
+  /// **'Required'**
+  String get authRequired;
+
+  /// authGoogleError
+  ///
+  /// In en, this message translates to:
+  /// **'Google Sign-In failed. Please try again.'**
+  String get authGoogleError;
+
+  /// authFacebookError
+  ///
+  /// In en, this message translates to:
+  /// **'Facebook Sign-In failed. Please try again.'**
+  String get authFacebookError;
+
+  /// homeWeatherUpdated
+  ///
+  /// In en, this message translates to:
+  /// **'Updated'**
+  String get homeWeatherUpdated;
+
+  /// homeOfflineBanner
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re offline. Showing cached weather.'**
+  String get homeOfflineBanner;
 }
 
 class _AppLocalizationsDelegate

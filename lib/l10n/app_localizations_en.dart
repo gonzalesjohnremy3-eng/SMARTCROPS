@@ -132,22 +132,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get completeSetup => 'Complete Setup';
 
   @override
-  String get homeFieldbriefing => 'Today\'s Field Briefing';
+  String get homeFieldBriefing => 'Today\'s Field Briefing';
 
   @override
-  String get homePriorityaction => 'Priority Action';
+  String get homePriorityAction => 'Priority Action';
 
   @override
-  String get homeScancta => 'Scan a Crop';
+  String get homeScanCta => 'Scan a Crop';
 
   @override
-  String get homeCareplan => 'This Week\'s Care Plan';
+  String get homeCarePlan => 'This Week\'s Care Plan';
 
   @override
-  String get homeRecentscans => 'Recent Diagnoses';
+  String get homeRecentScans => 'Recent Diagnoses';
 
   @override
-  String get homeEmptyfarm =>
+  String get homeEmptyFarm =>
       'Your field office is ready. Take your first scan to start your crop\'s health record.';
 
   @override
@@ -157,20 +157,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cropsTitle => 'My Crops';
 
   @override
-  String get cropsAddcrop => 'Add a Crop';
+  String get cropsAddCrop => 'Add a Crop';
 
   @override
   String get cropsEmpty =>
       'No crops yet. Add your first crop to get personalized care.';
 
   @override
-  String get cropDetailCareguide => 'Care Guide';
+  String get cropDetailCareGuide => 'Care Guide';
 
   @override
-  String get cropDetailGrowingconditions => 'Growing Conditions';
+  String get cropDetailGrowingConditions => 'Growing Conditions';
 
   @override
-  String get cropDetailGrowthtimeline => 'Growth Timeline';
+  String get cropDetailGrowthTimeline => 'Growth Timeline';
 
   @override
   String get scanCaptureTitle => 'Scan Your Crop';
@@ -204,19 +204,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scanResultDiagnosis => 'Diagnosis';
 
   @override
-  String get scanResultTreatmentsteps => 'Treatment Steps';
+  String get scanResultTreatmentSteps => 'Treatment Steps';
 
   @override
-  String get scanResultAddtocalendar => 'Add to Field Calendar';
+  String get scanResultAddToCalendar => 'Add to Field Calendar';
 
   @override
-  String get scanResultSetreminder => 'Set Reminder';
+  String get scanResultSetReminder => 'Set Reminder';
 
   @override
   String get scanResultShare => 'Share';
 
   @override
-  String get scanResultLowconfidenceretake => 'Retake in better light';
+  String get scanResultLowConfidenceRetake => 'Retake in better light';
 
   @override
   String get calendarTitle => 'Field Calendar';
@@ -234,7 +234,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get calendarTaskCompleted => 'Completed';
 
   @override
-  String get calendarWeatheradjusted => 'Weather-adjusted';
+  String get calendarWeatherAdjusted => 'Weather-adjusted';
 
   @override
   String get advisoriesTitle => 'Advisories';
@@ -250,7 +250,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get carePlanToday => 'Today';
 
   @override
-  String get carePlanThisweek => 'This Week';
+  String get carePlanThisWeek => 'This Week';
 
   @override
   String get carePlanPreventive => 'Preventive';
@@ -312,19 +312,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageCebuano => 'Cebuano';
 
   @override
-  String get notificationsScanresults => 'Scan Results';
+  String get notificationsScanResults => 'Scan Results';
 
   @override
-  String get notificationsWeatheradvisories => 'Weather Advisories';
+  String get notificationsWeatherAdvisories => 'Weather Advisories';
 
   @override
-  String get notificationsCalendarreminders => 'Calendar Reminders';
+  String get notificationsCalendarReminders => 'Calendar Reminders';
 
   @override
-  String get notificationsCooperativeadvisories => 'Cooperative Advisories';
+  String get notificationsCooperativeAdvisories => 'Cooperative Advisories';
 
   @override
-  String get notificationsQuiethours => 'Quiet Hours';
+  String get notificationsQuietHours => 'Quiet Hours';
 
   @override
   String get agriProTitle => 'Agri Pro';
@@ -333,10 +333,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get agriProHeadline => 'Protect more of what you grow.';
 
   @override
-  String get agriProFreesummary => 'Free plan: 5 scans/week, basic calendar.';
+  String get agriProFreeSummary => 'Free plan: 5 scans/week, basic calendar.';
 
   @override
-  String get agriProProsummary =>
+  String get agriProProSummary =>
       'Agri Pro: unlimited scans, priority analysis, health trends, weather-adjusted reminders, offline pack.';
 
   @override
@@ -349,13 +349,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get agriProStart => 'Start Agri Pro';
 
   @override
-  String get agriProNotnow => 'Not now';
+  String get agriProNotNow => 'Not now';
 
   @override
   String get shopTitle => 'Agri Shop';
 
   @override
-  String get shopPartneroffer => 'Partner offer';
+  String get shopPartnerOffer => 'Partner offer';
 
   @override
   String get shopEmpty =>
@@ -368,7 +368,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cooperativeJoin => 'Join a Cooperative';
 
   @override
-  String get cooperativeInvitecode => 'Invite Code';
+  String get cooperativeInviteCode => 'Invite Code';
 
   @override
   String get cooperativeMembers => 'Members';
@@ -377,7 +377,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cooperativeBroadcasts => 'Broadcasts';
 
   @override
-  String get cooperativeOutbreaksummary => 'Outbreak Summary';
+  String get cooperativeOutbreakSummary => 'Outbreak Summary';
 
   @override
   String get severityHealthy => 'Healthy';
@@ -386,7 +386,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get severityWatch => 'Watch';
 
   @override
-  String get severityAtrisk => 'At Risk';
+  String get severityAtRisk => 'At Risk';
 
   @override
   String get confidenceHigh => 'High';
@@ -414,27 +414,250 @@ class AppLocalizationsEn extends AppLocalizations {
   String get offlineBanner => 'You\'re offline. Showing cached data.';
 
   @override
-  String get offlineScanqueued =>
+  String get offlineScanQueued =>
       'Saved. We\'ll analyze this when you\'re back online.';
 
   @override
   String get viewAll => 'View all';
 
   @override
-  String get homePriorityAction => 'Priority Action';
-
-  @override
-  String get homeCarePlan => 'This Week\'s Care Plan';
-
-  @override
-  String get homeRecentScans => 'Recent Diagnoses';
-
-  @override
   String get homeScanCTA => 'Scan a Crop';
 
   @override
-  String get homeFieldBriefing => 'Today\'s Field Briefing';
+  String get calendarSetReminder => 'Set Reminder';
 
   @override
-  String get calendarSetReminder => 'Set Reminder';
+  String get homeCriticalWeatherTitle => 'Critical weather';
+
+  @override
+  String get homeCriticalWeatherBody =>
+      'Storm or high-wind conditions expected. Secure your crops and structures.';
+
+  @override
+  String get homeOverdueTaskTitle => 'Overdue tasks';
+
+  @override
+  String get homeOverdueTaskBody =>
+      'You have tasks past their scheduled date. Open the Field Calendar to catch up.';
+
+  @override
+  String get homeAtRiskDiagnosisTitle => 'Crop needs attention';
+
+  @override
+  String get homeAtRiskDiagnosisBody =>
+      'A recent scan found a problem that needs action. Review the Health Log.';
+
+  @override
+  String get homeRoutineCareTitle => 'Care needed';
+
+  @override
+  String get homeRoutineCareBody => 'You have care tasks waiting this week.';
+
+  @override
+  String get homeEmptyFarmTitle => 'Your field office is ready';
+
+  @override
+  String get homeMonitorTitle => 'All clear';
+
+  @override
+  String get cropsScanThisCrop => 'Scan this crop';
+
+  @override
+  String get cropsLastScan => 'Last scan';
+
+  @override
+  String get cropsNoScans => 'Not scanned yet';
+
+  @override
+  String get cropsGrowingConditions => 'Growing conditions';
+
+  @override
+  String get cropsInOptimal => 'Within optimal range';
+
+  @override
+  String get cropsTapToScan => 'Tap a crop to scan it';
+
+  @override
+  String get cropDetailNotAvailable => 'Not available';
+
+  @override
+  String get cropDetailYourScans => 'Your scans for this crop';
+
+  @override
+  String get cropDetailUpcomingTasks => 'Upcoming tasks';
+
+  @override
+  String get cropDetailOpenCalendar => 'Open calendar';
+
+  @override
+  String get calendarViewToday => 'Today';
+
+  @override
+  String get calendarViewWeek => 'This week';
+
+  @override
+  String get calendarViewMonth => 'Month';
+
+  @override
+  String get calendarEmpty => 'No tasks yet. Your plan will appear here.';
+
+  @override
+  String get calendarCompleteTask => 'Mark done';
+
+  @override
+  String get calendarOverdue => 'Overdue';
+
+  @override
+  String get calendarUpcoming => 'Upcoming';
+
+  @override
+  String get advisoriesMarkAllRead => 'Mark all as read';
+
+  @override
+  String get advisoriesMarkRead => 'Mark read';
+
+  @override
+  String get advisoriesSource => 'Source';
+
+  @override
+  String get advisoriesUnread => 'Unread';
+
+  @override
+  String get healthLogScans => 'Scans';
+
+  @override
+  String get healthLogHealthy => 'Healthy';
+
+  @override
+  String get healthLogAtRisk => 'Need attention';
+
+  @override
+  String get healthLogFilterAll => 'All';
+
+  @override
+  String get healthLogConfidence => 'Confidence';
+
+  @override
+  String get carePlanNoItems => 'No care items due. Your crops look good.';
+
+  @override
+  String get carePlanItemReason => 'Why now';
+
+  @override
+  String get carePlanOpenTask => 'Open in Field Calendar';
+
+  @override
+  String get profileSignOutConfirm => 'Sign out?';
+
+  @override
+  String get profileSignOutConfirmBody =>
+      'You will need to sign in again to see your crops.';
+
+  @override
+  String get profileSignOutAction => 'Sign out';
+
+  @override
+  String get profileCancel => 'Cancel';
+
+  @override
+  String get profileManageCrops => 'Manage';
+
+  @override
+  String get profileName => 'Farmer';
+
+  @override
+  String get languageSheetTitle => 'Language';
+
+  @override
+  String get languageApply => 'Apply';
+
+  @override
+  String get profileUpdated => 'Changes saved.';
+
+  @override
+  String get authSignIn => 'Sign in';
+
+  @override
+  String get authCreateAccount => 'Create Account';
+
+  @override
+  String get authSignUpPrompt => 'Don\'t have an account? Sign up';
+
+  @override
+  String get authSignInPrompt => 'Already have an account? Sign in';
+
+  @override
+  String get authForgotPassword => 'Forgot password?';
+
+  @override
+  String get authContinueGoogle => 'Continue with Google';
+
+  @override
+  String get authContinueFacebook => 'Continue with Facebook';
+
+  @override
+  String get authContinuePhone => 'Continue with Phone (OTP)';
+
+  @override
+  String get authTagline => 'Detect Early. Protect Your Harvest.';
+
+  @override
+  String get authEmail => 'Email Address';
+
+  @override
+  String get authPassword => 'Password';
+
+  @override
+  String get authFullNameRequired => 'Please enter your full name';
+
+  @override
+  String get authFarmNameRequired => 'Please enter farm name';
+
+  @override
+  String get authLocationRequired => 'Please enter location';
+
+  @override
+  String get authEmailInvalid => 'Please enter a valid email';
+
+  @override
+  String get authPasswordMinLength => 'Password must be at least 6 characters';
+
+  @override
+  String get authPhoneLabel => 'Mobile Number / Phone (Optional)';
+
+  @override
+  String get authOtpMobile => 'Mobile Number (+63...)';
+
+  @override
+  String get authOtpCode => 'Enter OTP Code';
+
+  @override
+  String get authSendOtp => 'Send OTP';
+
+  @override
+  String get authVerifyOtp => 'Verify OTP';
+
+  @override
+  String get authOtpTitle => 'Phone Number (OTP) Login';
+
+  @override
+  String get authOtpSent => 'OTP sent to your mobile number!';
+
+  @override
+  String get authCancel => 'Cancel';
+
+  @override
+  String get authRequired => 'Required';
+
+  @override
+  String get authGoogleError => 'Google Sign-In failed. Please try again.';
+
+  @override
+  String get authFacebookError => 'Facebook Sign-In failed. Please try again.';
+
+  @override
+  String get homeWeatherUpdated => 'Updated';
+
+  @override
+  String get homeOfflineBanner => 'You\'re offline. Showing cached weather.';
 }

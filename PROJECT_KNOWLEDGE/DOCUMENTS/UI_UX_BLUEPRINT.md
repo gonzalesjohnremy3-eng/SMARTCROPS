@@ -1033,6 +1033,7 @@ Widget seams to confirm after the logic seams:
 
 - Home Field Briefing renders the correct priority action for a given state.
 - Scan Result shows the low-confidence path and hides partner offers.
+- Crop detail (`CropDetailScreen`) shows honest catalog growing conditions (`Not available` when absent), only this crop's latest scans and upcoming tasks, and `Scan this crop` as the primary action.
 - Agri Pro paywall shows the quota context and honest plan terms.
 - Cooperative broadcast composer validates required fields and role access.
 

@@ -133,27 +133,27 @@
   "@completeSetup": {
     "description": "Complete profile setup button"
   },
-  "homeFieldbriefing": "Today's Field Briefing",
+  "homeFieldBriefing": "Today's Field Briefing",
   "@home.fieldBriefing": {
     "description": "Home screen field briefing title"
   },
-  "homePriorityaction": "Priority Action",
+  "homePriorityAction": "Priority Action",
   "@home.priorityAction": {
     "description": "Home screen priority action label"
   },
-  "homeScancta": "Scan a Crop",
+  "homeScanCta": "Scan a Crop",
   "@home.scanCTA": {
     "description": "Home screen scan CTA"
   },
-  "homeCareplan": "This Week's Care Plan",
+  "homeCarePlan": "This Week's Care Plan",
   "@home.carePlan": {
     "description": "Home screen care plan title"
   },
-  "homeRecentscans": "Recent Diagnoses",
+  "homeRecentScans": "Recent Diagnoses",
   "@home.recentScans": {
     "description": "Home screen recent scans title"
   },
-  "homeEmptyfarm": "Your field office is ready. Take your first scan to start your crop's health record.",
+  "homeEmptyFarm": "Your field office is ready. Take your first scan to start your crop's health record.",
   "@home.emptyFarm": {
     "description": "Home screen empty farm message"
   },
@@ -165,7 +165,7 @@
   "@crops.title": {
     "description": "Crops screen title"
   },
-  "cropsAddcrop": "Add a Crop",
+  "cropsAddCrop": "Add a Crop",
   "@crops.addCrop": {
     "description": "Add crop button"
   },
@@ -173,15 +173,15 @@
   "@crops.empty": {
     "description": "Crops empty state"
   },
-  "cropDetailCareguide": "Care Guide",
+  "cropDetailCareGuide": "Care Guide",
   "@cropDetail.careGuide": {
     "description": "Crop detail care guide section"
   },
-  "cropDetailGrowingconditions": "Growing Conditions",
+  "cropDetailGrowingConditions": "Growing Conditions",
   "@cropDetail.growingConditions": {
     "description": "Crop detail growing conditions section"
   },
-  "cropDetailGrowthtimeline": "Growth Timeline",
+  "cropDetailGrowthTimeline": "Growth Timeline",
   "@cropDetail.growthTimeline": {
     "description": "Crop detail growth timeline section"
   },
@@ -225,15 +225,15 @@
   "@scan.result.diagnosis": {
     "description": "Diagnosis label"
   },
-  "scanResultTreatmentsteps": "Treatment Steps",
+  "scanResultTreatmentSteps": "Treatment Steps",
   "@scan.result.treatmentSteps": {
     "description": "Treatment steps label"
   },
-  "scanResultAddtocalendar": "Add to Field Calendar",
+  "scanResultAddToCalendar": "Add to Field Calendar",
   "@scan.result.addToCalendar": {
     "description": "Add to calendar button"
   },
-  "scanResultSetreminder": "Set Reminder",
+  "scanResultSetReminder": "Set Reminder",
   "@scan.result.setReminder": {
     "description": "Set reminder button"
   },
@@ -241,7 +241,7 @@
   "@scan.result.share": {
     "description": "Share button"
   },
-  "scanResultLowconfidenceretake": "Retake in better light",
+  "scanResultLowConfidenceRetake": "Retake in better light",
   "@scan.result.lowConfidenceRetake": {
     "description": "Low confidence retake CTA"
   },
@@ -265,7 +265,7 @@
   "@calendar.task.completed": {
     "description": "Task completed label"
   },
-  "calendarWeatheradjusted": "Weather-adjusted",
+  "calendarWeatherAdjusted": "Weather-adjusted",
   "@calendar.weatherAdjusted": {
     "description": "Weather adjusted badge"
   },
@@ -285,7 +285,7 @@
   "@carePlan.today": {
     "description": "Care plan today section"
   },
-  "carePlanThisweek": "This Week",
+  "carePlanThisWeek": "This Week",
   "@carePlan.thisWeek": {
     "description": "Care plan this week section"
   },
@@ -365,23 +365,23 @@
   "@language.cebuano": {
     "description": "Cebuano language option"
   },
-  "notificationsScanresults": "Scan Results",
+  "notificationsScanResults": "Scan Results",
   "@notifications.scanResults": {
     "description": "Scan results notification toggle"
   },
-  "notificationsWeatheradvisories": "Weather Advisories",
+  "notificationsWeatherAdvisories": "Weather Advisories",
   "@notifications.weatherAdvisories": {
     "description": "Weather advisories notification toggle"
   },
-  "notificationsCalendarreminders": "Calendar Reminders",
+  "notificationsCalendarReminders": "Calendar Reminders",
   "@notifications.calendarReminders": {
     "description": "Calendar reminders notification toggle"
   },
-  "notificationsCooperativeadvisories": "Cooperative Advisories",
+  "notificationsCooperativeAdvisories": "Cooperative Advisories",
   "@notifications.cooperativeAdvisories": {
     "description": "Cooperative advisories notification toggle"
   },
-  "notificationsQuiethours": "Quiet Hours",
+  "notificationsQuietHours": "Quiet Hours",
   "@notifications.quietHours": {
     "description": "Quiet hours setting"
   },
@@ -393,11 +393,11 @@
   "@agriPro.headline": {
     "description": "Agri Pro headline"
   },
-  "agriProFreesummary": "Free plan: 5 scans/week, basic calendar.",
+  "agriProFreeSummary": "Free plan: 5 scans/week, basic calendar.",
   "@agriPro.freeSummary": {
     "description": "Free plan summary"
   },
-  "agriProProsummary": "Agri Pro: unlimited scans, priority analysis, health trends, weather-adjusted reminders, offline pack.",
+  "agriProProSummary": "Agri Pro: unlimited scans, priority analysis, health trends, weather-adjusted reminders, offline pack.",
   "@agriPro.proSummary": {
     "description": "Pro plan summary"
   },
@@ -413,7 +413,7 @@
   "@agriPro.start": {
     "description": "Start Agri Pro button"
   },
-  "agriProNotnow": "Not now",
+  "agriProNotNow": "Not now",
   "@agriPro.notNow": {
     "description": "Not now button"
   },
@@ -421,7 +421,7 @@
   "@shop.title": {
     "description": "Agri Shop screen title"
   },
-  "shopPartneroffer": "Partner offer",
+  "shopPartnerOffer": "Partner offer",
   "@shop.partnerOffer": {
     "description": "Partner offer label"
   },
@@ -437,7 +437,7 @@
   "@cooperative.join": {
     "description": "Join cooperative button"
   },
-  "cooperativeInvitecode": "Invite Code",
+  "cooperativeInviteCode": "Invite Code",
   "@cooperative.inviteCode": {
     "description": "Invite code field"
   },
@@ -449,7 +449,7 @@
   "@cooperative.broadcasts": {
     "description": "Broadcasts section"
   },
-  "cooperativeOutbreaksummary": "Outbreak Summary",
+  "cooperativeOutbreakSummary": "Outbreak Summary",
   "@cooperative.outbreakSummary": {
     "description": "Outbreak summary section"
   },
@@ -461,7 +461,7 @@
   "@severity.watch": {
     "description": "Severity watch label"
   },
-  "severityAtrisk": "At Risk",
+  "severityAtRisk": "At Risk",
   "@severity.atRisk": {
     "description": "Severity at risk label"
   },
@@ -497,7 +497,7 @@
   "@offline.banner": {
     "description": "Offline banner message"
   },
-  "offlineScanqueued": "Saved. We'll analyze this when you're back online.",
+  "offlineScanQueued": "Saved. We'll analyze this when you're back online.",
   "@offline.scanQueued": {
     "description": "Offline scan queued message"
   },
@@ -505,15 +505,12 @@
   "@viewAll": {
     "description": "viewAll"
   },
-  "homePriorityAction": "Priority Action",
   "@homePriorityAction": {
     "description": "homePriorityAction"
   },
-  "homeCarePlan": "This Week's Care Plan",
   "@homeCarePlan": {
     "description": "homeCarePlan"
   },
-  "homeRecentScans": "Recent Diagnoses",
   "@homeRecentScans": {
     "description": "homeRecentScans"
   },
@@ -521,12 +518,319 @@
   "@homeScanCTA": {
     "description": "homeScanCTA"
   },
-  "homeFieldBriefing": "Today's Field Briefing",
   "@homeFieldBriefing": {
     "description": "homeFieldBriefing"
   },
   "calendarSetReminder": "Set Reminder",
   "@calendarSetReminder": {
     "description": "calendarSetReminder"
+  },
+  "homeCriticalWeatherTitle": "Critical weather",
+  "@homeCriticalWeatherTitle": {
+    "description": "homeCriticalWeatherTitle"
+  },
+  "homeCriticalWeatherBody": "Storm or high-wind conditions expected. Secure your crops and structures.",
+  "@homeCriticalWeatherBody": {
+    "description": "homeCriticalWeatherBody"
+  },
+  "homeOverdueTaskTitle": "Overdue tasks",
+  "@homeOverdueTaskTitle": {
+    "description": "homeOverdueTaskTitle"
+  },
+  "homeOverdueTaskBody": "You have tasks past their scheduled date. Open the Field Calendar to catch up.",
+  "@homeOverdueTaskBody": {
+    "description": "homeOverdueTaskBody"
+  },
+  "homeAtRiskDiagnosisTitle": "Crop needs attention",
+  "@homeAtRiskDiagnosisTitle": {
+    "description": "homeAtRiskDiagnosisTitle"
+  },
+  "homeAtRiskDiagnosisBody": "A recent scan found a problem that needs action. Review the Health Log.",
+  "@homeAtRiskDiagnosisBody": {
+    "description": "homeAtRiskDiagnosisBody"
+  },
+  "homeRoutineCareTitle": "Care needed",
+  "@homeRoutineCareTitle": {
+    "description": "homeRoutineCareTitle"
+  },
+  "homeRoutineCareBody": "You have care tasks waiting this week.",
+  "@homeRoutineCareBody": {
+    "description": "homeRoutineCareBody"
+  },
+  "homeEmptyFarmTitle": "Your field office is ready",
+  "@homeEmptyFarmTitle": {
+    "description": "homeEmptyFarmTitle"
+  },
+  "homeMonitorTitle": "All clear",
+  "@homeMonitorTitle": {
+    "description": "homeMonitorTitle"
+  },
+  "cropsScanThisCrop": "Scan this crop",
+  "@cropsScanThisCrop": {
+    "description": "cropsScanThisCrop"
+  },
+  "cropsLastScan": "Last scan",
+  "@cropsLastScan": {
+    "description": "cropsLastScan"
+  },
+  "cropsNoScans": "Not scanned yet",
+  "@cropsNoScans": {
+    "description": "cropsNoScans"
+  },
+  "cropsGrowingConditions": "Growing conditions",
+  "@cropsGrowingConditions": {
+    "description": "cropsGrowingConditions"
+  },
+  "cropsInOptimal": "Within optimal range",
+  "@cropsInOptimal": {
+    "description": "cropsInOptimal"
+  },
+  "cropsTapToScan": "Tap a crop to scan it",
+  "@cropsTapToScan": {
+    "description": "cropsTapToScan"
+  },
+  "cropDetailNotAvailable": "Not available",
+  "@cropDetailNotAvailable": {
+    "description": "Shown when honest crop data is missing"
+  },
+  "cropDetailYourScans": "Your scans for this crop",
+  "@cropDetailYourScans": {
+    "description": "Crop detail scan history section"
+  },
+  "cropDetailUpcomingTasks": "Upcoming tasks",
+  "@cropDetailUpcomingTasks": {
+    "description": "Crop detail upcoming tasks section"
+  },
+  "cropDetailOpenCalendar": "Open calendar",
+  "@cropDetailOpenCalendar": {
+    "description": "Crop detail link to the field calendar"
+  },
+  "calendarViewToday": "Today",
+  "@calendarViewToday": {
+    "description": "calendarViewToday"
+  },
+  "calendarViewWeek": "This week",
+  "@calendarViewWeek": {
+    "description": "calendarViewWeek"
+  },
+  "calendarViewMonth": "Month",
+  "@calendarViewMonth": {
+    "description": "calendarViewMonth"
+  },
+  "calendarEmpty": "No tasks yet. Your plan will appear here.",
+  "@calendarEmpty": {
+    "description": "calendarEmpty"
+  },
+  "calendarCompleteTask": "Mark done",
+  "@calendarCompleteTask": {
+    "description": "calendarCompleteTask"
+  },
+  "calendarOverdue": "Overdue",
+  "@calendarOverdue": {
+    "description": "calendarOverdue"
+  },
+  "calendarUpcoming": "Upcoming",
+  "@calendarUpcoming": {
+    "description": "calendarUpcoming"
+  },
+  "advisoriesMarkAllRead": "Mark all as read",
+  "@advisoriesMarkAllRead": {
+    "description": "advisoriesMarkAllRead"
+  },
+  "advisoriesMarkRead": "Mark read",
+  "@advisoriesMarkRead": {
+    "description": "advisoriesMarkRead"
+  },
+  "advisoriesSource": "Source",
+  "@advisoriesSource": {
+    "description": "advisoriesSource"
+  },
+  "advisoriesUnread": "Unread",
+  "@advisoriesUnread": {
+    "description": "advisoriesUnread"
+  },
+  "healthLogScans": "Scans",
+  "@healthLogScans": {
+    "description": "healthLogScans"
+  },
+  "healthLogHealthy": "Healthy",
+  "@healthLogHealthy": {
+    "description": "healthLogHealthy"
+  },
+  "healthLogAtRisk": "Need attention",
+  "@healthLogAtRisk": {
+    "description": "healthLogAtRisk"
+  },
+  "healthLogFilterAll": "All",
+  "@healthLogFilterAll": {
+    "description": "healthLogFilterAll"
+  },
+  "healthLogConfidence": "Confidence",
+  "@healthLogConfidence": {
+    "description": "healthLogConfidence"
+  },
+  "carePlanNoItems": "No care items due. Your crops look good.",
+  "@carePlanNoItems": {
+    "description": "carePlanNoItems"
+  },
+  "carePlanItemReason": "Why now",
+  "@carePlanItemReason": {
+    "description": "carePlanItemReason"
+  },
+  "carePlanOpenTask": "Open in Field Calendar",
+  "@carePlanOpenTask": {
+    "description": "carePlanOpenTask"
+  },
+  "profileSignOutConfirm": "Sign out?",
+  "@profileSignOutConfirm": {
+    "description": "profileSignOutConfirm"
+  },
+  "profileSignOutConfirmBody": "You will need to sign in again to see your crops.",
+  "@profileSignOutConfirmBody": {
+    "description": "profileSignOutConfirmBody"
+  },
+  "profileSignOutAction": "Sign out",
+  "@profileSignOutAction": {
+    "description": "profileSignOutAction"
+  },
+  "profileCancel": "Cancel",
+  "@profileCancel": {
+    "description": "profileCancel"
+  },
+  "profileManageCrops": "Manage",
+  "@profileManageCrops": {
+    "description": "profileManageCrops"
+  },
+  "profileName": "Farmer",
+  "@profileName": {
+    "description": "profileName"
+  },
+  "languageSheetTitle": "Language",
+  "@languageSheetTitle": {
+    "description": "languageSheetTitle"
+  },
+  "languageApply": "Apply",
+  "@languageApply": {
+    "description": "languageApply"
+  },
+  "profileUpdated": "Changes saved.",
+  "@profileUpdated": {
+    "description": "profileUpdated"
+  },
+  "authSignIn": "Sign in",
+  "@authSignIn": {
+    "description": "authSignIn"
+  },
+  "authCreateAccount": "Create Account",
+  "@authCreateAccount": {
+    "description": "authCreateAccount"
+  },
+  "authSignUpPrompt": "Don't have an account? Sign up",
+  "@authSignUpPrompt": {
+    "description": "authSignUpPrompt"
+  },
+  "authSignInPrompt": "Already have an account? Sign in",
+  "@authSignInPrompt": {
+    "description": "authSignInPrompt"
+  },
+  "authForgotPassword": "Forgot password?",
+  "@authForgotPassword": {
+    "description": "authForgotPassword"
+  },
+  "authContinueGoogle": "Continue with Google",
+  "@authContinueGoogle": {
+    "description": "authContinueGoogle"
+  },
+  "authContinueFacebook": "Continue with Facebook",
+  "@authContinueFacebook": {
+    "description": "authContinueFacebook"
+  },
+  "authContinuePhone": "Continue with Phone (OTP)",
+  "@authContinuePhone": {
+    "description": "authContinuePhone"
+  },
+  "authTagline": "Detect Early. Protect Your Harvest.",
+  "@authTagline": {
+    "description": "authTagline"
+  },
+  "authEmail": "Email Address",
+  "@authEmail": {
+    "description": "authEmail"
+  },
+  "authPassword": "Password",
+  "@authPassword": {
+    "description": "authPassword"
+  },
+  "authFullNameRequired": "Please enter your full name",
+  "@authFullNameRequired": {
+    "description": "authFullNameRequired"
+  },
+  "authFarmNameRequired": "Please enter farm name",
+  "@authFarmNameRequired": {
+    "description": "authFarmNameRequired"
+  },
+  "authLocationRequired": "Please enter location",
+  "@authLocationRequired": {
+    "description": "authLocationRequired"
+  },
+  "authEmailInvalid": "Please enter a valid email",
+  "@authEmailInvalid": {
+    "description": "authEmailInvalid"
+  },
+  "authPasswordMinLength": "Password must be at least 6 characters",
+  "@authPasswordMinLength": {
+    "description": "authPasswordMinLength"
+  },
+  "authPhoneLabel": "Mobile Number / Phone (Optional)",
+  "@authPhoneLabel": {
+    "description": "authPhoneLabel"
+  },
+  "authOtpMobile": "Mobile Number (+63...)",
+  "@authOtpMobile": {
+    "description": "authOtpMobile"
+  },
+  "authOtpCode": "Enter OTP Code",
+  "@authOtpCode": {
+    "description": "authOtpCode"
+  },
+  "authSendOtp": "Send OTP",
+  "@authSendOtp": {
+    "description": "authSendOtp"
+  },
+  "authVerifyOtp": "Verify OTP",
+  "@authVerifyOtp": {
+    "description": "authVerifyOtp"
+  },
+  "authOtpTitle": "Phone Number (OTP) Login",
+  "@authOtpTitle": {
+    "description": "authOtpTitle"
+  },
+  "authOtpSent": "OTP sent to your mobile number!",
+  "@authOtpSent": {
+    "description": "authOtpSent"
+  },
+  "authCancel": "Cancel",
+  "@authCancel": {
+    "description": "authCancel"
+  },
+  "authRequired": "Required",
+  "@authRequired": {
+    "description": "authRequired"
+  },
+  "authGoogleError": "Google Sign-In failed. Please try again.",
+  "@authGoogleError": {
+    "description": "authGoogleError"
+  },
+  "authFacebookError": "Facebook Sign-In failed. Please try again.",
+  "@authFacebookError": {
+    "description": "authFacebookError"
+  },
+  "homeWeatherUpdated": "Updated",
+  "@homeWeatherUpdated": {
+    "description": "homeWeatherUpdated"
+  },
+  "homeOfflineBanner": "You're offline. Showing cached weather.",
+  "@homeOfflineBanner": {
+    "description": "homeOfflineBanner"
   }
 }

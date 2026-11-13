@@ -35,19 +35,23 @@
   "allow": "Hatagan",
   "notNow": "Di Karon",
   "completeSetup": "Kompletoha ang Setup",
-  "homeFieldbriefing": "Field Briefing Karon",
-  "homePriorityaction": "Pangunahing Lakang",
-  "homeScancta": "I-scan ang Tanom",
-  "homeCareplan": "Care Plan Sa Semana Karon",
-  "homeRecentscans": "Mga Miaging Diagnosis",
-  "homeEmptyfarm": "Andam na ang imong field office. Kuhaa ang una nga scan aron sugdan ang health record sa imong tanom.",
+  "homeFieldBriefing": "Field Briefing Karon",
+  "homePriorityAction": "Pangunahing Lakang",
+  "homeScanCta": "I-scan ang Tanom",
+  "homeCarePlan": "Care Plan Sa Semana Karon",
+  "homeRecentScans": "Mga Miaging Diagnosis",
+  "homeEmptyFarm": "Andam na ang imong field office. Kuhaa ang una nga scan aron sugdan ang health record sa imong tanom.",
   "homeMonitoring": "Luwas tanan. Padayon namo bantayan ang imong mga tanom.",
   "cropsTitle": "Akong mga Tanom",
-  "cropsAddcrop": "Magdugang og Tanom",
+  "cropsAddCrop": "Magdugang og Tanom",
   "cropsEmpty": "Wala pay tanom. Magdugang ug una nga tanom para sa personalisadong atiman.",
-  "cropDetailCareguide": "Gabay sa Atiman",
-  "cropDetailGrowingconditions": "Kondisyon sa Paglago",
-  "cropDetailGrowthtimeline": "Timeline sa Paglago",
+  "cropDetailCareGuide": "Gabay sa Atiman",
+  "cropDetailGrowingConditions": "Kondisyon sa Paglago",
+  "cropDetailGrowthTimeline": "Timeline sa Paglago",
+  "cropDetailNotAvailable": "Wala pa available",
+  "cropDetailYourScans": "Imong mga scan para niining tanom",
+  "cropDetailUpcomingTasks": "Umaabot nga buluhaton",
+  "cropDetailOpenCalendar": "Ablihi ang kalendaryo",
   "scanCaptureTitle": "I-scan ang Imong Tanom",
   "scanCaptureGuidance": "Punoa ang frame og usa ka dahon. Likayi ang landong.",
   "scanReviewTitle": "Tan-awa ang Imong Litrato",
@@ -58,22 +62,22 @@
   "scanResultConfidence": "Kompiyansa",
   "scanResultSeverity": "Kagubot",
   "scanResultDiagnosis": "Diagnosis",
-  "scanResultTreatmentsteps": "Mga Lakang sa Tambal",
-  "scanResultAddtocalendar": "Idugang sa Kalendaryo sa Uma",
-  "scanResultSetreminder": "Butangi og Pahinumdom",
+  "scanResultTreatmentSteps": "Mga Lakang sa Tambal",
+  "scanResultAddToCalendar": "Idugang sa Kalendaryo sa Uma",
+  "scanResultSetReminder": "Butangi og Pahinumdom",
   "scanResultShare": "Ibahin",
-  "scanResultLowconfidenceretake": "Mobalik kunan sa mas maayong kangitngit",
+  "scanResultLowConfidenceRetake": "Mobalik kunan sa mas maayong kangitngit",
   "calendarTitle": "Kalendaryo sa Uma",
   "calendarToday": "Karon",
   "calendarWeek": "Semana Karon",
   "calendarMonth": "Buwan",
   "calendarTaskCompleted": "Natapos",
-  "calendarWeatheradjusted": "Naayon sa panahon",
+  "calendarWeatherAdjusted": "Naayon sa panahon",
   "advisoriesTitle": "Mga Abiso",
   "advisoriesEmpty": "Wala pay abiso. Ihatag namo og hibalo kun naay kinahanglan pagtagaan.",
   "carePlanTitle": "Plano sa Atiman",
   "carePlanToday": "Karon",
-  "carePlanThisweek": "Semana Karon",
+  "carePlanThisWeek": "Semana Karon",
   "carePlanPreventive": "Prebentibo",
   "carePlanEmpty": "Moabot ang imong plano human sa imong una nga scan o kun kinahanglan og atiman ang imong mga tanom.",
   "healthLogTitle": "Talaan sa Kalawasan",
@@ -93,31 +97,31 @@
   "languageEnglish": "English",
   "languageTagalog": "Tagalog",
   "languageCebuano": "Cebuano",
-  "notificationsScanresults": "Mga Resulta sa Scan",
-  "notificationsWeatheradvisories": "Mga Abiso sa Panahon",
-  "notificationsCalendarreminders": "Mga Pahinumdom sa Kalendaryo",
-  "notificationsCooperativeadvisories": "Mga Abiso sa Kooperatiba",
-  "notificationsQuiethours": "Mga Tahimik nga Oras",
+  "notificationsScanResults": "Mga Resulta sa Scan",
+  "notificationsWeatherAdvisories": "Mga Abiso sa Panahon",
+  "notificationsCalendarReminders": "Mga Pahinumdom sa Kalendaryo",
+  "notificationsCooperativeAdvisories": "Mga Abiso sa Kooperatiba",
+  "notificationsQuietHours": "Mga Tahimik nga Oras",
   "agriProTitle": "Agri Pro",
   "agriProHeadline": "Pangtagaan og daghan ang imong ginatanom.",
-  "agriProFreesummary": "Gawas nga plano: 5 scan/semana, basic kalendaryo.",
-  "agriProProsummary": "Agri Pro: walay limit nga scan, priority nga pagsusi, trend sa kalawasan, weather-adjusted nga paalala, offline pack.",
+  "agriProFreeSummary": "Gawas nga plano: 5 scan/semana, basic kalendaryo.",
+  "agriProProSummary": "Agri Pro: walay limit nga scan, priority nga pagsusi, trend sa kalawasan, weather-adjusted nga paalala, offline pack.",
   "agriProMonthly": "Kada Buwan",
   "agriProSeasonal": "Pang-season (6 ka buwan)",
   "agriProStart": "Sugda ang Agri Pro",
-  "agriProNotnow": "Di karon",
+  "agriProNotNow": "Di karon",
   "shopTitle": "Agri Shop",
-  "shopPartneroffer": "Alok sa partner",
+  "shopPartnerOffer": "Alok sa partner",
   "shopEmpty": "Wala matugmang produkto para niini nga diagnosis. Moobra gihapon ang imong care plan bisan wala sila.",
   "cooperativeTitle": "Kooperatiba Hub",
   "cooperativeJoin": "Mosalapi sa Kooperatiba",
-  "cooperativeInvitecode": "Kodigo sa Patawag",
+  "cooperativeInviteCode": "Kodigo sa Patawag",
   "cooperativeMembers": "Mga Miyembro",
   "cooperativeBroadcasts": "Mga Broadcast",
-  "cooperativeOutbreaksummary": "Summary sa Pagkalat",
+  "cooperativeOutbreakSummary": "Summary sa Pagkalat",
   "severityHealthy": "Malipayon",
   "severityWatch": "Bantayi",
-  "severityAtrisk": "Nasa Danger",
+  "severityAtRisk": "Nasa Danger",
   "confidenceHigh": "Taas",
   "confidenceMedium": "Katamtaman",
   "confidenceLow": "Ubog",
@@ -126,20 +130,17 @@
   "errorPermission": "Gidili ang permit. Ipahatag sa settings.",
   "retry": "Sulaya Usab",
   "offlineBanner": "Offline ka. Gipakita ang cached nga data.",
-  "offlineScanqueued": "Na-save. Susihon namo kini kung naa na kay koneksyon.",
+  "offlineScanQueued": "Na-save. Susihon namo kini kung naa na kay koneksyon.",
   "viewAll": "Tan-awa ang tanan",
   "@viewAll": {
     "description": "viewAll"
   },
-  "homePriorityAction": "Pangunahing Lakang",
   "@homePriorityAction": {
     "description": "homePriorityAction"
   },
-  "homeCarePlan": "Care Plan Sa Semana Karon",
   "@homeCarePlan": {
     "description": "homeCarePlan"
   },
-  "homeRecentScans": "Mga Miaging Diagnosis",
   "@homeRecentScans": {
     "description": "homeRecentScans"
   },
@@ -147,12 +148,303 @@
   "@homeScanCTA": {
     "description": "homeScanCTA"
   },
-  "homeFieldBriefing": "Field Briefing Karon",
   "@homeFieldBriefing": {
     "description": "homeFieldBriefing"
   },
   "calendarSetReminder": "Magbutang og Pahinumdom",
   "@calendarSetReminder": {
     "description": "calendarSetReminder"
+  },
+  "homeCriticalWeatherTitle": "Delikado nga panahon",
+  "@homeCriticalWeatherTitle": {
+    "description": "homeCriticalWeatherTitle"
+  },
+  "homeCriticalWeatherBody": "Gilauman ang bagyo o maayong hangin. Iyong aseguhon ang imong tanom ug mga istraktura.",
+  "@homeCriticalWeatherBody": {
+    "description": "homeCriticalWeatherBody"
+  },
+  "homeOverdueTaskTitle": "Naengganan nga mga buluhaton",
+  "@homeOverdueTaskTitle": {
+    "description": "homeOverdueTaskTitle"
+  },
+  "homeOverdueTaskBody": "Naay mga buluhaton nga napalipas sa gitakda nga petsa. Ablihi ang Kalendaryo sa Uma.",
+  "@homeOverdueTaskBody": {
+    "description": "homeOverdueTaskBody"
+  },
+  "homeAtRiskDiagnosisTitle": "Kinahanglan og atensyon ang tanom",
+  "@homeAtRiskDiagnosisTitle": {
+    "description": "homeAtRiskDiagnosisTitle"
+  },
+  "homeAtRiskDiagnosisBody": "Naay nadiskobre ang pinakabag-o nga scan nga nagkinahanglan og aksyon. Susiha ang Talaan sa Kalawasan.",
+  "@homeAtRiskDiagnosisBody": {
+    "description": "homeAtRiskDiagnosisBody"
+  },
+  "homeRoutineCareTitle": "Kinahanglan og atiman",
+  "@homeRoutineCareTitle": {
+    "description": "homeRoutineCareTitle"
+  },
+  "homeRoutineCareBody": "Naay mga buluhaton sa atiman nga naghulat karon nga semana.",
+  "@homeRoutineCareBody": {
+    "description": "homeRoutineCareBody"
+  },
+  "homeEmptyFarmTitle": "Andam na ang imong field office",
+  "@homeEmptyFarmTitle": {
+    "description": "homeEmptyFarmTitle"
+  },
+  "homeMonitorTitle": "Luwas tanan",
+  "@homeMonitorTitle": {
+    "description": "homeMonitorTitle"
+  },
+  "cropsScanThisCrop": "I-scan kini nga tanom",
+  "@cropsScanThisCrop": {
+    "description": "cropsScanThisCrop"
+  },
+  "cropsLastScan": "Katapusang scan",
+  "@cropsLastScan": {
+    "description": "cropsLastScan"
+  },
+  "cropsNoScans": "Wala pay scan",
+  "@cropsNoScans": {
+    "description": "cropsNoScans"
+  },
+  "cropsGrowingConditions": "Kondisyon sa pagtubo",
+  "@cropsGrowingConditions": {
+    "description": "cropsGrowingConditions"
+  },
+  "cropsInOptimal": "Sulod sa optimal nga range",
+  "@cropsInOptimal": {
+    "description": "cropsInOptimal"
+  },
+  "cropsTapToScan": "I-tap ang tanom aron i-scan",
+  "@cropsTapToScan": {
+    "description": "cropsTapToScan"
+  },
+  "calendarViewToday": "Karon",
+  "@calendarViewToday": {
+    "description": "calendarViewToday"
+  },
+  "calendarViewWeek": "Kini nga semana",
+  "@calendarViewWeek": {
+    "description": "calendarViewWeek"
+  },
+  "calendarViewMonth": "Buwan",
+  "@calendarViewMonth": {
+    "description": "calendarViewMonth"
+  },
+  "calendarEmpty": "Wala pay buluhaton. Makita dinhi ang imong plano.",
+  "@calendarEmpty": {
+    "description": "calendarEmpty"
+  },
+  "calendarCompleteTask": "Markahi nga tapos",
+  "@calendarCompleteTask": {
+    "description": "calendarCompleteTask"
+  },
+  "calendarOverdue": "Na-engganyo",
+  "@calendarOverdue": {
+    "description": "calendarOverdue"
+  },
+  "calendarUpcoming": "Nagsingabot",
+  "@calendarUpcoming": {
+    "description": "calendarUpcoming"
+  },
+  "advisoriesMarkAllRead": "Markahi tanan isip nabasa",
+  "@advisoriesMarkAllRead": {
+    "description": "advisoriesMarkAllRead"
+  },
+  "advisoriesMarkRead": "Markahi isip nabasa",
+  "@advisoriesMarkRead": {
+    "description": "advisoriesMarkRead"
+  },
+  "advisoriesSource": "Ginikanan",
+  "@advisoriesSource": {
+    "description": "advisoriesSource"
+  },
+  "advisoriesUnread": "Wala pa nabasa",
+  "@advisoriesUnread": {
+    "description": "advisoriesUnread"
+  },
+  "healthLogScans": "Mga scan",
+  "@healthLogScans": {
+    "description": "healthLogScans"
+  },
+  "healthLogHealthy": "Malig-on",
+  "@healthLogHealthy": {
+    "description": "healthLogHealthy"
+  },
+  "healthLogAtRisk": "Kinahanglan og atiman",
+  "@healthLogAtRisk": {
+    "description": "healthLogAtRisk"
+  },
+  "healthLogFilterAll": "Tanan",
+  "@healthLogFilterAll": {
+    "description": "healthLogFilterAll"
+  },
+  "healthLogConfidence": "Kompiyansa",
+  "@healthLogConfidence": {
+    "description": "healthLogConfidence"
+  },
+  "carePlanNoItems": "Wala kay kinahanglan nga atiman. Maayo ang imong mga tanom.",
+  "@carePlanNoItems": {
+    "description": "carePlanNoItems"
+  },
+  "carePlanItemReason": "Ngano karon",
+  "@carePlanItemReason": {
+    "description": "carePlanItemReason"
+  },
+  "carePlanOpenTask": "Ablihi sa Kalendaryo sa Uma",
+  "@carePlanOpenTask": {
+    "description": "carePlanOpenTask"
+  },
+  "profileSignOutConfirm": "Mo-sign out?",
+  "@profileSignOutConfirm": {
+    "description": "profileSignOutConfirm"
+  },
+  "profileSignOutConfirmBody": "Kinahanglan mo mo-sign in pag-usab aron makita ang imong mga tanom.",
+  "@profileSignOutConfirmBody": {
+    "description": "profileSignOutConfirmBody"
+  },
+  "profileSignOutAction": "Mo-sign out",
+  "@profileSignOutAction": {
+    "description": "profileSignOutAction"
+  },
+  "profileCancel": "Kanselarha",
+  "@profileCancel": {
+    "description": "profileCancel"
+  },
+  "profileManageCrops": "Dumalaa",
+  "@profileManageCrops": {
+    "description": "profileManageCrops"
+  },
+  "profileName": "Mag-uuma",
+  "@profileName": {
+    "description": "profileName"
+  },
+  "languageSheetTitle": "Pinulongan",
+  "@languageSheetTitle": {
+    "description": "languageSheetTitle"
+  },
+  "languageApply": "I-apply",
+  "@languageApply": {
+    "description": "languageApply"
+  },
+  "profileUpdated": "Na-save ang mga kausaban.",
+  "@profileUpdated": {
+    "description": "profileUpdated"
+  },
+  "authSignIn": "Mag-sign in",
+  "@authSignIn": {
+    "description": "authSignIn"
+  },
+  "authCreateAccount": "Paghimo og Account",
+  "@authCreateAccount": {
+    "description": "authCreateAccount"
+  },
+  "authSignUpPrompt": "Wala pa ka account? Sign up",
+  "@authSignUpPrompt": {
+    "description": "authSignUpPrompt"
+  },
+  "authSignInPrompt": "Naay account ka na? Sign in",
+  "@authSignInPrompt": {
+    "description": "authSignInPrompt"
+  },
+  "authForgotPassword": "Nakalimtan ang password?",
+  "@authForgotPassword": {
+    "description": "authForgotPassword"
+  },
+  "authContinueGoogle": "Padayon sa Google",
+  "@authContinueGoogle": {
+    "description": "authContinueGoogle"
+  },
+  "authContinueFacebook": "Padayon sa Facebook",
+  "@authContinueFacebook": {
+    "description": "authContinueFacebook"
+  },
+  "authContinuePhone": "Padayon sa Telepono (OTP)",
+  "@authContinuePhone": {
+    "description": "authContinuePhone"
+  },
+  "authTagline": "Diskubreha Agad. Panggawi ang Imong Ani.",
+  "@authTagline": {
+    "description": "authTagline"
+  },
+  "authEmail": "Email Address",
+  "@authEmail": {
+    "description": "authEmail"
+  },
+  "authPassword": "Password",
+  "@authPassword": {
+    "description": "authPassword"
+  },
+  "authFullNameRequired": "Palihug og ngalan",
+  "@authFullNameRequired": {
+    "description": "authFullNameRequired"
+  },
+  "authFarmNameRequired": "Palihug og ngalan sa uma",
+  "@authFarmNameRequired": {
+    "description": "authFarmNameRequired"
+  },
+  "authLocationRequired": "Palihug og lokasyon",
+  "@authLocationRequired": {
+    "description": "authLocationRequired"
+  },
+  "authEmailInvalid": "Palihug og valid nga email",
+  "@authEmailInvalid": {
+    "description": "authEmailInvalid"
+  },
+  "authPasswordMinLength": "Ang password kinahanglan 6 ka karakter o labaw pa",
+  "@authPasswordMinLength": {
+    "description": "authPasswordMinLength"
+  },
+  "authPhoneLabel": "Numero sa Telepono / Mobile (Opsyonal)",
+  "@authPhoneLabel": {
+    "description": "authPhoneLabel"
+  },
+  "authOtpMobile": "Numero sa Mobile (+63...)",
+  "@authOtpMobile": {
+    "description": "authOtpMobile"
+  },
+  "authOtpCode": "Ibutang ang OTP Code",
+  "@authOtpCode": {
+    "description": "authOtpCode"
+  },
+  "authSendOtp": "Ipadala ang OTP",
+  "@authSendOtp": {
+    "description": "authSendOtp"
+  },
+  "authVerifyOtp": "I-verify ang OTP",
+  "@authVerifyOtp": {
+    "description": "authVerifyOtp"
+  },
+  "authOtpTitle": "Login gamit ang Telepono (OTP)",
+  "@authOtpTitle": {
+    "description": "authOtpTitle"
+  },
+  "authOtpSent": "Naipadala na ang OTP sa imong mobile number!",
+  "@authOtpSent": {
+    "description": "authOtpSent"
+  },
+  "authCancel": "Kanselarha",
+  "@authCancel": {
+    "description": "authCancel"
+  },
+  "authRequired": "Kinahanglan",
+  "@authRequired": {
+    "description": "authRequired"
+  },
+  "authGoogleError": "Napakalas ang Google Sign-In. Sulaya usab.",
+  "@authGoogleError": {
+    "description": "authGoogleError"
+  },
+  "authFacebookError": "Napakalas ang Facebook Sign-In. Sulaya usab.",
+  "@authFacebookError": {
+    "description": "authFacebookError"
+  },
+  "homeWeatherUpdated": "Na-update",
+  "@homeWeatherUpdated": {
+    "description": "homeWeatherUpdated"
+  },
+  "homeOfflineBanner": "Offline ka. Gipakita ang cached nga panahon.",
+  "@homeOfflineBanner": {
+    "description": "homeOfflineBanner"
   }
 }

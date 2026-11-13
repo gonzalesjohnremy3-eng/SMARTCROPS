@@ -6,10 +6,16 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:smart_crops/app/router/app_router.dart';
 import 'package:smart_crops/app/theme/app_theme.dart';
 import 'package:smart_crops/app/localization/language_preference.dart';
+import 'package:smart_crops/app/localization/locale_provider.dart';
+import 'package:smart_crops/app/localization/ceb_fallback_localizations.dart';
+import 'package:smart_crops/app/deep_link_handler.dart';
+import 'package:go_router/go_router.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'services/smart_crops_service.dart';
 import 'services/weather_service.dart';
+import 'features/scan/data/shared_preferences_scan_queue_store.dart';
+import 'features/scan/services/scan_queue_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +35,12 @@ Future<void> main() async {
   );
   await languagePreference.load();
 
+  final weatherService = WeatherService();
+  await weatherService.restoreCachedWeather();
+
+  final smartCropsService = SmartCropsService();
+  await smartCropsService.initializeUserData();
+
   // Initialize profile setup completion flags
   final prefs = await SharedPreferences.getInstance();
   final isOnboardingComplete = prefs.getBool('onboarding_complete') ?? false;
@@ -36,53 +48,91 @@ Future<void> main() async {
 
   runApp(SmartCropsApp(
     languagePreference: languagePreference,
+    weatherService: weatherService,
+    smartCropsService: smartCropsService,
     isOnboardingComplete: isOnboardingComplete,
     isProfileComplete: isProfileComplete,
   ));
 }
 
-class SmartCropsApp extends StatelessWidget {
+class SmartCropsApp extends StatefulWidget {
   const SmartCropsApp({
     super.key,
     required this.languagePreference,
+    required this.weatherService,
+    required this.smartCropsService,
     this.isOnboardingComplete = true,
     this.isProfileComplete = true,
   });
 
   final LanguagePreference languagePreference;
+  final WeatherService weatherService;
+  final SmartCropsService smartCropsService;
   final bool isOnboardingComplete;
   final bool isProfileComplete;
+
+  @override
+  State<SmartCropsApp> createState() => _SmartCropsAppState();
+}
+
+class _SmartCropsAppState extends State<SmartCropsApp> {
+  late final GoRouter _router;
+  late final DeepLinkHandler _deepLinks;
+
+  @override
+  void initState() {
+    super.initState();
+    _router = buildAppRouter(
+      isOnboardingComplete: widget.isOnboardingComplete,
+      isProfileComplete: widget.isProfileComplete,
+    );
+    _deepLinks = DeepLinkHandler(_router);
+    _deepLinks.start();
+  }
+
+  @override
+  void dispose() {
+    _deepLinks.stop();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => SmartCropsService()),
-        ChangeNotifierProvider(create: (_) => WeatherService()),
+        ChangeNotifierProvider.value(value: widget.smartCropsService),
+        ChangeNotifierProvider.value(value: widget.weatherService),
+        ChangeNotifierProvider(
+          create: (context) => ScanQueueProvider(
+            store: SharedPreferencesScanQueueStore(),
+            service: context.read<SmartCropsService>(),
+          )..initialize(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => LocaleProvider(preference: widget.languagePreference),
+        ),
       ],
-      child: ValueListenableBuilder<String>(
-        valueListenable: _LocaleNotifier(languagePreference),
-        builder: (context, localeCode, _) {
+      child: Consumer<LocaleProvider>(
+        builder: (context, localeProvider, _) {
           return MaterialApp.router(
             title: 'Smart Crops (Agri Lynk)',
             debugShowCheckedModeBanner: false,
             theme: AppTheme.light(),
-            locale: Locale(localeCode),
+            locale: Locale(localeProvider.currentLocale),
             localizationsDelegates: const [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
+              CebMaterialLocalizationsDelegate(),
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
+              CebCupertinoLocalizationsDelegate(),
             ],
             supportedLocales: const [
               Locale('en'),
               Locale('tl'),
               Locale('ceb'),
             ],
-            routerConfig: buildAppRouter(
-              isOnboardingComplete: isOnboardingComplete,
-              isProfileComplete: isProfileComplete,
-            ),
+            routerConfig: _router,
           );
         },
       ),
@@ -90,19 +140,3 @@ class SmartCropsApp extends StatelessWidget {
   }
 }
 
-class _LocaleNotifier extends ValueNotifier<String> {
-  _LocaleNotifier(this._languagePreference) : super('en') {
-    _init();
-  }
-
-  final LanguagePreference _languagePreference;
-
-  Future<void> _init() async {
-    value = await _languagePreference.load();
-  }
-
-  Future<void> setLocale(String languageCode) async {
-    await _languagePreference.save(languageCode);
-    value = languageCode;
-  }
-}

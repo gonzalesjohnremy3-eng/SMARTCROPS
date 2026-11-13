@@ -1,10 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_crops/app/router/app_router.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
+import 'package:smart_crops/services/smart_crops_service.dart';
+import 'package:smart_crops/services/weather_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() {
+  setUpAll(() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    SharedPreferences.setMockInitialValues({});
+    try {
+      await Supabase.initialize(
+        url: 'https://test.supabase.co',
+        anonKey: 'test-anon-key',
+      );
+    } catch (_) {
+      // Already initialized
+    }
+  });
+
   testWidgets('app router shell renders the 5 navigation destinations', (tester) async {
     final router = buildAppRouter(
       initialLocation: '/home',
@@ -12,19 +30,25 @@ void main() {
     );
 
     await tester.pumpWidget(
-      MaterialApp.router(
-        routerConfig: router,
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => SmartCropsService()),
+          ChangeNotifierProvider(create: (_) => WeatherService()),
         ],
-        supportedLocales: const [
-          Locale('en'),
-          Locale('tl'),
-          Locale('ceb'),
-        ],
+        child: MaterialApp.router(
+          routerConfig: router,
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('en'),
+            Locale('tl'),
+            Locale('ceb'),
+          ],
+        ),
       ),
     );
     await tester.pumpAndSettle();

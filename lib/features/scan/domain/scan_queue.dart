@@ -29,6 +29,36 @@ class QueuedScan {
 
   static const Object _unset = Object();
 
+  Map<String, Object?> toJson() => {
+    'id': id,
+    'localImagePath': localImagePath,
+    'cropName': cropName,
+    'createdAt': createdAt.toIso8601String(),
+    'status': status.name,
+    'attempts': attempts,
+    'nextAttemptAt': nextAttemptAt?.toIso8601String(),
+    'resultId': resultId,
+    'failureReason': failureReason,
+    'isPermanentFailure': isPermanentFailure,
+  };
+
+  factory QueuedScan.fromJson(Map<String, Object?> json) {
+    return QueuedScan(
+      id: json['id'] as String,
+      localImagePath: json['localImagePath'] as String,
+      cropName: json['cropName'] as String,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      status: QueuedScanStatus.values.byName(json['status'] as String),
+      attempts: json['attempts'] as int? ?? 0,
+      nextAttemptAt: json['nextAttemptAt'] == null
+          ? null
+          : DateTime.parse(json['nextAttemptAt'] as String),
+      resultId: json['resultId'] as String?,
+      failureReason: json['failureReason'] as String?,
+      isPermanentFailure: json['isPermanentFailure'] as bool? ?? false,
+    );
+  }
+
   QueuedScan copyWith({
     String? id,
     String? localImagePath,

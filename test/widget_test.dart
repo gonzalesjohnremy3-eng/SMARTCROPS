@@ -5,6 +5,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_crops/app/localization/language_preference.dart';
 import 'package:smart_crops/main.dart';
+import 'package:smart_crops/services/smart_crops_service.dart';
+import 'package:smart_crops/services/weather_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MemoryLanguageStore implements LanguageStore {
   String? value;
@@ -19,16 +22,31 @@ class MemoryLanguageStore implements LanguageStore {
 }
 
 void main() {
-  testWidgets('Smart Crops app smoke test', (WidgetTester tester) async {
+  setUpAll(() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
     SharedPreferences.setMockInitialValues({});
+    try {
+      await Supabase.initialize(
+        url: 'https://test.supabase.co',
+        anonKey: 'test-anon-key',
+      );
+    } catch (_) {
+      // Already initialized
+    }
+  });
 
+  testWidgets('Smart Crops app smoke test', (tester) async {
     final languagePreference = LanguagePreference(
       store: MemoryLanguageStore(),
     );
 
-    await tester.pumpWidget(SmartCropsApp(languagePreference: languagePreference));
+    await tester.pumpWidget(SmartCropsApp(
+      languagePreference: languagePreference,
+      weatherService: WeatherService(),
+      smartCropsService: SmartCropsService(),
+    ));
+    await tester.pumpAndSettle();
 
-    // Verify that the app loads without errors
     expect(find.byType(MaterialApp), findsOneWidget);
   });
 }

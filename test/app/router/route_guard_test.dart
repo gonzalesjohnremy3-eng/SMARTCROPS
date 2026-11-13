@@ -18,6 +18,21 @@ void main() {
     expect(action.reason, RouteReason.needsOnboarding);
   });
 
+  test('signed-out user can open public routes without being bounced to onboarding', () {
+    const context = RouteContext(
+      isAuthenticated: false,
+      onboardingComplete: false,
+      profileComplete: false,
+      requestedLocation: '/auth',
+      requestedAccess: RouteAccess.public,
+    );
+
+    final action = resolveRoute(context);
+
+    expect(action.location, '/auth');
+    expect(action.reason, RouteReason.requested);
+  });
+
   test('signed-out returning farmer goes to auth and keeps the deep link', () {
     const context = RouteContext(
       isAuthenticated: false,
