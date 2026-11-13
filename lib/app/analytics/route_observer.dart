@@ -21,11 +21,13 @@ class AnalyticsRouteObserver extends NavigatorObserver {
     '/pro': 'paywall_viewed',
     '/pro/manage': 'manage_plan_viewed',
     '/onboarding': 'onboarding_viewed',
+    '/shop': 'shop_viewed',
   };
 
   static const Map<String, String> _prefixEvents = {
     '/crops/': 'crop_detail_viewed',
     '/calendar/events/': 'task_opened',
+    '/shop/products/': 'shop_product_viewed',
   };
 
   @override

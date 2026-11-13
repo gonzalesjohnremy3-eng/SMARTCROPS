@@ -13,6 +13,7 @@ import 'package:smart_crops/app/analytics/route_observer.dart';
 import 'package:smart_crops/app/build_config.dart';
 import 'package:smart_crops/app/localization/ceb_fallback_localizations.dart';
 import 'package:smart_crops/app/deep_link_handler.dart';
+import 'package:smart_crops/app/push/push_notifications.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -46,6 +47,7 @@ Future<void> main() async {
 
   final smartCropsService = SmartCropsService();
   await smartCropsService.initializeUserData();
+  await smartCropsService.startRealtimeNotifications();
 
   final agriProEntitlement = AgriProEntitlement();
   await agriProEntitlement.load();
@@ -108,6 +110,7 @@ class SmartCropsApp extends StatefulWidget {
 class _SmartCropsAppState extends State<SmartCropsApp> {
   late final GoRouter _router;
   late final DeepLinkHandler _deepLinks;
+  late final PushNotificationsService _push;
 
   @override
   void initState() {
@@ -118,11 +121,14 @@ class _SmartCropsAppState extends State<SmartCropsApp> {
     );
     _deepLinks = DeepLinkHandler(_router);
     _deepLinks.start();
+    _push = PushNotificationsService(_router);
+    _push.init();
   }
 
   @override
   void dispose() {
     _deepLinks.stop();
+    _push.stop();
     super.dispose();
   }
 

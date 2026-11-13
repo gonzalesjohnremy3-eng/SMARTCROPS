@@ -1069,4 +1069,5 @@ A screen is release-ready only when:
 4. Confirm Phase 1 test seams before writing tests.
 5. Confirm photography budget, licensing, and farmer consent process.
 6. Confirm the deep-link domain and universal-link setup.
-7. Analytics is implemented behind `kRemoteAnalyticsEnabled` (`lib/app/build_config.dart`); push `supabase/migrations/20261113000000_analytics_events.sql` and flip the flag to start persisting events.
+7. Analytics is implemented behind `kRemoteAnalyticsEnabled` (`lib/app/build_config.dart`); the `20261113000000_analytics_events.sql` migration IS pushed and `kRemoteAnalyticsEnabled` is now true (2026-11-14); events persist to `analytics_events`. The `20261113010000_enable_realtime_notifications.sql` migration is also pushed, so the in-app Realtime advisory stream is live.
+8. Background push: FCM Android plumbing is wired (`google-services.json`, `firebase_messaging`, `device_tokens` uploads, tap-to-deep-link to safe existing routes). The device_tokens migration IS pushed and a real test notification was received from the Firebase Console (2026-11-14). Remaining: add iOS (`GoogleService-Info.plist` + Podfile) before shipping to the App Store. The `smartcrops://` URL scheme remains the deep-link format; `applicationId` is now `com.agrilynk.smartcrops` (Firebase and Play Console must use the same ID).

@@ -901,4 +901,60 @@ class AppLocalizationsEn extends AppLocalizations {
   String agriProQuotaContext(int used, int limit) {
     return 'You\'ve used $used of $limit free scans this week. Agri Pro removes the limit.';
   }
+
+  @override
+  String get shopSearchHint => 'Search products, merchants, or diagnoses';
+
+  @override
+  String get shopAll => 'All';
+
+  @override
+  String get shopCategoryOrganic => 'Organic';
+
+  @override
+  String get shopCategoryFungicide => 'Fungicide';
+
+  @override
+  String get shopCategoryFertilizer => 'Fertilizer';
+
+  @override
+  String get shopCategoryPestControl => 'Pest control';
+
+  @override
+  String get shopPartnerDisclosureTitle => 'Partner disclosure';
+
+  @override
+  String get shopPartnerDisclosureBody =>
+      'Agri Lynk may receive a commission on purchases made through partner links, at no extra cost to you. Agri Lynk only shows products that match your recent crop diagnosis. Always follow the product label, and when unsure, consult an extension officer.';
+
+  @override
+  String get shopContinueToMerchant => 'Continue to merchant';
+
+  @override
+  String get shopGoToMerchant => 'Go to merchant';
+
+  @override
+  String get shopWhyMatchesHeader => 'Why this product';
+
+  @override
+  String shopCommonlyFor(String disease) {
+    return 'Commonly used in Philippine farms for $disease.';
+  }
+
+  @override
+  String get shopSafetyCopy =>
+      'Always follow the product label. When unsure, consult an extension officer before applying.';
+
+  @override
+  String get shopSeeProductsFor => 'See products for this diagnosis';
+
+  @override
+  String get shopCouldNotLoad => 'Couldn\'t load products';
+
+  @override
+  String get shopEmptyAll => 'Products will appear here as partners are added.';
+
+  @override
+  String get shopProfileSubtitle =>
+      'Partner products matched to your diagnosis';
 }

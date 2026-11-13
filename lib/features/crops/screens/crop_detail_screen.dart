@@ -15,6 +15,20 @@ class CropDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(crop.cropName)),
+      body: CropDetailContent(crop: crop),
+    );
+  }
+}
+
+class CropDetailContent extends StatelessWidget {
+  const CropDetailContent({super.key, required this.crop});
+
+  final CropItem crop;
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final service = context.watch<SmartCropsService>();
@@ -33,9 +47,7 @@ class CropDetailScreen extends StatelessWidget {
         .take(2)
         .toList();
 
-    return Scaffold(
-      appBar: AppBar(title: Text(crop.cropName)),
-      body: ListView(
+    return ListView(
         padding: const EdgeInsets.all(16),
         children: [
           _Header(
@@ -104,7 +116,6 @@ class CropDetailScreen extends StatelessWidget {
             child: Text(l10n.cropsScanThisCrop),
           ),
         ],
-      ),
     );
   }
 }

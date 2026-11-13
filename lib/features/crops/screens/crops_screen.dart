@@ -7,9 +7,17 @@ import 'package:smart_crops/app/widgets/feedback_states.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/models/app_models.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
+import 'package:smart_crops/features/crops/screens/crop_detail_screen.dart';
 
-class CropsScreen extends StatelessWidget {
+class CropsScreen extends StatefulWidget {
   const CropsScreen({super.key});
+
+  @override
+  State<CropsScreen> createState() => _CropsScreenState();
+}
+
+class _CropsScreenState extends State<CropsScreen> {
+  String? _selectedCropId;
 
   @override
   Widget build(BuildContext context) {
@@ -37,27 +45,77 @@ class CropsScreen extends StatelessWidget {
             return _EmptyState(l10n: l10n, theme: theme);
           }
 
-          return ListView.separated(
-            padding: const EdgeInsets.all(16),
-            itemCount: crops.length,
-            separatorBuilder: (_, _) => const SizedBox(height: 12),
-            itemBuilder: (context, index) {
-              final crop = crops[index];
-              return _CropCard(
-                crop: crop,
-                lastScan: scansByCrop[crop.cropName],
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              final wide = constraints.maxWidth >= 840;
+              CropItem? selected;
+              if (wide) {
+                selected = crops.firstWhere(
+                  (crop) => crop.id == _selectedCropId,
+                  orElse: () => crops.first,
+                );
+              }
+              final list = _buildList(
+                context: context,
                 l10n: l10n,
                 theme: theme,
-                onOpen: () {
-            context.trackEvent('crop_opened');
-            context.push('/crops/${crop.id}');
-          },
-                onScan: () => context.push('/scan'),
+                crops: crops,
+                scansByCrop: scansByCrop,
+                selectedCropId: wide ? selected!.id : null,
+                wide: wide,
+              );
+              if (!wide) {
+                return list;
+              }
+              return Row(
+                children: [
+                  Expanded(flex: 4, child: list),
+                  const VerticalDivider(width: 1),
+                  Expanded(
+                    flex: 6,
+                    child: CropDetailContent(crop: selected!),
+                  ),
+                ],
               );
             },
           );
         },
       ),
+    );
+  }
+
+  Widget _buildList({
+    required BuildContext context,
+    required AppLocalizations l10n,
+    required ThemeData theme,
+    required List<CropItem> crops,
+    required Map<String, ScanHistoryItem> scansByCrop,
+    required String? selectedCropId,
+    required bool wide,
+  }) {
+    return ListView.separated(
+      padding: const EdgeInsets.all(16),
+      itemCount: crops.length,
+      separatorBuilder: (_, _) => const SizedBox(height: 12),
+      itemBuilder: (context, index) {
+        final crop = crops[index];
+        return _CropCard(
+          crop: crop,
+          lastScan: scansByCrop[crop.cropName],
+          l10n: l10n,
+          theme: theme,
+          selected: crop.id == selectedCropId,
+          onOpen: () {
+            context.trackEvent('crop_opened');
+            if (wide) {
+              setState(() => _selectedCropId = crop.id);
+            } else {
+              context.push('/crops/${crop.id}');
+            }
+          },
+          onScan: () => context.push('/scan'),
+        );
+      },
     );
   }
 
@@ -107,6 +165,7 @@ class _CropCard extends StatelessWidget {
     required this.theme,
     required this.onOpen,
     required this.onScan,
+    this.selected = false,
   });
 
   final CropItem crop;
@@ -115,12 +174,14 @@ class _CropCard extends StatelessWidget {
   final ThemeData theme;
   final VoidCallback onOpen;
   final VoidCallback onScan;
+  final bool selected;
 
   @override
   Widget build(BuildContext context) {
     final conditions = crop.optimalConditions;
 
     return Card(
+      color: selected ? theme.colorScheme.secondaryContainer : null,
       child: InkWell(
         onTap: onOpen,
         borderRadius: BorderRadius.circular(AppRadius.card),

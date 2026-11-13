@@ -1,4 +1,4 @@
-package com.agrilynk.smartcrops.smart_crops
+package com.agrilynk.smartcrops
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -6,6 +6,124 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+const GEMINI_MODEL = Deno.env.get('GEMINI_MODEL') ?? 'gemini-3.8-flash';
+const OPENAI_MODEL = Deno.env.get('OPENAI_MODEL') ?? 'gpt-4o';
+const AI_TIMEOUT_MS = 45_000;
+
+interface DiagnosisResult {
+  disease_detected: string;
+  confidence_score: number;
+  common_crop: string;
+  recommended_actions: string[];
+}
+
+function parseDiagnosisJson(raw: string, cropName: string): DiagnosisResult {
+  const parsed = JSON.parse(raw);
+  return {
+    disease_detected: parsed.disease_detected ?? 'Unidentified',
+    confidence_score: Number(parsed.confidence_score ?? 0),
+    common_crop: parsed.common_crop ?? cropName ?? 'Unknown',
+    recommended_actions: Array.isArray(parsed.recommended_actions)
+      ? parsed.recommended_actions
+      : [],
+  };
+}
+
+const SYSTEM_PROMPT =
+  'You are an expert agricultural plant pathologist. Analyze the crop image and return JSON with keys: ' +
+  'disease_detected (string), confidence_score (number 0-100), common_crop (string), recommended_actions (array of strings).';
+
+async function diagnoseWithGemini(apiKey: string, imageUrl: string, cropName: string): Promise<DiagnosisResult> {
+  // Gemini needs the bytes: download the (public) image and send it inline.
+  const imageResponse = await fetch(imageUrl, { signal: AbortSignal.timeout(AI_TIMEOUT_MS) });
+  if (!imageResponse.ok) {
+    throw new Error(`image fetch failed: ${imageResponse.status}`);
+  }
+  const mimeType = imageResponse.headers.get('content-type') ?? 'image/jpeg';
+  const buffer = await imageResponse.arrayBuffer();
+  const bytes = new Uint8Array(buffer);
+  let binary = '';
+  const CHUNK = 0x8000;
+  for (let i = 0; i < bytes.length; i += CHUNK) {
+    binary += String.fromCharCode(...bytes.subarray(i, i + CHUNK));
+  }
+  const base64 = btoa(binary);
+
+  const response = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`,
+    {
+      method: 'POST',
+      signal: AbortSignal.timeout(AI_TIMEOUT_MS),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{
+          parts: [
+            { text: `${SYSTEM_PROMPT}\nExpected crop type: ${cropName || 'Unknown'}` },
+            { inline_data: { mime_type: mimeType, data: base64 } },
+          ],
+        }],
+        generationConfig: { responseMimeType: 'application/json', temperature: 0.2 },
+      }),
+    },
+  );
+  if (!response.ok) {
+    const body = await response.text();
+    throw new Error(`gemini ${response.status}: ${body.slice(0, 200)}`);
+  }
+  const json = await response.json();
+  const text = json?.candidates?.[0]?.content?.parts?.[0]?.text;
+  if (!text) {
+    throw new Error('gemini returned no text');
+  }
+  return parseDiagnosisJson(text, cropName);
+}
+
+async function diagnoseWithOpenAI(apiKey: string, imageUrl: string, cropName: string): Promise<DiagnosisResult> {
+  const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    signal: AbortSignal.timeout(AI_TIMEOUT_MS),
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      model: OPENAI_MODEL,
+      messages: [
+        { role: 'system', content: SYSTEM_PROMPT },
+        {
+          role: 'user',
+          content: [
+            { type: 'text', text: `Analyze this crop image. Expected crop type: ${cropName || 'Unknown'}` },
+            { type: 'image_url', image_url: { url: imageUrl } },
+          ],
+        },
+      ],
+      response_format: { type: 'json_object' },
+    }),
+  });
+  if (!response.ok) {
+    const body = await response.text();
+    throw new Error(`openai ${response.status}: ${body.slice(0, 200)}`);
+  }
+  const json = await response.json();
+  const text = json?.choices?.[0]?.message?.content;
+  if (!text) {
+    throw new Error('openai returned no content');
+  }
+  return parseDiagnosisJson(text, cropName);
+}
+
+async function diagnoseWithKey(provider: string, apiKey: string, imageUrl: string, cropName: string): Promise<DiagnosisResult> {
+  const normalized = (provider ?? '').toLowerCase();
+  if (normalized === 'gemini' || normalized === 'google') {
+    return diagnoseWithGemini(apiKey, imageUrl, cropName);
+  }
+  if (normalized === 'openai') {
+    return diagnoseWithOpenAI(apiKey, imageUrl, cropName);
+  }
+  throw new Error(`unsupported provider: ${provider}`);
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders });
@@ -14,7 +132,7 @@ serve(async (req) => {
   try {
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
     );
 
     const { imageUrl, userId, cropName } = await req.json();
@@ -22,104 +140,60 @@ serve(async (req) => {
     if (!imageUrl || !userId) {
       return new Response(
         JSON.stringify({ error: 'Missing required parameters: imageUrl or userId' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
       );
     }
 
-    // 1. Fetch available active AI keys from pool
-    const { data: keysPool, error: keyError } = await supabaseClient
-      .from('ai_keys_pool')
-      .select('*')
-      .eq('is_active', true)
-      .lt('current_usage_count', supabaseClient.rpc('daily_quota_limit'))
-      .order('current_usage_count', { ascending: true })
-      .limit(1);
-
-    // Fallback if rpc condition is complex, fetch all active keys and filter in memory
+    // 1. Fetch all active keys; iterate under-quota ones, lowest usage first.
     const { data: allActiveKeys, error: fetchError } = await supabaseClient
       .from('ai_keys_pool')
       .select('*')
-      .eq('is_active', true);
+      .eq('is_active', true)
+      .order('current_usage_count', { ascending: true });
 
     if (fetchError || !allActiveKeys || allActiveKeys.length === 0) {
       return new Response(
         JSON.stringify({ error: 'No active AI API keys available in pool' }),
-        { status: 503, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        { status: 503, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
       );
     }
 
-    // Pick the key with lowest usage under quota limit
-    const availableKeys = allActiveKeys.filter(k => k.current_usage_count < k.daily_quota_limit);
+    const availableKeys = allActiveKeys.filter(
+      (k) => k.current_usage_count < k.daily_quota_limit,
+    );
     if (availableKeys.length === 0) {
       return new Response(
         JSON.stringify({ error: 'All AI API keys have reached daily quota limits' }),
-        { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
       );
     }
 
-    const selectedKeyRecord = availableKeys[0];
-    // In production, decrypt key if encrypted. Here we assume stored key or direct API key.
-    const apiKey = selectedKeyRecord.api_key_encrypted; 
-    const provider = selectedKeyRecord.provider;
-
-    // 2. Call AI Vision API (OpenAI GPT-4o or Gemini)
-    let diagnosisResult = {
-      disease_detected: "Healthy / Early Leaf Spot",
-      confidence_score: 94.5,
-      common_crop: cropName || "Pechay",
-      recommended_actions: [
-        "Ensure proper soil drainage to prevent fungal growth.",
-        "Apply organic neem oil spray in the early morning if spots spread.",
-        "Maintain adequate spacing between plants for airflow."
-      ]
-    };
-
-    // If real API key is provided and not a placeholder, make actual API call
-    if (apiKey && !apiKey.startsWith('placeholder')) {
-      if (provider.toLowerCase() === 'openai') {
-        const aiResponse = await fetch('https://api.openai.com/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${apiKey}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            model: 'gpt-4o',
-            messages: [
-              {
-                role: 'system',
-                content: 'You are an expert agricultural plant pathologist. Analyze the crop image and return JSON with keys: disease_detected (string), confidence_score (number 0-100), common_crop (string), recommended_actions (array of strings).'
-              },
-              {
-                role: 'user',
-                content: [
-                  { type: 'text', text: `Analyze this crop image. Expected crop type: ${cropName || 'Unknown'}` },
-                  { type: 'image_url', image_url: { url: imageUrl } }
-                ]
-              }
-            ],
-            response_format: { type: 'json_object' }
-          })
-        });
-
-        if (aiResponse.ok) {
-          const aiJson = await aiResponse.json();
-          const parsed = JSON.parse(aiJson.choices[0].message.content);
-          diagnosisResult = {
-            disease_detected: parsed.disease_detected || diagnosisResult.disease_detected,
-            confidence_score: parsed.confidence_score || diagnosisResult.confidence_score,
-            common_crop: parsed.common_crop || diagnosisResult.common_crop,
-            recommended_actions: parsed.recommended_actions || diagnosisResult.recommended_actions
-          };
-        }
+    // 2. Rotate through providers until one really diagnoses the image.
+    const attempts: string[] = [];
+    let result: DiagnosisResult | null = null;
+    let usedKey: { id: any; current_usage_count: number } | null = null;
+    for (const key of availableKeys) {
+      try {
+        result = await diagnoseWithKey(key.provider, key.api_key_encrypted, imageUrl, cropName ?? '');
+        usedKey = key;
+        break;
+      } catch (err) {
+        attempts.push(`${key.provider}: ${err instanceof Error ? err.message : String(err)}`);
       }
     }
 
-    // 3. Increment usage count for the selected key
+    if (!result || !usedKey) {
+      return new Response(
+        JSON.stringify({ error: 'AI analysis failed on every configured key', detail: attempts }),
+        { status: 502, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
+      );
+    }
+
+    // 3. Increment usage for the key that actually worked.
     await supabaseClient
       .from('ai_keys_pool')
-      .update({ current_usage_count: selectedKeyRecord.current_usage_count + 1, updated_at: new Date().toISOString() })
-      .eq('id', selectedKeyRecord.id);
+      .update({ current_usage_count: usedKey.current_usage_count + 1, updated_at: new Date().toISOString() })
+      .eq('id', usedKey.id);
 
     // 4. Save to scan_history
     const { data: scanRecord, error: scanError } = await supabaseClient
@@ -127,10 +201,10 @@ serve(async (req) => {
       .insert({
         user_id: userId,
         image_url: imageUrl,
-        disease_detected: diagnosisResult.disease_detected,
-        confidence_score: diagnosisResult.confidence_score,
-        common_crop: diagnosisResult.common_crop,
-        recommended_actions: diagnosisResult.recommended_actions
+        disease_detected: result.disease_detected,
+        confidence_score: result.confidence_score,
+        common_crop: result.common_crop,
+        recommended_actions: result.recommended_actions,
       })
       .select()
       .single();
@@ -144,21 +218,21 @@ serve(async (req) => {
       .from('notifications')
       .insert({
         user_id: userId,
-        title: `Scan Result: ${diagnosisResult.disease_detected}`,
-        message: `Confidence: ${diagnosisResult.confidence_score}%. Tap to view recommended actions for ${diagnosisResult.common_crop}.`,
+        title: `Scan Result: ${result.disease_detected}`,
+        message: `Confidence: ${result.confidence_score}%. Tap to view recommended actions for ${result.common_crop}.`,
         scan_id: scanRecord.id,
-        is_read: false
+        is_read: false,
       });
 
     return new Response(
       JSON.stringify({ success: true, data: scanRecord }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
     );
 
   } catch (error) {
     return new Response(
-      JSON.stringify({ error: error.message }),
-      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      JSON.stringify({ error: error instanceof Error ? error.message : String(error) }),
+      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
     );
   }
 });

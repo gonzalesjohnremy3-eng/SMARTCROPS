@@ -28,6 +28,8 @@ Future<void> _pumpInitial(
     '/scan': (_) => const Scaffold(),
     '/care-plan': (_) => const Scaffold(),
     '/advisories': (_) => const Scaffold(),
+    '/shop': (_) => const Scaffold(),
+    '/shop/products/p-1': (_) => const Scaffold(),
   };
 
   await tester.pumpWidget(MaterialApp(
@@ -50,6 +52,8 @@ void main() {
     '/scan': 'scan_capture_opened',
     '/care-plan': 'care_plan_viewed',
     '/advisories': 'advisories_viewed',
+    '/shop': 'shop_viewed',
+    '/shop/products/p-1': 'shop_product_viewed',
   };
 
   cases.forEach((route, event) {

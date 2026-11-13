@@ -1803,6 +1803,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You\'ve used {used} of {limit} free scans this week. Agri Pro removes the limit.'**
   String agriProQuotaContext(int used, int limit);
+
+  /// Search field hint in Agri Shop
+  ///
+  /// In en, this message translates to:
+  /// **'Search products, merchants, or diagnoses'**
+  String get shopSearchHint;
+
+  /// All-categories filter chip in Agri Shop
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get shopAll;
+
+  /// Organic category filter chip
+  ///
+  /// In en, this message translates to:
+  /// **'Organic'**
+  String get shopCategoryOrganic;
+
+  /// Fungicide category filter chip
+  ///
+  /// In en, this message translates to:
+  /// **'Fungicide'**
+  String get shopCategoryFungicide;
+
+  /// Fertilizer category filter chip
+  ///
+  /// In en, this message translates to:
+  /// **'Fertilizer'**
+  String get shopCategoryFertilizer;
+
+  /// Pest control category filter chip
+  ///
+  /// In en, this message translates to:
+  /// **'Pest control'**
+  String get shopCategoryPestControl;
+
+  /// Bottom sheet title for the outbound partner-link confirmation
+  ///
+  /// In en, this message translates to:
+  /// **'Partner disclosure'**
+  String get shopPartnerDisclosureTitle;
+
+  /// Partner disclosure body shown before opening a merchant link
+  ///
+  /// In en, this message translates to:
+  /// **'Agri Lynk may receive a commission on purchases made through partner links, at no extra cost to you. Agri Lynk only shows products that match your recent crop diagnosis. Always follow the product label, and when unsure, consult an extension officer.'**
+  String get shopPartnerDisclosureBody;
+
+  /// Confirm button in the partner-link confirmation sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Continue to merchant'**
+  String get shopContinueToMerchant;
+
+  /// Primary outbound button on the product detail screen
+  ///
+  /// In en, this message translates to:
+  /// **'Go to merchant'**
+  String get shopGoToMerchant;
+
+  /// Section header for the match explanation
+  ///
+  /// In en, this message translates to:
+  /// **'Why this product'**
+  String get shopWhyMatchesHeader;
+
+  /// Why-this-product sentence; {disease} is the diagnosed disease/pest
+  ///
+  /// In en, this message translates to:
+  /// **'Commonly used in Philippine farms for {disease}.'**
+  String shopCommonlyFor(String disease);
+
+  /// Safety copy on the product detail screen
+  ///
+  /// In en, this message translates to:
+  /// **'Always follow the product label. When unsure, consult an extension officer before applying.'**
+  String get shopSafetyCopy;
+
+  /// Entry row from scan result to the shop, pre-filtered by diagnosis
+  ///
+  /// In en, this message translates to:
+  /// **'See products for this diagnosis'**
+  String get shopSeeProductsFor;
+
+  /// Shop error state title
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load products'**
+  String get shopCouldNotLoad;
+
+  /// Shop empty state when the catalog is truly empty
+  ///
+  /// In en, this message translates to:
+  /// **'Products will appear here as partners are added.'**
+  String get shopEmptyAll;
+
+  /// Agri Shop row subtitle in Profile
+  ///
+  /// In en, this message translates to:
+  /// **'Partner products matched to your diagnosis'**
+  String get shopProfileSubtitle;
 }
 
 class _AppLocalizationsDelegate

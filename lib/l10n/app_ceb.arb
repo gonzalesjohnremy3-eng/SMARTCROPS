@@ -779,5 +779,78 @@
         "type": "int"
       }
     }
+  },
+  "shopSearchHint": "Pangitaa ang mga produkto, tindahan, o sakit sa tanom",
+  "@shopSearchHint": {
+    "description": "Search field hint in Agri Shop"
+  },
+  "shopAll": "Tanan",
+  "@shopAll": {
+    "description": "All-categories filter chip in Agri Shop"
+  },
+  "shopCategoryOrganic": "Organiko",
+  "@shopCategoryOrganic": {
+    "description": "Organic category filter chip"
+  },
+  "shopCategoryFungicide": "Fungicide",
+  "@shopCategoryFungicide": {
+    "description": "Fungicide category filter chip"
+  },
+  "shopCategoryFertilizer": "Abono",
+  "@shopCategoryFertilizer": {
+    "description": "Fertilizer category filter chip"
+  },
+  "shopCategoryPestControl": "Panlaban sa peste",
+  "@shopCategoryPestControl": {
+    "description": "Pest control category filter chip"
+  },
+  "shopPartnerDisclosureTitle": "Pagsiwalat sa kaubang tindahan",
+  "@shopPartnerDisclosureTitle": {
+    "description": "Bottom sheet title for the outbound partner-link confirmation"
+  },
+  "shopPartnerDisclosureBody": "Mahimong makadawat ang Agri Lynk og komisyon sa mga pinalit pinaagi sa mga link sa kaubang tindahan, nga walay dugang nga bayad alang kanimo. Ang Agri Lynk magpakita lamang sa mga produktong katumbas sa imong ulahing diagnosis sa tanom. Sunod kanunay sa label sa produkto, ug kung dili sigurado, mangutana sa usa ka extension officer.",
+  "@shopPartnerDisclosureBody": {
+    "description": "Partner disclosure body shown before opening a merchant link"
+  },
+  "shopContinueToMerchant": "Magpadayon sa tindahan",
+  "@shopContinueToMerchant": {
+    "description": "Confirm button in the partner-link confirmation sheet"
+  },
+  "shopGoToMerchant": "Adto sa tindahan",
+  "@shopGoToMerchant": {
+    "description": "Primary outbound button on the product detail screen"
+  },
+  "shopWhyMatchesHeader": "Ngano kining produkto",
+  "@shopWhyMatchesHeader": {
+    "description": "Section header for the match explanation"
+  },
+  "shopCommonlyFor": "Kasagaran gamiton sa mga uma sa Pilipinas alang sa {disease}.",
+  "@shopCommonlyFor": {
+    "description": "Why-this-product sentence; {disease} is the diagnosed disease/pest",
+    "placeholders": {
+      "disease": {
+        "type": "String"
+      }
+    }
+  },
+  "shopSafetyCopy": "Sunod kanunay sa label sa produkto. Kung dili sigurado, mangutana sa extension officer sa dili pa gamiton.",
+  "@shopSafetyCopy": {
+    "description": "Safety copy on the product detail screen"
+  },
+  "shopSeeProductsFor": "Tan-awa ang mga produkto alang niining diagnosis",
+  "@shopSeeProductsFor": {
+    "description": "Entry row from scan result to the shop, pre-filtered by diagnosis"
+  },
+  "shopCouldNotLoad": "Dili ma-load ang mga produkto",
+  "@shopCouldNotLoad": {
+    "description": "Shop error state title"
+  },
+  "shopEmptyAll": "Motungha ang mga produkto dinhi samtang magdugang og mga kaubang tindahan.",
+  "@shopEmptyAll": {
+    "description": "Shop empty state when the catalog is truly empty"
+  },
+  "shopProfileSubtitle": "Mga kaubang produkto nga katumbas sa imong diagnosis",
+  "@shopProfileSubtitle": {
+    "description": "Agri Shop row subtitle in Profile"
   }
 }

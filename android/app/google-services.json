@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1070598298703",
+    "project_id": "smartcrops-13673",
+    "storage_bucket": "smartcrops-13673.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1070598298703:android:24d7c708c56df16d8a5e3a",
+        "android_client_info": {
+          "package_name": "com.agrilynk.smartcrops"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4TGpis9Nkcb9Hfo_sy-90Xzrsy3NLN54"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

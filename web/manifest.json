@@ -1,6 +1,6 @@
 {
-    "name": "smart_crops",
-    "short_name": "smart_crops",
+    "name": "Smart Crops",
+    "short_name": "Smart Crops",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

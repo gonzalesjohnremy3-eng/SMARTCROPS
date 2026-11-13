@@ -20,6 +20,9 @@ import 'package:smart_crops/features/health_log/screens/health_log_screen.dart';
 import 'package:smart_crops/features/auth/screens/auth_screen.dart';
 import 'package:smart_crops/features/pro/screens/agri_pro_manage_screen.dart';
 import 'package:smart_crops/features/pro/screens/agri_pro_paywall_screen.dart';
+import 'package:smart_crops/features/shop/screens/shop_screen.dart';
+import 'package:smart_crops/features/shop/screens/product_detail_screen.dart';
+import 'package:smart_crops/features/shop/domain/merchant_product.dart';
 
 GoRouter buildAppRouter({
   String initialLocation = '/home',
@@ -69,6 +72,23 @@ GoRouter buildAppRouter({
       GoRoute(
         path: '/pro/manage',
         builder: (context, state) => const AgriProManageScreen(),
+      ),
+      GoRoute(
+        path: '/shop',
+        builder: (context, state) => ShopScreen(
+          initialQuery: state.uri.queryParameters['q'],
+        ),
+      ),
+      GoRoute(
+        path: '/shop/products/:productId',
+        builder: (context, state) {
+          final productId = state.pathParameters['productId']!;
+          final extra = state.extra;
+          return ProductDetailScreen(
+            productId: productId,
+            product: extra as MerchantProduct?,
+          );
+        },
       ),
       GoRoute(
         path: '/health-log',
@@ -206,7 +226,12 @@ class _AppShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: navigationShell,
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1120),
+          child: navigationShell,
+        ),
+      ),
       bottomNavigationBar: _ResponsiveBottomNavigation(
         currentIndex: navigationShell.currentIndex,
         onDestinationSelected: (index) {

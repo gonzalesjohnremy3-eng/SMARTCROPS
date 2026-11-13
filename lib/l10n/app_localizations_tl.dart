@@ -918,4 +918,63 @@ class AppLocalizationsTl extends AppLocalizations {
   String agriProQuotaContext(int used, int limit) {
     return 'Nagamit mo na ang $used sa $limit libreng scan ngayong linggo. Tinatanggal ng Agri Pro ang limitasyon.';
   }
+
+  @override
+  String get shopSearchHint =>
+      'Maghanap ng produkto, tindahan, o sakit ng pananim';
+
+  @override
+  String get shopAll => 'Lahat';
+
+  @override
+  String get shopCategoryOrganic => 'Organiko';
+
+  @override
+  String get shopCategoryFungicide => 'Fungicide';
+
+  @override
+  String get shopCategoryFertilizer => 'Abono';
+
+  @override
+  String get shopCategoryPestControl => 'Panlaban sa peste';
+
+  @override
+  String get shopPartnerDisclosureTitle => 'Pagsisiwalat bilang partner';
+
+  @override
+  String get shopPartnerDisclosureBody =>
+      'Maaaring makatanggap ang Agri Lynk ng komisyon sa mga pabilang sa pamamagitan ng mga link ng partner, nang walang dagdag na bayad sa iyo. Ipinapakita lamang ng Agri Lynk ang mga produktong tumutugma sa iyong kamakailang diagnosis ng pananim. Laging sundin ang label ng produkto, at kapag hindi sigurado, kumosulta sa isang extension officer.';
+
+  @override
+  String get shopContinueToMerchant => 'Magpatuloy sa tindahan';
+
+  @override
+  String get shopGoToMerchant => 'Pumunta sa tindahan';
+
+  @override
+  String get shopWhyMatchesHeader => 'Bakit ang produktong ito';
+
+  @override
+  String shopCommonlyFor(String disease) {
+    return 'Karaniwang ginagamit sa mga bukid sa Pilipinas para sa $disease.';
+  }
+
+  @override
+  String get shopSafetyCopy =>
+      'Laging sundin ang label ng produkto. Kapag hindi sigurado, kumosulta sa extension officer bago gamitin.';
+
+  @override
+  String get shopSeeProductsFor =>
+      'Tingnan ang mga produkto para sa diagnosis na ito';
+
+  @override
+  String get shopCouldNotLoad => 'Hindi ma-load ang mga produkto';
+
+  @override
+  String get shopEmptyAll =>
+      'Lalabas ang mga produkto rito habang nagdaragdag ng mga partner.';
+
+  @override
+  String get shopProfileSubtitle =>
+      'Mga partner product na tumutugma sa iyong diagnosis';
 }

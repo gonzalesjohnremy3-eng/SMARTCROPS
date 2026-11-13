@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:smart_crops/features/calendar/domain/task_draft.dart';
+import '../features/shop/domain/merchant_product.dart';
 import '../models/app_models.dart';
 import 'farm_data_loader.dart';
 import 'farm_snapshot.dart';
@@ -19,6 +22,8 @@ class SmartCropsService with ChangeNotifier {
   final SupabaseClient _supabase;
   final ServiceDataCacheStore _cacheStore;
   late final FarmDataLoader _loader;
+  RealtimeChannel? _realtimeChannel;
+  bool _realtimeStarted = false;
 
   UserProfile? _currentUserProfile;
   List<CropItem> _availableCrops = [];
@@ -130,6 +135,23 @@ class SmartCropsService with ChangeNotifier {
     await initializeUserData();
   }
 
+  /// Agri Shop (blueprint Sec 5.16): public read of partner products.
+  Future<List<MerchantProduct>> fetchMerchantProducts() async {
+    final rows = await _supabase
+        .from('merchant_products')
+        .select()
+        .order('created_at', ascending: true);
+    return (rows as List)
+        .map((row) => MerchantProduct.fromJson(row as Map<String, dynamic>))
+        .toList();
+  }
+
+  Future<MerchantProduct?> fetchMerchantProductById(String productId) async {
+    final row =
+        await _supabase.from('merchant_products').select().eq('id', productId).maybeSingle();
+    return row == null ? null : MerchantProduct.fromJson(row);
+  }
+
   Future<void> signInWithEmail(String email, String password) async {
     await _supabase.auth.signInWithPassword(email: email, password: password);
     await initializeUserData();
@@ -151,7 +173,66 @@ class SmartCropsService with ChangeNotifier {
     }
   }
 
+  /// Subscribe to realtime notification inserts (blueprint Sec 4, Phase 2).
+  /// Best-effort: a backend without realtime, or a missing publication,
+  /// must never crash the app.
+  Future<void> startRealtimeNotifications() async {
+    if (_realtimeStarted) return;
+    final session = _supabase.auth.currentSession;
+    if (session == null) return;
+    _realtimeStarted = true;
+    try {
+      _realtimeChannel = _supabase
+          .channel('public:notifications:${session.user.id}')
+          .onPostgresChanges(
+            event: PostgresChangeEvent.insert,
+            schema: 'public',
+            table: 'notifications',
+            filter: PostgresChangeFilter(
+              type: PostgresChangeFilterType.eq,
+              column: 'user_id',
+              value: session.user.id,
+            ),
+            callback: (payload) {
+              try {
+                final notification =
+                    AppNotification.fromJson(payload.newRecord);
+                _notifications = [notification, ..._notifications];
+                notifyListeners();
+              } catch (_) {
+                // A row shape mismatch should never crash the app.
+              }
+            },
+          )
+          .subscribe();
+    } catch (_) {
+      _realtimeStarted = false;
+    }
+  }
+
+  Future<void> stopRealtimeNotifications() async {
+    final channel = _realtimeChannel;
+    _realtimeChannel = null;
+    _realtimeStarted = false;
+    if (channel != null) {
+      try {
+        await _supabase.removeChannel(channel);
+      } catch (_) {
+        // Ignored: realtime teardown is best-effort.
+      }
+    }
+  }
+
   Future<void> signOut() async {
+    final userId = _supabase.auth.currentSession?.user.id;
+    await stopRealtimeNotifications();
+    if (userId != null) {
+      try {
+        await _supabase.from('device_tokens').delete().eq('user_id', userId);
+      } catch (_) {
+        // Best-effort: a stale token is preferable to a blocked sign-out.
+      }
+    }
     await _supabase.auth.signOut();
     _currentUserProfile = null;
     _userSelectedCrops = [];
@@ -212,45 +293,24 @@ class SmartCropsService with ChangeNotifier {
         },
       );
 
+      // Only a real, AI-backed 200 with parseable data counts as a scan.
+      // The edge function returns 502 when every key failed, so nothing fake
+      // is inserted into scan_history on the failure path.
       if (response.status == 200 && response.data != null) {
         final data = response.data['data'];
+        if (data == null) {
+          return null;
+        }
         final scanItem = ScanHistoryItem.fromJson(data);
         _scanHistory.insert(0, scanItem);
-        
+
         // Refresh notifications
         await initializeUserData();
         return scanItem;
       }
     } catch (e) {
-      debugPrint('AI Scan Edge Function error, falling back to mock diagnosis: $e');
-      // Fallback mock scan if edge function is unreachable in offline/local prototype mode
-      final fallbackItem = ScanHistoryItem(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
-        userId: session.user.id,
-        imageUrl: imageUrl,
-        diseaseDetected: 'Healthy Leaf / Minor Nutrient Deficiency',
-        confidenceScore: 96.2,
-        commonCrop: cropName,
-        recommendedActions: [
-          'Apply balanced organic compost to replenish nitrogen.',
-          'Ensure consistent watering schedule.',
-          'Monitor leaves weekly for pest activity.'
-        ],
-        scannedAt: DateTime.now(),
-      );
-
-      await _supabase.from('scan_history').insert({
-        'user_id': session.user.id,
-        'image_url': imageUrl,
-        'disease_detected': fallbackItem.diseaseDetected,
-        'confidence_score': fallbackItem.confidenceScore,
-        'common_crop': fallbackItem.commonCrop,
-        'recommended_actions': fallbackItem.recommendedActions,
-      });
-
-      _scanHistory.insert(0, fallbackItem);
-      await initializeUserData();
-      return fallbackItem;
+      debugPrint('AI Scan Edge Function failed: $e');
+      return null;
     } finally {
       _isLoading = false;
       notifyListeners();

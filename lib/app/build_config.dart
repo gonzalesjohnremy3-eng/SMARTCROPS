@@ -4,4 +4,4 @@ const String kAppVersion = '1.0.0+1';
 
 /// Set to true after the `analytics_events` migration is pushed. Until
 /// then, events are printed to the debug console instead of the network.
-const bool kRemoteAnalyticsEnabled = false;
+const bool kRemoteAnalyticsEnabled = true;

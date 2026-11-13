@@ -915,4 +915,63 @@ class AppLocalizationsCeb extends AppLocalizations {
   String agriProQuotaContext(int used, int limit) {
     return 'Nagamit na nimo ang $used sa $limit ka libreng scan karong semanaha. Tangtangon sa Agri Pro ang limitasyon.';
   }
+
+  @override
+  String get shopSearchHint =>
+      'Pangitaa ang mga produkto, tindahan, o sakit sa tanom';
+
+  @override
+  String get shopAll => 'Tanan';
+
+  @override
+  String get shopCategoryOrganic => 'Organiko';
+
+  @override
+  String get shopCategoryFungicide => 'Fungicide';
+
+  @override
+  String get shopCategoryFertilizer => 'Abono';
+
+  @override
+  String get shopCategoryPestControl => 'Panlaban sa peste';
+
+  @override
+  String get shopPartnerDisclosureTitle => 'Pagsiwalat sa kaubang tindahan';
+
+  @override
+  String get shopPartnerDisclosureBody =>
+      'Mahimong makadawat ang Agri Lynk og komisyon sa mga pinalit pinaagi sa mga link sa kaubang tindahan, nga walay dugang nga bayad alang kanimo. Ang Agri Lynk magpakita lamang sa mga produktong katumbas sa imong ulahing diagnosis sa tanom. Sunod kanunay sa label sa produkto, ug kung dili sigurado, mangutana sa usa ka extension officer.';
+
+  @override
+  String get shopContinueToMerchant => 'Magpadayon sa tindahan';
+
+  @override
+  String get shopGoToMerchant => 'Adto sa tindahan';
+
+  @override
+  String get shopWhyMatchesHeader => 'Ngano kining produkto';
+
+  @override
+  String shopCommonlyFor(String disease) {
+    return 'Kasagaran gamiton sa mga uma sa Pilipinas alang sa $disease.';
+  }
+
+  @override
+  String get shopSafetyCopy =>
+      'Sunod kanunay sa label sa produkto. Kung dili sigurado, mangutana sa extension officer sa dili pa gamiton.';
+
+  @override
+  String get shopSeeProductsFor =>
+      'Tan-awa ang mga produkto alang niining diagnosis';
+
+  @override
+  String get shopCouldNotLoad => 'Dili ma-load ang mga produkto';
+
+  @override
+  String get shopEmptyAll =>
+      'Motungha ang mga produkto dinhi samtang magdugang og mga kaubang tindahan.';
+
+  @override
+  String get shopProfileSubtitle =>
+      'Mga kaubang produkto nga katumbas sa imong diagnosis';
 }

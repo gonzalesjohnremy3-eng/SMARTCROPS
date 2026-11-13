@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:smart_crops/app/theme/app_tokens.dart';
 import 'package:smart_crops/app/analytics/analytics.dart';
 import 'package:smart_crops/features/calendar/domain/task_draft.dart';
@@ -27,7 +28,12 @@ class ScanResultScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.share_outlined),
             tooltip: l10n.scanResultShare,
-            onPressed: () => context.trackEvent('diagnosis_shared'),
+            onPressed: () {
+              context.trackEvent('diagnosis_shared');
+              Share.share(
+                '${view.crop}: ${view.diagnosis} (${view.confidencePercent}%)\n${view.treatmentSteps.map((step) => '• $step').join('\n')}',
+              );
+            },
           ),
         ],
       ),
@@ -342,11 +348,23 @@ class _Actions extends StatelessWidget {
             label: Text(l10n.scanResultAddToCalendar),
           ),
         const SizedBox(height: 12),
-        OutlinedButton.icon(
-          onPressed: () {},
-          icon: const Icon(Icons.notifications_none),
-          label: Text(l10n.scanResultSetReminder),
-        ),
+         OutlinedButton.icon(
+           onPressed: () {},
+           icon: const Icon(Icons.notifications_none),
+           label: Text(l10n.scanResultSetReminder),
+         ),
+         if (view.allowPartnerOffers) ...[
+           const SizedBox(height: 12),
+           TextButton.icon(
+             key: const Key('see_products_for_diagnosis'),
+             onPressed: () {
+               context.trackEvent('see_products_for_diagnosis');
+               context.push('/shop?q=${Uri.encodeComponent(view.diagnosis)}');
+             },
+             icon: const Icon(Icons.storefront_outlined),
+             label: Text(l10n.shopSeeProductsFor),
+           ),
+         ],
       ],
     );
   }

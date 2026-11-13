@@ -55,6 +55,12 @@
       "skillPath": "skills/productivity/grilling/SKILL.md",
       "computedHash": "485451958784497cd4c4dbea13cb5bbb579da58fac0d0e45f3bcb310fab68ac7"
     },
+    "impeccable": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/impeccable/SKILL.md",
+      "computedHash": "ba6f33350863bd8138de222e55a7bf0f409ed329770a92e3db7535cbd2d0fb80"
+    },
     "marketing-psychology": {
       "source": "coreyhaines31/marketingskills",
       "sourceType": "github",

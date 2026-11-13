@@ -1162,5 +1162,78 @@
         "type": "int"
       }
     }
+  },
+  "shopSearchHint": "Search products, merchants, or diagnoses",
+  "@shopSearchHint": {
+    "description": "Search field hint in Agri Shop"
+  },
+  "shopAll": "All",
+  "@shopAll": {
+    "description": "All-categories filter chip in Agri Shop"
+  },
+  "shopCategoryOrganic": "Organic",
+  "@shopCategoryOrganic": {
+    "description": "Organic category filter chip"
+  },
+  "shopCategoryFungicide": "Fungicide",
+  "@shopCategoryFungicide": {
+    "description": "Fungicide category filter chip"
+  },
+  "shopCategoryFertilizer": "Fertilizer",
+  "@shopCategoryFertilizer": {
+    "description": "Fertilizer category filter chip"
+  },
+  "shopCategoryPestControl": "Pest control",
+  "@shopCategoryPestControl": {
+    "description": "Pest control category filter chip"
+  },
+  "shopPartnerDisclosureTitle": "Partner disclosure",
+  "@shopPartnerDisclosureTitle": {
+    "description": "Bottom sheet title for the outbound partner-link confirmation"
+  },
+  "shopPartnerDisclosureBody": "Agri Lynk may receive a commission on purchases made through partner links, at no extra cost to you. Agri Lynk only shows products that match your recent crop diagnosis. Always follow the product label, and when unsure, consult an extension officer.",
+  "@shopPartnerDisclosureBody": {
+    "description": "Partner disclosure body shown before opening a merchant link"
+  },
+  "shopContinueToMerchant": "Continue to merchant",
+  "@shopContinueToMerchant": {
+    "description": "Confirm button in the partner-link confirmation sheet"
+  },
+  "shopGoToMerchant": "Go to merchant",
+  "@shopGoToMerchant": {
+    "description": "Primary outbound button on the product detail screen"
+  },
+  "shopWhyMatchesHeader": "Why this product",
+  "@shopWhyMatchesHeader": {
+    "description": "Section header for the match explanation"
+  },
+  "shopCommonlyFor": "Commonly used in Philippine farms for {disease}.",
+  "@shopCommonlyFor": {
+    "description": "Why-this-product sentence; {disease} is the diagnosed disease/pest",
+    "placeholders": {
+      "disease": {
+        "type": "String"
+      }
+    }
+  },
+  "shopSafetyCopy": "Always follow the product label. When unsure, consult an extension officer before applying.",
+  "@shopSafetyCopy": {
+    "description": "Safety copy on the product detail screen"
+  },
+  "shopSeeProductsFor": "See products for this diagnosis",
+  "@shopSeeProductsFor": {
+    "description": "Entry row from scan result to the shop, pre-filtered by diagnosis"
+  },
+  "shopCouldNotLoad": "Couldn't load products",
+  "@shopCouldNotLoad": {
+    "description": "Shop error state title"
+  },
+  "shopEmptyAll": "Products will appear here as partners are added.",
+  "@shopEmptyAll": {
+    "description": "Shop empty state when the catalog is truly empty"
+  },
+  "shopProfileSubtitle": "Partner products matched to your diagnosis",
+  "@shopProfileSubtitle": {
+    "description": "Agri Shop row subtitle in Profile"
   }
 }

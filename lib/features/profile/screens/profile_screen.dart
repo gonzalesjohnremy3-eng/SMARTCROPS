@@ -112,9 +112,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           const SizedBox(height: 16),
           _CropsSection(crops: crops, l10n: l10n, theme: theme),
           const SizedBox(height: 16),
-          _AgriProSection(l10n: l10n, theme: theme),
-          const SizedBox(height: 16),
-          _LanguageSection(l10n: l10n, theme: theme),
+           _AgriProSection(l10n: l10n, theme: theme),
+           const SizedBox(height: 16),
+           _AgriShopSection(l10n: l10n, theme: theme),
+           const SizedBox(height: 16),
+           _LanguageSection(l10n: l10n, theme: theme),
           const SizedBox(height: 16),
           _SignOutSection(l10n: l10n, theme: theme),
         ],
@@ -370,6 +372,26 @@ class _AgriProSection extends StatelessWidget {
         ),
         trailing: const Icon(Icons.chevron_right),
         onTap: () => context.push(isPro ? '/pro/manage' : '/pro'),
+      ),
+    );
+  }
+}
+
+class _AgriShopSection extends StatelessWidget {
+  const _AgriShopSection({required this.l10n, required this.theme});
+
+  final AppLocalizations l10n;
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: ListTile(
+        leading: const Icon(Icons.storefront_outlined),
+        title: Text(l10n.shopTitle),
+        subtitle: Text(l10n.shopProfileSubtitle),
+        trailing: const Icon(Icons.chevron_right),
+        onTap: () => context.push('/shop'),
       ),
     );
   }
