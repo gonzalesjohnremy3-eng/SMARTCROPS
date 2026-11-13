@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_crops/app/theme/app_tokens.dart';
+import 'package:smart_crops/app/analytics/analytics.dart';
 import 'package:smart_crops/features/calendar/domain/task_draft.dart';
 import 'package:smart_crops/features/scan/domain/diagnosis_presenter.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
@@ -26,7 +27,7 @@ class ScanResultScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.share_outlined),
             tooltip: l10n.scanResultShare,
-            onPressed: () {},
+            onPressed: () => context.trackEvent('diagnosis_shared'),
           ),
         ],
       ),
@@ -292,7 +293,7 @@ class _Actions extends StatelessWidget {
         if (view.showRetakePrimary)
           FilledButton.icon(
             key: const Key('retake_primary'),
-            onPressed: () {},
+            onPressed: () => context.trackEvent('low_confidence_retake'),
             icon: const Icon(Icons.camera_alt_outlined),
             label: Text(l10n.scanResultLowConfidenceRetake),
           )
@@ -318,6 +319,7 @@ class _Actions extends StatelessWidget {
                 );
                 await service.addCalendarEvent(draft);
                 if (context.mounted) {
+                  context.trackEvent('diagnosis_added_to_calendar');
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(l10n.scanResultAddedToCalendar),

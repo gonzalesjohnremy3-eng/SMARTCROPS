@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_crops/app/analytics/analytics.dart';
 import 'package:smart_crops/app/theme/app_tokens.dart';
 import 'package:smart_crops/app/widgets/feedback_states.dart';
 import 'package:smart_crops/features/calendar/domain/care_plan.dart';
@@ -57,8 +58,10 @@ class CarePlanScreen extends StatelessWidget {
                       item: item,
                       l10n: l10n,
                       theme: theme,
-                      onToggle: (value) => service
-                          .toggleCalendarEventCompletion(item.event.id, value),
+                      onToggle: (value) {
+                        context.trackEvent('care_plan_item_completed');
+                        service.toggleCalendarEventCompletion(item.event.id, value);
+                      },
                       onOpen: () =>
                           context.push('/calendar/events/${item.event.id}'),
                     )),
@@ -71,8 +74,10 @@ class CarePlanScreen extends StatelessWidget {
                       item: item,
                       l10n: l10n,
                       theme: theme,
-                      onToggle: (value) => service
-                          .toggleCalendarEventCompletion(item.event.id, value),
+                      onToggle: (value) {
+                        context.trackEvent('care_plan_item_completed');
+                        service.toggleCalendarEventCompletion(item.event.id, value);
+                      },
                       onOpen: () =>
                           context.push('/calendar/events/${item.event.id}'),
                     )),
@@ -85,8 +90,10 @@ class CarePlanScreen extends StatelessWidget {
                       item: item,
                       l10n: l10n,
                       theme: theme,
-                      onToggle: (value) => service
-                          .toggleCalendarEventCompletion(item.event.id, value),
+                      onToggle: (value) {
+                        context.trackEvent('care_plan_item_completed');
+                        service.toggleCalendarEventCompletion(item.event.id, value);
+                      },
                       onOpen: () =>
                           context.push('/calendar/events/${item.event.id}'),
                     )),
@@ -141,6 +148,7 @@ class CarePlanScreen extends StatelessWidget {
     try {
       await service.addCalendarEvent(draft);
       if (context.mounted) {
+        context.trackEvent('care_plan_item_scheduled');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(l10n.carePlanAdded),

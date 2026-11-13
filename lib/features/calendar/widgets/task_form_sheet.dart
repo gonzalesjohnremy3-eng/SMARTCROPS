@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_crops/features/calendar/domain/task_draft.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
+import 'package:smart_crops/app/analytics/analytics.dart';
 import 'package:smart_crops/models/app_models.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
 
@@ -65,6 +66,7 @@ class _TaskFormSheetState extends State<TaskFormSheet> {
       if (widget.event != null) {
         await service.updateCalendarEvent(widget.event!.id, draft);
       } else {
+        context.trackEvent('task_added');
         await service.addCalendarEvent(draft);
       }
 

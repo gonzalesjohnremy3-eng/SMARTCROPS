@@ -7,6 +7,8 @@ import 'package:smart_crops/app/theme/app_tokens.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
 import 'package:smart_crops/features/scan/screens/scan_review_screen.dart';
+import 'package:smart_crops/app/analytics/analytics.dart';
+import 'package:smart_crops/app/analytics/analytics_view.dart';
 
 class ScanCaptureScreen extends StatefulWidget {
   const ScanCaptureScreen({super.key});
@@ -24,6 +26,7 @@ class _ScanCaptureScreenState extends State<ScanCaptureScreen> {
       final status = await Permission.camera.request();
       if (!status.isGranted) {
         if (!mounted) return;
+        context.trackEvent('camera_permission_denied');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(AppLocalizations.of(context).errorPermission)),
         );
@@ -37,12 +40,16 @@ class _ScanCaptureScreenState extends State<ScanCaptureScreen> {
       imageQuality: 80,
     );
     if (picked == null || !mounted) return;
+    context.trackEvent(source == ImageSource.camera ? 'scan_photo_taken' : 'scan_gallery_opened');
 
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => ScanReviewScreen(
-          localImagePath: picked.path,
-          cropName: cropName,
+        builder: (_) => AnalyticsView(
+          event: 'scan_review_viewed',
+          child: ScanReviewScreen(
+            localImagePath: picked.path,
+            cropName: cropName,
+          ),
         ),
       ),
     );
@@ -138,8 +145,10 @@ class _ScanCaptureScreenState extends State<ScanCaptureScreen> {
                                 child: Text(crop.cropName),
                               ))
                           .toList(),
-                      onChanged: (value) =>
-                          setState(() => _selectedCropName = value),
+                      onChanged: (value) {
+                        context.trackEvent('scan_crop_changed');
+                        setState(() => _selectedCropName = value);
+                      },
                     ),
                   const SizedBox(height: 16),
                   FilledButton.icon(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_crops/app/theme/app_tokens.dart';
+import 'package:smart_crops/app/analytics/analytics.dart';
 import 'package:smart_crops/app/widgets/feedback_states.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/models/app_models.dart';
@@ -47,7 +48,10 @@ class CropsScreen extends StatelessWidget {
                 lastScan: scansByCrop[crop.cropName],
                 l10n: l10n,
                 theme: theme,
-                onOpen: () => context.push('/crops/${crop.id}'),
+                onOpen: () {
+            context.trackEvent('crop_opened');
+            context.push('/crops/${crop.id}');
+          },
                 onScan: () => context.push('/scan'),
               );
             },

@@ -9,6 +9,8 @@ import 'package:smart_crops/features/scan/domain/diagnosis_presenter.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
 import 'package:smart_crops/features/scan/screens/scan_capture_screen.dart';
+import 'package:smart_crops/app/analytics/analytics.dart';
+import 'package:smart_crops/app/analytics/analytics_view.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key, this.briefingFacts});
@@ -111,7 +113,10 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   TextButton(
-                    onPressed: () => context.go('/care-plan'),
+                    onPressed: () {
+                    context.trackEvent('care_plan_opened_from_home');
+                    context.go('/care-plan');
+                  },
                     child: Text(l10n.viewAll),
                   ),
                 ],
@@ -148,7 +153,7 @@ class HomeScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton.extended(
         key: const Key('fab_scan'),
         onPressed: () => Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => const ScanCaptureScreen()),
+          MaterialPageRoute(builder: (_) => const AnalyticsView(event: 'scan_capture_opened', child: ScanCaptureScreen())),
         ),
         icon: const Icon(Icons.camera_alt),
         label: Text(l10n.homeScanCTA),
@@ -418,7 +423,10 @@ class _PriorityActionCard extends StatelessWidget {
             Text(body, style: theme.textTheme.bodyMedium),
             const SizedBox(height: 12),
             FilledButton.icon(
-              onPressed: () => context.go(route),
+              onPressed: () {
+                context.trackEvent('priority_action_opened');
+                context.go(route);
+              },
               icon: const Icon(Icons.arrow_forward),
               label: Text(cta),
             ),

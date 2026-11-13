@@ -5,6 +5,7 @@ import 'package:smart_crops/app/widgets/feedback_states.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/models/app_models.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
+import 'package:smart_crops/app/analytics/analytics.dart';
 
 class AdvisoriesScreen extends StatelessWidget {
   const AdvisoriesScreen({super.key});
@@ -24,6 +25,7 @@ class AdvisoriesScreen extends StatelessWidget {
               if (unread == 0) return const SizedBox.shrink();
               return TextButton(
                 onPressed: () async {
+                  context.trackEvent('advisories_mark_all_read');
                   for (final notification in service.notifications) {
                     if (!notification.isRead) {
                       await service.markNotificationAsRead(notification.id);
@@ -63,8 +65,10 @@ class AdvisoriesScreen extends StatelessWidget {
                 notification: notifications[index],
                 l10n: l10n,
                 theme: theme,
-                onMarkRead: () =>
-                    service.markNotificationAsRead(notifications[index].id),
+                onMarkRead: () {
+                  context.trackEvent('advisory_opened');
+                  service.markNotificationAsRead(notifications[index].id);
+                },
               );
             },
           );

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_crops/app/localization/language_preference.dart';
+import 'package:smart_crops/app/localization/locale_provider.dart';
+import 'package:smart_crops/app/analytics/analytics.dart';
 import 'package:smart_crops/app/router/onboarding_controller.dart';
 import 'package:smart_crops/features/pro/domain/billing.dart';
 import 'package:smart_crops/features/pro/services/agri_pro_entitlement.dart';
@@ -55,6 +57,14 @@ void main() {
         fetchRow: () async => null,
       ),
       billingRepository: const UnconfiguredBillingRepository(),
+      localeProvider: LocaleProvider(
+        preference: LanguagePreference(store: MemoryLanguageStore()),
+      ),
+      analytics: Analytics(
+        sink: const DebugAnalyticsSink(),
+        language: () => 'en',
+        tier: () => 'free',
+      ),
     ));
     await tester.pumpAndSettle();
 

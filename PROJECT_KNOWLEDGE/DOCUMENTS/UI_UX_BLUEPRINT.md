@@ -1069,3 +1069,4 @@ A screen is release-ready only when:
 4. Confirm Phase 1 test seams before writing tests.
 5. Confirm photography budget, licensing, and farmer consent process.
 6. Confirm the deep-link domain and universal-link setup.
+7. Analytics is implemented behind `kRemoteAnalyticsEnabled` (`lib/app/build_config.dart`); push `supabase/migrations/20261113000000_analytics_events.sql` and flip the flag to start persisting events.

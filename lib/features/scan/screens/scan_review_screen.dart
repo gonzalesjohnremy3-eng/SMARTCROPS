@@ -14,6 +14,8 @@ import 'package:smart_crops/features/scan/domain/scan_quota.dart';
 import 'package:smart_crops/features/scan/domain/weekly_scan_window.dart';
 import 'package:smart_crops/features/scan/services/scan_queue_provider.dart';
 import 'package:smart_crops/features/scan/screens/scan_result_screen.dart';
+import 'package:smart_crops/app/analytics/analytics.dart';
+import 'package:smart_crops/app/analytics/analytics_view.dart';
 import 'package:smart_crops/features/pro/services/agri_pro_entitlement.dart';
 
 class ScanReviewScreen extends StatefulWidget {
@@ -51,6 +53,8 @@ class _ScanReviewScreenState extends State<ScanReviewScreen> {
       return;
     }
 
+    context.trackEvent('scan_analyze_started');
+
     setState(() {
       _isAnalyzing = true;
       _errorMessage = null;
@@ -68,6 +72,7 @@ class _ScanReviewScreenState extends State<ScanReviewScreen> {
           cropName: widget.cropName,
         );
         if (!mounted) return;
+        context.trackEvent('scan_queued_offline');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(AppLocalizations.of(context).scanQueuedOffline),
@@ -86,6 +91,7 @@ class _ScanReviewScreenState extends State<ScanReviewScreen> {
       if (!mounted) return;
 
       if (result == null) {
+        context.trackEvent('scan_failed');
         setState(() {
           _errorMessage = 'Analysis failed. Please try again.';
           _isAnalyzing = false;
@@ -102,9 +108,13 @@ class _ScanReviewScreenState extends State<ScanReviewScreen> {
             .toList(),
       );
 
+      context.trackEvent('scan_analyzed');
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (_) => ScanResultScreen(input: input),
+          builder: (_) => AnalyticsView(
+            event: 'scan_result_viewed',
+            child: ScanResultScreen(input: input),
+          ),
         ),
       );
     } catch (error) {

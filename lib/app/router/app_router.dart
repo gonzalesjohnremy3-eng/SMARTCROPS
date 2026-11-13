@@ -28,6 +28,7 @@ GoRouter buildAppRouter({
   bool enforceGuard = true,
   OnboardingController? onboarding,
   bool Function()? isAuthenticated,
+  List<NavigatorObserver>? observers,
 }) {
   final controller = onboarding ??
       OnboardingController(
@@ -38,6 +39,7 @@ GoRouter buildAppRouter({
   return GoRouter(
     initialLocation: initialLocation,
     refreshListenable: controller,
+    observers: observers,
     routes: [
       GoRoute(
         path: '/onboarding',

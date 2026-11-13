@@ -4,6 +4,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_crops/app/router/onboarding_controller.dart';
+import 'package:smart_crops/app/analytics/analytics.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
 
@@ -78,6 +79,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
             .where((crop) => _selectedCrops.contains(crop.cropName))
             .map((crop) => crop.id)
             .toList();
+        context.trackEvent('crops_selected', params: {'crop_count': _selectedCrops.length});
         if (cropIds.isNotEmpty) {
           await service.saveUserCrops(cropIds);
         }
@@ -88,6 +90,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
       await prefs.setBool(profileCompleteKey, true);
 
       if (mounted) {
+        context.trackEvent('profile_completed');
         context.read<OnboardingController>().completeProfile();
         context.go('/home');
       }
@@ -105,6 +108,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
   }
 
   void _nextStep(List<String> crops) {
+    context.trackEvent('profile_step_completed', params: {'step': _currentStep});
     if (_currentStep == 0) {
       if (!(_formKey.currentState?.validate() ?? false)) return;
     }
@@ -396,6 +400,10 @@ class _PermissionsStepState extends State<_PermissionsStep> {
     try {
       final status = await permission.request();
       if (!mounted) return;
+      context.trackEvent(
+        status.isGranted ? 'permission_granted' : 'permission_denied',
+        params: {'permission': permission.toString()},
+      );
       setState(() => _statuses[permission] = status);
       if (!status.isGranted) {
         ScaffoldMessenger.of(context).showSnackBar(

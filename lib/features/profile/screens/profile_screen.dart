@@ -6,6 +6,7 @@ import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/models/app_models.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
 import 'package:smart_crops/features/pro/services/agri_pro_entitlement.dart';
+import 'package:smart_crops/app/analytics/analytics.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -58,6 +59,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           _isEditing = false;
           _isSaving = false;
         });
+        context.trackEvent('profile_edited');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(AppLocalizations.of(context).profileUpdated)),
         );
@@ -408,7 +410,10 @@ class _LanguageSection extends StatelessWidget {
                   color: selected ? theme.colorScheme.primary : theme.colorScheme.outline,
                 ),
                 title: Text(name),
-                onTap: () => context.read<LocaleProvider>().setLocale(code),
+                onTap: () {
+                  context.trackEvent('language_changed', params: {'language': code});
+                  context.read<LocaleProvider>().setLocale(code);
+                },
               );
             }),
           ],
@@ -456,6 +461,7 @@ class _SignOutSection extends StatelessWidget {
           );
 
           if (confirmed == true && context.mounted) {
+            context.trackEvent('sign_out');
             await context.read<SmartCropsService>().signOut();
             if (context.mounted) {
               context.go('/auth');

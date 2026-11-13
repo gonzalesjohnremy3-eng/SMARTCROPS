@@ -1,3 +1,6 @@
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:smart_crops/features/pro/domain/entitlement.dart';
+
 enum AgriProPlanId { monthly, seasonal }
 
 class AgriProPlan {
@@ -65,4 +68,67 @@ class UnconfiguredBillingRepository implements BillingRepository {
 
   @override
   Future<BillingOutcome> restore() async => const BillingUnavailable();
+}
+
+/// TESTER MODE. No money changes hands and no payment method is used.
+///
+/// Behaves exactly like a real purchase for demo/testing: writes the same
+/// `user_subscriptions` row a live purchase would, so the tester account is
+/// Agri Pro everywhere the app looks (and survives reinstalls). Swap for a
+/// real `in_app_purchase` implementation (or [UnconfiguredBillingRepository])
+/// before the store launch.
+class SimulatedProBilling implements BillingRepository {
+  SimulatedProBilling(this._client);
+
+  final SupabaseClient _client;
+
+  @override
+  Future<BillingOutcome> purchase(AgriProPlanId plan) async {
+    final session = _client.auth.currentSession;
+    if (session == null) {
+      return const BillingFailed('Sign in to start Agri Pro.');
+    }
+
+    final now = DateTime.now();
+    final months = plan == AgriProPlanId.monthly ? 1 : 6;
+    final expires = DateTime(now.year, now.month + months, now.day);
+
+    try {
+      await _client.from('user_subscriptions').upsert({
+        'user_id': session.user.id,
+        'tier': 'premium',
+        'expires_at': expires.toIso8601String(),
+      }, onConflict: 'user_id');
+      return const BillingSucceeded();
+    } catch (error) {
+      return BillingFailed(error.toString());
+    }
+  }
+
+  @override
+  Future<BillingOutcome> restore() async {
+    final session = _client.auth.currentSession;
+    if (session == null) {
+      return const BillingUnavailable();
+    }
+
+    final row = await _client
+        .from('user_subscriptions')
+        .select('tier, expires_at')
+        .eq('user_id', session.user.id)
+        .maybeSingle();
+
+    if (row == null) {
+      return const BillingUnavailable();
+    }
+
+    final view = evaluateEntitlement(
+      tier: row['tier'] as String?,
+      expiresAt: row['expires_at'] != null
+          ? DateTime.tryParse(row['expires_at'].toString())
+          : null,
+      now: DateTime.now(),
+    );
+    return view.isPro ? const BillingSucceeded() : const BillingUnavailable();
+  }
 }

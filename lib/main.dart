@@ -8,6 +8,9 @@ import 'package:smart_crops/app/router/onboarding_controller.dart';
 import 'package:smart_crops/app/theme/app_theme.dart';
 import 'package:smart_crops/app/localization/language_preference.dart';
 import 'package:smart_crops/app/localization/locale_provider.dart';
+import 'package:smart_crops/app/analytics/analytics.dart';
+import 'package:smart_crops/app/analytics/route_observer.dart';
+import 'package:smart_crops/app/build_config.dart';
 import 'package:smart_crops/app/localization/ceb_fallback_localizations.dart';
 import 'package:smart_crops/app/deep_link_handler.dart';
 import 'package:go_router/go_router.dart';
@@ -54,13 +57,25 @@ Future<void> main() async {
     profileComplete: prefs.getBool('profile_complete') ?? false,
   );
 
+  final localeProvider = LocaleProvider(preference: languagePreference);
+
+  final analytics = Analytics(
+    sink: kRemoteAnalyticsEnabled
+        ? SupabaseAnalyticsSink(Supabase.instance.client)
+        : const DebugAnalyticsSink(),
+    language: () => localeProvider.currentLocale,
+    tier: () => agriProEntitlement.isPro ? 'pro' : 'free',
+  );
+
   runApp(SmartCropsApp(
     languagePreference: languagePreference,
     weatherService: weatherService,
     smartCropsService: smartCropsService,
     agriProEntitlement: agriProEntitlement,
     onboardingController: onboardingController,
-    billingRepository: const UnconfiguredBillingRepository(),
+    billingRepository: SimulatedProBilling(Supabase.instance.client),
+    localeProvider: localeProvider,
+    analytics: analytics,
   ));
 }
 
@@ -73,6 +88,8 @@ class SmartCropsApp extends StatefulWidget {
     required this.onboardingController,
     required this.agriProEntitlement,
     required this.billingRepository,
+    required this.localeProvider,
+    required this.analytics,
   });
 
   final LanguagePreference languagePreference;
@@ -81,6 +98,8 @@ class SmartCropsApp extends StatefulWidget {
   final OnboardingController onboardingController;
   final AgriProEntitlement agriProEntitlement;
   final BillingRepository billingRepository;
+  final LocaleProvider localeProvider;
+  final Analytics analytics;
 
   @override
   State<SmartCropsApp> createState() => _SmartCropsAppState();
@@ -95,6 +114,7 @@ class _SmartCropsAppState extends State<SmartCropsApp> {
     super.initState();
     _router = buildAppRouter(
       onboarding: widget.onboardingController,
+      observers: [AnalyticsRouteObserver(widget.analytics)],
     );
     _deepLinks = DeepLinkHandler(_router);
     _deepLinks.start();
@@ -121,9 +141,8 @@ class _SmartCropsAppState extends State<SmartCropsApp> {
             service: context.read<SmartCropsService>(),
           )..initialize(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => LocaleProvider(preference: widget.languagePreference),
-        ),
+        ChangeNotifierProvider<LocaleProvider>.value(value: widget.localeProvider),
+        Provider<Analytics>.value(value: widget.analytics),
       ],
       child: Consumer<LocaleProvider>(
         builder: (context, localeProvider, _) {

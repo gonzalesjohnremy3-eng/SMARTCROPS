@@ -5,6 +5,7 @@ import 'package:smart_crops/features/pro/domain/billing.dart';
 import 'package:smart_crops/features/pro/services/agri_pro_entitlement.dart';
 import 'package:smart_crops/features/scan/domain/weekly_scan_window.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
+import 'package:smart_crops/app/analytics/analytics.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
 
 class AgriProPaywallScreen extends StatefulWidget {
@@ -26,6 +27,7 @@ class _AgriProPaywallScreenState extends State<AgriProPaywallScreen> {
   List<AgriProPlan> get _plans => agriProPlans;
 
   Future<void> _startPurchase() async {
+    context.trackEvent('purchase_started', params: {'plan': _selected.name});
     setState(() => _isBusy = true);
     final l10n = AppLocalizations.of(context);
     final billing = context.read<BillingRepository>();
@@ -34,6 +36,7 @@ class _AgriProPaywallScreenState extends State<AgriProPaywallScreen> {
 
     switch (outcome) {
       case BillingSucceeded():
+        context.trackEvent('purchase_completed', params: {'plan': _selected.name});
         await context.read<AgriProEntitlement>().refresh();
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
@@ -129,7 +132,10 @@ class _AgriProPaywallScreenState extends State<AgriProPaywallScreen> {
                 selected: plan.id == _selected,
                 l10n: l10n,
                 theme: theme,
-                onTap: () => setState(() => _selected = plan.id),
+                onTap: () {
+            context.trackEvent('paywall_plan_selected', params: {'plan': plan.id.name});
+            setState(() => _selected = plan.id);
+          },
               )),
           const SizedBox(height: 8),
           Text(
@@ -161,7 +167,12 @@ class _AgriProPaywallScreenState extends State<AgriProPaywallScreen> {
             ),
           ),
           TextButton(
-            onPressed: _isBusy ? null : () => Navigator.of(context).maybePop(),
+            onPressed: _isBusy
+                ? null
+                : () {
+                    context.trackEvent('paywall_dismissed');
+                    Navigator.of(context).maybePop();
+                  },
             child: Text(l10n.notNow),
           ),
           const SizedBox(height: 16),

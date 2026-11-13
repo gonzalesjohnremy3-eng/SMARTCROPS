@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
+import 'package:smart_crops/app/analytics/analytics.dart';
 import 'package:smart_crops/app/theme/app_tokens.dart';
 import 'package:smart_crops/features/calendar/domain/care_plan.dart';
 import 'package:smart_crops/features/calendar/domain/weather_adjustment.dart';
@@ -128,10 +129,13 @@ class TaskDetailScreen extends StatelessWidget {
                   children: [
                     Checkbox(
                       value: currentEvent.isCompleted,
-                      onChanged: (val) => service.toggleCalendarEventCompletion(
-                        currentEvent.id,
-                        val ?? false,
-                      ),
+                      onChanged: (val) {
+                        context.trackEvent('task_completed');
+                        service.toggleCalendarEventCompletion(
+                          currentEvent.id,
+                          val ?? false,
+                        );
+                      },
                     ),
                     Expanded(
                       child: Text(

@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_crops/features/scan/domain/diagnosis_presenter.dart';
 import 'package:smart_crops/features/scan/screens/scan_capture_screen.dart';
+import 'package:smart_crops/app/analytics/analytics_view.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/models/app_models.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
@@ -96,7 +97,9 @@ class CropDetailScreen extends StatelessWidget {
           const SizedBox(height: 24),
           FilledButton(
             onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const ScanCaptureScreen()),
+              MaterialPageRoute(
+          builder: (_) => const AnalyticsView(event: 'scan_capture_opened', child: ScanCaptureScreen()),
+        ),
             ),
             child: Text(l10n.cropsScanThisCrop),
           ),

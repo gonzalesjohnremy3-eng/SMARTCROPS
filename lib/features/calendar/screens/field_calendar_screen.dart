@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:smart_crops/app/analytics/analytics.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_crops/app/theme/app_tokens.dart';
 import 'package:smart_crops/app/widgets/feedback_states.dart';
@@ -37,8 +38,10 @@ class _FieldCalendarScreenState extends State<FieldCalendarScreen> {
               ButtonSegment(value: CalendarView.month, label: Text(l10n.calendarViewMonth)),
             ],
             selected: {_view},
-            onSelectionChanged: (selection) =>
-                setState(() => _view = selection.first),
+            onSelectionChanged: (selection) {
+              context.trackEvent('calendar_view_changed', params: {'view': selection.first.name});
+              setState(() => _view = selection.first);
+            },
           ),
         ],
       ),
@@ -111,8 +114,10 @@ class _FieldCalendarScreenState extends State<FieldCalendarScreen> {
                       !_isSameDay(item.adjustedDate, now),
                   l10n: l10n,
                   theme: theme,
-                  onToggle: (value) =>
-                      service.toggleCalendarEventCompletion(item.event.id, value),
+                  onToggle: (value) {
+                    context.trackEvent('task_completed');
+                    service.toggleCalendarEventCompletion(item.event.id, value);
+                  },
                   onTap: () => context.push('/calendar/events/${item.event.id}'),
                 );
               },
