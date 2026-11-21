@@ -33,6 +33,35 @@ void main() {
     expect(find.text('Treatment Steps'), findsOneWidget);
   });
 
+  testWidgets('demo input renders the clearly-labeled demo banner and detail sections', (tester) async {
+    await tester.pumpWidget(buildResult(const DiagnosisInput(
+      diseaseDetected: 'Early blight',
+      confidenceScore: 81,
+      commonCrop: 'Tomato',
+      recommendedActions: ['Remove affected leaves', 'Improve airflow'],
+      isDemo: true,
+    )));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Demo diagnosis'), findsOneWidget);
+    expect(find.text('Why it happens'), findsOneWidget);
+    expect(find.text('What you will see'), findsOneWidget);
+    expect(find.text('How to prevent it'), findsOneWidget);
+    expect(find.text('When to call an expert'), findsOneWidget);
+  });
+
+  testWidgets('real input does not render the demo banner', (tester) async {
+    await tester.pumpWidget(buildResult(const DiagnosisInput(
+      diseaseDetected: 'Early blight',
+      confidenceScore: 92,
+      commonCrop: 'Tomato',
+      recommendedActions: ['Remove affected leaves'],
+    )));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Demo diagnosis'), findsNothing);
+  });
+
   testWidgets('high-confidence diagnosis shows the treatment plan', (tester) async {
     await tester.pumpWidget(buildResult(const DiagnosisInput(
       diseaseDetected: 'Early blight',

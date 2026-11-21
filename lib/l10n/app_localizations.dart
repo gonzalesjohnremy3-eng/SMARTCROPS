@@ -1905,6 +1905,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Partner products matched to your diagnosis'**
   String get shopProfileSubtitle;
+
+  /// Banner title when the offline demo sample is shown
+  ///
+  /// In en, this message translates to:
+  /// **'Demo diagnosis'**
+  String get scanDemoBannerTitle;
+
+  /// Banner body explaining the offline demo sample
+  ///
+  /// In en, this message translates to:
+  /// **'Smart Crops AI could not answer for this photo, so this is a clearly labeled sample result. Treat it as guidance only and confirm with your barangay or municipal agricultural technologist. The live AI result will appear as soon as the service recovers.'**
+  String get scanDemoBannerBody;
+
+  /// Heading for the cause/pathogen section
+  ///
+  /// In en, this message translates to:
+  /// **'Why it happens'**
+  String get scanDetailCause;
+
+  /// Heading for the visible symptoms section
+  ///
+  /// In en, this message translates to:
+  /// **'What you will see'**
+  String get scanDetailSymptoms;
+
+  /// Heading for the prevention section
+  ///
+  /// In en, this message translates to:
+  /// **'How to prevent it'**
+  String get scanDetailPrevention;
+
+  /// Heading for the consult an expert section
+  ///
+  /// In en, this message translates to:
+  /// **'When to call an expert'**
+  String get scanDetailExpertNote;
 }
 
 class _AppLocalizationsDelegate

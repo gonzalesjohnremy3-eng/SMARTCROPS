@@ -14,9 +14,12 @@ WeekWindow weekWindow(DateTime now) {
   return WeekWindow(start: start, end: end);
 }
 
+/// Scans counting toward the weekly free quota. Offline demo samples
+/// (`source == 'demo_offline'`) do NOT consume the farmer's quota.
 int scansThisWeek(List<ScanHistoryItem> scans, DateTime now) {
   final window = weekWindow(now);
   return scans.where((scan) {
+    if (scan.source == 'demo_offline') return false;
     final scanned = scan.scannedAt;
     return !scanned.isBefore(window.start) && scanned.isBefore(window.end);
   }).length;

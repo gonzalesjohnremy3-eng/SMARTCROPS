@@ -1235,5 +1235,29 @@
   "shopProfileSubtitle": "Partner products matched to your diagnosis",
   "@shopProfileSubtitle": {
     "description": "Agri Shop row subtitle in Profile"
+  },
+  "scanDemoBannerTitle": "Demo diagnosis",
+  "@scanDemoBannerTitle": {
+    "description": "Banner title when the offline demo sample is shown"
+  },
+  "scanDemoBannerBody": "Smart Crops AI could not answer for this photo, so this is a clearly labeled sample result. Treat it as guidance only and confirm with your barangay or municipal agricultural technologist. The live AI result will appear as soon as the service recovers.",
+  "@scanDemoBannerBody": {
+    "description": "Banner body explaining the offline demo sample"
+  },
+  "scanDetailCause": "Why it happens",
+  "@scanDetailCause": {
+    "description": "Heading for the cause/pathogen section"
+  },
+  "scanDetailSymptoms": "What you will see",
+  "@scanDetailSymptoms": {
+    "description": "Heading for the visible symptoms section"
+  },
+  "scanDetailPrevention": "How to prevent it",
+  "@scanDetailPrevention": {
+    "description": "Heading for the prevention section"
+  },
+  "scanDetailExpertNote": "When to call an expert",
+  "@scanDetailExpertNote": {
+    "description": "Heading for the consult an expert section"
   }
 }

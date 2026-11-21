@@ -47,7 +47,7 @@ class _ScanCaptureScreenState extends State<ScanCaptureScreen> {
         builder: (_) => AnalyticsView(
           event: 'scan_review_viewed',
           child: ScanReviewScreen(
-            localImagePath: picked.path,
+            imageFile: picked,
             cropName: cropName,
           ),
         ),

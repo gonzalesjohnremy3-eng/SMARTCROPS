@@ -5,6 +5,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:smart_crops/app/theme/app_tokens.dart';
 import 'package:smart_crops/app/analytics/analytics.dart';
 import 'package:smart_crops/features/calendar/domain/task_draft.dart';
+import 'package:smart_crops/features/scan/domain/diagnosis_knowledge_base.dart';
 import 'package:smart_crops/features/scan/domain/diagnosis_presenter.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/models/app_models.dart';
@@ -20,6 +21,10 @@ class ScanResultScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final view = presentDiagnosis(input);
+    final details = knowledgeFor(
+      diseaseDetected: view.diagnosis,
+      cropName: view.crop,
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -42,10 +47,28 @@ class ScanResultScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (view.isDemo) ...[
+              _DemoNotice(l10n: l10n, theme: theme),
+              const SizedBox(height: 20),
+            ],
             _CropSummary(view: view, l10n: l10n, theme: theme),
             const SizedBox(height: 24),
             _DiagnosisCard(view: view, l10n: l10n, theme: theme),
             const SizedBox(height: 24),
+            _DetailSection(
+              title: l10n.scanDetailCause,
+              icon: Icons.science_outlined,
+              theme: theme,
+              child: Text(details.cause, style: theme.textTheme.bodyMedium),
+            ),
+            const SizedBox(height: 20),
+            _DetailSection(
+              title: l10n.scanDetailSymptoms,
+              icon: Icons.visibility_outlined,
+              theme: theme,
+              child: _BulletList(items: details.symptoms, theme: theme),
+            ),
+            const SizedBox(height: 20),
             Text(l10n.scanResultTreatmentSteps, style: theme.textTheme.titleLarge),
             const SizedBox(height: 12),
             ...view.treatmentSteps.asMap().entries.map((entry) => _TreatmentStep(
@@ -53,6 +76,20 @@ class ScanResultScreen extends StatelessWidget {
                   step: entry.value,
                   theme: theme,
                 )),
+            const SizedBox(height: 24),
+            _DetailSection(
+              title: l10n.scanDetailPrevention,
+              icon: Icons.shield_outlined,
+              theme: theme,
+              child: _BulletList(items: details.prevention, theme: theme),
+            ),
+            const SizedBox(height: 20),
+            _DetailSection(
+              title: l10n.scanDetailExpertNote,
+              icon: Icons.support_agent_outlined,
+              theme: theme,
+              child: Text(details.expertNote, style: theme.textTheme.bodyMedium),
+            ),
             const SizedBox(height: 24),
             _Actions(view: view, l10n: l10n, theme: theme),
             const SizedBox(height: 12),
@@ -365,6 +402,116 @@ class _Actions extends StatelessWidget {
              label: Text(l10n.shopSeeProductsFor),
            ),
          ],
+      ],
+    );
+  }
+}
+
+class _DemoNotice extends StatelessWidget {
+  const _DemoNotice({required this.l10n, required this.theme});
+
+  final AppLocalizations l10n;
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.tertiaryContainer,
+        borderRadius: BorderRadius.circular(AppRadius.card),
+        border: Border.all(color: theme.colorScheme.tertiary),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(Icons.science_outlined, color: theme.colorScheme.onTertiaryContainer),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l10n.scanDemoBannerTitle,
+                  style: theme.textTheme.labelLarge?.copyWith(
+                    color: theme.colorScheme.onTertiaryContainer,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  l10n.scanDemoBannerBody,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onTertiaryContainer,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DetailSection extends StatelessWidget {
+  const _DetailSection({
+    required this.title,
+    required this.icon,
+    required this.theme,
+    required this.child,
+  });
+
+  final String title;
+  final IconData icon;
+  final ThemeData theme;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Icon(icon, size: 18, color: theme.colorScheme.primary),
+            const SizedBox(width: 8),
+            Text(title, style: theme.textTheme.titleMedium),
+          ],
+        ),
+        const SizedBox(height: 8),
+        child,
+      ],
+    );
+  }
+}
+
+class _BulletList extends StatelessWidget {
+  const _BulletList({required this.items, required this.theme});
+
+  final List<String> items;
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        for (final item in items)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 6),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 7),
+                  child: Icon(Icons.circle, size: 6, color: theme.colorScheme.primary),
+                ),
+                const SizedBox(width: 10),
+                Expanded(child: Text(item, style: theme.textTheme.bodyMedium)),
+              ],
+            ),
+          ),
       ],
     );
   }

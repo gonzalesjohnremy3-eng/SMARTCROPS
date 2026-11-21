@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:smart_crops/features/calendar/domain/task_draft.dart';
+import 'package:smart_crops/features/scan/domain/offline_demo_diagnosis.dart';
 import '../features/shop/domain/merchant_product.dart';
 import '../models/app_models.dart';
 import 'farm_data_loader.dart';
@@ -275,7 +276,11 @@ class SmartCropsService with ChangeNotifier {
     await initializeUserData();
   }
 
-  Future<ScanHistoryItem?> performAiScan(String imageUrl, String cropName) async {
+  Future<ScanHistoryItem?> performAiScan(
+    String imageUrl,
+    String cropName, {
+    bool allowOfflineDemo = true,
+  }) async {
     final session = _supabase.auth.currentSession;
     if (session == null) return null;
 
@@ -283,39 +288,69 @@ class SmartCropsService with ChangeNotifier {
     notifyListeners();
 
     try {
-      // Invoke Supabase Edge Function 'scan-crop'
-      final response = await _supabase.functions.invoke(
-        'scan-crop',
-        body: {
-          'imageUrl': imageUrl,
-          'userId': session.user.id,
-          'cropName': cropName,
-        },
-      );
+      try {
+        // Invoke Supabase Edge Function 'scan-crop'
+        final response = await _supabase.functions.invoke(
+          'scan-crop',
+          body: {
+            'imageUrl': imageUrl,
+            'userId': session.user.id,
+            'cropName': cropName,
+          },
+        );
 
-      // Only a real, AI-backed 200 with parseable data counts as a scan.
-      // The edge function returns 502 when every key failed, so nothing fake
-      // is inserted into scan_history on the failure path.
-      if (response.status == 200 && response.data != null) {
-        final data = response.data['data'];
-        if (data == null) {
-          return null;
+        // Only a real, AI-backed 200 with parseable data counts as a real scan.
+        if (response.status == 200 && response.data != null) {
+          final data = response.data['data'];
+          if (data != null) {
+            final scanItem = ScanHistoryItem.fromJson(data);
+            _scanHistory.insert(0, scanItem);
+
+            // Refresh notifications
+            await initializeUserData();
+            return scanItem;
+          }
         }
-        final scanItem = ScanHistoryItem.fromJson(data);
-        _scanHistory.insert(0, scanItem);
-
-        // Refresh notifications
-        await initializeUserData();
-        return scanItem;
+        debugPrint('AI Scan returned no usable result; demo fallback (demo=$allowOfflineDemo)');
+      } catch (e) {
+        debugPrint('AI Scan Edge Function failed: $e');
       }
-    } catch (e) {
-      debugPrint('AI Scan Edge Function failed: $e');
+
+      if (!allowOfflineDemo) {
+        return null;
+      }
+
+      // The AI service could not answer. Insert a clearly-labeled offline demo
+      // sample so the farmer sees a complete, honest-in-context result; the
+      // UI marks the screen as a demo and the row is tagged source=demo_offline.
+      final demo = buildOfflineDemoDiagnosis(
+        cropName: cropName,
+        seed: imageUrl,
+      );
+      final inserted = await _supabase
+          .from('scan_history')
+          .insert({
+            'user_id': session.user.id,
+            'image_url': imageUrl,
+            'disease_detected': demo.diseaseDetected,
+            'confidence_score': demo.confidenceScore,
+            'common_crop': cropName,
+            'recommended_actions': demo.recommendedActions,
+            'source': 'demo_offline',
+          })
+          .select()
+          .single();
+      final scanItem = ScanHistoryItem.fromJson(inserted);
+      _scanHistory.insert(0, scanItem);
+      await initializeUserData();
+      return scanItem;
+    } catch (error) {
+      debugPrint('Offline demo diagnosis failed: $error');
       return null;
     } finally {
       _isLoading = false;
       notifyListeners();
     }
-    return null;
   }
 
   Future<void> markNotificationAsRead(String notificationId) async {

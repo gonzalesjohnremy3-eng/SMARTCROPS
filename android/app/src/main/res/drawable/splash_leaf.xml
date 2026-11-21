@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Brand leaf for the startup splash: upcoming target sizes keep it centered. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+    <path
+        android:fillColor="#F2F6EC"
+        android:pathData="M 48,14 Q 67.4,38.7 48,63.4 Q 28.6,38.7 48,14 Z" />
+    <path
+        android:strokeColor="#F2F6EC"
+        android:strokeWidth="4.7"
+        android:strokeLineCap="round"
+        android:pathData="M 48,54 L 48,73" />
+    <path
+        android:fillColor="#D9A441"
+        android:pathData="M 48,72.5 A 3.9,3.9 0 1,1 48,80.3 A 3.9,3.9 0 1,1 48,72.5 Z" />
+</vector>

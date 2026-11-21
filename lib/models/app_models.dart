@@ -71,6 +71,7 @@ class ScanHistoryItem {
   final String commonCrop;
   final List<dynamic> recommendedActions;
   final DateTime scannedAt;
+  final String source;
 
   ScanHistoryItem({
     required this.id,
@@ -81,6 +82,7 @@ class ScanHistoryItem {
     required this.commonCrop,
     required this.recommendedActions,
     required this.scannedAt,
+    this.source = 'ai',
   });
 
   factory ScanHistoryItem.fromJson(Map<String, dynamic> json) {
@@ -93,6 +95,7 @@ class ScanHistoryItem {
       commonCrop: json['common_crop'] ?? 'Pechay',
       recommendedActions: json['recommended_actions'] ?? [],
       scannedAt: json['scanned_at'] != null ? DateTime.parse(json['scanned_at']) : DateTime.now(),
+      source: (json['source'] ?? 'ai').toString(),
     );
   }
 
@@ -105,6 +108,7 @@ class ScanHistoryItem {
         'common_crop': commonCrop,
         'recommended_actions': recommendedActions,
         'scanned_at': scannedAt.toIso8601String(),
+        'source': source,
       };
 }
 

@@ -155,7 +155,9 @@ class _SmartCropsAnalyzer implements ScanAnalyzer {
     required String imageUrl,
     required String cropName,
   }) async {
-    final result = await service.performAiScan(imageUrl, cropName);
+    // Queued scans must wait for the real AI to come back; an offline demo
+    // sample here would silently replace a real diagnosis.
+    final result = await service.performAiScan(imageUrl, cropName, allowOfflineDemo: false);
     if (result == null) {
       throw StateError('Analysis failed');
     }

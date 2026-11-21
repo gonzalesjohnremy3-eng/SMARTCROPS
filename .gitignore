@@ -48,3 +48,8 @@ app.*.map.json
 .env
 .agents
 node_modules
+# Android release signing
+key.properties
+*.jks
+*.keystore
+

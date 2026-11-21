@@ -977,4 +977,23 @@ class AppLocalizationsTl extends AppLocalizations {
   @override
   String get shopProfileSubtitle =>
       'Mga partner product na tumutugma sa iyong diagnosis';
+
+  @override
+  String get scanDemoBannerTitle => 'Demo na diagnosis';
+
+  @override
+  String get scanDemoBannerBody =>
+      'Hindi nakasagot ang Smart Crops AI para sa larawang ito kaya ito ay malinaw na may labeling na sample na resulta. Itanggap ang gabay na ito bilang mungkahi lamang at i-verify sa iyong barangay o municipal agricultural technologist. Lalabas ang live na AI result sa sandaling bumalik ang serbisyo.';
+
+  @override
+  String get scanDetailCause => 'Bakit ito nangyayari';
+
+  @override
+  String get scanDetailSymptoms => 'Kung ano ang mapapansin';
+
+  @override
+  String get scanDetailPrevention => 'Paano maiiwasan';
+
+  @override
+  String get scanDetailExpertNote => 'Kailan tatawag sa eksperto';
 }
