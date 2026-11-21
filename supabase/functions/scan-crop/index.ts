@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3";
 import { classifyOpenAIError, ProviderKeyUnavailable } from './ai_errors.ts';
+import { runGeminiModels } from './gemini_runner.ts';
 import { DiagnosisResult, PoolKey, runKeyPool } from './pool_runner.ts';
 
 const corsHeaders = {
@@ -8,7 +9,6 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-const GEMINI_MODEL = Deno.env.get('GEMINI_MODEL') ?? 'gemini-3.8-flash';
 const OPENAI_MODEL = Deno.env.get('OPENAI_MODEL') ?? 'gpt-4o';
 const AI_TIMEOUT_MS = 45_000;
 
@@ -28,8 +28,7 @@ const SYSTEM_PROMPT =
   'You are an expert agricultural plant pathologist. Analyze the crop image and return JSON with keys: ' +
   'disease_detected (string), confidence_score (number 0-100), common_crop (string), recommended_actions (array of strings).';
 
-async function diagnoseWithGemini(apiKey: string, imageUrl: string, cropName: string): Promise<DiagnosisResult> {
-  // Gemini needs the bytes: download the (public) image and send it inline.
+async function downloadImage(imageUrl: string): Promise<{ base64: string; mimeType: string }> {
   const imageResponse = await fetch(imageUrl, { signal: AbortSignal.timeout(AI_TIMEOUT_MS) });
   if (!imageResponse.ok) {
     throw new Error(`image fetch failed: ${imageResponse.status}`);
@@ -42,10 +41,18 @@ async function diagnoseWithGemini(apiKey: string, imageUrl: string, cropName: st
   for (let i = 0; i < bytes.length; i += CHUNK) {
     binary += String.fromCharCode(...bytes.subarray(i, i + CHUNK));
   }
-  const base64 = btoa(binary);
+  return { base64: btoa(binary), mimeType };
+}
 
+async function callGeminiModel(
+  apiKey: string,
+  model: string,
+  base64: string,
+  mimeType: string,
+  cropName: string,
+): Promise<DiagnosisResult> {
   const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
     {
       method: 'POST',
       signal: AbortSignal.timeout(AI_TIMEOUT_MS),
@@ -71,6 +78,29 @@ async function diagnoseWithGemini(apiKey: string, imageUrl: string, cropName: st
     throw new Error('gemini returned no text');
   }
   return parseDiagnosisJson(text, cropName);
+}
+
+async function recordGeminiAttempt(
+  supabaseClient: any,
+  userId: string,
+  keyId: string,
+  model: string,
+  status: 'success' | 'error',
+  error?: string,
+): Promise<void> {
+  const { error: insertError } = await supabaseClient
+    .from('ai_model_attempts')
+    .insert({
+      user_id: userId,
+      key_id: keyId,
+      provider: 'Gemini',
+      model,
+      status,
+      error: error ? error.slice(0, 500) : null,
+    });
+  if (insertError) {
+    console.error(`Failed to record Gemini attempt for ${model}: ${insertError.message}`);
+  }
 }
 
 async function diagnoseWithOpenAI(apiKey: string, imageUrl: string, cropName: string): Promise<DiagnosisResult> {
@@ -109,15 +139,29 @@ async function diagnoseWithOpenAI(apiKey: string, imageUrl: string, cropName: st
   return parseDiagnosisJson(text, cropName);
 }
 
-async function diagnoseWithKey(provider: string, apiKey: string, imageUrl: string, cropName: string): Promise<DiagnosisResult> {
-  const normalized = (provider ?? '').toLowerCase();
+async function diagnoseWithKey(
+  key: PoolKey,
+  imageUrl: string,
+  cropName: string,
+  context: { userId: string; supabaseClient: any },
+): Promise<DiagnosisResult> {
+  const normalized = (key.provider ?? '').toLowerCase();
   if (normalized === 'gemini' || normalized === 'google') {
-    return diagnoseWithGemini(apiKey, imageUrl, cropName);
+    return runGeminiModels({
+      apiKey: key.api_key_encrypted,
+      imageUrl,
+      cropName,
+      download: downloadImage,
+      callModel: (model, base64, mimeType) =>
+        callGeminiModel(key.api_key_encrypted, model, base64, mimeType, cropName),
+      record: (model, status, error) =>
+        recordGeminiAttempt(context.supabaseClient, context.userId, key.id, model, status, error),
+    });
   }
   if (normalized === 'openai') {
-    return diagnoseWithOpenAI(apiKey, imageUrl, cropName);
+    return diagnoseWithOpenAI(key.api_key_encrypted, imageUrl, cropName);
   }
-  throw new Error(`unsupported provider: ${provider}`);
+  throw new Error(`unsupported provider: ${key.provider}`);
 }
 
 serve(async (req) => {
@@ -168,7 +212,7 @@ serve(async (req) => {
     const { result, usedKey, attempts } = await runKeyPool(
       supabaseClient,
       availableKeys as PoolKey[],
-      (key) => diagnoseWithKey(key.provider, key.api_key_encrypted, imageUrl, cropName ?? ''),
+      (key) => diagnoseWithKey(key, imageUrl, cropName ?? '', { userId, supabaseClient }),
     );
 
     if (!result || !usedKey) {
