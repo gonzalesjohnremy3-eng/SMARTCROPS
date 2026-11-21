@@ -8,12 +8,14 @@ class DiagnosisInput {
     required this.confidenceScore,
     required this.commonCrop,
     required this.recommendedActions,
+    this.isDemo = false,
   });
 
   final String diseaseDetected;
   final double confidenceScore;
   final String commonCrop;
   final List<String> recommendedActions;
+  final bool isDemo;
 }
 
 class DiagnosisView {
@@ -27,6 +29,7 @@ class DiagnosisView {
     required this.showRetakePrimary,
     required this.allowPartnerOffers,
     required this.treatmentSteps,
+    required this.isDemo,
   });
 
   final String diagnosis;
@@ -38,6 +41,7 @@ class DiagnosisView {
   final bool showRetakePrimary;
   final bool allowPartnerOffers;
   final List<String> treatmentSteps;
+  final bool isDemo;
 }
 
 DiagnosisView presentDiagnosis(DiagnosisInput input) {
@@ -56,6 +60,7 @@ DiagnosisView presentDiagnosis(DiagnosisInput input) {
     allowPartnerOffers:
         band != ConfidenceBand.low && severity != DiagnosisSeverity.healthy,
     treatmentSteps: List.unmodifiable(input.recommendedActions),
+    isDemo: input.isDemo,
   );
 }
 

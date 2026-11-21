@@ -974,4 +974,23 @@ class AppLocalizationsCeb extends AppLocalizations {
   @override
   String get shopProfileSubtitle =>
       'Mga kaubang produkto nga katumbas sa imong diagnosis';
+
+  @override
+  String get scanDemoBannerTitle => 'Demo nga diagnosis';
+
+  @override
+  String get scanDemoBannerBody =>
+      'Wala makatubag ang Smart Crops AI para sa litratong kini, busa kini usa ka tinag tag nga sample resulta. Isipon kini isip giya lamang ug i-verify sa imong barangay o municipal agricultural technologist. Mobalik dayon ang live nga resulta sa AI sa dihang mobalik ang serbisyo.';
+
+  @override
+  String get scanDetailCause => 'Nganong nahitabo kini';
+
+  @override
+  String get scanDetailSymptoms => 'Unsay imong makita';
+
+  @override
+  String get scanDetailPrevention => 'Unsaon pagpugong';
+
+  @override
+  String get scanDetailExpertNote => 'Kanus-a motawag sa eksperto';
 }

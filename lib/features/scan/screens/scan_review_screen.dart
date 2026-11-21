@@ -4,6 +4,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:smart_crops/app/theme/app_tokens.dart';
@@ -18,14 +19,20 @@ import 'package:smart_crops/app/analytics/analytics.dart';
 import 'package:smart_crops/app/analytics/analytics_view.dart';
 import 'package:smart_crops/features/pro/services/agri_pro_entitlement.dart';
 
+String scanImageExtension(XFile file) {
+  final name = file.name.contains('.') ? file.name : file.path.split('/').last;
+  final dot = name.lastIndexOf('.');
+  return dot < 0 ? 'jpg' : name.substring(dot + 1).toLowerCase();
+}
+
 class ScanReviewScreen extends StatefulWidget {
   const ScanReviewScreen({
     super.key,
-    required this.localImagePath,
+    required this.imageFile,
     required this.cropName,
   });
 
-  final String localImagePath;
+  final XFile imageFile;
   final String cropName;
 
   @override
@@ -68,7 +75,7 @@ class _ScanReviewScreenState extends State<ScanReviewScreen> {
 
       if (!isOnline) {
         await queueProvider.enqueueScan(
-          localImagePath: widget.localImagePath,
+          localImagePath: widget.imageFile.path,
           cropName: widget.cropName,
         );
         if (!mounted) return;
@@ -84,7 +91,7 @@ class _ScanReviewScreenState extends State<ScanReviewScreen> {
 
       // Online: upload the captured image and analyze it.
       final uploader = _SupabaseStorageUploader(service);
-      final imageUrl = await uploader.upload(widget.localImagePath);
+      final imageUrl = await uploader.upload(widget.imageFile);
 
       final result = await service.performAiScan(imageUrl, widget.cropName);
 
@@ -106,9 +113,13 @@ class _ScanReviewScreenState extends State<ScanReviewScreen> {
         recommendedActions: result.recommendedActions
             .map((action) => action.toString())
             .toList(),
+        isDemo: result.source == 'demo_offline',
       );
 
-      context.trackEvent('scan_analyzed');
+      context.trackEvent(
+        'scan_analyzed',
+        params: {'source': result.source},
+      );
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (_) => AnalyticsView(
@@ -122,7 +133,7 @@ class _ScanReviewScreenState extends State<ScanReviewScreen> {
       // Network or upload failure: queue the scan for later analysis.
       try {
         await queueProvider.enqueueScan(
-          localImagePath: widget.localImagePath,
+          localImagePath: widget.imageFile.path,
           cropName: widget.cropName,
         );
         if (!mounted) return;
@@ -170,8 +181,8 @@ class _ScanReviewScreenState extends State<ScanReviewScreen> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(AppRadius.card),
                   child: kIsWeb
-                      ? Image.network(widget.localImagePath, fit: BoxFit.cover)
-                      : Image.file(File(widget.localImagePath), fit: BoxFit.cover),
+                      ? Image.network(widget.imageFile.path, fit: BoxFit.cover)
+                      : Image.file(File(widget.imageFile.path), fit: BoxFit.cover),
                 ),
               ),
               const SizedBox(height: 16),
@@ -252,24 +263,18 @@ class _SupabaseStorageUploader {
 
   final SmartCropsService service;
 
-  Future<String> upload(String localImagePath) async {
-    // Online path: upload to Supabase Storage so the Edge Function
-    // receives a public URL instead of a local path.
+  Future<String> upload(XFile imageFile) async {
+    // Upload the captured image itself on every platform: on web XFile
+    // resolves the picker's blob URL to real bytes.
     final session = Supabase.instance.client.auth.currentSession;
     if (session == null) {
       throw StateError('No authenticated session');
     }
 
-    final extension = localImagePath.split('.').last.toLowerCase();
+    final extension = scanImageExtension(imageFile);
     final objectName = '${session.user.id}/${DateTime.now().millisecondsSinceEpoch}.$extension';
 
-    if (kIsWeb) {
-      // Web receives bytes via a data URI; fall back to a sample URL in the prototype.
-      return 'https://images.unsplash.com/photo-1592417817098-8f3d691a4bf5?auto=format&fit=crop&w=800&q=80';
-    }
-
-    final file = File(localImagePath);
-    final bytes = await file.readAsBytes();
+    final bytes = await imageFile.readAsBytes();
     await Supabase.instance.client.storage
         .from('scan-images')
         .uploadBinary(objectName, bytes);

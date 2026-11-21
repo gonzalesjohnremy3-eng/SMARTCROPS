@@ -957,4 +957,23 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get shopProfileSubtitle =>
       'Partner products matched to your diagnosis';
+
+  @override
+  String get scanDemoBannerTitle => 'Demo diagnosis';
+
+  @override
+  String get scanDemoBannerBody =>
+      'Smart Crops AI could not answer for this photo, so this is a clearly labeled sample result. Treat it as guidance only and confirm with your barangay or municipal agricultural technologist. The live AI result will appear as soon as the service recovers.';
+
+  @override
+  String get scanDetailCause => 'Why it happens';
+
+  @override
+  String get scanDetailSymptoms => 'What you will see';
+
+  @override
+  String get scanDetailPrevention => 'How to prevent it';
+
+  @override
+  String get scanDetailExpertNote => 'When to call an expert';
 }

@@ -852,5 +852,29 @@
   "shopProfileSubtitle": "Mga kaubang produkto nga katumbas sa imong diagnosis",
   "@shopProfileSubtitle": {
     "description": "Agri Shop row subtitle in Profile"
+  },
+  "scanDemoBannerTitle": "Demo nga diagnosis",
+  "@scanDemoBannerTitle": {
+    "description": "Banner title when the offline demo sample is shown"
+  },
+  "scanDemoBannerBody": "Wala makatubag ang Smart Crops AI para sa litratong kini, busa kini usa ka tinag tag nga sample resulta. Isipon kini isip giya lamang ug i-verify sa imong barangay o municipal agricultural technologist. Mobalik dayon ang live nga resulta sa AI sa dihang mobalik ang serbisyo.",
+  "@scanDemoBannerBody": {
+    "description": "Banner body explaining the offline demo sample"
+  },
+  "scanDetailCause": "Nganong nahitabo kini",
+  "@scanDetailCause": {
+    "description": "Heading for the cause/pathogen section"
+  },
+  "scanDetailSymptoms": "Unsay imong makita",
+  "@scanDetailSymptoms": {
+    "description": "Heading for the visible symptoms section"
+  },
+  "scanDetailPrevention": "Unsaon pagpugong",
+  "@scanDetailPrevention": {
+    "description": "Heading for the prevention section"
+  },
+  "scanDetailExpertNote": "Kanus-a motawag sa eksperto",
+  "@scanDetailExpertNote": {
+    "description": "Heading for the consult an expert section"
   }
 }

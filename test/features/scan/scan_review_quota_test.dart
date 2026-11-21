@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -76,10 +77,10 @@ Future<void> _pumpReview(
   final router = GoRouter(routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const ScanReviewScreen(
-        localImagePath: 'test.png',
-        cropName: 'Tomato',
-      ),
+        builder: (context, state) => ScanReviewScreen(
+          imageFile: XFile('test.png'),
+          cropName: 'Tomato',
+        ),
     ),
     GoRoute(
       path: '/pro',
