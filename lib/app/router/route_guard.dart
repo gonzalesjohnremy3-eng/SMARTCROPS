@@ -77,11 +77,11 @@ RouteAction resolveRoute(RouteContext context) {
     );
   }
 
-  if (context.requestedLocation == '/setup/profile') {
-    // Profile is already complete; /setup/profile is the setup screen, so
-    // route to home instead of re-running the wizard (e.g. the login flow
-    // always lands on /setup/profile).
-    return RouteAction(
+  if (context.requestedLocation == '/' ||
+      context.requestedLocation == '/setup/profile') {
+    // The OAuth callback returns to the site root and the login flow lands on
+    // /setup/profile; with a complete profile neither is a destination.
+    return const RouteAction(
       location: '/home',
       reason: RouteReason.home,
     );

@@ -61,6 +61,40 @@ void main() {
     expect(find.byTooltip('Profile'), findsOneWidget);
   });
 
+  testWidgets('an authenticated farmer landing on / reaches home, not an error page',
+      (tester) async {
+    final router = buildAppRouter(
+      initialLocation: '/',
+      isAuthenticated: () => true,
+    );
+
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => SmartCropsService()),
+          ChangeNotifierProvider(create: (_) => WeatherService()),
+        ],
+        child: MaterialApp.router(
+          routerConfig: router,
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('en'),
+            Locale('tl'),
+            Locale('ceb'),
+          ],
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byTooltip('Home'), findsOneWidget);
+  });
+
   testWidgets('guard allows /home as soon as profile setup completes',
       (tester) async {
     final onboarding = OnboardingController(
