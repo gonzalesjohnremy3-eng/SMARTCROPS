@@ -72,11 +72,10 @@ class UnconfiguredBillingRepository implements BillingRepository {
 
 /// TESTER MODE. No money changes hands and no payment method is used.
 ///
-/// Behaves exactly like a real purchase for demo/testing: writes the same
-/// `user_subscriptions` row a live purchase would, so the tester account is
-/// Agri Pro everywhere the app looks (and survives reinstalls). Swap for a
-/// real `in_app_purchase` implementation (or [UnconfiguredBillingRepository])
-/// before the store launch.
+/// The entitlement is granted by the `set-pro-tester` Edge Function using the
+/// service role; the client cannot write the `tier` column itself (see ADR 0006
+/// and the closing RLS migration). Swap for a real `in_app_purchase`
+/// implementation (or [UnconfiguredBillingRepository]) before store launch.
 class SimulatedProBilling implements BillingRepository {
   SimulatedProBilling(this._client);
 
@@ -94,11 +93,14 @@ class SimulatedProBilling implements BillingRepository {
     final expires = DateTime(now.year, now.month + months, now.day);
 
     try {
-      await _client.from('user_subscriptions').upsert({
-        'user_id': session.user.id,
-        'tier': 'premium',
-        'expires_at': expires.toIso8601String(),
-      }, onConflict: 'user_id');
+      final response = await _client.functions.invoke(
+        'set-pro-tester',
+        body: {'expiresAt': expires.toIso8601String()},
+        headers: {'Authorization': 'Bearer ${session.accessToken}'},
+      );
+      if (response.status != 200) {
+        return const BillingFailed('Could not start Agri Pro. Please try again.');
+      }
       return const BillingSucceeded();
     } catch (error) {
       return BillingFailed(error.toString());

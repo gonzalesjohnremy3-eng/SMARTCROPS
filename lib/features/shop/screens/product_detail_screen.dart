@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:smart_crops/app/analytics/analytics.dart';
+import 'package:smart_crops/app/theme/app_tokens.dart';
+import 'package:smart_crops/app/widgets/scrimmed_image.dart';
 import 'package:smart_crops/app/widgets/feedback_states.dart';
 import 'package:smart_crops/features/shop/domain/merchant_product.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
@@ -127,16 +129,21 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          Container(
-            height: 160,
-            decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceContainerHighest,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Icon(
-              _categoryIcon(product.category),
-              size: 64,
-              color: theme.colorScheme.primary,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: SizedBox(
+              height: 160,
+              width: double.infinity,
+              child: ScrimmedImage(
+                imagePath: 'assets/images/overlays/product.webp',
+                child: Center(
+                  child: Icon(
+                    _categoryIcon(product.category),
+                    size: 64,
+                    color: AppColors.textInverse,
+                  ),
+                ),
+              ),
             ),
           ),
           const SizedBox(height: 16),

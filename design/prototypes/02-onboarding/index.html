@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>P2 · Onboarding — Field Almanac prototype</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+  .stage { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; padding: 32px; max-width: 1240px; margin: 0 auto; }
+  .stage-label { font: 600 12px/16px var(--font-body); color: var(--text-muted); text-align: center; margin-bottom: 8px; }
+  .frame { min-height: 760px; display: flex; flex-direction: column; border: 1px solid var(--border-subtle); border-radius: var(--radius-hero); overflow: hidden; background: var(--surface-canvas); box-shadow: var(--shadow-raised); }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 20px 24px; background: var(--surface-raised); border-bottom: 1px solid var(--border-subtle); }
+  .hero { flex: 1; min-height: 420px; padding: 28px 24px; display: flex; flex-direction: column; justify-content: flex-end; color: var(--text-inverse); }
+  .hero .display { color: var(--text-inverse); }
+  .hero p { color: rgba(255,253,247,.82); }
+  .row { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; background: var(--surface-raised); }
+  .dots { display: flex; gap: 8px; }
+  .dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--neutral-200); display: block; }
+  .dots i.on { width: 24px; border-radius: var(--radius-pill); background: var(--action-primary); }
+  .cards { padding: 24px 20px; display: flex; flex-direction: column; gap: 16px; flex: 1; }
+  .story-card { background: var(--surface-raised); border: 1px solid var(--border-subtle); border-radius: var(--radius-card); padding: 20px; display: flex; gap: 16px; align-items: flex-start; }
+  .story-card.current { border-color: var(--action-primary); box-shadow: 0 0 0 2px rgba(31,107,69,.14); }
+  .num { width: 36px; height: 36px; flex: none; border-radius: var(--radius-sm); background: var(--healthy-surface); color: var(--action-primary); display: grid; place-items: center; font-weight: 700; }
+  .question { flex: 1; padding: 32px 24px; display: flex; flex-direction: column; justify-content: center; gap: 20px; }
+  .progress { height: 6px; border-radius: var(--radius-pill); background: var(--neutral-200); overflow: hidden; }
+  .progress i { display: block; height: 100%; width: 66%; background: var(--action-primary); border-radius: inherit; }
+  .choice { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; border: 1px solid var(--border-subtle); border-radius: var(--radius-card); background: var(--surface-raised); font-weight: 600; }
+  .choice.sel { border-color: var(--action-primary); background: var(--healthy-surface); }
+  .skip { border: 0; background: transparent; color: var(--text-secondary); font-weight: 600; }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div>
+      <div class="stage-label">A · Story spread</div>
+      <section class="variant" data-variant="A" data-variant-name="Story spread">
+        <div class="frame">
+          <div class="hero img-overlay">
+            <span class="pill" style="align-self:flex-start;background:rgba(255,253,247,.16);color:#FFFDF7">01 / 03</span>
+            <div><div class="eyebrow">SMART CROPS</div><h1 class="display" style="margin-top:12px">Spot trouble before it spreads.</h1><p class="body" style="margin-top:12px">A photo becomes a clear next step for your crop.</p></div>
+          </div>
+          <div class="row"><button class="skip">Skip</button><div class="dots"><i class="on"></i><i></i><i></i></div><button class="btn btn-primary">Next</button></div>
+        </div>
+      </section>
+    </div>
+    <div>
+      <div class="stage-label">B · Three cards</div>
+      <section class="variant" data-variant="B" data-variant-name="Three cards">
+        <div class="frame">
+          <div class="top"><div class="h2">Welcome to your field office.</div><button class="skip">Skip</button></div>
+          <div class="cards">
+            <div class="story-card current"><div class="num">1</div><div><div class="h3">Spot trouble before it spreads.</div><p class="small muted">Scan a leaf and see the problem early.</p></div></div>
+            <div class="story-card"><div class="num">2</div><div><div class="h3">Know exactly what to do next.</div><p class="small muted">Clear treatment steps, no guesswork.</p></div></div>
+            <div class="story-card"><div class="num">3</div><div><div class="h3">Plan around the weather, not against it.</div><p class="small muted">Your Field Calendar adapts to the forecast.</p></div></div>
+          </div>
+          <div class="row"><div class="dots"><i class="on"></i><i></i><i></i></div><button class="btn btn-primary">Get started</button></div>
+        </div>
+      </section>
+    </div>
+    <div>
+      <div class="stage-label">C · Guided question</div>
+      <section class="variant" data-variant="C" data-variant-name="Guided question">
+        <div class="frame">
+          <div class="top"><span class="pill info">STEP 2 OF 3</span><button class="skip">Skip</button></div>
+          <div class="question">
+            <div class="progress"><i></i></div>
+            <div><div class="eyebrow">LET'S SET UP YOUR FARM</div><h1 class="h1" style="margin-top:8px">What do you grow the most?</h1><p class="small muted" style="margin-top:8px">We'll tailor diagnosis and care to your main crop.</p></div>
+            <div class="choice sel">Rice <span class="pill healthy">Selected</span></div>
+            <div class="choice">Vegetables <span class="pill">Pechay, tomato</span></div>
+            <div class="choice">Corn <span class="pill">Field crop</span></div>
+          </div>
+          <div class="row"><button class="btn btn-secondary">Back</button><button class="btn btn-primary">Continue</button></div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <script src="../shared/switcher.js"></script>
+</body>
+</html>

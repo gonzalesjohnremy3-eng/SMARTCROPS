@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>P7 · Crops — Field Almanac prototype</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+  .stage { display:grid; grid-template-columns:repeat(auto-fit,minmax(350px,1fr)); gap:24px; padding:32px; max-width:1240px; margin:0 auto }
+  .stage-label { font:600 12px/16px var(--font-body); color:var(--text-muted); text-align:center; margin-bottom:8px }
+  .frame { min-height:700px; border:1px solid var(--border-subtle); border-radius:var(--radius-hero); overflow:hidden; background:var(--surface-canvas); box-shadow:var(--shadow-raised) }
+  .top { display:flex; align-items:center; justify-content:space-between; padding:16px 20px; background:var(--surface-raised); border-bottom:1px solid var(--border-subtle) }
+  .body { padding:16px 20px 24px }
+  .filters { display:flex; gap:8px; margin:16px 0; flex-wrap:wrap }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:12px }
+  .crop { background:var(--surface-raised); border:1px solid var(--border-subtle); border-radius:var(--radius-card); padding:16px }
+  .crop .swatch { height:72px; border-radius:var(--radius-sm); margin-bottom:12px; background-image:radial-gradient(circle at 30% 30%,rgba(122,201,67,.5),transparent 60%),linear-gradient(140deg,#1F6B45,#12372A) }
+  .row { display:flex; align-items:center; gap:12px; padding:14px; background:var(--surface-raised); border:1px solid var(--border-subtle); border-radius:var(--radius-card); margin-bottom:10px }
+  .row .swatch { width:48px; height:48px; flex:none; border-radius:var(--radius-sm); background:linear-gradient(140deg,#1F6B45,#12372A) }
+  .master { display:grid; grid-template-columns:0.85fr 1.15fr; height:calc(100% - 60px) }
+  .master .list { border-right:1px solid var(--border-subtle); padding:12px; background:var(--surface-canvas) }
+  .master .detail { padding:20px; background:var(--surface-raised) }
+  .master .row { margin-bottom:8px }
+  .stagebar { display:flex; gap:0; margin-top:16px; align-items:center }
+  .stagebar i { flex:1; height:6px; background:var(--neutral-200) }
+  .stagebar i.on { background:var(--action-primary) }
+  .timeline { position:relative; padding-left:20px; margin-top:16px }
+  .timeline::before { content:''; position:absolute; left:5px; top:6px; bottom:6px; width:2px; background:var(--border-subtle) }
+  .timeline .ev { position:relative; padding:10px 0 18px }
+  .timeline .ev::before { content:''; position:absolute; left:-19px; top:14px; width:12px; height:12px; border-radius:50%; background:var(--action-primary); border:2px solid var(--surface-raised) }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div><div class="stage-label">A · Card grid</div>
+      <section class="variant" data-variant="A" data-variant-name="Card grid">
+        <div class="frame"><div class="top"><div class="h2">My Crops</div><span class="pill healthy">3 tracked</span></div><div class="body">
+          <div class="filters"><span class="pill healthy">All</span><span class="pill">Healthy</span><span class="pill">Watch</span><span class="pill">At Risk</span></div>
+          <div class="grid"><div class="crop"><div class="swatch"></div><div class="h3">Rice</div><div class="small muted">Vegetative · Scanned 3 days ago</div><span class="pill watch" style="margin-top:10px">Watch</span></div><div class="crop"><div class="swatch"></div><div class="h3">Pechay</div><div class="small muted">Harvest soon · Scanned yesterday</div><span class="pill healthy" style="margin-top:10px">Healthy</span></div><div class="crop"><div class="swatch"></div><div class="h3">Tomato</div><div class="small muted">Flowering · No scan yet</div><span class="pill" style="margin-top:10px">Not available</span></div></div>
+        </div></div>
+      </section>
+    </div>
+    <div><div class="stage-label">B · Master–detail</div>
+      <section class="variant" data-variant="B" data-variant-name="Master detail">
+        <div class="frame"><div class="top"><div class="h2">My Crops</div><span class="pill info">Expanded layout</span></div>
+          <div class="master"><div class="list"><div class="row"><span class="swatch"></span><div><div class="h3">Rice</div><div class="caption muted">Watch · 3 days ago</div></div></div><div class="row" style="border-color:var(--action-primary)"><span class="swatch"></span><div><div class="h3">Pechay</div><div class="caption muted">Healthy · Yesterday</div></div></div><div class="row"><span class="swatch"></span><div><div class="h3">Tomato</div><div class="caption muted">No scan yet</div></div></div></div>
+          <div class="detail"><span class="pill healthy">Healthy</span><h2 class="h1" style="margin-top:12px">Pechay</h2><p class="small muted">Harvest stage · Planted 21 Jul 2026</p><div class="stagebar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="caption muted" style="margin-top:8px">SEEDLING → VEGETATIVE → FLOWERING → FRUITING → HARVEST</div><div class="card" style="margin-top:20px"><div class="h3">Latest scan</div><p class="small muted">No disease pattern found. Keep monitoring.</p></div><button class="btn btn-primary" style="margin-top:16px">Scan this crop</button></div></div>
+        </div>
+      </section>
+    </div>
+    <div><div class="stage-label">C · Stage timeline</div>
+      <section class="variant" data-variant="C" data-variant-name="Stage timeline">
+        <div class="frame"><div class="top"><div class="h2">My Crops</div><span class="pill">By crop stage</span></div><div class="body">
+          <div class="h3">Vegetative</div><div class="timeline"><div class="ev"><div class="h3">Rice · Plot A</div><div class="small muted">Last scan 18 Nov · Watch</div></div><div class="ev"><div class="h3">Corn</div><div class="small muted">Growing conditions not available</div></div></div>
+          <div class="h3" style="margin-top:16px">Harvest soon</div><div class="timeline"><div class="ev"><div class="h3">Pechay</div><div class="small muted">Last scan 20 Nov · Healthy</div></div></div>
+        </div></div>
+      </section>
+    </div>
+  </div>
+  <script src="../shared/switcher.js"></script>
+</body>
+</html>

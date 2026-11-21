@@ -59,7 +59,10 @@ class _FieldCalendarScreenState extends State<FieldCalendarScreen> {
 
           final tasks = service.calendarEvents;
           final rainMm = weather.currentWeather?.precipitationMm ?? 0;
-          final forecast = WeatherForecast(precipitationMmNext24h: rainMm);
+          final forecast = WeatherForecast(
+            precipitationMmNext24h: rainMm,
+            isSample: weather.currentWeather?.isSample ?? true,
+          );
 
           final adjusted = tasks
               .map((task) => adjustForWeather(event: task, forecast: forecast))

@@ -86,6 +86,47 @@ void main() {
     }
   });
 
+  group('user-scoped cache', () {
+    test('a cached snapshot is never exposed to a different farmer', () async {
+      SharedPreferences.setMockInitialValues({});
+      final store = ServiceDataCacheStore();
+      await store.useUser('farmer-a');
+      await store.save(_snapshot(
+        userCrops: [_crop('Pechay')],
+        fetchedAt: DateTime(2026, 1, 1),
+      ));
+
+      await store.useUser('farmer-b');
+
+      expect(
+        await store.load(),
+        isNull,
+        reason: 'a failed refresh for farmer B must not show farmer A data',
+      );
+    });
+
+    test('clear removes only the active farmer snapshot', () async {
+      SharedPreferences.setMockInitialValues({});
+      final store = ServiceDataCacheStore();
+      await store.useUser('farmer-a');
+      await store.save(_snapshot(
+        userCrops: [_crop('Pechay')],
+        fetchedAt: DateTime(2026, 1, 1),
+      ));
+      await store.useUser('farmer-b');
+      await store.save(_snapshot(
+        userCrops: [_crop('Rice')],
+        fetchedAt: DateTime(2026, 1, 2),
+      ));
+
+      await store.clear();
+
+      expect(await store.load(), isNull);
+      await store.useUser('farmer-a');
+      expect(await store.load(), isNotNull);
+    });
+  });
+
   group('SmartCropsService cached surfaces', () {
     test('exposes the cached snapshot when the refresh fails', () async {
       SharedPreferences.setMockInitialValues({});

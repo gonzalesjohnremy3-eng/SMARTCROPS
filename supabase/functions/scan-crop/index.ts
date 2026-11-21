@@ -1,13 +1,18 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3";
+import { authorizeScanRequest, buildCorsHeaders } from './auth.ts';
 import { classifyOpenAIError, ProviderKeyUnavailable } from './ai_errors.ts';
 import { runGeminiModels } from './gemini_runner.ts';
 import { DiagnosisResult, PoolKey, runKeyPool } from './pool_runner.ts';
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+const allowedOrigins = (Deno.env.get('ALLOWED_ORIGINS') ?? '')
+  .split(',')
+  .map((value) => value.trim())
+  .filter((value) => value.length > 0);
+
+function corsFor(req: Request): Record<string, string> {
+  return buildCorsHeaders(req.headers.get('origin'), allowedOrigins);
+}
 
 const OPENAI_MODEL = Deno.env.get('OPENAI_MODEL') ?? 'gpt-4o';
 const AI_TIMEOUT_MS = 45_000;
@@ -165,6 +170,7 @@ async function diagnoseWithKey(
 }
 
 serve(async (req) => {
+  const corsHeaders = corsFor(req);
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders });
   }
@@ -175,14 +181,39 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
     );
 
+    const authHeader = req.headers.get('Authorization') ?? '';
+    const accessToken = authHeader.startsWith('Bearer ') ? authHeader.slice(7).trim() : '';
+    if (!accessToken) {
+      return new Response(
+        JSON.stringify({ error: 'Authentication required' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
+      );
+    }
+    const { data: authData, error: authError } = await supabaseClient.auth.getUser(accessToken);
+    if (authError || !authData?.user) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid session' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
+      );
+    }
+
     const { imageUrl, userId, cropName } = await req.json();
 
-    if (!imageUrl || !userId) {
+    if (!imageUrl) {
       return new Response(
         JSON.stringify({ error: 'Missing required parameters: imageUrl or userId' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
       );
     }
+
+    const authorization = authorizeScanRequest(authData.user.id, userId);
+    if (!authorization.ok) {
+      return new Response(
+        JSON.stringify({ error: authorization.error }),
+        { status: authorization.status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
+      );
+    }
+    const scanUserId = authorization.userId;
 
     // 1. Fetch all active keys; iterate under-quota ones, lowest usage first.
     const { data: allActiveKeys, error: fetchError } = await supabaseClient
@@ -212,7 +243,7 @@ serve(async (req) => {
     const { result, usedKey, attempts } = await runKeyPool(
       supabaseClient,
       availableKeys as PoolKey[],
-      (key) => diagnoseWithKey(key, imageUrl, cropName ?? '', { userId, supabaseClient }),
+      (key) => diagnoseWithKey(key, imageUrl, cropName ?? '', { userId: scanUserId, supabaseClient }),
     );
 
     if (!result || !usedKey) {
@@ -232,7 +263,7 @@ serve(async (req) => {
     const { data: scanRecord, error: scanError } = await supabaseClient
       .from('scan_history')
       .insert({
-        user_id: userId,
+        user_id: scanUserId,
         image_url: imageUrl,
         disease_detected: result.disease_detected,
         confidence_score: result.confidence_score,
@@ -250,7 +281,7 @@ serve(async (req) => {
     await supabaseClient
       .from('notifications')
       .insert({
-        user_id: userId,
+        user_id: scanUserId,
         title: `Scan Result: ${result.disease_detected}`,
         message: `Confidence: ${result.confidence_score}%. Tap to view recommended actions for ${result.common_crop}.`,
         scan_id: scanRecord.id,

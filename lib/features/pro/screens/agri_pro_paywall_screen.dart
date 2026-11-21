@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_crops/app/theme/app_tokens.dart';
+import 'package:smart_crops/app/widgets/overlay_hero.dart';
 import 'package:smart_crops/features/pro/domain/billing.dart';
 import 'package:smart_crops/features/pro/services/agri_pro_entitlement.dart';
 import 'package:smart_crops/features/scan/domain/weekly_scan_window.dart';
@@ -71,7 +72,12 @@ class _AgriProPaywallScreenState extends State<AgriProPaywallScreen> {
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          Text(l10n.agriProHeadline, style: theme.textTheme.headlineSmall),
+          OverlayHero(
+            imagePath: 'assets/images/overlays/pro.webp',
+            eyebrow: l10n.agriProTitle,
+            title: l10n.agriProHeadline,
+            height: 200,
+          ),
           const SizedBox(height: 12),
           if (widget.fromQuota) ...[
             Text(

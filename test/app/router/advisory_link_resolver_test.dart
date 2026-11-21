@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:smart_crops/app/router/advisory_link_resolver.dart';
 
 void main() {
-  test('a scan advisory opens the scan result', () {
+  test('a scan advisory opens the health log', () {
     final destination = resolveAdvisoryDestination(
       const AdvisoryLink(
         source: AdvisorySource.personal,
@@ -11,7 +11,7 @@ void main() {
       ),
     );
 
-    expect(destination, '/scan/result/scan-42');
+    expect(destination, '/health-log?scan=scan-42');
   });
 
   test('task, crop, advisory, and cooperative targets resolve to their routes', () {
@@ -45,7 +45,7 @@ void main() {
           recordId: 'adv-99',
         ),
       ),
-      '/advisories/adv-99',
+      '/advisories?highlight=adv-99',
     );
 
     expect(
@@ -55,7 +55,7 @@ void main() {
           target: AdvisoryTarget.cooperative,
         ),
       ),
-      '/cooperative',
+      '/profile',
     );
   });
 

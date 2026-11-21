@@ -35,7 +35,10 @@ class CarePlanScreen extends StatelessWidget {
           }
 
           final rainMm = weather.currentWeather?.precipitationMm ?? 0;
-          final forecast = WeatherForecast(precipitationMmNext24h: rainMm);
+          final forecast = WeatherForecast(
+            precipitationMmNext24h: rainMm,
+            isSample: weather.currentWeather?.isSample ?? true,
+          );
           final now = DateTime.now();
           final plan = buildCarePlan(
             events: service.calendarEvents,

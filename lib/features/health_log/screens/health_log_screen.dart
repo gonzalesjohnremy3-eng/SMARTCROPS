@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_crops/app/theme/app_tokens.dart';
 import 'package:smart_crops/app/widgets/feedback_states.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/models/app_models.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
+import 'package:smart_crops/features/health_log/domain/health_log_statistics.dart';
 import 'package:smart_crops/features/scan/domain/diagnosis_presenter.dart';
 
 class HealthLogScreen extends StatelessWidget {
@@ -35,20 +37,15 @@ class HealthLogScreen extends StatelessWidget {
             return _EmptyState(l10n: l10n, theme: theme);
           }
 
-          final healthyCount = scans
-              .where((scan) => diagnosisSeverity(scan.diseaseDetected) == DiagnosisSeverity.healthy)
-              .length;
-          final atRiskCount = scans
-              .where((scan) => diagnosisSeverity(scan.diseaseDetected) == DiagnosisSeverity.atRisk)
-              .length;
+          final statistics = healthLogStatistics(scans);
 
           return CustomScrollView(
             slivers: [
               SliverToBoxAdapter(
                 child: _SeasonSummary(
-                  scans: scans.length,
-                  healthy: healthyCount,
-                  atRisk: atRiskCount,
+                  scans: statistics.scans,
+                  healthy: statistics.healthy,
+                  atRisk: statistics.atRisk,
                   l10n: l10n,
                   theme: theme,
                 ),
@@ -213,7 +210,26 @@ class _ScanRow extends StatelessWidget {
         backgroundColor: _severityColor().withValues(alpha: 0.15),
         child: Icon(Icons.grass, color: _severityColor()),
       ),
-      title: Text(scan.diseaseDetected),
+      title: Row(
+        children: [
+          Expanded(child: Text(scan.diseaseDetected)),
+          if (scan.source == demoScanSource)
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.tertiaryContainer,
+                borderRadius: BorderRadius.circular(AppRadius.pill),
+              ),
+              child: Text(
+                l10n.scanDemoBannerTitle,
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: theme.colorScheme.onTertiaryContainer,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+        ],
+      ),
       subtitle: Text(
         '${scan.commonCrop} · ${scan.confidenceScore.toStringAsFixed(0)}% · ${scan.scannedAt.month}/${scan.scannedAt.day} ${scan.scannedAt.year}',
       ),

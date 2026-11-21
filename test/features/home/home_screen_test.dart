@@ -102,7 +102,7 @@ void main() {
     )));
     await tester.pumpAndSettle();
 
-    expect(find.text('Critical weather'), findsOneWidget);
+    expect(find.text('Critical weather'), findsNWidgets(2));
     expect(find.text('Scan a Crop'), findsOneWidget);
   });
 
@@ -116,7 +116,7 @@ void main() {
     )));
     await tester.pumpAndSettle();
 
-    expect(find.text('Overdue tasks'), findsOneWidget);
+    expect(find.text('Overdue tasks'), findsNWidgets(2));
   });
 
   testWidgets('Home renders the at-risk diagnosis priority action', (tester) async {
@@ -129,7 +129,7 @@ void main() {
     )));
     await tester.pumpAndSettle();
 
-    expect(find.text('Crop needs attention'), findsOneWidget);
+    expect(find.text('Crop needs attention'), findsNWidgets(2));
   });
 
   testWidgets('Home renders the routine care priority action', (tester) async {
@@ -143,7 +143,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Care Plan'), findsWidgets);
-    expect(find.text('Care needed'), findsOneWidget);
+    expect(find.text('Care needed'), findsNWidgets(2));
   });
 
   testWidgets('Home renders the empty farm priority action', (tester) async {
@@ -156,7 +156,7 @@ void main() {
     )));
     await tester.pumpAndSettle();
 
-    expect(find.text('Your field office is ready'), findsOneWidget);
+    expect(find.text('Your field office is ready'), findsNWidgets(2));
   });
 
   testWidgets('Home renders the all-clear monitoring action', (tester) async {
@@ -169,7 +169,7 @@ void main() {
     )));
     await tester.pumpAndSettle();
 
-    expect(find.text('All clear'), findsOneWidget);
+    expect(find.text('All clear'), findsNWidgets(2));
   });
 
   testWidgets('Home previews render real service data, not hardcoded seeds',

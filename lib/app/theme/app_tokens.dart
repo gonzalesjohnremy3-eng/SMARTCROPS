@@ -302,3 +302,47 @@ class AppTypography {
     ),
   };
 }
+
+class AppGlass {
+  AppGlass._();
+
+  static const tintCanvas = Color(0xEBF2F6EC);
+  static const tintRaised = Color(0xF0FFFDF7);
+  static const tintDark = Color(0xDB12372A);
+  static const tintAccent = Color(0x383B6E8F);
+
+  static const border = Color(0x8CFFFDF7);
+  static const boundary = Color(0x8C12372A);
+  static const scrim = Color(0x8C12372A);
+  static const imageScrim = Color(0xD112372A);
+
+  static const sigmaCompact = 6.0;
+  static const sigmaExpanded = 12.0;
+  static const textSafeOpacity = 0.92;
+
+  static const tints = <String, Color>{
+    'canvas': tintCanvas,
+    'raised': tintRaised,
+    'dark': tintDark,
+    'accent': tintAccent,
+  };
+
+  static const sigma = <String, double>{
+    'compact': sigmaCompact,
+    'expanded': sigmaExpanded,
+  };
+}
+
+class AppMotion {
+  AppMotion._();
+
+  static const instant = Duration.zero;
+  static const fast = Duration(milliseconds: 150);
+  static const standard = Duration(milliseconds: 250);
+  static const scanSequence = Duration(milliseconds: 900);
+  static const slow = Duration(milliseconds: 400);
+
+  static const Cubic standardCurve = Cubic(0.2, 0, 0, 1);
+  static const Cubic emphasizedCurve = Cubic(0.05, 0.7, 0.1, 1);
+  static const Cubic exitCurve = Cubic(0.3, 1, 1, 1);
+}
