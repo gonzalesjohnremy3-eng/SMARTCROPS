@@ -1,5 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3";
+import { classifyOpenAIError, ProviderKeyUnavailable } from './ai_errors.ts';
+import { DiagnosisResult, PoolKey, runKeyPool } from './pool_runner.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -9,13 +11,6 @@ const corsHeaders = {
 const GEMINI_MODEL = Deno.env.get('GEMINI_MODEL') ?? 'gemini-3.8-flash';
 const OPENAI_MODEL = Deno.env.get('OPENAI_MODEL') ?? 'gpt-4o';
 const AI_TIMEOUT_MS = 45_000;
-
-interface DiagnosisResult {
-  disease_detected: string;
-  confidence_score: number;
-  common_crop: string;
-  recommended_actions: string[];
-}
 
 function parseDiagnosisJson(raw: string, cropName: string): DiagnosisResult {
   const parsed = JSON.parse(raw);
@@ -102,8 +97,9 @@ async function diagnoseWithOpenAI(apiKey: string, imageUrl: string, cropName: st
     }),
   });
   if (!response.ok) {
-    const body = await response.text();
-    throw new Error(`openai ${response.status}: ${body.slice(0, 200)}`);
+    const failure = classifyOpenAIError(response.status, await response.text());
+    if (failure.shouldDeactivate) throw new ProviderKeyUnavailable(failure.message);
+    throw new Error(failure.message);
   }
   const json = await response.json();
   const text = json?.choices?.[0]?.message?.content;
@@ -169,18 +165,11 @@ serve(async (req) => {
     }
 
     // 2. Rotate through providers until one really diagnoses the image.
-    const attempts: string[] = [];
-    let result: DiagnosisResult | null = null;
-    let usedKey: { id: any; current_usage_count: number } | null = null;
-    for (const key of availableKeys) {
-      try {
-        result = await diagnoseWithKey(key.provider, key.api_key_encrypted, imageUrl, cropName ?? '');
-        usedKey = key;
-        break;
-      } catch (err) {
-        attempts.push(`${key.provider}: ${err instanceof Error ? err.message : String(err)}`);
-      }
-    }
+    const { result, usedKey, attempts } = await runKeyPool(
+      supabaseClient,
+      availableKeys as PoolKey[],
+      (key) => diagnoseWithKey(key.provider, key.api_key_encrypted, imageUrl, cropName ?? ''),
+    );
 
     if (!result || !usedKey) {
       return new Response(
