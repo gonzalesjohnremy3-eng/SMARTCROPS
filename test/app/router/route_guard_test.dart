@@ -65,6 +65,22 @@ void main() {
     expect(action.reason, RouteReason.needsProfileSetup);
   });
 
+  test('signed-in farmer with a completed profile landing on profile setup goes home', () {
+    const context = RouteContext(
+      isAuthenticated: true,
+      onboardingComplete: true,
+      profileComplete: true,
+      requestedLocation: '/setup/profile',
+      requestedAccess: RouteAccess.authenticated,
+    );
+
+    final action = resolveRoute(context);
+
+    expect(action.location, '/home');
+    expect(action.pendingLocation, isNull);
+    expect(action.reason, RouteReason.home);
+  });
+
   test('signed-in farmer with a profile opens the requested destination', () {
     const context = RouteContext(
       isAuthenticated: true,
