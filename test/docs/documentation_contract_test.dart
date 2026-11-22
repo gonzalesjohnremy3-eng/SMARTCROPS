@@ -18,7 +18,7 @@ void main() {
 
     expect(
       status,
-      contains('Current verification: flutter test (226 passing)'),
+      contains('Current verification: flutter test (233 passing)'),
     );
   });
 
@@ -37,4 +37,16 @@ void main() {
       expect(blueprint, isNot(contains('### Current state')));
     },
   );
+
+  test('status records Phase 2 local closures and external blockers', () {
+    final status = File(
+      'PROJECT_KNOWLEDGE/DOCUMENTS/IMPLEMENTATION_STATUS.md',
+    ).readAsStringSync();
+
+    expect(status, contains('## 8. Phase 2 gap closure'));
+    expect(status, contains('Health Log master-detail'));
+    expect(status, contains('ANALYTICS_PRIVACY_REVIEW.md'));
+    expect(status, contains('send-campaign payload/authz'));
+    expect(status, contains('Externally blocked'));
+  });
 }

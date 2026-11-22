@@ -9,8 +9,15 @@ import 'package:smart_crops/services/smart_crops_service.dart';
 import 'package:smart_crops/features/health_log/domain/health_log_statistics.dart';
 import 'package:smart_crops/features/scan/domain/diagnosis_presenter.dart';
 
-class HealthLogScreen extends StatelessWidget {
+class HealthLogScreen extends StatefulWidget {
   const HealthLogScreen({super.key});
+
+  @override
+  State<HealthLogScreen> createState() => _HealthLogScreenState();
+}
+
+class _HealthLogScreenState extends State<HealthLogScreen> {
+  String? _selectedScanId;
 
   @override
   Widget build(BuildContext context) {
@@ -39,29 +46,77 @@ class HealthLogScreen extends StatelessWidget {
 
           final statistics = healthLogStatistics(scans);
 
-          return CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: _SeasonSummary(
-                  scans: statistics.scans,
-                  healthy: statistics.healthy,
-                  atRisk: statistics.atRisk,
-                  l10n: l10n,
-                  theme: theme,
-                ),
-              ),
-              SliverList.separated(
-                itemCount: scans.length,
-                separatorBuilder: (_, _) => const SizedBox(height: 0),
-                itemBuilder: (context, index) {
-                  return _ScanRow(
-                    scan: scans[index],
-                    l10n: l10n,
-                    theme: theme,
-                  );
-                },
-              ),
-            ],
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              final wide =
+                  constraints.maxWidth >= AppLayout.breakpoints['expanded']!;
+              final selected = scans.firstWhere(
+                (scan) => scan.id == _selectedScanId,
+                orElse: () => scans.first,
+              );
+
+              final list = CustomScrollView(
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: _SeasonSummary(
+                      scans: statistics.scans,
+                      healthy: statistics.healthy,
+                      atRisk: statistics.atRisk,
+                      l10n: l10n,
+                      theme: theme,
+                    ),
+                  ),
+                  SliverList.separated(
+                    itemCount: scans.length,
+                    separatorBuilder: (_, _) => const SizedBox(height: 0),
+                    itemBuilder: (context, index) {
+                      return _ScanRow(
+                        key: ValueKey('health-log-scan-${scans[index].id}'),
+                        scan: scans[index],
+                        selected: wide && scans[index].id == selected.id,
+                        l10n: l10n,
+                        theme: theme,
+                        onTap: () {
+                          setState(() => _selectedScanId = scans[index].id);
+                          if (!wide) {
+                            showModalBottomSheet<void>(
+                              context: context,
+                              builder: (_) => SafeArea(
+                                child: ScanDetailContent(
+                                  scan: scans[index],
+                                  l10n: l10n,
+                                  theme: theme,
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                      );
+                    },
+                  ),
+                ],
+              );
+
+              if (!wide) {
+                return list;
+              }
+
+              return Row(
+                children: [
+                  Expanded(flex: 4, child: list),
+                  const VerticalDivider(width: 1),
+                  Expanded(
+                    flex: 6,
+                    child: ScanDetailContent(
+                      key: const Key('health-log-detail'),
+                      scan: selected,
+                      l10n: l10n,
+                      theme: theme,
+                    ),
+                  ),
+                ],
+              );
+            },
           );
         },
       ),
@@ -83,8 +138,11 @@ class _EmptyState extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.healing_outlined,
-                size: 64, color: theme.colorScheme.onSurfaceVariant),
+            Icon(
+              Icons.healing_outlined,
+              size: 64,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
             const SizedBox(height: 16),
             Text(
               l10n.healthLogEmpty,
@@ -128,18 +186,28 @@ class _SeasonSummary extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _Stat(label: l10n.healthLogScans, value: '$scans', theme: theme),
-            _Stat(
-              label: l10n.healthLogHealthy,
-              value: '$healthy',
-              theme: theme,
-              color: theme.colorScheme.primary,
+            Expanded(
+              child: _Stat(
+                label: l10n.healthLogScans,
+                value: '$scans',
+                theme: theme,
+              ),
             ),
-            _Stat(
-              label: l10n.healthLogAtRisk,
-              value: '$atRisk',
-              theme: theme,
-              color: theme.colorScheme.error,
+            Expanded(
+              child: _Stat(
+                label: l10n.healthLogHealthy,
+                value: '$healthy',
+                theme: theme,
+                color: theme.colorScheme.primary,
+              ),
+            ),
+            Expanded(
+              child: _Stat(
+                label: l10n.healthLogAtRisk,
+                value: '$atRisk',
+                theme: theme,
+                color: theme.colorScheme.error,
+              ),
             ),
           ],
         ),
@@ -182,14 +250,19 @@ class _Stat extends StatelessWidget {
 
 class _ScanRow extends StatelessWidget {
   const _ScanRow({
+    super.key,
     required this.scan,
+    required this.selected,
     required this.l10n,
     required this.theme,
+    required this.onTap,
   });
 
   final ScanHistoryItem scan;
+  final bool selected;
   final AppLocalizations l10n;
   final ThemeData theme;
+  final VoidCallback onTap;
 
   Color _severityColor() {
     switch (diagnosisSeverity(scan.diseaseDetected)) {
@@ -205,7 +278,8 @@ class _ScanRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {},
+      selected: selected,
+      onTap: onTap,
       leading: CircleAvatar(
         backgroundColor: _severityColor().withValues(alpha: 0.15),
         child: Icon(Icons.grass, color: _severityColor()),
@@ -234,6 +308,62 @@ class _ScanRow extends StatelessWidget {
         '${scan.commonCrop} · ${scan.confidenceScore.toStringAsFixed(0)}% · ${scan.scannedAt.month}/${scan.scannedAt.day} ${scan.scannedAt.year}',
       ),
       trailing: const Icon(Icons.chevron_right),
+    );
+  }
+}
+
+class ScanDetailContent extends StatelessWidget {
+  const ScanDetailContent({
+    super.key,
+    required this.scan,
+    required this.l10n,
+    required this.theme,
+  });
+
+  final ScanHistoryItem scan;
+  final AppLocalizations l10n;
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.all(16),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            Text(l10n.scanResultDiagnosis, style: theme.textTheme.labelMedium),
+            const SizedBox(height: 8),
+            Text(scan.diseaseDetected, style: theme.textTheme.headlineSmall),
+            const SizedBox(height: 12),
+            Text(
+              '${scan.commonCrop} · ${scan.scannedAt.month}/${scan.scannedAt.day} ${scan.scannedAt.year}',
+              style: theme.textTheme.bodySmall,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              '${l10n.healthLogConfidence}: ${scan.confidenceScore.toStringAsFixed(0)}%',
+            ),
+            if (scan.source == demoScanSource) ...[
+              const SizedBox(height: 12),
+              Text(l10n.scanDemoBannerTitle),
+            ],
+            const SizedBox(height: 20),
+            Text(
+              l10n.scanResultTreatmentSteps,
+              style: theme.textTheme.titleMedium,
+            ),
+            const SizedBox(height: 8),
+            ...scan.recommendedActions.map(
+              (step) => Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Text('• $step'),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

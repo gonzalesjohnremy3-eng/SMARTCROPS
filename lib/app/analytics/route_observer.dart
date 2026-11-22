@@ -20,7 +20,7 @@ class AnalyticsRouteObserver extends NavigatorObserver {
     '/profile': 'profile_viewed',
     '/pro': 'paywall_viewed',
     '/pro/manage': 'manage_plan_viewed',
-    '/onboarding': 'onboarding_viewed',
+    '/onboarding': 'onboarding_started',
     '/shop': 'shop_viewed',
   };
 
@@ -49,10 +49,7 @@ class AnalyticsRouteObserver extends NavigatorObserver {
     if (path == null || path.isEmpty) return;
     final event = _eventFor(path);
     if (event == null) return;
-    analytics.track(
-      event,
-      params: {'source_screen': path},
-    );
+    analytics.track(event, params: {'source_screen': path});
   }
 
   String? _eventFor(String path) {

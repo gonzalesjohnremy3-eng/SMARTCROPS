@@ -25,7 +25,7 @@ class AdvisoriesScreen extends StatelessWidget {
               if (unread == 0) return const SizedBox.shrink();
               return TextButton(
                 onPressed: () async {
-                  context.trackEvent('advisories_mark_all_read');
+                  context.trackEvent('advisory_marked_read');
                   for (final notification in service.notifications) {
                     if (!notification.isRead) {
                       await service.markNotificationAsRead(notification.id);
@@ -92,8 +92,11 @@ class _EmptyState extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.notifications_none,
-                size: 64, color: theme.colorScheme.onSurfaceVariant),
+            Icon(
+              Icons.notifications_none,
+              size: 64,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
             const SizedBox(height: 16),
             Text(
               l10n.advisoriesEmpty,
@@ -171,7 +174,10 @@ class _AdvisoryCard extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 6),
-                    Text(notification.message, style: theme.textTheme.bodyMedium),
+                    Text(
+                      notification.message,
+                      style: theme.textTheme.bodyMedium,
+                    ),
                     const SizedBox(height: 8),
                     Text(
                       '${notification.createdAt.month}/${notification.createdAt.day}/${notification.createdAt.year}  ${notification.createdAt.hour.toString().padLeft(2, '0')}:${notification.createdAt.minute.toString().padLeft(2, '0')}',

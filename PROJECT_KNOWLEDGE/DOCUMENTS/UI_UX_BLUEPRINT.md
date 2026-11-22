@@ -883,7 +883,7 @@ onboarding_started, onboarding_page_viewed, onboarding_completed, onboarding_ski
 auth_started, auth_method_selected, auth_succeeded, auth_failed, otp_requested, otp_verified
 profile_step_completed, profile_completed, crops_selected
 permission_primed, permission_granted, permission_denied, permission_deferred
-home_viewed, field_briefing_viewed, priority_action_opened, scan_started_from_home
+home_viewed, field_briefing_viewed, priority_action_opened, scan_started_from_home, care_plan_opened_from_home
 crops_viewed, crop_opened, crop_filter_changed, crops_add_started
 crop_detail_viewed, crop_scan_started, crop_task_added, care_guide_opened
 scan_capture_opened, scan_photo_taken, scan_gallery_opened, scan_crop_changed, camera_permission_denied
