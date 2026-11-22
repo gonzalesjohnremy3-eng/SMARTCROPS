@@ -2,7 +2,7 @@
 
 This document tracks the user-accessible reality of every feature against `PROJECT_PLANNING.md`, `WEATHER_FEATURE_PLAN.md`, the PDF design specification, and `UI_UX_BLUEPRINT.md`.
 
-**Audit date:** 2026-11-13 (UI/UX Phase 0 + Phase 1 complete; Phase 2 slices — calendar & care (1), Agri Pro quota + paywall (2), analytics instrumentation (3), Agri Shop + adaptive + realtime (4), FCM Android plumbing (5), AI provider rotation + honest failure (6) — complete)  
+**Audit date:** 2026-11-22 (Phase 1 MVP and Phase 2 growth complete; Phase 3 partial; UI/UX craft lines Field Almanac + optimized glass and CropCare comparison merged; AI provider validation, Cooperative Hub UI, manual accessibility, and universal links remain)  
 **Important:** A backend table, Edge Function, or test-only implementation is not a shipped feature. Statuses below describe what a farmer can actually use in the app today.
 
 ---
@@ -133,7 +133,7 @@ Executed TDD-first from `design/prototypes/` (14 pages × 3 structurally differe
 | Scrim strengthening | **[x]** | Added `AppGlass.imageScrim` (rgba(18,55,42,0.82)) token; created `ScrimmedImage` widget; applied to Crop detail, Product detail, and Scan capture — replaced saturated darken filter with real overlay; switched icons to `textInverse` for WCAG AA (was 2.02:1); bumped Scan placeholder alpha 0.35→0.6; new test `scrimmed_image_test.dart` |
 | HyperFrames ambient video loop | **[ ]** | Deferred per ADR 0012; `ffmpeg` not installed |
 
-Verification: `flutter test` (213 passing), `flutter analyze` (only pre-existing info-level lints), `deno test` edge-function seam (8 passing), `deno check` both edge functions. Home golden baseline regenerated for the intended visual change.
+Verification at the craft-sprint checkpoint: `flutter test` (213 passing), `flutter analyze` (only pre-existing info-level lints), `deno test` edge-function seam (8 passing), `deno check` both edge functions. Home golden baseline regenerated for the intended visual change.
 
 ---
 
@@ -151,10 +151,26 @@ ADR 0013 supersedes ADR 0010; ADR 0001's elevation rule is amended; `GLOSSARY.md
 | Prototype re-skin and glass re-judgment | **[x]** | `design/prototypes/GLASS_RESKIN.md`, shared `tokens.css`; all 14 briefs re-judged, glass opt-in on 5 immersive pages, dense pages opaque; contract in `test/design/prototype_glass_contract_test.dart` |
 | Motion/AI/backend gates | **[x]** | unchanged and re-verified (`flutter-motion` rules, overlay fallback, Supabase migrations/functions) |
 
-Verification after the re-skin and glass re-judgment: `flutter test` (213 passing, including `test/design/prototype_glass_contract_test.dart`), `flutter analyze` (info-level lints only), `deno test` (8 passing), `deno check` both edge functions. Home golden regenerated for the intended change.
+Verification after the re-skin and glass re-judgment (checkpoint): `flutter test` (213 passing, including `test/design/prototype_glass_contract_test.dart`), `flutter analyze` (info-level lints only), `deno test` (8 passing), `deno check` both edge functions. Home golden regenerated for the intended change.
 
 Not changed: backend, business logic, localization, fonts or IA (ADR 0013); HyperFrames video and dark mode remain deferred.
 
 Generated overlays landed after this section: six WebP assets in `assets/images/overlays/`, wired into Home, Onboarding, Agri Pro, Scan capture, Crop detail and Product detail. Originals and credits are in `design/overlays/originals/` and `PROJECT_KNOWLEDGE/ASSETS.md`.
 
-ADR 0014 records the supplied CropCare material (`PROJECT_KNOWLEDGE/DOCUMENTS/REFERENCE.md`, `PROJECT_KNOWLEDGE/IMAGES/REFERENCE/HOME_REFERENCE.png`) as secondary visual guidance only. The current design line remains Field Almanac + optimized glass; a CropCare-derived design will be explored on a separate branch for comparison.
+ADR 0014 records the supplied CropCare material (`PROJECT_KNOWLEDGE/DOCUMENTS/REFERENCE.md`, `PROJECT_KNOWLEDGE/IMAGES/REFERENCE/HOME_REFERENCE.png`) as secondary visual guidance only. The Field Almanac + optimized glass line remains the default; the CropCare-derived comparison line was merged into `master` under ADR 0015.
+
+---
+
+## 7. CropCare comparison line (2026-11-22)
+
+| Slice | Status | Evidence |
+|---|---|---|
+| Secondary reference recorded | **[x]** | ADR 0014 |
+| Isolated prototypes and contract | **[x]** | `design/prototypes-cropcare/`, `test/design/cropcare_prototype_contract_test.dart` |
+| Flutter routes and one-blur surfaces | **[x]** | `lib/cropcare/`, `/cropcare/*` in `lib/app/router/app_router.dart` |
+| Localization and merge approval | **[x]** | EN/TL/CEB ARBs, ADR 0015 |
+| PR #6 merged to `master` | **[x]** | merge commit `0bd4d83` |
+
+Current verification: flutter test (226 passing); flutter analyze (unchanged 21 info-level lints).
+
+ADR 0015 approves this as an additional design surface; it does not replace ADR 0013 or ADR 0001. Field Almanac routes, tokens, copy, localization, and goldens were not changed.

@@ -1,6 +1,6 @@
 # Smart Crops by Agri Lynk - UI/UX Blueprint
 
-**Status:** Phase 0 approved direction  
+**Status:** Phase 1-2 implemented; Phase 3 in progress  
 **Date:** 2026-11-12  
 **Owner:** Product Design + Mobile Engineering  
 **Related:** [GLOSSARY.md](../../GLOSSARY.md) · [UI_COPY_DECK.md](UI_COPY_DECK.md) · [wireframes.md](../../design/wireframes.md) · [tokens.json](../../design/tokens.json) · [ADR index](../../docs/adr/)
@@ -24,7 +24,9 @@ This document is the source of truth for the Smart Crops interface. It defines t
 
 Smart Crops helps farmers turn a crop photo into a clear next step: a diagnosis, a treatment plan, and a weather-aware schedule. The product must feel like a trusted field companion, not a generic AI utility.
 
-### Current state
+### Baseline audit (2026-11-12)
+
+This table records the pre-implementation audit that set the direction. Current user-accessible reality is tracked in `PROJECT_KNOWLEDGE/DOCUMENTS/IMPLEMENTATION_STATUS.md`.
 
 | Area | Reality |
 |---|---|
