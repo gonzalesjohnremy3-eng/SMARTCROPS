@@ -1259,5 +1259,66 @@
   "scanDetailExpertNote": "When to call an expert",
   "@scanDetailExpertNote": {
     "description": "Heading for the consult an expert section"
-  }
+  },
+  "cropCareTagline": "Smart Scan. Healthy Crops.",
+  "cropCareGoodMorning": "Good morning,",
+  "cropCareFarmerExclaim": "Farmer!",
+  "cropCareKeepCropsHealthy": "Let's keep your crops healthy.",
+  "cropCareScanDetectProtect": "Scan. Detect. Protect.",
+  "cropCareScanYourCrop": "Scan Your Crop",
+  "cropCareQuickAccess": "Quick Access",
+  "cropCareHome": "Home",
+  "cropCareScan": "Scan",
+  "cropCareHistory": "History",
+  "cropCareProfile": "Profile",
+  "cropCareCrops": "Crops",
+  "cropCareSupport": "Support",
+  "cropCareSettings": "Settings",
+  "cropCareNotifications": "Notifications",
+  "cropCareAdvisoriesAndReminders": "Advisories and scan reminders",
+  "cropCareLanguage": "Language",
+  "cropCareEnglish": "English",
+  "cropCareScanCropTitle": "Scan Crop",
+  "cropCareFillFrameHint": "Fill the frame with the affected leaf",
+  "cropCareImport": "Import",
+  "cropCareFlash": "Flash",
+  "cropCareHoldSteady": "Hold steady. A clear photo gives a more useful diagnosis.",
+  "cropCareScanResult": "Scan Result",
+  "cropCareHealthy": "Healthy",
+  "cropCareNoDiseaseDetected": "No disease detected",
+  "cropCareScannedToday": "scanned today",
+  "cropCareConfidence": "confidence",
+  "cropCareWhatNext": "What to do next",
+  "cropCareKeepWateringMorning": "Keep watering in the morning",
+  "cropCareCheckSoilBeforeIrrigation": "Check the soil before the next irrigation.",
+  "cropCareWatchNewSpots": "Watch for new spots",
+  "cropCareScanAgainWeek": "Scan again in seven days or earlier if leaves change.",
+  "cropCareSaveToHealthLog": "Save to Health Log",
+  "cropCareScanAgain": "Scan again",
+  "cropCareScanHistory": "Scan History",
+  "cropCareNeedsAttention": "Needs attention",
+  "cropCareToday": "Today",
+  "cropCareDaysAgo": "{count, plural, =1{1 day ago} other{{count} days ago}}",
+  "@cropCareDaysAgo": {
+    "description": "Relative day count for a past scan",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "cropCareLastWeek": "Last week",
+  "cropCareLeafSpots": "leaf spots",
+  "cropCareFarm": "Farm",
+  "cropCareFarmer": "Farmer",
+  "cropCareMainCrops": "Main crops",
+  "cropCareCropCount": "{count, plural, =1{1 crop} other{{count} crops}}",
+  "@cropCareCropCount": {
+    "description": "Count of Main Crops on the profile",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "cropCareYourCrops": "Your Crops",
+  "cropCareNoRecentDisease": "No disease detected in recent scans.",
+  "cropCareKeepSoilHealthy": "Keep your soil healthy",
+  "cropCareHealthySoilBody": "Healthy soil leads to stronger crops."
 }

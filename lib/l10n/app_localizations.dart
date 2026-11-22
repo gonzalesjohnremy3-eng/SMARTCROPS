@@ -1941,6 +1941,300 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'When to call an expert'**
   String get scanDetailExpertNote;
+
+  /// No description provided for @cropCareTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart Scan. Healthy Crops.'**
+  String get cropCareTagline;
+
+  /// No description provided for @cropCareGoodMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Good morning,'**
+  String get cropCareGoodMorning;
+
+  /// No description provided for @cropCareFarmerExclaim.
+  ///
+  /// In en, this message translates to:
+  /// **'Farmer!'**
+  String get cropCareFarmerExclaim;
+
+  /// No description provided for @cropCareKeepCropsHealthy.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s keep your crops healthy.'**
+  String get cropCareKeepCropsHealthy;
+
+  /// No description provided for @cropCareScanDetectProtect.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan. Detect. Protect.'**
+  String get cropCareScanDetectProtect;
+
+  /// No description provided for @cropCareScanYourCrop.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan Your Crop'**
+  String get cropCareScanYourCrop;
+
+  /// No description provided for @cropCareQuickAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Access'**
+  String get cropCareQuickAccess;
+
+  /// No description provided for @cropCareHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get cropCareHome;
+
+  /// No description provided for @cropCareScan.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan'**
+  String get cropCareScan;
+
+  /// No description provided for @cropCareHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get cropCareHistory;
+
+  /// No description provided for @cropCareProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get cropCareProfile;
+
+  /// No description provided for @cropCareCrops.
+  ///
+  /// In en, this message translates to:
+  /// **'Crops'**
+  String get cropCareCrops;
+
+  /// No description provided for @cropCareSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get cropCareSupport;
+
+  /// No description provided for @cropCareSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get cropCareSettings;
+
+  /// No description provided for @cropCareNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get cropCareNotifications;
+
+  /// No description provided for @cropCareAdvisoriesAndReminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Advisories and scan reminders'**
+  String get cropCareAdvisoriesAndReminders;
+
+  /// No description provided for @cropCareLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get cropCareLanguage;
+
+  /// No description provided for @cropCareEnglish.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get cropCareEnglish;
+
+  /// No description provided for @cropCareScanCropTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan Crop'**
+  String get cropCareScanCropTitle;
+
+  /// No description provided for @cropCareFillFrameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill the frame with the affected leaf'**
+  String get cropCareFillFrameHint;
+
+  /// No description provided for @cropCareImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Import'**
+  String get cropCareImport;
+
+  /// No description provided for @cropCareFlash.
+  ///
+  /// In en, this message translates to:
+  /// **'Flash'**
+  String get cropCareFlash;
+
+  /// No description provided for @cropCareHoldSteady.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold steady. A clear photo gives a more useful diagnosis.'**
+  String get cropCareHoldSteady;
+
+  /// No description provided for @cropCareScanResult.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan Result'**
+  String get cropCareScanResult;
+
+  /// No description provided for @cropCareHealthy.
+  ///
+  /// In en, this message translates to:
+  /// **'Healthy'**
+  String get cropCareHealthy;
+
+  /// No description provided for @cropCareNoDiseaseDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'No disease detected'**
+  String get cropCareNoDiseaseDetected;
+
+  /// No description provided for @cropCareScannedToday.
+  ///
+  /// In en, this message translates to:
+  /// **'scanned today'**
+  String get cropCareScannedToday;
+
+  /// No description provided for @cropCareConfidence.
+  ///
+  /// In en, this message translates to:
+  /// **'confidence'**
+  String get cropCareConfidence;
+
+  /// No description provided for @cropCareWhatNext.
+  ///
+  /// In en, this message translates to:
+  /// **'What to do next'**
+  String get cropCareWhatNext;
+
+  /// No description provided for @cropCareKeepWateringMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep watering in the morning'**
+  String get cropCareKeepWateringMorning;
+
+  /// No description provided for @cropCareCheckSoilBeforeIrrigation.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the soil before the next irrigation.'**
+  String get cropCareCheckSoilBeforeIrrigation;
+
+  /// No description provided for @cropCareWatchNewSpots.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch for new spots'**
+  String get cropCareWatchNewSpots;
+
+  /// No description provided for @cropCareScanAgainWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan again in seven days or earlier if leaves change.'**
+  String get cropCareScanAgainWeek;
+
+  /// No description provided for @cropCareSaveToHealthLog.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to Health Log'**
+  String get cropCareSaveToHealthLog;
+
+  /// No description provided for @cropCareScanAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan again'**
+  String get cropCareScanAgain;
+
+  /// No description provided for @cropCareScanHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan History'**
+  String get cropCareScanHistory;
+
+  /// No description provided for @cropCareNeedsAttention.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs attention'**
+  String get cropCareNeedsAttention;
+
+  /// No description provided for @cropCareToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get cropCareToday;
+
+  /// Relative day count for a past scan
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 day ago} other{{count} days ago}}'**
+  String cropCareDaysAgo(int count);
+
+  /// No description provided for @cropCareLastWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Last week'**
+  String get cropCareLastWeek;
+
+  /// No description provided for @cropCareLeafSpots.
+  ///
+  /// In en, this message translates to:
+  /// **'leaf spots'**
+  String get cropCareLeafSpots;
+
+  /// No description provided for @cropCareFarm.
+  ///
+  /// In en, this message translates to:
+  /// **'Farm'**
+  String get cropCareFarm;
+
+  /// No description provided for @cropCareFarmer.
+  ///
+  /// In en, this message translates to:
+  /// **'Farmer'**
+  String get cropCareFarmer;
+
+  /// No description provided for @cropCareMainCrops.
+  ///
+  /// In en, this message translates to:
+  /// **'Main crops'**
+  String get cropCareMainCrops;
+
+  /// Count of Main Crops on the profile
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 crop} other{{count} crops}}'**
+  String cropCareCropCount(int count);
+
+  /// No description provided for @cropCareYourCrops.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Crops'**
+  String get cropCareYourCrops;
+
+  /// No description provided for @cropCareNoRecentDisease.
+  ///
+  /// In en, this message translates to:
+  /// **'No disease detected in recent scans.'**
+  String get cropCareNoRecentDisease;
+
+  /// No description provided for @cropCareKeepSoilHealthy.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your soil healthy'**
+  String get cropCareKeepSoilHealthy;
+
+  /// No description provided for @cropCareHealthySoilBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Healthy soil leads to stronger crops.'**
+  String get cropCareHealthySoilBody;
 }
 
 class _AppLocalizationsDelegate

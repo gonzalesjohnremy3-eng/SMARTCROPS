@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CropCare · Profile</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+  .cc-glass-identity {
+    background: rgba(35, 75, 56, 0.82);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    box-shadow: 0 8px 24px rgba(35, 75, 56, 0.16);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+</style>
+</head>
+<body>
+<div class="phone">
+  <header class="header"><strong style="font-size:20px">Profile</strong><button class="icon-btn" aria-label="Settings"><svg class="icon"><use href="../shared/icons.svg#settings"></use></svg></button></header>
+  <div class="panel cc-glass-identity" style="margin-bottom:24px">
+    <svg class="icon-lg"><use href="../shared/icons.svg#profile"></use></svg>
+    <div><div style="font-size:20px;font-weight:700">Farmer</div><div class="muted">San Isidro Plot · 2 crops</div></div>
+  </div>
+  <section class="section" style="padding-top:0">
+    <h2>Farm</h2>
+    <div class="card"><h3>Main crops</h3><p class="muted">Rice, Pechay</p></div>
+    <h2 style="margin-top:20px">Settings</h2>
+    <div class="card"><h3>Notifications</h3><p class="muted">Advisories and scan reminders</p></div>
+    <div class="card"><h3>Language</h3><p class="muted">English</p></div>
+  </section>
+</div>
+<nav class="nav" aria-label="Primary">
+  <a href="../home/index.html"><svg class="icon"><use href="../shared/icons.svg#home"></use></svg><span>Home</span></a>
+  <a href="../scan/index.html"><svg class="icon"><use href="../shared/icons.svg#scan"></use></svg><span>Scan</span></a>
+  <a href="../history/index.html"><svg class="icon"><use href="../shared/icons.svg#history"></use></svg><span>History</span></a>
+  <a class="active" href="../profile/index.html"><svg class="icon"><use href="../shared/icons.svg#profile"></use></svg><span>Profile</span></a>
+</nav>
+</body>
+</html>

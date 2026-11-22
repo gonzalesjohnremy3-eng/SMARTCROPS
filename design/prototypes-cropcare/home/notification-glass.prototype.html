@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PROTOTYPE · CropCare notification glass verdict</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+  /* Question: which premium treatment for the CropCare Home notification affordance? A flat circle, B frosted-glass circle, C glass advisory pill. */
+  :root {
+    --pg-tint: rgba(251, 249, 241, 0.74);
+    --pg-border: rgba(255, 255, 255, 0.62);
+    --pg-boundary: rgba(35, 75, 56, 0.32);
+    --pg-sigma: 8px;
+    --pg-shadow: 0 8px 24px rgba(35, 75, 56, 0.14);
+    --pg-dark: rgba(35, 75, 56, 0.86);
+  }
+  body { padding-bottom: 160px; }
+  .notif {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--primary);
+    display: grid;
+    place-items: center;
+    position: relative;
+  }
+  .flat .badge-dot {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .glass-circle {
+    background: var(--pg-tint);
+    border: 1px solid var(--pg-border);
+    box-shadow: var(--pg-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    -webkit-backdrop-filter: blur(var(--pg-sigma));
+    backdrop-filter: blur(var(--pg-sigma));
+  }
+  .glass-circle .badge-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    border-radius: var(--radius-pill);
+    background: var(--accent);
+    color: var(--text-primary);
+    font-size: 11px;
+    font-weight: 700;
+    display: grid;
+    place-items: center;
+    animation: badge-in 180ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+  .glass-pill {
+    width: auto;
+    height: 48px;
+    padding: 0 14px;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: var(--pg-dark);
+    color: var(--text-inverse);
+    box-shadow: var(--pg-shadow);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    -webkit-backdrop-filter: blur(var(--pg-sigma));
+    backdrop-filter: blur(var(--pg-sigma));
+  }
+  .glass-pill .badge-count {
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    border-radius: var(--radius-pill);
+    background: var(--accent);
+    color: var(--text-primary);
+    display: grid;
+    place-items: center;
+    font-size: 11px;
+  }
+  @keyframes badge-in {
+    from { opacity: 0; transform: scale(0.82); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .glass-circle .badge-count { animation: none; }
+  }
+  .state-strip {
+    position: fixed;
+    left: 50%;
+    top: 12px;
+    transform: translateX(-50%);
+    z-index: 8;
+    max-width: calc(100% - 24px);
+    padding: 8px 14px;
+    border-radius: var(--radius-pill);
+    background: var(--primary-dark);
+    color: var(--text-inverse);
+    font-size: 12px;
+    box-shadow: var(--pg-shadow);
+  }
+  .state-strip strong { color: var(--accent); }
+  .switcher {
+    position: fixed;
+    left: 50%;
+    bottom: 16px;
+    transform: translateX(-50%);
+    z-index: 9;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    border-radius: var(--radius-pill);
+    background: var(--primary-dark);
+    color: var(--text-inverse);
+    box-shadow: var(--pg-shadow);
+  }
+  .switcher button {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: transparent;
+    color: var(--text-inverse);
+    font-size: 16px;
+    line-height: 1;
+  }
+  .switcher span { min-width: 220px; text-align: center; font-size: 12px; font-weight: 600; }
+  .verdict {
+    max-width: 390px;
+    margin: 24px auto 0;
+    padding: 14px 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    font-size: 13px;
+  }
+</style>
+</head>
+<body>
+<div class="state-strip" id="state"></div>
+
+<div class="phone">
+  <header class="header">
+    <div class="brand">
+      <svg class="icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 21c0-8 4-13 9-16-1 8-4 13-9 16z"/><path d="M12 21C9 14 5 11 2 10c1 7 4 11 10 11z"/></svg>
+      <div><div class="brand-name">CropCare</div><div class="tagline">Smart Scan. Healthy Crops.</div></div>
+    </div>
+    <div id="notif-slot"></div>
+  </header>
+
+  <section class="greeting">
+    <h1>Good morning,<br>Farmer!</h1>
+    <p>Let's keep your crops healthy.</p>
+  </section>
+
+  <div class="banner"><div class="banner-copy"><span>Scan. Detect. Protect.</span><svg class="icon"><use href="../shared/icons.svg#arrow"></use></svg></div></div>
+  <button class="primary"><svg class="icon"><use href="../shared/icons.svg#scan"></use></svg>Scan Your Crop</button>
+
+  <section class="section">
+    <h2>Quick Access</h2>
+    <div class="tiles">
+      <div class="tile"><svg class="icon"><use href="../shared/icons.svg#history"></use></svg><span>Scan History</span></div>
+      <div class="tile"><svg class="icon"><use href="../shared/icons.svg#crop"></use></svg><span>Crop Guide</span></div>
+      <div class="tile"><svg class="icon"><use href="../shared/icons.svg#bell"></use></svg><span>Support</span></div>
+      <div class="tile"><svg class="icon"><use href="../shared/icons.svg#settings"></use></svg><span>Settings</span></div>
+    </div>
+  </section>
+
+  <nav class="nav" aria-label="Primary">
+    <a class="active" href="../home/index.html"><svg class="icon"><use href="../shared/icons.svg#home"></use></svg><span>Home</span></a>
+    <a href="../scan/index.html"><svg class="icon"><use href="../shared/icons.svg#scan"></use></svg><span>Scan</span></a>
+    <a href="../history/index.html"><svg class="icon"><use href="../shared/icons.svg#history"></use></svg><span>History</span></a>
+    <a href="../profile/index.html"><svg class="icon"><use href="../shared/icons.svg#profile"></use></svg><span>Profile</span></a>
+  </nav>
+</div>
+
+<aside class="verdict">
+  <strong>Verdict: B — frosted-glass circle with count.</strong>
+  It keeps the compact 48dp control, adds one premium depth cue, and makes the unread state count-based instead of colour-only.
+  C is too loud for a routine badge; reserve a glass pill for a real campaign banner.
+  Keep cards, lists and diagnosis panels opaque; the nav uses tint only so this remains the single live blur on screen.
+  Motion: 180ms badge reveal, reduced-motion instant.
+</aside>
+
+<div class="switcher" role="navigation" aria-label="Prototype variant switcher">
+  <button type="button" aria-label="Previous variant" id="prev">‹</button>
+  <span id="label"></span>
+  <button type="button" aria-label="Next variant" id="next">›</button>
+</div>
+
+<script>
+(function () {
+  var variants = [
+    { key: 'A', name: 'Flat circle', surface: 'opaque', motion: 'none',
+      html: '<button class="notif flat" aria-label="1 new advisory"><svg class="icon"><use href="../shared/icons.svg#bell"></use></svg><span class="badge-dot"></span></button>' },
+    { key: 'B', name: 'Frosted glass circle', surface: 'glass + blur', motion: '180ms badge reveal',
+      html: '<button class="notif glass-circle" aria-label="1 new advisory"><svg class="icon"><use href="../shared/icons.svg#bell"></use></svg><span class="badge-count">1</span></button>' },
+    { key: 'C', name: 'Glass advisory pill', surface: 'dark glass + blur', motion: '180ms badge reveal',
+      html: '<button class="notif glass-pill" aria-label="1 new advisory"><svg class="icon"><use href="../shared/icons.svg#bell"></use></svg><span>1 new advisory</span><span class="badge-count">1</span></button>' }
+  ];
+  var slot = document.getElementById('notif-slot');
+  var label = document.getElementById('label');
+  var state = document.getElementById('state');
+
+  function current() {
+    var requested = new URLSearchParams(window.location.search).get('variant');
+    var index = 0;
+    for (var i = 0; i < variants.length; i++) { if (variants[i].key === requested) index = i; }
+    return index;
+  }
+
+  function render() {
+    var index = current();
+    var v = variants[index];
+    slot.innerHTML = v.html;
+    label.textContent = v.key + ' (' + v.name + ')';
+    state.innerHTML = '<strong>' + v.key + '</strong> · ' + v.name + ' · surface: ' + v.surface + ' · motion: ' + v.motion;
+  }
+
+  function go(delta) {
+    var next = (current() + delta + variants.length) % variants.length;
+    var url = new URL(window.location.href);
+    url.searchParams.set('variant', variants[next].key);
+    window.history.replaceState(null, '', url.toString());
+    render();
+  }
+
+  document.getElementById('prev').addEventListener('click', function () { go(-1); });
+  document.getElementById('next').addEventListener('click', function () { go(1); });
+  document.addEventListener('keydown', function (event) {
+    var target = event.target;
+    if (target && /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName)) return;
+    if (target && target.isContentEditable) return;
+    if (event.key === 'ArrowLeft') go(-1);
+    if (event.key === 'ArrowRight') go(1);
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
