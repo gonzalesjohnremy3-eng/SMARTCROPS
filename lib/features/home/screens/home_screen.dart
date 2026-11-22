@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_crops/app/theme/app_tokens.dart';
+import 'package:smart_crops/app/widgets/overlay_hero.dart';
 import 'package:smart_crops/app/widgets/feedback_states.dart';
 import 'package:smart_crops/features/home/domain/field_briefing.dart';
 import 'package:smart_crops/models/app_models.dart';
@@ -12,6 +14,61 @@ import 'package:smart_crops/features/scan/screens/scan_capture_screen.dart';
 import 'package:smart_crops/app/analytics/analytics.dart';
 import 'package:smart_crops/app/analytics/analytics_view.dart';
 
+typedef BriefingContent = ({
+  IconData icon,
+  String title,
+  String body,
+  String route,
+  String cta,
+});
+
+BriefingContent briefingContent(BriefingActionKind kind, AppLocalizations l10n) {
+  return switch (kind) {
+    BriefingActionKind.criticalWeather => (
+        icon: Icons.storm_outlined,
+        title: l10n.homeCriticalWeatherTitle,
+        body: l10n.homeCriticalWeatherBody,
+        route: '/advisories',
+        cta: l10n.advisoriesTitle,
+      ),
+    BriefingActionKind.overdueTask => (
+        icon: Icons.assignment_late_outlined,
+        title: l10n.homeOverdueTaskTitle,
+        body: l10n.homeOverdueTaskBody,
+        route: '/calendar',
+        cta: l10n.fieldCalendar,
+      ),
+    BriefingActionKind.atRiskDiagnosis => (
+        icon: Icons.healing_outlined,
+        title: l10n.homeAtRiskDiagnosisTitle,
+        body: l10n.homeAtRiskDiagnosisBody,
+        route: '/health-log',
+        cta: l10n.healthLogTitle,
+      ),
+    BriefingActionKind.routineCare => (
+        icon: Icons.water_drop_outlined,
+        title: l10n.homeRoutineCareTitle,
+        body: l10n.homeRoutineCareBody,
+        route: '/care-plan',
+        cta: l10n.carePlanTitle,
+      ),
+    BriefingActionKind.emptyFarm => (
+        icon: Icons.camera_alt_outlined,
+        title: l10n.homeEmptyFarmTitle,
+        body: l10n.homeEmptyFarm,
+        route: '/scan',
+        cta: l10n.homeScanCTA,
+      ),
+    BriefingActionKind.monitor => (
+        icon: Icons.verified_outlined,
+        title: l10n.homeMonitorTitle,
+        body: l10n.homeMonitoring,
+        route: '/scan',
+        cta: l10n.homeScanCTA,
+      ),
+  };
+}
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key, this.briefingFacts});
 
@@ -21,10 +78,9 @@ class HomeScreen extends StatelessWidget {
     final service = context.read<SmartCropsService>();
     final weather = context.read<WeatherService>();
     final now = DateTime.now();
-    final condition = weather.currentWeather?.condition ?? '';
 
     return BriefingFacts(
-      hasCriticalWeather: _isCriticalWeather(condition),
+      hasCriticalWeather: isCriticalWeather(weather.currentWeather),
       overdueTaskCount: service.calendarEvents
           .where((event) => !event.isCompleted && event.scheduledDate.isBefore(now))
           .length,
@@ -36,15 +92,6 @@ class HomeScreen extends StatelessWidget {
           .length,
       hasCrops: service.userSelectedCrops.isNotEmpty,
     );
-  }
-
-  bool _isCriticalWeather(String condition) {
-    final text = condition.toLowerCase();
-    return text.contains('storm') ||
-        text.contains('thunder') ||
-        text.contains('hurricane') ||
-        text.contains('typhoon') ||
-        text.contains('gale');
   }
 
   @override
@@ -80,6 +127,12 @@ class HomeScreen extends StatelessWidget {
             child: CustomScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               slivers: [
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+              child: _BriefingHero(facts: facts, l10n: l10n),
+            ),
+          ),
           SliverToBoxAdapter(
             child: _FieldBriefingCard(l10n: l10n, theme: theme),
           ),
@@ -158,6 +211,53 @@ class HomeScreen extends StatelessWidget {
         icon: const Icon(Icons.camera_alt),
         label: Text(l10n.homeScanCTA),
       ),
+    );
+  }
+}
+
+class _BriefingHero extends StatelessWidget {
+  const _BriefingHero({required this.facts, required this.l10n});
+
+  final BriefingFacts facts;
+  final AppLocalizations l10n;
+
+  @override
+  Widget build(BuildContext context) {
+    final content = briefingContent(selectPriorityAction(facts).kind, l10n);
+
+    return OverlayHero(
+      imagePath: 'assets/images/overlays/home.webp',
+      eyebrow: l10n.homeFieldBriefing,
+      title: content.title,
+      body: content.body,
+      badge: Semantics(
+        label: content.cta,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: AppColors.overlayScrim,
+            borderRadius: BorderRadius.circular(AppRadius.pill),
+            border: Border.all(color: AppColors.leaf.withValues(alpha: 0.5)),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(content.icon, size: 16, color: AppColors.leaf),
+              const SizedBox(width: 6),
+              Text(
+                content.cta,
+                style: const TextStyle(
+                  color: AppColors.textInverse,
+                  fontFamily: 'Public Sans',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      onTap: () => context.go(content.route),
     );
   }
 }
@@ -352,57 +452,13 @@ class _PriorityActionCard extends StatelessWidget {
   final AppLocalizations l10n;
   final ThemeData theme;
 
-  (IconData, String, String, String, String) _content(BriefingAction action) {
-    return switch (action.kind) {
-      BriefingActionKind.criticalWeather => (
-          Icons.storm_outlined,
-          l10n.homeCriticalWeatherTitle,
-          l10n.homeCriticalWeatherBody,
-          '/advisories',
-          l10n.advisoriesTitle,
-        ),
-      BriefingActionKind.overdueTask => (
-          Icons.assignment_late_outlined,
-          l10n.homeOverdueTaskTitle,
-          l10n.homeOverdueTaskBody,
-          '/calendar',
-          l10n.fieldCalendar,
-        ),
-      BriefingActionKind.atRiskDiagnosis => (
-          Icons.healing_outlined,
-          l10n.homeAtRiskDiagnosisTitle,
-          l10n.homeAtRiskDiagnosisBody,
-          '/health-log',
-          l10n.healthLogTitle,
-        ),
-      BriefingActionKind.routineCare => (
-          Icons.water_drop_outlined,
-          l10n.homeRoutineCareTitle,
-          l10n.homeRoutineCareBody,
-          '/care-plan',
-          l10n.carePlanTitle,
-        ),
-      BriefingActionKind.emptyFarm => (
-          Icons.camera_alt_outlined,
-          l10n.homeEmptyFarmTitle,
-          l10n.homeEmptyFarm,
-          '/scan',
-          l10n.homeScanCTA,
-        ),
-      BriefingActionKind.monitor => (
-          Icons.verified_outlined,
-          l10n.homeMonitorTitle,
-          l10n.homeMonitoring,
-          '/scan',
-          l10n.homeScanCTA,
-        ),
-    };
-  }
+  BriefingContent _content(BriefingAction action) =>
+      briefingContent(action.kind, l10n);
 
   @override
   Widget build(BuildContext context) {
     final action = selectPriorityAction(facts);
-    final (icon, title, body, route, cta) = _content(action);
+    final (:icon, :title, :body, :route, :cta) = _content(action);
 
     return Card(
       child: Padding(

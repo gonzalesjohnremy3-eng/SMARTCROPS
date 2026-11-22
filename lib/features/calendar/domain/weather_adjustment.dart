@@ -3,9 +3,13 @@ import '../../../models/app_models.dart';
 const weatherAdjustmentRainThresholdMm = 10.0;
 
 class WeatherForecast {
-  const WeatherForecast({required this.precipitationMmNext24h});
+  const WeatherForecast({
+    required this.precipitationMmNext24h,
+    this.isSample = false,
+  });
 
   final double precipitationMmNext24h;
+  final bool isSample;
 }
 
 class WeatherAdjustment {
@@ -32,7 +36,7 @@ WeatherAdjustment adjustForWeather({
   final hasHeavyRain =
       forecast.precipitationMmNext24h >= weatherAdjustmentRainThresholdMm;
 
-  if (!isWaterTask || !hasHeavyRain) {
+  if (forecast.isSample || !isWaterTask || !hasHeavyRain) {
     return WeatherAdjustment(
       event: event,
       originalDate: event.scheduledDate,

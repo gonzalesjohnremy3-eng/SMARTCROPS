@@ -62,6 +62,10 @@ _Avoid_: Capture, upload, check
 The finding produced by a Scan, such as a disease, pest, nutrient issue, or healthy crop.
 _Avoid_: Result, prediction, detection
 
+**Demo Diagnosis**:
+A clearly labeled example Diagnosis shown only when live analysis is unavailable; it never counts toward Health Log statistics.
+_Avoid_: Fake result, sample diagnosis, offline result
+
 **Scan Result**:
 The screen and record that present a Diagnosis and its next steps.
 _Avoid_: Report, analysis page
@@ -187,3 +191,19 @@ _Avoid_: Affiliate disclaimer, legal note
 **AI Limitation Notice**:
 The plain-language notice that a Diagnosis supports, but does not replace, expert judgment.
 _Avoid_: Disclaimer, warning
+
+**Overlay**:
+A photographic layer placed behind an immersive screen's content, always treated so the content stays readable.
+_Avoid_: Wallpaper, background image, hero banner
+
+**Glass Surface**:
+A translucent surface with a blurred backdrop and a light border, used only where the underlying content is calm enough to stay readable.
+_Avoid_: Frosted panel, blur card, glassmorphism layer
+
+**Glass Tint**:
+The approved translucent colour layered over the backdrop of a Glass Surface, always opaque enough to keep text readable.
+_Avoid_: Opacity, alpha, transparency value
+
+**Glass Scrim**:
+The darkening layer that guarantees text contrast over glass or imagery.
+_Avoid_: Gradient overlay, shade, mask

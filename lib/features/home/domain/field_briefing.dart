@@ -1,3 +1,5 @@
+import '../../../models/app_models.dart';
+
 enum BriefingActionKind {
   criticalWeather,
   overdueTask,
@@ -28,6 +30,16 @@ class BriefingAction {
 
   final BriefingActionKind kind;
   final String copyKey;
+}
+
+bool isCriticalWeather(WeatherCondition? weather) {
+  if (weather == null || weather.isSample) return false;
+  final text = weather.condition.toLowerCase();
+  return text.contains('storm') ||
+      text.contains('thunder') ||
+      text.contains('hurricane') ||
+      text.contains('typhoon') ||
+      text.contains('gale');
 }
 
 BriefingAction selectPriorityAction(BriefingFacts facts) {

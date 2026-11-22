@@ -13,12 +13,14 @@ class ScanQueueProvider extends ChangeNotifier {
   ScanQueueProvider({
     required this.store,
     required this.service,
+    ScanUploader? uploader,
+    ScanAnalyzer? analyzer,
     this.clock = DateTime.now,
   }) {
     _queue = ScanQueue(
       store: store,
-      uploader: _SupabaseStorageUploader(service),
-      analyzer: _SmartCropsAnalyzer(service),
+      uploader: uploader ?? _SupabaseStorageUploader(service),
+      analyzer: analyzer ?? _SmartCropsAnalyzer(service),
       clock: clock,
     );
   }
@@ -52,21 +54,18 @@ class ScanQueueProvider extends ChangeNotifier {
   }
 
   /// Queue a captured scan for analysis. Returns true when the scan is queued.
+  ///
+  /// Uploading is owned solely by [ScanQueue.processPending] so each captured
+  /// image produces exactly one Storage object.
   Future<bool> enqueueScan({
     required String localImagePath,
     required String cropName,
   }) async {
-    final item = await _queue.enqueue(
+    await _queue.enqueue(
       localImagePath: localImagePath,
       cropName: cropName,
     );
-    final imageUrl = await _imageUrlFor(item);
-    if (imageUrl != null) {
-      await _queue.processPending();
-    } else {
-      // Offline or upload failed: processPending handles retries.
-      await _queue.processPending();
-    }
+    await _queue.processPending();
     await _loadQueuedCount();
     return true;
   }
@@ -83,39 +82,12 @@ class ScanQueueProvider extends ChangeNotifier {
     }
   }
 
-  Future<String?> _imageUrlFor(QueuedScan item) async {
-    try {
-      return await _uploadToStorage(item.localImagePath);
-    } catch (_) {
-      return null;
-    }
-  }
-
   Future<void> _loadQueuedCount() async {
     final items = await _queue.store.load();
     _queuedCount = items.where((item) => item.status != QueuedScanStatus.completed).length;
     notifyListeners();
   }
 
-  Future<String> _uploadToStorage(String localImagePath) async {
-    final session = Supabase.instance.client.auth.currentSession;
-    if (session == null) {
-      throw StateError('No authenticated session');
-    }
-
-    final file = File(localImagePath);
-    final extension = localImagePath.split('.').last.toLowerCase();
-    final objectName = '${session.user.id}/${DateTime.now().millisecondsSinceEpoch}.$extension';
-
-    final bytes = await file.readAsBytes();
-    await Supabase.instance.client.storage
-        .from('scan-images')
-        .uploadBinary(objectName, bytes);
-
-    return Supabase.instance.client.storage
-        .from('scan-images')
-        .getPublicUrl(objectName);
-  }
 }
 
 class _SupabaseStorageUploader implements ScanUploader {

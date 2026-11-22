@@ -14,7 +14,7 @@ Adopt **Field Almanac** as the product's visual direction:
 - Mist-green canvas, Forest Ink text, Canopy actions, Leaf as the signature accent, Palay for caution, Clay for critical risk.
 - Fraunces for display moments and Public Sans for UI and body.
 - Real Philippine farm photography, custom empty-state illustrations, and a scan-HUD motif.
-- Hairline borders over diffuse shadows; one memorable element per screen.
+- Hairline borders over diffuse shadows for opaque surfaces; glass surfaces may use one soft shadow plus a 1px light border (amended by ADR 0013); one memorable element per screen.
 
 Keep the existing logo and create mono, reversed, and app-icon variants rather than redesigning the mark.
 

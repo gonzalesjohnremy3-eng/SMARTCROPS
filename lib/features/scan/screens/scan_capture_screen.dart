@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_crops/app/theme/app_tokens.dart';
+import 'package:smart_crops/app/widgets/scrimmed_image.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
 import 'package:smart_crops/features/scan/screens/scan_review_screen.dart';
@@ -79,19 +80,23 @@ class _ScanCaptureScreenState extends State<ScanCaptureScreen> {
               child: Container(
                 width: double.infinity,
                 margin: const EdgeInsets.all(16),
+                clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
                   color: AppColors.surfaceSunken,
                   borderRadius: BorderRadius.circular(AppRadius.sheet),
                 ),
-                child: Stack(
-                  children: [
-                    Center(
-                      child: Icon(
-                        Icons.eco_outlined,
-                        size: 96,
-                        color: AppColors.textInverse.withValues(alpha: 0.35),
+                child: ScrimmedImage(
+                  imagePath: 'assets/images/overlays/scan.webp',
+                  borderRadius: BorderRadius.circular(AppRadius.sheet),
+                  child: Stack(
+                    children: [
+                      Center(
+                        child: Icon(
+                          Icons.eco_outlined,
+                          size: 96,
+                          color: AppColors.textInverse.withValues(alpha: 0.6),
+                        ),
                       ),
-                    ),
                     ..._reticleBrackets(),
                     const Positioned(
                       bottom: 16,
@@ -104,6 +109,7 @@ class _ScanCaptureScreenState extends State<ScanCaptureScreen> {
                   ],
                 ),
               ),
+            ),
             ),
             Padding(
               padding: const EdgeInsets.all(16),

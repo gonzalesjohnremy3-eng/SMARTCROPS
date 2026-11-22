@@ -34,16 +34,20 @@ class TaskDetailScreen extends StatelessWidget {
         final currentEvent = updatedEvent ?? event;
 
         final rainMm = weather.currentWeather?.precipitationMm ?? 0;
+        final forecast = WeatherForecast(
+          precipitationMmNext24h: rainMm,
+          isSample: weather.currentWeather?.isSample ?? true,
+        );
         final adjustment = adjustForWeather(
           event: currentEvent,
-          forecast: WeatherForecast(precipitationMmNext24h: rainMm),
+          forecast: forecast,
         );
 
         final reason = resolveEventReason(
           event: currentEvent,
           scans: service.scanHistory,
           now: DateTime.now(),
-          forecast: WeatherForecast(precipitationMmNext24h: rainMm),
+          forecast: forecast,
         );
 
         CropItem? crop;

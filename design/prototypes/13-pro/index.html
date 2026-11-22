@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>P13 · Agri Pro — Field Almanac prototype</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+  .stage { display:grid; grid-template-columns:repeat(auto-fit,minmax(350px,1fr)); gap:24px; padding:32px; max-width:1240px; margin:0 auto }
+  .stage-label { font:600 12px/16px var(--font-body); color:var(--text-muted); text-align:center; margin-bottom:8px }
+  .frame { min-height:700px; border:1px solid var(--border-subtle); border-radius:var(--radius-hero); overflow:hidden; background:var(--surface-canvas); box-shadow:var(--shadow-raised) }
+  .top { display:flex; align-items:center; justify-content:space-between; padding:16px 20px; background:var(--surface-raised); border-bottom:1px solid var(--border-subtle) }
+  .body { padding:20px; display:flex; flex-direction:column; gap:14px; flex:1 }
+  .hero-block { min-height:200px; padding:24px 20px; display:flex; flex-direction:column; justify-content:flex-end; color:var(--text-inverse) }
+  .hero-block h1 { color:var(--text-inverse) }
+  .hero-block .glass-dark { padding:16px; border-radius:var(--radius-card) }
+  .plan { padding:18px; background:var(--surface-raised); border:1px solid var(--border-subtle); border-radius:var(--radius-card) }
+  .plan.picked { border:2px solid var(--action-primary); background:var(--healthy-surface) }
+  .plan .price { font-family:var(--font-display); font-size:26px; line-height:32px; margin-top:8px }
+  .facts { display:grid; grid-template-columns:1fr 1fr; gap:10px }
+  .fact { padding:14px; background:var(--surface-raised); border:1px solid var(--border-subtle); border-radius:var(--radius-card) }
+  .meter { height:8px; background:var(--neutral-200); border-radius:var(--radius-pill); overflow:hidden; margin-top:10px }
+  .meter i { display:block; height:100%; width:60%; background:var(--action-primary) }
+  .fine { font-size:12px; color:var(--text-secondary) }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div><div class="stage-label">A · Plan cards</div>
+      <section class="variant" data-variant="A" data-variant-name="Plan cards">
+        <div class="frame"><div class="top"><div class="h2">Agri Pro</div><span class="pill">Restore purchase</span></div><div class="body">
+          <div class="plan"><div class="h3">Monthly</div><div class="price">₱99<span class="small muted"> / month</span></div><div class="small muted" style="margin-top:6px">Flexible, cancel anytime</div></div>
+          <div class="plan picked"><span class="pill healthy" style="float:right">Save 16%</span><div class="h3">One season</div><div class="price">₱499<span class="small muted"> / 6 months</span></div><div class="small muted" style="margin-top:6px">₱3 a day · One crop cycle of unlimited scans</div></div>
+          <button class="btn btn-primary" style="margin-top:auto">Continue</button><div class="fine">VAT inclusive. Billed by Google Play or the App Store. No founding offer at launch.</div>
+        </div></div>
+      </section>
+    </div>
+    <div><div class="stage-label">B · Value story</div>
+      <section class="variant" data-variant="B" data-variant-name="Value story">
+        <div class="frame"><div class="hero-block img-overlay"><div class="glass-dark"><div class="eyebrow" style="color:#FFFDF7">AGRI PRO</div><h1 class="h1" style="margin-top:10px">Protect more of what you grow.</h1><p class="small" style="margin-top:8px;color:rgba(255,253,247,.82)">Unlimited scans, trends, and weather-adjusted reminders for one season.</p></div></div>
+          <div class="body">
+            <div class="facts"><div class="fact"><div class="h3">∞</div><div class="small muted">Unlimited scans</div></div><div class="fact"><div class="h3">↗</div><div class="small muted">Season trends</div></div><div class="fact"><div class="h3">☂</div><div class="small muted">Weather reminders</div></div><div class="fact"><div class="h3">⚡</div><div class="small muted">Priority analysis</div></div></div>
+            <div class="plan picked"><div class="price">₱499 <span class="small muted">/ 6 months</span></div><div class="small muted">Save 16% · ₱3 a day</div></div><button class="btn btn-primary">Continue</button>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div><div class="stage-label">C · Quota context</div>
+      <section class="variant" data-variant="C" data-variant-name="Quota context">
+        <div class="frame"><div class="top"><div class="h2">Your scans this week</div><span class="pill watch">Free plan</span></div><div class="body">
+          <div class="card"><div class="h3">3 of 5 free scans used</div><div class="meter"><i></i></div><div class="small muted" style="margin-top:8px">Resets Monday. One result already this week.</div></div>
+          <div class="plan picked"><div class="h3">Agri Pro</div><div class="price">₱99<span class="small muted"> / month</span></div><div class="small muted" style="margin-top:6px">Remove the limit. Keep your history.</div></div>
+          <button class="btn btn-primary" style="margin-top:auto">See plans</button><div class="fine">Shown after a successful diagnosis or at your weekly quota — never before you see a result.</div>
+        </div></div>
+      </section>
+    </div>
+  </div>
+  <script src="../shared/switcher.js"></script>
+</body>
+</html>

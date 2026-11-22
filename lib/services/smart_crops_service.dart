@@ -61,6 +61,7 @@ class SmartCropsService with ChangeNotifier {
   Future<void> initializeUserData() async {
     _isLoading = true;
     _errorMessage = null;
+    await _cacheStore.useUser(_supabase.auth.currentSession?.user.id);
     notifyListeners();
 
     try {
@@ -234,6 +235,8 @@ class SmartCropsService with ChangeNotifier {
         // Best-effort: a stale token is preferable to a blocked sign-out.
       }
     }
+    await _cacheStore.clear();
+    await _cacheStore.useUser(null);
     await _supabase.auth.signOut();
     _currentUserProfile = null;
     _userSelectedCrops = [];
@@ -297,6 +300,7 @@ class SmartCropsService with ChangeNotifier {
             'userId': session.user.id,
             'cropName': cropName,
           },
+          headers: {'Authorization': 'Bearer ${session.accessToken}'},
         );
 
         // Only a real, AI-backed 200 with parseable data counts as a real scan.

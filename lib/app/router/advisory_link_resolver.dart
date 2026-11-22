@@ -16,7 +16,7 @@ class AdvisoryLink {
 
 String resolveAdvisoryDestination(AdvisoryLink link) {
   if (link.target == AdvisoryTarget.cooperative) {
-    return '/cooperative';
+    return '/profile';
   }
 
   final recordId = link.recordId;
@@ -25,11 +25,14 @@ String resolveAdvisoryDestination(AdvisoryLink link) {
   }
   final encodedId = Uri.encodeComponent(recordId);
 
+  // Only destinations registered in app_router.dart. Detail-by-id routes for
+  // scans and advisories are not built, so carry the id to the list surface
+  // that owns the record instead of dropping the farmer at a blank screen.
   return switch (link.target) {
-    AdvisoryTarget.scan => '/scan/result/$encodedId',
+    AdvisoryTarget.scan => '/health-log?scan=$encodedId',
     AdvisoryTarget.task => '/calendar/events/$encodedId',
     AdvisoryTarget.crop => '/crops/$encodedId',
-    AdvisoryTarget.advisory => '/advisories/$encodedId',
-    AdvisoryTarget.cooperative => '/cooperative',
+    AdvisoryTarget.advisory => '/advisories?highlight=$encodedId',
+    AdvisoryTarget.cooperative => '/profile',
   };
 }

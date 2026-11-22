@@ -44,6 +44,22 @@ void main() {
     expect(adjustment.reasonKey, isNull);
   });
 
+  test('sample weather never reschedules a water task', () {
+    final event = _waterTask();
+
+    final adjustment = adjustForWeather(
+      event: event,
+      forecast: const WeatherForecast(
+        precipitationMmNext24h: 25,
+        isSample: true,
+      ),
+    );
+
+    expect(adjustment.isAdjusted, isFalse);
+    expect(adjustment.adjustedDate, DateTime(2026, 5, 2));
+    expect(adjustment.reasonKey, isNull);
+  });
+
   test('exactly ten millimeters triggers the rain rule', () {
     final event = _waterTask();
 

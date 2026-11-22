@@ -161,6 +161,7 @@ class WeatherCondition {
   final int humidity;
   final String iconCode;
   final double precipitationMm;
+  final bool isSample;
 
   WeatherCondition({
     required this.locationName,
@@ -169,6 +170,7 @@ class WeatherCondition {
     required this.humidity,
     required this.iconCode,
     this.precipitationMm = 0,
+    this.isSample = false,
   });
 
   factory WeatherCondition.fromJson(Map<String, dynamic> json) {
@@ -179,6 +181,7 @@ class WeatherCondition {
       humidity: json['humidity'] ?? 70,
       iconCode: json['iconCode'] ?? '01d',
       precipitationMm: (json['precipitationMm'] ?? 0.0).toDouble(),
+      isSample: json['isSample'] == true,
     );
   }
 
@@ -189,6 +192,7 @@ class WeatherCondition {
     'humidity': humidity,
     'iconCode': iconCode,
     'precipitationMm': precipitationMm,
+    'isSample': isSample,
   };
 }
 

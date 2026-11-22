@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_crops/app/theme/app_tokens.dart';
+import 'package:smart_crops/app/widgets/scrimmed_image.dart';
 import 'package:smart_crops/features/scan/domain/diagnosis_presenter.dart';
 import 'package:smart_crops/features/scan/screens/scan_capture_screen.dart';
 import 'package:smart_crops/app/analytics/analytics_view.dart';
@@ -141,15 +143,18 @@ class _Header extends StatelessWidget {
 
     return Row(
       children: [
-        Container(
-          width: 88,
-          height: 88,
-          decoration: BoxDecoration(
-            color: theme.colorScheme.surfaceContainerHighest,
-            borderRadius: BorderRadius.circular(16),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: SizedBox(
+            width: 88,
+            height: 88,
+            child: ScrimmedImage(
+              imagePath: 'assets/images/overlays/crop_detail.webp',
+              child: Center(
+                child: Icon(Icons.eco_outlined, size: 44, color: AppColors.textInverse),
+              ),
+            ),
           ),
-          child: Icon(Icons.eco_outlined,
-              size: 44, color: theme.colorScheme.primary),
         ),
         const SizedBox(width: 16),
         Expanded(

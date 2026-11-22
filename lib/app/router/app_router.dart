@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:smart_crops/app/router/route_guard.dart';
+import 'package:smart_crops/app/widgets/glass_surface.dart';
 import 'package:smart_crops/app/router/onboarding_controller.dart';
 import 'package:smart_crops/features/home/screens/home_screen.dart';
 import 'package:smart_crops/features/crops/screens/crops_screen.dart';
@@ -259,8 +260,12 @@ class _ResponsiveBottomNavigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
+    return GlassSurface(
+      blur: false,
+      borderRadius: BorderRadius.zero,
+      padding: EdgeInsets.zero,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
         if (constraints.maxWidth >= 840) {
           return NavigationRail(
             selectedIndex: currentIndex,
@@ -335,7 +340,8 @@ class _ResponsiveBottomNavigation extends StatelessWidget {
             ),
           ],
         );
-      },
+        },
+      ),
     );
   }
 }

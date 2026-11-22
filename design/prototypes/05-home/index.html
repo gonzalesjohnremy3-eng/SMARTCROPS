@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>P5 · Home Field Briefing — Field Almanac prototype</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<style>
+  .stage { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 24px; padding: 32px; max-width: 1240px; margin: 0 auto; }
+  .stage-label { font: 600 12px/16px var(--font-body); color: var(--text-muted); text-align: center; margin-bottom: 8px; }
+  .frame { min-height: 760px; display: flex; flex-direction: column; border: 1px solid var(--border-subtle); border-radius: var(--radius-hero); overflow: hidden; background: var(--surface-canvas); box-shadow: var(--shadow-raised); }
+  .top { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; background: var(--surface-raised); border-bottom: 1px solid var(--border-subtle); }
+  .hero-block { min-height: 300px; padding: 24px 20px; display: flex; flex-direction: column; justify-content: space-between; color: var(--text-inverse); }
+  .hero-block h1 { color: var(--text-inverse); }
+  .hero-block .small { color: rgba(255,253,247,.82); }
+  .hero-block .pill { background: rgba(255,253,247,.16); color: var(--text-inverse); }
+  .hero-block .glass-dark, .mini-hero .glass-dark { padding: 16px; border-radius: var(--radius-card); }
+  .content { padding: 16px 20px 24px; display: flex; flex-direction: column; gap: 16px; flex: 1; }
+  .section-head { display: flex; align-items: center; justify-content: space-between; }
+  .link { border: 0; background: transparent; color: var(--action-primary); font-weight: 600; }
+  .task { display: flex; gap: 12px; align-items: flex-start; padding: 14px; background: var(--surface-raised); border: 1px solid var(--border-subtle); border-radius: var(--radius-card); }
+  .task .mark { width: 24px; height: 24px; flex: none; border: 2px solid var(--border-strong); border-radius: 50%; margin-top: 2px; }
+  .mini-hero { padding: 20px; border-radius: var(--radius-card); color: var(--text-inverse); }
+  .mini-hero h2 { color: var(--text-inverse); }
+  .ledger { display: flex; flex-direction: column; }
+  .ledger .row-item { display: flex; gap: 12px; padding: 16px 0; border-bottom: 1px solid var(--border-subtle); align-items: center; }
+  .ledger .rank { font-family: var(--font-display); font-size: 26px; color: var(--action-primary); width: 32px; }
+  .weather-card { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; background: var(--info-surface); border-radius: var(--radius-card); color: var(--status-info); }
+  .split { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; }
+  .stamp { font-size: 11px; color: var(--text-muted); }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div>
+      <div class="stage-label">A · Field Briefing hero</div>
+      <section class="variant" data-variant="A" data-variant-name="Field Briefing hero">
+        <div class="frame">
+          <div class="top"><div><div class="caption muted">GOOD MORNING, ANA</div><div class="h2">Your Field Briefing</div></div><span class="pill healthy"><span class="dot"></span> 3 crops healthy</span></div>
+          <div class="hero-block img-overlay"><span class="pill" style="align-self:flex-start"><span class="dot"></span> Weather-adjusted · 12 Nov 2026</span><div class="glass-dark"><div class="eyebrow">TODAY'S PRIORITY</div><h1 class="h1" style="margin-top:8px">Hold off watering. Rain will do it for you.</h1><p class="small" style="margin-top:8px">Watering moved to tomorrow. Your pechay is on track.</p></div></div>
+          <div class="content">
+            <div class="section-head"><div class="h3">Next in your Care Plan</div><button class="link">See all</button></div>
+            <div class="task"><span class="mark"></span><div><div class="h3">Inspect rice leaves</div><div class="small muted">Today · Weather-adjusted</div></div><span class="pill watch">Watch</span></div>
+            <div class="task"><span class="mark"></span><div><div class="h3">Scan pechay for spots</div><div class="small muted">Tomorrow · 7 days since last scan</div></div></div>
+            <div class="weather-card"><span class="small">26°C · Rain expected 2 PM</span><span class="pill info">Live</span></div>
+            <div class="stamp">Weather updated 09:41 · Last synced 09:40</div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div>
+      <div class="stage-label">B · Priority ledger</div>
+      <section class="variant" data-variant="B" data-variant-name="Priority ledger">
+        <div class="frame">
+          <div class="top"><div><div class="caption muted">HOME</div><div class="h2">Today, in order</div></div><span class="pill info">12 Nov</span></div>
+          <div class="content" style="padding-top:24px">
+            <div class="weather-card"><span class="small">Rain at 2 PM — watering moved</span><span class="pill info">Weather-adjusted</span></div>
+            <div class="ledger">
+              <div class="row-item"><span class="rank">1</span><div style="flex:1"><div class="h3">Inspect rice leaves</div><div class="small muted">Nearby farms reported spots</div></div><span class="pill watch">Watch</span></div>
+              <div class="row-item"><span class="rank">2</span><div style="flex:1"><div class="h3">Scan pechay</div><div class="small muted">7 days since last scan</div></div></div>
+              <div class="row-item"><span class="rank">3</span><div style="flex:1"><div class="h3">Review Health Log</div><div class="small muted">Season progress 62%</div></div></div>
+            </div>
+            <div class="mini-hero img-overlay" style="margin-top:auto"><div class="glass-dark"><div class="eyebrow" style="color:#FFFDF7">NOTHING URGENT? KEEP WATCHING.</div><button class="btn" style="background:#FFFDF7;color:#12372A;margin-top:12px">Scan a crop</button></div></div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div>
+      <div class="stage-label">C · Split dashboard</div>
+      <section class="variant" data-variant="C" data-variant-name="Split dashboard">
+        <div class="frame">
+          <div class="top"><div class="h2">Your Field Briefing</div><span class="pill healthy">All crops on track</span></div>
+          <div class="content">
+            <div class="split">
+              <div class="mini-hero img-overlay"><div class="glass-dark"><div class="eyebrow" style="color:#FFFDF7">PRIORITY</div><h2 style="margin-top:10px">Inspect the rice leaves before the rain.</h2><p class="small" style="margin-top:8px;color:rgba(255,253,247,.82)">One scan gives you a clear next step.</p></div></div>
+              <div style="display:flex;flex-direction:column;gap:12px"><div class="card"><div class="caption muted">WEATHER</div><div class="h3" style="margin-top:4px">26°C · Rain 2 PM</div></div><div class="card"><div class="caption muted">LAST SCAN</div><div class="h3" style="margin-top:4px">Pechay · Healthy</div></div></div>
+            </div>
+            <div class="section-head" style="margin-top:8px"><div class="h3">This week</div><button class="link">Field Calendar</button></div>
+            <div class="task"><span class="mark"></span><div><div class="h3">Water rice plot</div><div class="small muted">Tomorrow · Weather-adjusted</div></div></div>
+            <div class="task"><span class="mark"></span><div><div class="h3">Apply treatment</div><div class="small muted">Thu · After scan</div></div></div>
+            <div class="stamp" style="margin-top:auto">Showing last updated data · Synced 09:40</div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <script src="../shared/switcher.js"></script>
+</body>
+</html>

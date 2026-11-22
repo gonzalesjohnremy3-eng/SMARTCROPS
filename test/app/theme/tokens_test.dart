@@ -178,6 +178,87 @@ void main() {
     }
   });
 
+  test('motion durations and curves match the approved design tokens', () {
+    final motion = _tokens()['motion'] as Map<String, dynamic>;
+    final durations = motion['duration'] as Map<String, dynamic>;
+
+    expect(AppMotion.instant.inMilliseconds, durations['instant']);
+    expect(AppMotion.fast.inMilliseconds, durations['fast']);
+    expect(AppMotion.standard.inMilliseconds, durations['standard']);
+    expect(AppMotion.scanSequence.inMilliseconds, durations['scanSequence']);
+    expect(AppMotion.slow.inMilliseconds, durations['slow']);
+
+    expect(AppMotion.standardCurve.a, 0.2);
+    expect(AppMotion.standardCurve.b, 0);
+    expect(AppMotion.standardCurve.c, 0);
+    expect(AppMotion.standardCurve.d, 1);
+    expect(AppMotion.emphasizedCurve.a, 0.05);
+    expect(AppMotion.scanSequence, const Duration(milliseconds: 900));
+  });
+
+  test('glass tokens match the approved design tokens', () {
+    final glass = _tokens()['glass'] as Map<String, dynamic>;
+    final tints = glass['tint'] as Map<String, dynamic>;
+    final sigma = glass['sigma'] as Map<String, dynamic>;
+
+    for (final entry in tints.entries) {
+      expect(
+        AppGlass.tints[entry.key],
+        _colorFromToken(entry.value as String),
+        reason: 'Glass tint ${entry.key} drifted from design/tokens.json',
+      );
+    }
+    for (final entry in sigma.entries) {
+      expect(
+        AppGlass.sigma[entry.key],
+        (entry.value as num).toDouble(),
+        reason: 'Glass sigma ${entry.key} drifted from design/tokens.json',
+      );
+    }
+    expect(AppGlass.border, _colorFromToken(glass['border'] as String));
+    expect(AppGlass.boundary, _colorFromToken(glass['boundary'] as String));
+    expect(AppGlass.scrim, _colorFromToken(glass['scrim'] as String));
+    expect(
+      AppGlass.imageScrim,
+      _colorFromToken(glass['imageScrim'] as String),
+    );
+    expect(AppGlass.textSafeOpacity, glass['textSafeOpacity']);
+  });
+
+  test('glass text and boundaries meet WCAG AA over worst-case backdrops', () {
+    const backdrops = <Color>[
+      AppColors.surfaceCanvas,
+      AppColors.surfaceRaised,
+      AppColors.surfaceDark,
+      AppColors.paper,
+      AppColors.forestInk,
+    ];
+    final textPairs = <(Color, Color)>[
+      (AppColors.textPrimary, AppGlass.tints['canvas']!),
+      (AppColors.textPrimary, AppGlass.tints['raised']!),
+      (AppColors.textInverse, AppGlass.tints['dark']!),
+    ];
+
+    for (final backdrop in backdrops) {
+      for (final (text, tint) in textPairs) {
+        final surface = Color.alphaBlend(tint, backdrop);
+        expect(
+          AppContrast.ratio(text, surface),
+          greaterThanOrEqualTo(4.5),
+          reason: 'Glass text failed over $backdrop',
+        );
+      }
+
+      final lightSurface = Color.alphaBlend(AppGlass.tints['raised']!, backdrop);
+      final boundary = Color.alphaBlend(AppGlass.boundary, lightSurface);
+      expect(
+        AppContrast.ratio(boundary, lightSurface),
+        greaterThanOrEqualTo(3.0),
+        reason: 'Glass boundary failed over $backdrop',
+      );
+    }
+  });
+
   test('required text and action pairs meet WCAG AA contrast', () {
     final pairs = <(Color, Color)>[
       (AppColors.textPrimary, AppColors.surfaceCanvas),

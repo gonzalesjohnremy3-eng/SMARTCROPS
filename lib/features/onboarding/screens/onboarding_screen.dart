@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smart_crops/app/theme/app_tokens.dart';
+import 'package:smart_crops/app/widgets/overlay_hero.dart';
 import 'package:smart_crops/app/localization/locale_provider.dart';
 import 'package:smart_crops/app/router/onboarding_controller.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
@@ -56,8 +58,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   void _nextPage(int pageCount) {
     if (_currentPage < pageCount - 1) {
       _pageController.nextPage(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
+        duration: AppMotion.slow,
+        curve: AppMotion.standardCurve,
       );
     } else {
       _finishOnboarding();
@@ -183,8 +185,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     child: _currentPage > 0
                         ? TextButton(
                             onPressed: () => _pageController.previousPage(
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.easeInOut,
+                              duration: AppMotion.slow,
+                              curve: AppMotion.standardCurve,
                             ),
                             child: Text(
                               l10n.back,
@@ -244,27 +246,18 @@ class _OnboardingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
     return Center(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(illustration, size: 96, color: theme.colorScheme.primary),
-            const SizedBox(height: 32),
-            Text(
-              title,
-              style: theme.textTheme.headlineMedium,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              body,
-              style: theme.textTheme.bodyLarge,
-              textAlign: TextAlign.center,
-            ),
-          ],
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        child: OverlayHero(
+          imagePath: 'assets/images/overlays/onboarding.webp',
+          eyebrow: l10n.appTitle,
+          title: title,
+          body: body,
+          height: 400,
+          blur: false,
+          badge: Icon(illustration, size: 48, color: AppColors.leaf),
         ),
       ),
     );

@@ -81,6 +81,7 @@ class WeatherService with ChangeNotifier {
         condition: 'Partly Cloudy',
         humidity: 68,
         iconCode: '02d',
+        isSample: true,
       );
     } finally {
       _isLoading = false;
