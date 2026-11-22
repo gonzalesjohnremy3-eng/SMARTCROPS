@@ -17,3 +17,5 @@
 **Design skills applied:** impeccable, ui-taste, frontend-design, flutter-motion.
 
 **Verdict:** B (Value story) chosen for first exposure after value is proven; C (Quota context) is the honest trigger at the weekly limit; A is the comparison table on the plan screen. Generated overlay on B's hero only. Motion: restrained reveal, no celebratory animation for a purchase.
+
+**Glass re-judgment (2026-11-22):** B confirmed — the value-story hero gets one glass plate; plan and fact cards stay opaque.

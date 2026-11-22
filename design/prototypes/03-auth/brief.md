@@ -18,3 +18,5 @@
 **Design skills applied:** impeccable, design-mobile-apps, frontend-design, ui-taste.
 
 **Verdict:** B (Phone first) chosen for the primary mobile path, with A's trust panel as the branded backdrop on wide screens. Remove the unimplemented recovery link in code. Overlay: generated immersive image on the trust panel only.
+
+**Glass re-judgment (2026-11-22):** Unchanged — B's phone form stays opaque; A's trust panel keeps the only glass plate on wide screens.

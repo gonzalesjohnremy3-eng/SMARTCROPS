@@ -16,3 +16,5 @@
 **Design skills applied:** design-mobile-apps, impeccable, ui-taste, flutter-motion (step transition).
 
 **Verdict:** A (Wizard steps) retained — matches the shipped 3-step flow and keeps permissions as an explicit final step. B's single form is offered as the "already set up" edit surface in P14. C's question style is reserved for guided recovery later. Overlay: none.
+
+**Glass re-judgment (2026-11-22):** Unchanged — wizard and form surfaces stay opaque per ADR 0013; no immersive surface exists here.

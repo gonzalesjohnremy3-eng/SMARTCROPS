@@ -285,19 +285,6 @@ h1, h2, h3, p { margin: 0; }
 
 @keyframes shimmer { to { background-position: -200% 0; } }
 
-.appbar, .bottom-nav, .top, .card, .frame, .phone {
-  background: var(--glass-raised);
-  border: 1px solid var(--glass-border);
-  -webkit-backdrop-filter: blur(var(--glass-sigma));
-  backdrop-filter: blur(var(--glass-sigma));
-}
-
-.card, .bottom-nav {
-  background: var(--glass-raised) !important;
-  -webkit-backdrop-filter: blur(var(--glass-sigma)) !important;
-  backdrop-filter: blur(var(--glass-sigma)) !important;
-}
-
 .glass {
   background: var(--glass-raised);
   border: 1px solid var(--glass-border);

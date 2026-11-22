@@ -16,3 +16,5 @@
 **Design skills applied:** impeccable, ui-taste, flutter-motion (list choreography, bounded stagger).
 
 **Verdict:** A (Stats + list) chosen with the demo label and exclusion applied. B is an alternate presentation for a future scan-detail view; C is rejected as too abstract for the audience. No overlay. Motion: subtle bounded list entrance, capped so long histories stay fast.
+
+**Glass re-judgment (2026-11-22):** Unchanged — dense stats/list surface; no live glass.

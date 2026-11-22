@@ -133,7 +133,7 @@ Executed TDD-first from `design/prototypes/` (14 pages × 3 structurally differe
 | Scrim strengthening | **[x]** | Added `AppGlass.imageScrim` (rgba(18,55,42,0.82)) token; created `ScrimmedImage` widget; applied to Crop detail, Product detail, and Scan capture — replaced saturated darken filter with real overlay; switched icons to `textInverse` for WCAG AA (was 2.02:1); bumped Scan placeholder alpha 0.35→0.6; new test `scrimmed_image_test.dart` |
 | HyperFrames ambient video loop | **[ ]** | Deferred per ADR 0012; `ffmpeg` not installed |
 
-Verification: `flutter test` (203 passing), `flutter analyze` (only pre-existing info-level lints), `deno test` edge-function seam (8 passing), `deno check` both edge functions. Home golden baseline regenerated for the intended visual change.
+Verification: `flutter test` (213 passing), `flutter analyze` (only pre-existing info-level lints), `deno test` edge-function seam (8 passing), `deno check` both edge functions. Home golden baseline regenerated for the intended visual change.
 
 ---
 
@@ -148,11 +148,13 @@ ADR 0013 supersedes ADR 0010; ADR 0001's elevation rule is amended; `GLOSSARY.md
 | `GlassSurface` component, one blur per screen | **[x]** | `lib/app/widgets/glass_surface.dart`, `test/app/widgets/glass_surface_test.dart` |
 | Immersive heroes in Flutter | **[x]** | `OverlayHero` uses `GlassSurface` with `blur:false` on Onboarding (PageView builds several pages) |
 | Navigation chrome | **[x]** | `_ResponsiveBottomNavigation` wrapped in `GlassSurface(blur:false)` |
-| Prototype re-skin | **[x]** | `design/prototypes/GLASS_RESKIN.md`, shared `tokens.css`; all 14 pages inherit via shared primitives |
+| Prototype re-skin and glass re-judgment | **[x]** | `design/prototypes/GLASS_RESKIN.md`, shared `tokens.css`; all 14 briefs re-judged, glass opt-in on 5 immersive pages, dense pages opaque; contract in `test/design/prototype_glass_contract_test.dart` |
 | Motion/AI/backend gates | **[x]** | unchanged and re-verified (`flutter-motion` rules, overlay fallback, Supabase migrations/functions) |
 
-Verification after the re-skin: `flutter test` (208 passing), `flutter analyze` (info-level lints only), `deno test` (8 passing), `deno check` both edge functions. Home golden regenerated for the intended change.
+Verification after the re-skin and glass re-judgment: `flutter test` (213 passing, including `test/design/prototype_glass_contract_test.dart`), `flutter analyze` (info-level lints only), `deno test` (8 passing), `deno check` both edge functions. Home golden regenerated for the intended change.
 
 Not changed: backend, business logic, localization, fonts or IA (ADR 0013); HyperFrames video and dark mode remain deferred.
 
 Generated overlays landed after this section: six WebP assets in `assets/images/overlays/`, wired into Home, Onboarding, Agri Pro, Scan capture, Crop detail and Product detail. Originals and credits are in `design/overlays/originals/` and `PROJECT_KNOWLEDGE/ASSETS.md`.
+
+ADR 0014 records the supplied CropCare material (`PROJECT_KNOWLEDGE/DOCUMENTS/REFERENCE.md`, `PROJECT_KNOWLEDGE/IMAGES/REFERENCE/HOME_REFERENCE.png`) as secondary visual guidance only. The current design line remains Field Almanac + optimized glass; a CropCare-derived design will be explored on a separate branch for comparison.

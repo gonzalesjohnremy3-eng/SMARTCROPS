@@ -16,3 +16,5 @@
 **Design skills applied:** impeccable, design-mobile-apps, flutter-build-responsive-layout, ui-taste, flutter-motion (rail ↔ bar transition), tokens from ADR 0005.
 
 **Variant verdict:** A (Grounded bar) chosen as the compact default; B is the ≥840dp expression of the same shell; C's persistent briefing strip was rejected for stealing height from task content. Overlay: none (calm shell).
+
+**Glass re-judgment (2026-11-22):** Unchanged — calm shell. No immersive surface, and a live blur on always-present chrome would stack with each screen's hero and break the one-blur budget.

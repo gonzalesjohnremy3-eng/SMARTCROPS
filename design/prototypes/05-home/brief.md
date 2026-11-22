@@ -16,3 +16,5 @@
 **Design skills applied:** impeccable, design-mobile-apps, flutter-motion + `connected-product-workflows.md`, ui-taste, frontend-design, ai-image-generation.
 
 **Verdict:** A (Field Briefing hero) chosen — the immersive overlay earns one memorable moment, the priority line is the single message, and the weather card carries an honest timestamp. C is the ≥840dp expression. Overlay: generated farm-dawn image + Forest scrim. Motion: cross-fade partial weather failures, not the whole page.
+
+**Glass re-judgment (2026-11-22):** A confirmed — the full-width hero carries one glass plate; ledger, task and weather cards stay opaque. C remains the ≥840dp expression with its own single plate.

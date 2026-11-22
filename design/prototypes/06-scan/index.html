@@ -12,6 +12,7 @@
   .top { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; color: var(--text-inverse); }
   .viewfinder { flex: 1; position: relative; min-height: 420px; background-image: radial-gradient(circle at 50% 45%, rgba(122,201,67,.28), transparent 46%), linear-gradient(160deg, #1F6B45, #0E1A14); display: grid; place-items: center; }
   .reticle { width: 240px; height: 240px; border: 2px dashed rgba(255,253,247,.6); border-radius: var(--radius-card); display: grid; place-items: center; text-align: center; }
+  .reticle.glass-dark { padding: 24px; }
   .reticle .corner { position: absolute; width: 30px; height: 30px; border: 3px solid var(--leaf); }
   .c1 { top: -4px; left: -4px; border-right: 0; border-bottom: 0; }
   .c2 { top: -4px; right: -4px; border-left: 0; border-bottom: 0; }
@@ -40,7 +41,7 @@
       <section class="variant" data-variant="A" data-variant-name="Viewfinder HUD">
         <div class="frame">
           <div class="top"><button class="ghost-btn">Cancel</button><span class="pill" style="background:rgba(255,253,247,.14);color:#FFFDF7">Rice</span></div>
-          <div class="viewfinder"><div class="reticle"><span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span><span class="small">Fill the frame with the affected leaf</span></div></div>
+          <div class="viewfinder"><div class="reticle glass-dark"><span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span><span class="small">Fill the frame with the affected leaf</span></div></div>
           <div class="controls"><button class="ghost-btn">Import</button><button class="shutter" aria-label="Capture photo"></button><button class="ghost-btn">Flash</button></div>
         </div>
       </section>

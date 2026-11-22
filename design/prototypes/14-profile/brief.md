@@ -16,3 +16,5 @@
 **Design skills applied:** flutter-build-responsive-layout, design-mobile-apps, impeccable, ui-taste.
 
 **Verdict:** A (Grouped sections) chosen for compact; C is the ≥840dp expression. B's identity header is folded in as the top of A. No generated overlay — profile is a utility surface. Motion: immediate locale switch via cross-fade, no full reload.
+
+**Glass re-judgment (2026-11-22):** Unchanged — utility surface. B's identity header is merged into A without glass.

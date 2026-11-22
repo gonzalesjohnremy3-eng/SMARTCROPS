@@ -17,3 +17,5 @@
 **Design skills applied:** frontend-design, impeccable, ui-taste, flutter-build-responsive-layout (adaptive grid).
 
 **Verdict:** A (Product grid) chosen with the disclosure always visible above the grid and enforced again at Product Detail. B's editorial rows are used for the "For your diagnosis" section. No generated overlay needed for dense product lists — token gradient placeholders only.
+
+**Glass re-judgment (2026-11-22):** Unchanged — dense catalog. Gradient placeholders stay static; no live glass on product cards.
