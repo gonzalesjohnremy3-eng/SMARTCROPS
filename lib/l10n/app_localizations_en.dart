@@ -976,4 +976,170 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get scanDetailExpertNote => 'When to call an expert';
+
+  @override
+  String get cropCareTagline => 'Smart Scan. Healthy Crops.';
+
+  @override
+  String get cropCareGoodMorning => 'Good morning,';
+
+  @override
+  String get cropCareFarmerExclaim => 'Farmer!';
+
+  @override
+  String get cropCareKeepCropsHealthy => 'Let\'s keep your crops healthy.';
+
+  @override
+  String get cropCareScanDetectProtect => 'Scan. Detect. Protect.';
+
+  @override
+  String get cropCareScanYourCrop => 'Scan Your Crop';
+
+  @override
+  String get cropCareQuickAccess => 'Quick Access';
+
+  @override
+  String get cropCareHome => 'Home';
+
+  @override
+  String get cropCareScan => 'Scan';
+
+  @override
+  String get cropCareHistory => 'History';
+
+  @override
+  String get cropCareProfile => 'Profile';
+
+  @override
+  String get cropCareCrops => 'Crops';
+
+  @override
+  String get cropCareSupport => 'Support';
+
+  @override
+  String get cropCareSettings => 'Settings';
+
+  @override
+  String get cropCareNotifications => 'Notifications';
+
+  @override
+  String get cropCareAdvisoriesAndReminders => 'Advisories and scan reminders';
+
+  @override
+  String get cropCareLanguage => 'Language';
+
+  @override
+  String get cropCareEnglish => 'English';
+
+  @override
+  String get cropCareScanCropTitle => 'Scan Crop';
+
+  @override
+  String get cropCareFillFrameHint => 'Fill the frame with the affected leaf';
+
+  @override
+  String get cropCareImport => 'Import';
+
+  @override
+  String get cropCareFlash => 'Flash';
+
+  @override
+  String get cropCareHoldSteady =>
+      'Hold steady. A clear photo gives a more useful diagnosis.';
+
+  @override
+  String get cropCareScanResult => 'Scan Result';
+
+  @override
+  String get cropCareHealthy => 'Healthy';
+
+  @override
+  String get cropCareNoDiseaseDetected => 'No disease detected';
+
+  @override
+  String get cropCareScannedToday => 'scanned today';
+
+  @override
+  String get cropCareConfidence => 'confidence';
+
+  @override
+  String get cropCareWhatNext => 'What to do next';
+
+  @override
+  String get cropCareKeepWateringMorning => 'Keep watering in the morning';
+
+  @override
+  String get cropCareCheckSoilBeforeIrrigation =>
+      'Check the soil before the next irrigation.';
+
+  @override
+  String get cropCareWatchNewSpots => 'Watch for new spots';
+
+  @override
+  String get cropCareScanAgainWeek =>
+      'Scan again in seven days or earlier if leaves change.';
+
+  @override
+  String get cropCareSaveToHealthLog => 'Save to Health Log';
+
+  @override
+  String get cropCareScanAgain => 'Scan again';
+
+  @override
+  String get cropCareScanHistory => 'Scan History';
+
+  @override
+  String get cropCareNeedsAttention => 'Needs attention';
+
+  @override
+  String get cropCareToday => 'Today';
+
+  @override
+  String cropCareDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days ago',
+      one: '1 day ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get cropCareLastWeek => 'Last week';
+
+  @override
+  String get cropCareLeafSpots => 'leaf spots';
+
+  @override
+  String get cropCareFarm => 'Farm';
+
+  @override
+  String get cropCareFarmer => 'Farmer';
+
+  @override
+  String get cropCareMainCrops => 'Main crops';
+
+  @override
+  String cropCareCropCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count crops',
+      one: '1 crop',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get cropCareYourCrops => 'Your Crops';
+
+  @override
+  String get cropCareNoRecentDisease => 'No disease detected in recent scans.';
+
+  @override
+  String get cropCareKeepSoilHealthy => 'Keep your soil healthy';
+
+  @override
+  String get cropCareHealthySoilBody => 'Healthy soil leads to stronger crops.';
 }

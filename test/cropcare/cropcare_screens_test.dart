@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:smart_crops/cropcare/screens/cropcare_home_screen.dart';
 import 'package:smart_crops/cropcare/screens/cropcare_scan_screen.dart';
@@ -6,12 +7,20 @@ import 'package:smart_crops/cropcare/screens/cropcare_result_screen.dart';
 import 'package:smart_crops/cropcare/screens/cropcare_history_screen.dart';
 import 'package:smart_crops/cropcare/screens/cropcare_profile_screen.dart';
 import 'package:smart_crops/cropcare/theme/cropcare_theme.dart';
+import 'package:smart_crops/l10n/app_localizations.dart';
 
 void main() {
   testWidgets('CropCare home renders greeting and scan action', (tester) async {
     await tester.pumpWidget(
       MaterialApp(
         theme: CropCareTheme.light(),
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: AppLocalizations.supportedLocales,
         home: const CropCareHomeScreen(),
       ),
     );
@@ -26,6 +35,13 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         theme: CropCareTheme.light(),
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: AppLocalizations.supportedLocales,
         home: const CropCareScanScreen(),
       ),
     );
@@ -40,6 +56,13 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         theme: CropCareTheme.light(),
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: AppLocalizations.supportedLocales,
         home: const CropCareResultScreen(),
       ),
     );
@@ -52,6 +75,13 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         theme: CropCareTheme.light(),
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: AppLocalizations.supportedLocales,
         home: const CropCareHistoryScreen(),
       ),
     );
@@ -66,6 +96,13 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         theme: CropCareTheme.light(),
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: AppLocalizations.supportedLocales,
         home: const CropCareProfileScreen(),
       ),
     );

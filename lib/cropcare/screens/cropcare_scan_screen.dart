@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:smart_crops/cropcare/screens/cropcare_shell.dart';
 import 'package:smart_crops/cropcare/theme/cropcare_tokens.dart';
 import 'package:smart_crops/cropcare/widgets/crop_glass_surface.dart';
+import 'package:smart_crops/l10n/app_localizations.dart';
 
-// shortcut: hardcoded English on the isolated comparison branch; localize before merging.
 class CropCareScanScreen extends StatelessWidget {
   const CropCareScanScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return CropCareShell(
       index: 1,
       child: Column(
         children: [
-          AppBar(title: const Text('Scan Crop')),
+          AppBar(title: Text(l10n.cropCareScanCropTitle)),
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.only(bottom: CropSpacing.s8),
@@ -53,13 +54,13 @@ class CropCareScanScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const Align(
+                        Align(
                           alignment: Alignment.bottomCenter,
                           child: Padding(
-                            padding: EdgeInsets.all(CropSpacing.s4),
+                            padding: const EdgeInsets.all(CropSpacing.s4),
                             child: Text(
-                              'Fill the frame with the affected leaf',
-                              style: TextStyle(
+                              l10n.cropCareFillFrameHint,
+                              style: const TextStyle(
                                 color: CropColors.inverse,
                                 fontSize: 13,
                               ),
@@ -84,9 +85,9 @@ class CropCareScanScreen extends StatelessWidget {
                         children: [
                           TextButton(
                             onPressed: () {},
-                            child: const Text(
-                              'Import',
-                              style: TextStyle(color: CropColors.inverse),
+                            child: Text(
+                              l10n.cropCareImport,
+                              style: const TextStyle(color: CropColors.inverse),
                             ),
                           ),
                           Container(
@@ -99,20 +100,20 @@ class CropCareScanScreen extends StatelessWidget {
                           ),
                           TextButton(
                             onPressed: () {},
-                            child: const Text(
-                              'Flash',
-                              style: TextStyle(color: CropColors.inverse),
+                            child: Text(
+                              l10n.cropCareFlash,
+                              style: const TextStyle(color: CropColors.inverse),
                             ),
                           ),
                         ],
                       ),
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.all(CropSpacing.s6),
+                  Padding(
+                    padding: const EdgeInsets.all(CropSpacing.s6),
                     child: Text(
-                      'Hold steady. A clear photo gives a more useful diagnosis.',
-                      style: TextStyle(color: CropColors.textSecondary),
+                      l10n.cropCareHoldSteady,
+                      style: const TextStyle(color: CropColors.textSecondary),
                     ),
                   ),
                 ],

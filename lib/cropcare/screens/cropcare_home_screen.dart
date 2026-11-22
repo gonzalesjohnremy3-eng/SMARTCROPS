@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:smart_crops/cropcare/screens/cropcare_shell.dart';
 import 'package:smart_crops/cropcare/theme/cropcare_tokens.dart';
 import 'package:smart_crops/cropcare/widgets/crop_glass_surface.dart';
+import 'package:smart_crops/l10n/app_localizations.dart';
 
-// shortcut: hardcoded English on the isolated comparison branch; localize before merging.
 class CropCareHomeScreen extends StatelessWidget {
   const CropCareHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final reduceMotion =
         MediaQuery.maybeOf(context)?.disableAnimations ?? false;
 
@@ -30,11 +31,11 @@ class CropCareHomeScreen extends StatelessWidget {
                 children: [
                   const Icon(Icons.eco, color: CropColors.primary, size: 32),
                   const SizedBox(width: CropSpacing.s2 + 2),
-                  const Expanded(
+                  Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'CropCare',
                           style: TextStyle(
                             fontSize: 20,
@@ -43,8 +44,8 @@ class CropCareHomeScreen extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Smart Scan. Healthy Crops.',
-                          style: TextStyle(
+                          l10n.cropCareTagline,
+                          style: const TextStyle(
                             fontSize: 11,
                             color: CropColors.textSecondary,
                           ),
@@ -101,14 +102,14 @@ class CropCareHomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: CropSpacing.s6),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: CropSpacing.s6),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Good morning,',
-                    style: TextStyle(
+                    l10n.cropCareGoodMorning,
+                    style: const TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.w700,
                       height: 1.15,
@@ -116,18 +117,18 @@ class CropCareHomeScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Farmer!',
-                    style: TextStyle(
+                    l10n.cropCareFarmerExclaim,
+                    style: const TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.w700,
                       height: 1.15,
                       color: CropColors.textPrimary,
                     ),
                   ),
-                  SizedBox(height: CropSpacing.s2),
+                  const SizedBox(height: CropSpacing.s2),
                   Text(
-                    "Let's keep your crops healthy.",
-                    style: TextStyle(
+                    l10n.cropCareKeepCropsHealthy,
+                    style: const TextStyle(
                       fontSize: 16,
                       color: CropColors.textSecondary,
                     ),
@@ -150,13 +151,13 @@ class CropCareHomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              child: const Align(
+              child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Padding(
-                  padding: EdgeInsets.all(CropSpacing.s4),
+                  padding: const EdgeInsets.all(CropSpacing.s4),
                   child: Text(
-                    'Scan. Detect. Protect.',
-                    style: TextStyle(
+                    l10n.cropCareScanDetectProtect,
+                    style: const TextStyle(
                       color: CropColors.inverse,
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -173,29 +174,32 @@ class CropCareHomeScreen extends StatelessWidget {
               child: FilledButton.icon(
                 onPressed: () {},
                 icon: const Icon(Icons.crop_free),
-                label: const Text('Scan Your Crop'),
+                label: Text(l10n.cropCareScanYourCrop),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: CropSpacing.s6),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: CropSpacing.s6),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Quick Access',
-                    style: TextStyle(
+                    l10n.cropCareQuickAccess,
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
                       color: CropColors.textPrimary,
                     ),
                   ),
-                  SizedBox(height: CropSpacing.s3),
+                  const SizedBox(height: CropSpacing.s3),
                   Row(
                     children: [
-                      _Tile(icon: Icons.history, label: 'History'),
-                      _Tile(icon: Icons.eco, label: 'Crops'),
-                      _Tile(icon: Icons.support_agent, label: 'Support'),
-                      _Tile(icon: Icons.settings, label: 'Settings'),
+                      _Tile(icon: Icons.history, label: l10n.cropCareHistory),
+                      _Tile(icon: Icons.eco, label: l10n.cropCareCrops),
+                      _Tile(
+                        icon: Icons.support_agent,
+                        label: l10n.cropCareSupport,
+                      ),
+                      _Tile(icon: Icons.settings, label: l10n.cropCareSettings),
                     ],
                   ),
                 ],
@@ -213,29 +217,29 @@ class CropCareHomeScreen extends StatelessWidget {
                 color: CropColors.primary,
                 borderRadius: BorderRadius.circular(CropRadius.lg),
               ),
-              child: const Row(
+              child: Row(
                 children: [
-                  Icon(Icons.eco, color: CropColors.inverse, size: 28),
-                  SizedBox(width: CropSpacing.s4),
+                  const Icon(Icons.eco, color: CropColors.inverse, size: 28),
+                  const SizedBox(width: CropSpacing.s4),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Your Crops',
-                          style: TextStyle(color: CropColors.inverse),
+                          l10n.cropCareYourCrops,
+                          style: const TextStyle(color: CropColors.inverse),
                         ),
                         Text(
-                          'Healthy',
-                          style: TextStyle(
+                          l10n.cropCareHealthy,
+                          style: const TextStyle(
                             color: CropColors.inverse,
                             fontSize: 24,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
                         Text(
-                          'No disease detected in recent scans.',
-                          style: TextStyle(color: CropColors.inverse),
+                          l10n.cropCareNoRecentDisease,
+                          style: const TextStyle(color: CropColors.inverse),
                         ),
                       ],
                     ),
@@ -263,17 +267,19 @@ class CropCareHomeScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: CropSpacing.s4),
-                  const Expanded(
+                  Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Keep your soil healthy',
-                          style: TextStyle(fontWeight: FontWeight.w600),
+                          l10n.cropCareKeepSoilHealthy,
+                          style: const TextStyle(fontWeight: FontWeight.w600),
                         ),
                         Text(
-                          'Healthy soil leads to stronger crops.',
-                          style: TextStyle(color: CropColors.textSecondary),
+                          l10n.cropCareHealthySoilBody,
+                          style: const TextStyle(
+                            color: CropColors.textSecondary,
+                          ),
                         ),
                       ],
                     ),

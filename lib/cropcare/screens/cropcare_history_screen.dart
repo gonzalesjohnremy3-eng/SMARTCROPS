@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:smart_crops/cropcare/screens/cropcare_shell.dart';
 import 'package:smart_crops/cropcare/theme/cropcare_tokens.dart';
 import 'package:smart_crops/cropcare/widgets/crop_glass_surface.dart';
+import 'package:smart_crops/l10n/app_localizations.dart';
 
-// shortcut: hardcoded English on the isolated comparison branch; localize before merging.
 class CropCareHistoryScreen extends StatelessWidget {
   const CropCareHistoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return CropCareShell(
       index: 2,
       child: SingleChildScrollView(
@@ -30,39 +32,40 @@ class CropCareHistoryScreen extends StatelessWidget {
                   vertical: CropSpacing.s4,
                 ),
                 borderRadius: BorderRadius.circular(CropRadius.lg),
-                child: const Row(
+                child: Row(
                   children: [
                     Expanded(
                       child: Text(
-                        'Scan History',
-                        style: TextStyle(
+                        l10n.cropCareScanHistory,
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
                           color: CropColors.textPrimary,
                         ),
                       ),
                     ),
-                    Icon(Icons.search, color: CropColors.primary),
+                    const Icon(Icons.search, color: CropColors.primary),
                   ],
                 ),
               ),
             ),
-            const _HistoryCard(
-              status: 'Healthy',
+            _HistoryCard(
+              status: l10n.cropCareHealthy,
               crop: 'Pechay',
-              detail: 'Today · 94% confidence',
+              detail: '${l10n.cropCareToday} · 94% ${l10n.cropCareConfidence}',
               healthy: true,
             ),
-            const _HistoryCard(
-              status: 'Needs attention',
+            _HistoryCard(
+              status: l10n.cropCareNeedsAttention,
               crop: 'Tomato',
-              detail: '3 days ago · Leaf spots',
+              detail: '${l10n.cropCareDaysAgo(3)} · ${l10n.cropCareLeafSpots}',
               healthy: false,
             ),
-            const _HistoryCard(
-              status: 'Healthy',
+            _HistoryCard(
+              status: l10n.cropCareHealthy,
               crop: 'Rice',
-              detail: 'Last week · 91% confidence',
+              detail:
+                  '${l10n.cropCareLastWeek} · 91% ${l10n.cropCareConfidence}',
               healthy: true,
             ),
           ],

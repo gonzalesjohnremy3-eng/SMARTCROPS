@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/cropcare/theme/cropcare_tokens.dart';
 
 class CropCareShell extends StatelessWidget {
@@ -17,6 +18,7 @@ class CropCareShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       body: SafeArea(child: child),
       bottomNavigationBar: Padding(
@@ -36,22 +38,22 @@ class CropCareShell extends StatelessWidget {
             unselectedItemColor: CropColors.inverse,
             showUnselectedLabels: true,
             type: BottomNavigationBarType.fixed,
-            items: const [
+            items: [
               BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined),
-                label: 'Home',
+                icon: const Icon(Icons.home_outlined),
+                label: l10n.cropCareHome,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.crop_free_outlined),
-                label: 'Scan',
+                icon: const Icon(Icons.crop_free_outlined),
+                label: l10n.cropCareScan,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.history),
-                label: 'History',
+                icon: const Icon(Icons.history),
+                label: l10n.cropCareHistory,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.person_outline),
-                label: 'Profile',
+                icon: const Icon(Icons.person_outline),
+                label: l10n.cropCareProfile,
               ),
             ],
           ),

@@ -996,4 +996,174 @@ class AppLocalizationsTl extends AppLocalizations {
 
   @override
   String get scanDetailExpertNote => 'Kailan tatawag sa eksperto';
+
+  @override
+  String get cropCareTagline => 'Matalinong Scan. Malusog na Pananim.';
+
+  @override
+  String get cropCareGoodMorning => 'Magandang umaga,';
+
+  @override
+  String get cropCareFarmerExclaim => 'Magsasaka!';
+
+  @override
+  String get cropCareKeepCropsHealthy =>
+      'Panatilihing malusog ang iyong mga pananim.';
+
+  @override
+  String get cropCareScanDetectProtect => 'I-scan. Alamin. Protektahan.';
+
+  @override
+  String get cropCareScanYourCrop => 'I-scan ang Pananim';
+
+  @override
+  String get cropCareQuickAccess => 'Mabilis na Access';
+
+  @override
+  String get cropCareHome => 'Unahang Pahina';
+
+  @override
+  String get cropCareScan => 'I-scan';
+
+  @override
+  String get cropCareHistory => 'Kasaysayan';
+
+  @override
+  String get cropCareProfile => 'Profile';
+
+  @override
+  String get cropCareCrops => 'Mga Pananim';
+
+  @override
+  String get cropCareSupport => 'Suporta';
+
+  @override
+  String get cropCareSettings => 'Mga Setting';
+
+  @override
+  String get cropCareNotifications => 'Mga Abiso';
+
+  @override
+  String get cropCareAdvisoriesAndReminders =>
+      'Mga paalala sa abiso at pag-scan';
+
+  @override
+  String get cropCareLanguage => 'Wika';
+
+  @override
+  String get cropCareEnglish => 'Ingles';
+
+  @override
+  String get cropCareScanCropTitle => 'I-scan ang Pananim';
+
+  @override
+  String get cropCareFillFrameHint => 'Ikasya ang apektadong dahon sa frame';
+
+  @override
+  String get cropCareImport => 'Mag-import';
+
+  @override
+  String get cropCareFlash => 'Flash';
+
+  @override
+  String get cropCareHoldSteady =>
+      'Pitagin nang mahinahon. Ang malinaw na larawan ay mas kapaki-pakinabang.';
+
+  @override
+  String get cropCareScanResult => 'Resulta ng Scan';
+
+  @override
+  String get cropCareHealthy => 'Malusog';
+
+  @override
+  String get cropCareNoDiseaseDetected => 'Walang natukoy na sakit';
+
+  @override
+  String get cropCareScannedToday => 'ina-scan ngayong araw';
+
+  @override
+  String get cropCareConfidence => 'kumpiyansa';
+
+  @override
+  String get cropCareWhatNext => 'Mga susunod na hakbang';
+
+  @override
+  String get cropCareKeepWateringMorning => 'Magdidilig sa umaga';
+
+  @override
+  String get cropCareCheckSoilBeforeIrrigation =>
+      'Suriin ang lupa bago ang susunod na pagdidilig.';
+
+  @override
+  String get cropCareWatchNewSpots => 'Bantayan ang mga bagong mantsa';
+
+  @override
+  String get cropCareScanAgainWeek =>
+      'Mag-scan muli pagkatapos ng pitong araw o mas maaga kung magbago ang dahon.';
+
+  @override
+  String get cropCareSaveToHealthLog => 'I-save sa Health Log';
+
+  @override
+  String get cropCareScanAgain => 'Mag-scan muli';
+
+  @override
+  String get cropCareScanHistory => 'Kasaysayan ng Scan';
+
+  @override
+  String get cropCareNeedsAttention => 'Kailangan ng atensyon';
+
+  @override
+  String get cropCareToday => 'Ngayon';
+
+  @override
+  String cropCareDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count araw ang nakararaan',
+      one: '1 araw ang nakararaan',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get cropCareLastWeek => 'Noong nakaraang linggo';
+
+  @override
+  String get cropCareLeafSpots => 'mga mantsa sa dahon';
+
+  @override
+  String get cropCareFarm => 'Bukid';
+
+  @override
+  String get cropCareFarmer => 'Magsasaka';
+
+  @override
+  String get cropCareMainCrops => 'Pangunahing pananim';
+
+  @override
+  String cropCareCropCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count pananim',
+      one: '1 pananim',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get cropCareYourCrops => 'Iyong mga Pananim';
+
+  @override
+  String get cropCareNoRecentDisease =>
+      'Walang natukoy na sakit sa mga kamakailang scan.';
+
+  @override
+  String get cropCareKeepSoilHealthy => 'Panatilihing malusog ang lupa';
+
+  @override
+  String get cropCareHealthySoilBody =>
+      'Ang malusog na lupa ay nagbibigay ng mas malakas na pananim.';
 }
