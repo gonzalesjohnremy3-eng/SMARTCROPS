@@ -24,6 +24,11 @@ import 'package:smart_crops/features/pro/screens/agri_pro_paywall_screen.dart';
 import 'package:smart_crops/features/shop/screens/shop_screen.dart';
 import 'package:smart_crops/features/shop/screens/product_detail_screen.dart';
 import 'package:smart_crops/features/shop/domain/merchant_product.dart';
+import 'package:smart_crops/cropcare/screens/cropcare_home_screen.dart';
+import 'package:smart_crops/cropcare/screens/cropcare_scan_screen.dart';
+import 'package:smart_crops/cropcare/screens/cropcare_result_screen.dart';
+import 'package:smart_crops/cropcare/screens/cropcare_history_screen.dart';
+import 'package:smart_crops/cropcare/screens/cropcare_profile_screen.dart';
 
 GoRouter buildAppRouter({
   String initialLocation = '/home',
@@ -94,6 +99,32 @@ GoRouter buildAppRouter({
       GoRoute(
         path: '/health-log',
         builder: (context, state) => const HealthLogScreen(),
+      ),
+      GoRoute(
+        path: '/cropcare',
+        redirect: (context, state) => '/cropcare/home',
+        routes: [
+          GoRoute(
+            path: 'home',
+            builder: (context, state) => const CropCareHomeScreen(),
+          ),
+          GoRoute(
+            path: 'scan',
+            builder: (context, state) => const CropCareScanScreen(),
+          ),
+          GoRoute(
+            path: 'result',
+            builder: (context, state) => const CropCareResultScreen(),
+          ),
+          GoRoute(
+            path: 'history',
+            builder: (context, state) => const CropCareHistoryScreen(),
+          ),
+          GoRoute(
+            path: 'profile',
+            builder: (context, state) => const CropCareProfileScreen(),
+          ),
+        ],
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
