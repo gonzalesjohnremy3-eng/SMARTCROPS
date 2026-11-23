@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:smart_crops/app/router/onboarding_controller.dart';
 import 'package:smart_crops/app/analytics/analytics.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
+import 'package:smart_crops/models/app_models.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
 
 const onboardingCompleteKey = 'onboarding_complete';
@@ -28,7 +29,7 @@ class ProfileSetupScreen extends StatefulWidget {
 
 class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _pageController = PageController();
+  late final PageController _pageController;
 
   final _fullNameController = TextEditingController();
   final _farmNameController = TextEditingController();
@@ -40,6 +41,31 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
   final Set<String> _selectedCrops = {};
   String _cropSearch = '';
   bool _isSaving = false;
+
+  static bool _aboutYouAlreadySet(UserProfile? profile) {
+    return profile != null &&
+        profile.fullName.isNotEmpty &&
+        profile.farmName != null &&
+        profile.location != null;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    final profile = context.read<SmartCropsService>().currentUserProfile;
+    _fullNameController.text = profile?.fullName ?? '';
+    _farmNameController.text = profile?.farmName ?? '';
+    _locationController.text = profile?.location ?? '';
+    _phoneController.text = profile?.phoneNumber ?? '';
+    if (_aboutYouAlreadySet(profile)) {
+      // About You was already filled in and saved earlier (e.g. an earlier
+      // login where the local completion flag is missing). Start at the Main
+      // Crops step so About You is not shown again and saving the wizard
+      // cannot overwrite the saved profile.
+      _currentStep = 1;
+    }
+    _pageController = PageController(initialPage: _currentStep);
+  }
 
   @override
   void dispose() {
