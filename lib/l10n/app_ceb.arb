@@ -925,5 +925,13 @@
   "cropCareYourCrops": "Imong mga Tanum",
   "cropCareNoRecentDisease": "Walay sakit nga nakit-an sa bag-ong mga scan.",
   "cropCareKeepSoilHealthy": "Himsoa ang yuta",
-  "cropCareHealthySoilBody": "Ang himsog nga yuta naghatag og mas lig-on nga tanum."
+  "cropCareHealthySoilBody": "Ang himsog nga yuta naghatag og mas lig-on nga tanum.",
+  "authTrustEyebrow": "Smart Crops sa Agri Lynk",
+  "authTrustTitle": "Maayong pag-abot sa imong field office.",
+  "authTrustBody": "Pribado ang datos sa imong uma.",
+  "advisoriesCriticalLabel": "Kritikal nga advisory",
+  "agriProComparePlan": "Plano",
+  "agriProComparePrice": "Presyo",
+  "agriProCompareIncludes": "Unsa ang apil",
+  "agriProPriceFree": "₱0"
 }

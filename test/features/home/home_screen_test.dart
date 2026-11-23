@@ -30,34 +30,38 @@ class _StubLoader implements FarmDataLoader {
 }
 
 FarmSnapshot _farmSnapshot() => FarmSnapshot(
-      availableCrops: [CropItem(id: 't', cropName: 'Tomato', optimalConditions: const {})],
-      userCrops: [CropItem(id: 't', cropName: 'Tomato', optimalConditions: const {})],
-      scanHistory: [
-        ScanHistoryItem(
-          id: 's1',
-          userId: 'u',
-          imageUrl: 'https://example.com/a.jpg',
-          diseaseDetected: 'Healthy',
-          confidenceScore: 96,
-          commonCrop: 'Ampalaya',
-          recommendedActions: const ['Keep monitoring'],
-          scannedAt: DateTime(2026, 1, 1),
-        ),
-      ],
-      notifications: const [],
-      calendarEvents: [
-        CropCalendarEvent(
-          id: 'e1',
-          userId: 'u',
-          eventTitle: 'Mulch the beds',
-          eventCategory: 'Nutrition',
-          scheduledDate: DateTime(2026, 1, 2),
-          isCompleted: false,
-          priority: 'Normal',
-        ),
-      ],
-      fetchedAt: DateTime(2026, 1, 1),
-    );
+  availableCrops: [
+    CropItem(id: 't', cropName: 'Tomato', optimalConditions: const {}),
+  ],
+  userCrops: [
+    CropItem(id: 't', cropName: 'Tomato', optimalConditions: const {}),
+  ],
+  scanHistory: [
+    ScanHistoryItem(
+      id: 's1',
+      userId: 'u',
+      imageUrl: 'https://example.com/a.jpg',
+      diseaseDetected: 'Healthy',
+      confidenceScore: 96,
+      commonCrop: 'Ampalaya',
+      recommendedActions: const ['Keep monitoring'],
+      scannedAt: DateTime(2026, 1, 1),
+    ),
+  ],
+  notifications: const [],
+  calendarEvents: [
+    CropCalendarEvent(
+      id: 'e1',
+      userId: 'u',
+      eventTitle: 'Mulch the beds',
+      eventCategory: 'Nutrition',
+      scheduledDate: DateTime(2026, 1, 2),
+      isCompleted: false,
+      priority: 'Normal',
+    ),
+  ],
+  fetchedAt: DateTime(2026, 1, 1),
+);
 
 void main() {
   setUpAll(() async {
@@ -92,14 +96,20 @@ void main() {
     );
   }
 
-  testWidgets('Home renders the critical weather priority action', (tester) async {
-    await tester.pumpWidget(buildHome(const BriefingFacts(
-      hasCriticalWeather: true,
-      overdueTaskCount: 3,
-      hasRecentAtRiskDiagnosis: true,
-      routineCareCount: 2,
-      hasCrops: true,
-    )));
+  testWidgets('Home renders the critical weather priority action', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      buildHome(
+        const BriefingFacts(
+          hasCriticalWeather: true,
+          overdueTaskCount: 3,
+          hasRecentAtRiskDiagnosis: true,
+          routineCareCount: 2,
+          hasCrops: true,
+        ),
+      ),
+    );
     await tester.pumpAndSettle();
 
     expect(find.text('Critical weather'), findsNWidgets(2));
@@ -107,39 +117,53 @@ void main() {
   });
 
   testWidgets('Home renders the overdue task priority action', (tester) async {
-    await tester.pumpWidget(buildHome(const BriefingFacts(
-      hasCriticalWeather: false,
-      overdueTaskCount: 2,
-      hasRecentAtRiskDiagnosis: true,
-      routineCareCount: 2,
-      hasCrops: true,
-    )));
+    await tester.pumpWidget(
+      buildHome(
+        const BriefingFacts(
+          hasCriticalWeather: false,
+          overdueTaskCount: 2,
+          hasRecentAtRiskDiagnosis: true,
+          routineCareCount: 2,
+          hasCrops: true,
+        ),
+      ),
+    );
     await tester.pumpAndSettle();
 
     expect(find.text('Overdue tasks'), findsNWidgets(2));
   });
 
-  testWidgets('Home renders the at-risk diagnosis priority action', (tester) async {
-    await tester.pumpWidget(buildHome(const BriefingFacts(
-      hasCriticalWeather: false,
-      overdueTaskCount: 0,
-      hasRecentAtRiskDiagnosis: true,
-      routineCareCount: 2,
-      hasCrops: true,
-    )));
+  testWidgets('Home renders the at-risk diagnosis priority action', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      buildHome(
+        const BriefingFacts(
+          hasCriticalWeather: false,
+          overdueTaskCount: 0,
+          hasRecentAtRiskDiagnosis: true,
+          routineCareCount: 2,
+          hasCrops: true,
+        ),
+      ),
+    );
     await tester.pumpAndSettle();
 
     expect(find.text('Crop needs attention'), findsNWidgets(2));
   });
 
   testWidgets('Home renders the routine care priority action', (tester) async {
-    await tester.pumpWidget(buildHome(const BriefingFacts(
-      hasCriticalWeather: false,
-      overdueTaskCount: 0,
-      hasRecentAtRiskDiagnosis: false,
-      routineCareCount: 1,
-      hasCrops: true,
-    )));
+    await tester.pumpWidget(
+      buildHome(
+        const BriefingFacts(
+          hasCriticalWeather: false,
+          overdueTaskCount: 0,
+          hasRecentAtRiskDiagnosis: false,
+          routineCareCount: 1,
+          hasCrops: true,
+        ),
+      ),
+    );
     await tester.pumpAndSettle();
 
     expect(find.text('Care Plan'), findsWidgets);
@@ -147,97 +171,137 @@ void main() {
   });
 
   testWidgets('Home renders the empty farm priority action', (tester) async {
-    await tester.pumpWidget(buildHome(const BriefingFacts(
-      hasCriticalWeather: false,
-      overdueTaskCount: 0,
-      hasRecentAtRiskDiagnosis: false,
-      routineCareCount: 0,
-      hasCrops: false,
-    )));
+    await tester.pumpWidget(
+      buildHome(
+        const BriefingFacts(
+          hasCriticalWeather: false,
+          overdueTaskCount: 0,
+          hasRecentAtRiskDiagnosis: false,
+          routineCareCount: 0,
+          hasCrops: false,
+        ),
+      ),
+    );
     await tester.pumpAndSettle();
 
     expect(find.text('Your field office is ready'), findsNWidgets(2));
   });
 
   testWidgets('Home renders the all-clear monitoring action', (tester) async {
-    await tester.pumpWidget(buildHome(const BriefingFacts(
-      hasCriticalWeather: false,
-      overdueTaskCount: 0,
-      hasRecentAtRiskDiagnosis: false,
-      routineCareCount: 0,
-      hasCrops: true,
-    )));
+    await tester.pumpWidget(
+      buildHome(
+        const BriefingFacts(
+          hasCriticalWeather: false,
+          overdueTaskCount: 0,
+          hasRecentAtRiskDiagnosis: false,
+          routineCareCount: 0,
+          hasCrops: true,
+        ),
+      ),
+    );
     await tester.pumpAndSettle();
 
     expect(find.text('All clear'), findsNWidgets(2));
   });
 
-  testWidgets('Home previews render real service data, not hardcoded seeds',
-      (tester) async {
+  testWidgets('Home previews render real service data, not hardcoded seeds', (
+    tester,
+  ) async {
     await tester.binding.setSurfaceSize(const Size(500, 2000));
     addTearDown(() => tester.binding.setSurfaceSize(null));
 
     final service = SmartCropsService(loader: _StubLoader(_farmSnapshot()));
     await service.initializeUserData();
 
-    await tester.pumpWidget(MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => WeatherService()),
-        ChangeNotifierProvider.value(value: service),
-      ],
-      child: MaterialApp(
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => WeatherService()),
+          ChangeNotifierProvider.value(value: service),
         ],
-        supportedLocales: const [Locale('en'), Locale('tl'), Locale('ceb')],
-        home: const HomeScreen(
-          briefingFacts: BriefingFacts(
-            hasCriticalWeather: false,
-            overdueTaskCount: 0,
-            hasRecentAtRiskDiagnosis: false,
-            routineCareCount: 1,
-            hasCrops: true,
+        child: MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en'), Locale('tl'), Locale('ceb')],
+          home: const HomeScreen(
+            briefingFacts: BriefingFacts(
+              hasCriticalWeather: false,
+              overdueTaskCount: 0,
+              hasRecentAtRiskDiagnosis: false,
+              routineCareCount: 1,
+              hasCrops: true,
+            ),
           ),
         ),
       ),
-    ));
+    );
     await tester.pumpAndSettle();
 
-    expect(find.text('Mulch the beds'), findsOneWidget,
-        reason: 'the Care Plan preview should show the real calendar task');
-    expect(find.text('Ampalaya'), findsOneWidget,
-        reason: 'the Recent Diagnoses preview should show the real scan');
-    expect(find.text('Apply organic compost'), findsNothing,
-        reason: 'the hardcoded seed task must be gone');
-    expect(find.text('Early Blight'), findsNothing,
-        reason: 'the hardcoded seed scan must be gone');
-    expect(find.textContaining('High wind alert'), findsNothing,
-        reason: 'the fake critical advisory must not appear without data');
+    expect(
+      find.text('Mulch the beds'),
+      findsOneWidget,
+      reason: 'the Care Plan preview should show the real calendar task',
+    );
+    expect(
+      find.text('Ampalaya'),
+      findsOneWidget,
+      reason: 'the Recent Diagnoses preview should show the real scan',
+    );
+    expect(
+      find.text('Apply organic compost'),
+      findsNothing,
+      reason: 'the hardcoded seed task must be gone',
+    );
+    expect(
+      find.text('Early Blight'),
+      findsNothing,
+      reason: 'the hardcoded seed scan must be gone',
+    );
+    expect(
+      find.textContaining('High wind alert'),
+      findsNothing,
+      reason: 'the fake critical advisory must not appear without data',
+    );
   });
 
-  testWidgets('weather panel never invents data when no weather is known',
-      (tester) async {
+  testWidgets('weather panel never invents data when no weather is known', (
+    tester,
+  ) async {
     await tester.binding.setSurfaceSize(const Size(500, 2000));
     addTearDown(() => tester.binding.setSurfaceSize(null));
 
-    await tester.pumpWidget(buildHome(const BriefingFacts(
-      hasCriticalWeather: false,
-      overdueTaskCount: 0,
-      hasRecentAtRiskDiagnosis: false,
-      routineCareCount: 1,
-      hasCrops: true,
-    )));
+    await tester.pumpWidget(
+      buildHome(
+        const BriefingFacts(
+          hasCriticalWeather: false,
+          overdueTaskCount: 0,
+          hasRecentAtRiskDiagnosis: false,
+          routineCareCount: 1,
+          hasCrops: true,
+        ),
+      ),
+    );
     await tester.pumpAndSettle();
 
-    expect(find.text('28°'), findsNothing,
-        reason: 'invented temperature must not be shown');
-    expect(find.textContaining('Humidity 0%'), findsNothing,
-        reason: 'invented humidity must not be shown');
-    expect(find.text('—'), findsWidgets,
-        reason: 'unknown values should be shown honestly as dashes');
+    expect(
+      find.text('28°'),
+      findsNothing,
+      reason: 'invented temperature must not be shown',
+    );
+    expect(
+      find.textContaining('Humidity 0%'),
+      findsNothing,
+      reason: 'invented humidity must not be shown',
+    );
+    expect(
+      find.text('—'),
+      findsWidgets,
+      reason: 'unknown values should be shown honestly as dashes',
+    );
   });
 
   testWidgets('pull-to-refresh reloads farm data', (tester) async {
@@ -246,36 +310,88 @@ void main() {
     await service.initializeUserData();
     final callsBefore = loader.farmDataCalls;
 
-    await tester.pumpWidget(MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => WeatherService()),
-        ChangeNotifierProvider.value(value: service),
-      ],
-      child: MaterialApp(
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => WeatherService()),
+          ChangeNotifierProvider.value(value: service),
         ],
-        supportedLocales: const [Locale('en'), Locale('tl'), Locale('ceb')],
-        home: const HomeScreen(
-          briefingFacts: BriefingFacts(
-            hasCriticalWeather: false,
-            overdueTaskCount: 0,
-            hasRecentAtRiskDiagnosis: false,
-            routineCareCount: 1,
-            hasCrops: true,
+        child: MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en'), Locale('tl'), Locale('ceb')],
+          home: const HomeScreen(
+            briefingFacts: BriefingFacts(
+              hasCriticalWeather: false,
+              overdueTaskCount: 0,
+              hasRecentAtRiskDiagnosis: false,
+              routineCareCount: 1,
+              hasCrops: true,
+            ),
           ),
         ),
       ),
-    ));
+    );
     await tester.pumpAndSettle();
 
-    await tester.fling(find.byType(CustomScrollView), const Offset(0, 400), 1000);
+    await tester.fling(
+      find.byType(CustomScrollView),
+      const Offset(0, 400),
+      1000,
+    );
     await tester.pumpAndSettle();
 
-    expect(loader.farmDataCalls, greaterThan(callsBefore),
-        reason: 'pulling down should refresh the cached farm data');
+    expect(
+      loader.farmDataCalls,
+      greaterThan(callsBefore),
+      reason: 'pulling down should refresh the cached farm data',
+    );
+  });
+
+  testWidgets('renders the wide split dashboard at expanded widths', (
+    tester,
+  ) async {
+    await tester.binding.setSurfaceSize(const Size(1200, 900));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+
+    await tester.pumpWidget(
+      buildHome(
+        const BriefingFacts(
+          hasCriticalWeather: false,
+          overdueTaskCount: 1,
+          hasRecentAtRiskDiagnosis: false,
+          routineCareCount: 2,
+          hasCrops: true,
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const Key('home-wide-split')), findsOneWidget);
+    expect(find.byKey(const Key('home-wide-actions')), findsOneWidget);
+  });
+
+  testWidgets('keeps the single-column dashboard compact', (tester) async {
+    await tester.binding.setSurfaceSize(const Size(390, 844));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+
+    await tester.pumpWidget(
+      buildHome(
+        const BriefingFacts(
+          hasCriticalWeather: false,
+          overdueTaskCount: 1,
+          hasRecentAtRiskDiagnosis: false,
+          routineCareCount: 2,
+          hasCrops: true,
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const Key('home-wide-split')), findsNothing);
   });
 }

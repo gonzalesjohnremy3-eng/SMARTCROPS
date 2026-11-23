@@ -1166,4 +1166,28 @@ class AppLocalizationsTl extends AppLocalizations {
   @override
   String get cropCareHealthySoilBody =>
       'Ang malusog na lupa ay nagbibigay ng mas malakas na pananim.';
+
+  @override
+  String get authTrustEyebrow => 'Smart Crops ng Agri Lynk';
+
+  @override
+  String get authTrustTitle => 'Maligayang pagdating sa iyong field office.';
+
+  @override
+  String get authTrustBody => 'Pribado ang datos ng iyong bukid.';
+
+  @override
+  String get advisoriesCriticalLabel => 'Kritikal na advisory';
+
+  @override
+  String get agriProComparePlan => 'Plano';
+
+  @override
+  String get agriProComparePrice => 'Presyo';
+
+  @override
+  String get agriProCompareIncludes => 'Ano ang kasama';
+
+  @override
+  String get agriProPriceFree => '₱0';
 }

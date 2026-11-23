@@ -1162,4 +1162,28 @@ class AppLocalizationsCeb extends AppLocalizations {
   @override
   String get cropCareHealthySoilBody =>
       'Ang himsog nga yuta naghatag og mas lig-on nga tanum.';
+
+  @override
+  String get authTrustEyebrow => 'Smart Crops sa Agri Lynk';
+
+  @override
+  String get authTrustTitle => 'Maayong pag-abot sa imong field office.';
+
+  @override
+  String get authTrustBody => 'Pribado ang datos sa imong uma.';
+
+  @override
+  String get advisoriesCriticalLabel => 'Kritikal nga advisory';
+
+  @override
+  String get agriProComparePlan => 'Plano';
+
+  @override
+  String get agriProComparePrice => 'Presyo';
+
+  @override
+  String get agriProCompareIncludes => 'Unsa ang apil';
+
+  @override
+  String get agriProPriceFree => '₱0';
 }

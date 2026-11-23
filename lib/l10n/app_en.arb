@@ -1320,5 +1320,13 @@
   "cropCareYourCrops": "Your Crops",
   "cropCareNoRecentDisease": "No disease detected in recent scans.",
   "cropCareKeepSoilHealthy": "Keep your soil healthy",
-  "cropCareHealthySoilBody": "Healthy soil leads to stronger crops."
+  "cropCareHealthySoilBody": "Healthy soil leads to stronger crops.",
+  "authTrustEyebrow": "Smart Crops by Agri Lynk",
+  "authTrustTitle": "Welcome to your field office.",
+  "authTrustBody": "Your farm data stays private.",
+  "advisoriesCriticalLabel": "Critical advisory",
+  "agriProComparePlan": "Plan",
+  "agriProComparePrice": "Price",
+  "agriProCompareIncludes": "What's included",
+  "agriProPriceFree": "₱0"
 }

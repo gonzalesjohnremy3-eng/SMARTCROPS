@@ -56,23 +56,99 @@ class AdvisoriesScreen extends StatelessWidget {
             return _EmptyState(l10n: l10n, theme: theme);
           }
 
-          return ListView.separated(
-            padding: const EdgeInsets.all(16),
-            itemCount: notifications.length,
-            separatorBuilder: (_, _) => const SizedBox(height: 12),
-            itemBuilder: (context, index) {
-              return _AdvisoryCard(
-                notification: notifications[index],
-                l10n: l10n,
-                theme: theme,
-                onMarkRead: () {
-                  context.trackEvent('advisory_opened');
-                  service.markNotificationAsRead(notifications[index].id);
-                },
-              );
-            },
+          final critical = notifications
+              .where((notification) => notification.severity == 'critical')
+              .toList();
+          final reduceMotion =
+              MediaQuery.maybeOf(context)?.disableAnimations ?? false;
+
+          return Column(
+            children: [
+              AnimatedSwitcher(
+                duration: reduceMotion ? Duration.zero : AppMotion.standard,
+                switchInCurve: AppMotion.standardCurve,
+                switchOutCurve: AppMotion.exitCurve,
+                child: critical.isEmpty
+                    ? const SizedBox.shrink()
+                    : _CriticalBanner(
+                        key: const Key('critical-advisory-banner'),
+                        notification: critical.first,
+                        l10n: l10n,
+                        theme: theme,
+                      ),
+              ),
+              Expanded(
+                child: ListView.separated(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: notifications.length,
+                  separatorBuilder: (_, _) => const SizedBox(height: 12),
+                  itemBuilder: (context, index) {
+                    return _AdvisoryCard(
+                      notification: notifications[index],
+                      l10n: l10n,
+                      theme: theme,
+                      onMarkRead: () {
+                        context.trackEvent('advisory_opened');
+                        service.markNotificationAsRead(notifications[index].id);
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
           );
         },
+      ),
+    );
+  }
+}
+
+class _CriticalBanner extends StatelessWidget {
+  const _CriticalBanner({
+    super.key,
+    required this.notification,
+    required this.l10n,
+    required this.theme,
+  });
+
+  final AppNotification notification;
+  final AppLocalizations l10n;
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.statusCriticalSurface,
+        borderRadius: BorderRadius.circular(AppRadius.card),
+        border: Border.all(color: theme.colorScheme.error),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(Icons.warning_amber_rounded, color: theme.colorScheme.error),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l10n.advisoriesCriticalLabel,
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    color: theme.colorScheme.error,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(notification.title, style: theme.textTheme.titleMedium),
+                const SizedBox(height: 4),
+                Text(notification.message, style: theme.textTheme.bodyMedium),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

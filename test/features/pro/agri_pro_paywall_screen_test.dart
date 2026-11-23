@@ -43,17 +43,18 @@ class _FakeBilling implements BillingRepository {
 }
 
 ScanHistoryItem _scanThisWeek(int index) => ScanHistoryItem(
-      id: 'scan-w-$index',
-      userId: 'u',
-      imageUrl: 'https://example.com/a.jpg',
-      diseaseDetected: 'Early blight',
-      confidenceScore: 90,
-      commonCrop: 'Tomato',
-      recommendedActions: const ['Keep monitoring'],
-      scannedAt: DateTime.now(),
-    );
+  id: 'scan-w-$index',
+  userId: 'u',
+  imageUrl: 'https://example.com/a.jpg',
+  diseaseDetected: 'Early blight',
+  confidenceScore: 90,
+  commonCrop: 'Tomato',
+  recommendedActions: const ['Keep monitoring'],
+  scannedAt: DateTime.now(),
+);
 
-FarmSnapshot _snapshot({List<ScanHistoryItem> scans = const []}) => FarmSnapshot(
+FarmSnapshot _snapshot({List<ScanHistoryItem> scans = const []}) =>
+    FarmSnapshot(
       availableCrops: [
         CropItem(id: 'tomato', cropName: 'Tomato', optimalConditions: const {}),
       ],
@@ -82,23 +83,25 @@ Future<void> _pumpPaywall(
   final entitlement = AgriProEntitlement(fetchRow: () async => subscriptionRow);
   await entitlement.load();
 
-  await tester.pumpWidget(MultiProvider(
-    providers: [
-      ChangeNotifierProvider.value(value: service),
-      ChangeNotifierProvider.value(value: entitlement),
-      Provider<BillingRepository>.value(value: billing),
-    ],
-    child: MaterialApp(
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
+  await tester.pumpWidget(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: service),
+        ChangeNotifierProvider.value(value: entitlement),
+        Provider<BillingRepository>.value(value: billing),
       ],
-      supportedLocales: const [Locale('en'), Locale('tl'), Locale('ceb')],
-      home: AgriProPaywallScreen(fromQuota: fromQuota),
+      child: MaterialApp(
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [Locale('en'), Locale('tl'), Locale('ceb')],
+        home: AgriProPaywallScreen(fromQuota: fromQuota),
+      ),
     ),
-  ));
+  );
   await tester.pumpAndSettle();
 }
 
@@ -116,7 +119,9 @@ void main() {
     }
   });
 
-  testWidgets('renders headline, quota context, and both plan prices', (tester) async {
+  testWidgets('renders headline, quota context, and both plan prices', (
+    tester,
+  ) async {
     await _pumpPaywall(
       tester,
       snapshot: _snapshot(scans: List.generate(5, _scanThisWeek)),
@@ -127,11 +132,13 @@ void main() {
 
     expect(find.text('Protect more of what you grow.'), findsOneWidget);
     expect(
-      find.text("You've used 5 of 5 free scans this week. Agri Pro removes the limit."),
+      find.text(
+        "You've used 5 of 5 free scans this week. Agri Pro removes the limit.",
+      ),
       findsOneWidget,
     );
-    expect(find.text('₱99/month'), findsOneWidget);
-    expect(find.text('₱499/6 months'), findsOneWidget);
+    expect(find.text('₱99/month'), findsNWidgets(2));
+    expect(find.text('₱499/6 months'), findsNWidgets(2));
     expect(find.text('Save 16%'), findsOneWidget);
     expect(find.text('Start Agri Pro'), findsOneWidget);
     expect(find.text('Not now'), findsOneWidget);
@@ -150,8 +157,51 @@ void main() {
     expect(find.byIcon(Icons.radio_button_unchecked), findsOneWidget);
   });
 
-  testWidgets('tapping Start Agri Pro shows the not-configured message when billing is unavailable',
-      (tester) async {
+  testWidgets(
+    'tapping Start Agri Pro shows the not-configured message when billing is unavailable',
+    (tester) async {
+      await _pumpPaywall(
+        tester,
+        snapshot: _snapshot(),
+        billing: _FakeBilling(outcome: const BillingUnavailable()),
+        subscriptionRow: null,
+      );
+
+      await tester.tap(find.text('Start Agri Pro'));
+      await tester.pump();
+
+      expect(
+        find.text(
+          'Agri Pro purchases are not available yet. They will open when the store listing is live.',
+        ),
+        findsOneWidget,
+      );
+    },
+  );
+
+  testWidgets(
+    'a successful purchase refreshes the entitlement and shows the unlocked message',
+    (tester) async {
+      final billing = _FakeBilling(outcome: const BillingSucceeded());
+
+      await _pumpPaywall(
+        tester,
+        snapshot: _snapshot(),
+        billing: billing,
+        subscriptionRow: const {'tier': 'premium', 'expires_at': null},
+      );
+
+      await tester.tap(find.text('Start Agri Pro'));
+      await tester.pumpAndSettle();
+
+      expect(billing.purchasedPlan, AgriProPlanId.seasonal);
+      expect(find.text('Agri Pro unlocked.'), findsOneWidget);
+    },
+  );
+
+  testWidgets('shows the chosen plan comparison table on the plan screen', (
+    tester,
+  ) async {
     await _pumpPaywall(
       tester,
       snapshot: _snapshot(),
@@ -159,30 +209,23 @@ void main() {
       subscriptionRow: null,
     );
 
-    await tester.tap(find.text('Start Agri Pro'));
-    await tester.pump();
-
+    final table = find.byKey(const Key('pro-comparison-table'));
+    expect(table, findsOneWidget);
     expect(
-      find.text('Agri Pro purchases are not available yet. They will open when the store listing is live.'),
+      find.descendant(of: table, matching: find.text('Free')),
       findsOneWidget,
     );
-  });
-
-  testWidgets('a successful purchase refreshes the entitlement and shows the unlocked message',
-      (tester) async {
-    final billing = _FakeBilling(outcome: const BillingSucceeded());
-
-    await _pumpPaywall(
-      tester,
-      snapshot: _snapshot(),
-      billing: billing,
-      subscriptionRow: const {'tier': 'premium', 'expires_at': null},
+    expect(
+      find.descendant(of: table, matching: find.text('Unlimited scans')),
+      findsNWidgets(2),
     );
-
-    await tester.tap(find.text('Start Agri Pro'));
-    await tester.pumpAndSettle();
-
-    expect(billing.purchasedPlan, AgriProPlanId.seasonal);
-    expect(find.text('Agri Pro unlocked.'), findsOneWidget);
+    expect(
+      find.descendant(of: table, matching: find.text('₱99/month')),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(of: table, matching: find.text('₱499/6 months')),
+      findsOneWidget,
+    );
   });
 }
