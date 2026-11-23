@@ -22,50 +22,53 @@ typedef BriefingContent = ({
   String cta,
 });
 
-BriefingContent briefingContent(BriefingActionKind kind, AppLocalizations l10n) {
+BriefingContent briefingContent(
+  BriefingActionKind kind,
+  AppLocalizations l10n,
+) {
   return switch (kind) {
     BriefingActionKind.criticalWeather => (
-        icon: Icons.storm_outlined,
-        title: l10n.homeCriticalWeatherTitle,
-        body: l10n.homeCriticalWeatherBody,
-        route: '/advisories',
-        cta: l10n.advisoriesTitle,
-      ),
+      icon: Icons.storm_outlined,
+      title: l10n.homeCriticalWeatherTitle,
+      body: l10n.homeCriticalWeatherBody,
+      route: '/advisories',
+      cta: l10n.advisoriesTitle,
+    ),
     BriefingActionKind.overdueTask => (
-        icon: Icons.assignment_late_outlined,
-        title: l10n.homeOverdueTaskTitle,
-        body: l10n.homeOverdueTaskBody,
-        route: '/calendar',
-        cta: l10n.fieldCalendar,
-      ),
+      icon: Icons.assignment_late_outlined,
+      title: l10n.homeOverdueTaskTitle,
+      body: l10n.homeOverdueTaskBody,
+      route: '/calendar',
+      cta: l10n.fieldCalendar,
+    ),
     BriefingActionKind.atRiskDiagnosis => (
-        icon: Icons.healing_outlined,
-        title: l10n.homeAtRiskDiagnosisTitle,
-        body: l10n.homeAtRiskDiagnosisBody,
-        route: '/health-log',
-        cta: l10n.healthLogTitle,
-      ),
+      icon: Icons.healing_outlined,
+      title: l10n.homeAtRiskDiagnosisTitle,
+      body: l10n.homeAtRiskDiagnosisBody,
+      route: '/health-log',
+      cta: l10n.healthLogTitle,
+    ),
     BriefingActionKind.routineCare => (
-        icon: Icons.water_drop_outlined,
-        title: l10n.homeRoutineCareTitle,
-        body: l10n.homeRoutineCareBody,
-        route: '/care-plan',
-        cta: l10n.carePlanTitle,
-      ),
+      icon: Icons.water_drop_outlined,
+      title: l10n.homeRoutineCareTitle,
+      body: l10n.homeRoutineCareBody,
+      route: '/care-plan',
+      cta: l10n.carePlanTitle,
+    ),
     BriefingActionKind.emptyFarm => (
-        icon: Icons.camera_alt_outlined,
-        title: l10n.homeEmptyFarmTitle,
-        body: l10n.homeEmptyFarm,
-        route: '/scan',
-        cta: l10n.homeScanCTA,
-      ),
+      icon: Icons.camera_alt_outlined,
+      title: l10n.homeEmptyFarmTitle,
+      body: l10n.homeEmptyFarm,
+      route: '/scan',
+      cta: l10n.homeScanCTA,
+    ),
     BriefingActionKind.monitor => (
-        icon: Icons.verified_outlined,
-        title: l10n.homeMonitorTitle,
-        body: l10n.homeMonitoring,
-        route: '/scan',
-        cta: l10n.homeScanCTA,
-      ),
+      icon: Icons.verified_outlined,
+      title: l10n.homeMonitorTitle,
+      body: l10n.homeMonitoring,
+      route: '/scan',
+      cta: l10n.homeScanCTA,
+    ),
   };
 }
 
@@ -82,13 +85,18 @@ class HomeScreen extends StatelessWidget {
     return BriefingFacts(
       hasCriticalWeather: isCriticalWeather(weather.currentWeather),
       overdueTaskCount: service.calendarEvents
-          .where((event) => !event.isCompleted && event.scheduledDate.isBefore(now))
+          .where(
+            (event) => !event.isCompleted && event.scheduledDate.isBefore(now),
+          )
           .length,
       hasRecentAtRiskDiagnosis: service.scanHistory.any(
-        (scan) => diagnosisSeverity(scan.diseaseDetected) == DiagnosisSeverity.atRisk,
+        (scan) =>
+            diagnosisSeverity(scan.diseaseDetected) == DiagnosisSeverity.atRisk,
       ),
       routineCareCount: service.calendarEvents
-          .where((event) => !event.isCompleted && !event.scheduledDate.isBefore(now))
+          .where(
+            (event) => !event.isCompleted && !event.scheduledDate.isBefore(now),
+          )
           .length,
       hasCrops: service.userSelectedCrops.isNotEmpty,
     );
@@ -124,81 +132,100 @@ class HomeScreen extends StatelessWidget {
           }
           return RefreshIndicator(
             onRefresh: service.initializeUserData,
-            child: CustomScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              slivers: [
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-              child: _BriefingHero(facts: facts, l10n: l10n),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: _FieldBriefingCard(l10n: l10n, theme: theme),
-          ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
-              child: Text(
-                l10n.homePriorityAction,
-                style: theme.textTheme.titleLarge,
-              ),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: _PriorityActionCard(facts: facts, l10n: l10n, theme: theme),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Text(
-                      l10n.homeCarePlan,
-                      style: theme.textTheme.titleLarge,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                if (constraints.maxWidth >=
+                    AppLayout.breakpoints['expanded']!) {
+                  return _wideDashboard(
+                    context: context,
+                    facts: facts,
+                    l10n: l10n,
+                    theme: theme,
+                  );
+                }
+                return CustomScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                        child: _BriefingHero(facts: facts, l10n: l10n),
+                      ),
                     ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                    context.trackEvent('care_plan_opened_from_home');
-                    context.go('/care-plan');
-                  },
-                    child: Text(l10n.viewAll),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: _CarePlanPreview(l10n: l10n, theme: theme),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
-              child: Text(
-                l10n.homeRecentScans,
-                style: theme.textTheme.titleLarge,
-              ),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: _RecentScansPreview(l10n: l10n, theme: theme),
-            ),
-          ),
-          const SliverToBoxAdapter(child: SizedBox(height: 100)),
-        ],
+                    SliverToBoxAdapter(
+                      child: _FieldBriefingCard(l10n: l10n, theme: theme),
+                    ),
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
+                        child: Text(
+                          l10n.homePriorityAction,
+                          style: theme.textTheme.titleLarge,
+                        ),
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: _PriorityActionCard(
+                          facts: facts,
+                          l10n: l10n,
+                          theme: theme,
+                        ),
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                l10n.homeCarePlan,
+                                style: theme.textTheme.titleLarge,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                context.trackEvent(
+                                  'care_plan_opened_from_home',
+                                );
+                                context.go('/care-plan');
+                              },
+                              child: Text(l10n.viewAll),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: _CarePlanPreview(l10n: l10n, theme: theme),
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
+                        child: Text(
+                          l10n.homeRecentScans,
+                          style: theme.textTheme.titleLarge,
+                        ),
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: _RecentScansPreview(l10n: l10n, theme: theme),
+                      ),
+                    ),
+                    const SliverToBoxAdapter(child: SizedBox(height: 100)),
+                  ],
+                );
+              },
             ),
           );
         },
@@ -206,11 +233,125 @@ class HomeScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton.extended(
         key: const Key('fab_scan'),
         onPressed: () => Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => const AnalyticsView(event: 'scan_capture_opened', child: ScanCaptureScreen())),
+          MaterialPageRoute(
+            builder: (_) => const AnalyticsView(
+              event: 'scan_capture_opened',
+              child: ScanCaptureScreen(),
+            ),
+          ),
         ),
         icon: const Icon(Icons.camera_alt),
         label: Text(l10n.homeScanCTA),
       ),
+    );
+  }
+
+  Widget _wideDashboard({
+    required BuildContext context,
+    required BriefingFacts facts,
+    required AppLocalizations l10n,
+    required ThemeData theme,
+  }) {
+    return Row(
+      key: const Key('home-wide-split'),
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Expanded(
+          flex: 6,
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 16, 12, 0),
+                  child: _BriefingHero(facts: facts, l10n: l10n),
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: _FieldBriefingCard(l10n: l10n, theme: theme),
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 24, 12, 8),
+                  child: Text(
+                    l10n.homePriorityAction,
+                    style: theme.textTheme.titleLarge,
+                  ),
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: _PriorityActionCard(
+                    facts: facts,
+                    l10n: l10n,
+                    theme: theme,
+                  ),
+                ),
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 100)),
+            ],
+          ),
+        ),
+        const VerticalDivider(width: 1),
+        Expanded(
+          key: const Key('home-wide-actions'),
+          flex: 4,
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 16, 24, 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          l10n.homeCarePlan,
+                          style: theme.textTheme.titleLarge,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          context.trackEvent('care_plan_opened_from_home');
+                          context.go('/care-plan');
+                        },
+                        child: Text(l10n.viewAll),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: _CarePlanPreview(l10n: l10n, theme: theme),
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 24, 24, 8),
+                  child: Text(
+                    l10n.homeRecentScans,
+                    style: theme.textTheme.titleLarge,
+                  ),
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: _RecentScansPreview(l10n: l10n, theme: theme),
+                ),
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 100)),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
@@ -263,10 +404,7 @@ class _BriefingHero extends StatelessWidget {
 }
 
 class _FieldBriefingCard extends StatelessWidget {
-  const _FieldBriefingCard({
-    required this.l10n,
-    required this.theme,
-  });
+  const _FieldBriefingCard({required this.l10n, required this.theme});
 
   final AppLocalizations l10n;
   final ThemeData theme;
@@ -348,7 +486,9 @@ class _WeatherSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final location = weather?.locationName ?? '—';
-    final temperature = weather == null ? '—' : '${weather!.temperature.round()}°';
+    final temperature = weather == null
+        ? '—'
+        : '${weather!.temperature.round()}°';
     final condition = weather?.condition ?? '—';
     final humidity = weather == null ? '—' : 'Humidity ${weather!.humidity}%';
 
@@ -379,10 +519,7 @@ class _WeatherSummary extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(condition, style: theme.textTheme.bodyMedium),
-                    Text(
-                      humidity,
-                      style: theme.textTheme.labelSmall,
-                    ),
+                    Text(humidity, style: theme.textTheme.labelSmall),
                   ],
                 ),
               ),
@@ -494,10 +631,7 @@ class _PriorityActionCard extends StatelessWidget {
 }
 
 class _CarePlanPreview extends StatelessWidget {
-  const _CarePlanPreview({
-    required this.l10n,
-    required this.theme,
-  });
+  const _CarePlanPreview({required this.l10n, required this.theme});
 
   final AppLocalizations l10n;
   final ThemeData theme;
@@ -572,18 +706,18 @@ class _CarePlanItem extends StatelessWidget {
 }
 
 class _RecentScansPreview extends StatelessWidget {
-  const _RecentScansPreview({
-    required this.l10n,
-    required this.theme,
-  });
+  const _RecentScansPreview({required this.l10n, required this.theme});
 
   final AppLocalizations l10n;
   final ThemeData theme;
 
   @override
   Widget build(BuildContext context) {
-    final scans =
-        context.watch<SmartCropsService>().scanHistory.take(2).toList();
+    final scans = context
+        .watch<SmartCropsService>()
+        .scanHistory
+        .take(2)
+        .toList();
 
     return Card(
       child: Padding(
@@ -604,10 +738,7 @@ class _RecentScansPreview extends StatelessWidget {
 }
 
 class _RecentScanItem extends StatelessWidget {
-  const _RecentScanItem({
-    required this.scan,
-    required this.theme,
-  });
+  const _RecentScanItem({required this.scan, required this.theme});
 
   final ScanHistoryItem scan;
   final ThemeData theme;

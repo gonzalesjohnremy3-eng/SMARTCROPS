@@ -18,7 +18,7 @@ void main() {
 
     expect(
       status,
-      contains('Current verification: flutter test (233 passing)'),
+      contains('Current verification: flutter test (244 passing)'),
     );
   });
 
@@ -48,5 +48,18 @@ void main() {
     expect(status, contains('ANALYTICS_PRIVACY_REVIEW.md'));
     expect(status, contains('send-campaign payload/authz'));
     expect(status, contains('Externally blocked'));
+  });
+
+  test('status records the full prototype verdict fold-in', () {
+    final status = File(
+      'PROJECT_KNOWLEDGE/DOCUMENTS/IMPLEMENTATION_STATUS.md',
+    ).readAsStringSync();
+
+    expect(status, contains('## 9. Prototype verdict fold-in'));
+    expect(status, contains('IMPLEMENTATION_MAP.md'));
+    expect(status, contains('wide trust panel'));
+    expect(status, contains('wide split dashboard'));
+    expect(status, contains('comparison table'));
+    expect(status, contains('two-column profile'));
   });
 }

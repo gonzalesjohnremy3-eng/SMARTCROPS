@@ -56,10 +56,10 @@ class CropItem {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'crop_name': cropName,
-        'optimal_conditions': optimalConditions,
-      };
+    'id': id,
+    'crop_name': cropName,
+    'optimal_conditions': optimalConditions,
+  };
 }
 
 class ScanHistoryItem {
@@ -94,22 +94,24 @@ class ScanHistoryItem {
       confidenceScore: (json['confidence_score'] ?? 0.0).toDouble(),
       commonCrop: json['common_crop'] ?? 'Pechay',
       recommendedActions: json['recommended_actions'] ?? [],
-      scannedAt: json['scanned_at'] != null ? DateTime.parse(json['scanned_at']) : DateTime.now(),
+      scannedAt: json['scanned_at'] != null
+          ? DateTime.parse(json['scanned_at'])
+          : DateTime.now(),
       source: (json['source'] ?? 'ai').toString(),
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'user_id': userId,
-        'image_url': imageUrl,
-        'disease_detected': diseaseDetected,
-        'confidence_score': confidenceScore,
-        'common_crop': commonCrop,
-        'recommended_actions': recommendedActions,
-        'scanned_at': scannedAt.toIso8601String(),
-        'source': source,
-      };
+    'id': id,
+    'user_id': userId,
+    'image_url': imageUrl,
+    'disease_detected': diseaseDetected,
+    'confidence_score': confidenceScore,
+    'common_crop': commonCrop,
+    'recommended_actions': recommendedActions,
+    'scanned_at': scannedAt.toIso8601String(),
+    'source': source,
+  };
 }
 
 class AppNotification {
@@ -120,6 +122,7 @@ class AppNotification {
   final String? scanId;
   final bool isRead;
   final DateTime createdAt;
+  final String? severity;
 
   AppNotification({
     required this.id,
@@ -129,6 +132,7 @@ class AppNotification {
     this.scanId,
     required this.isRead,
     required this.createdAt,
+    this.severity,
   });
 
   factory AppNotification.fromJson(Map<String, dynamic> json) {
@@ -139,19 +143,22 @@ class AppNotification {
       message: json['message'] ?? '',
       scanId: json['scan_id'],
       isRead: json['is_read'] ?? false,
-      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : DateTime.now(),
+      createdAt: json['created_at'] != null
+          ? DateTime.parse(json['created_at'])
+          : DateTime.now(),
+      severity: json['severity'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'user_id': userId,
-        'title': title,
-        'message': message,
-        'scan_id': scanId,
-        'is_read': isRead,
-        'created_at': createdAt.toIso8601String(),
-      };
+    'id': id,
+    'user_id': userId,
+    'title': title,
+    'message': message,
+    'scan_id': scanId,
+    'is_read': isRead,
+    'created_at': createdAt.toIso8601String(),
+  };
 }
 
 class WeatherCondition {
@@ -224,7 +231,9 @@ class CropCalendarEvent {
       cropId: json['crop_id'],
       eventTitle: json['event_title'] ?? '',
       eventCategory: json['event_category'] ?? 'General',
-      scheduledDate: json['scheduled_date'] != null ? DateTime.parse(json['scheduled_date']) : DateTime.now(),
+      scheduledDate: json['scheduled_date'] != null
+          ? DateTime.parse(json['scheduled_date'])
+          : DateTime.now(),
       isCompleted: json['is_completed'] ?? false,
       priority: json['priority'] ?? 'Normal',
     );

@@ -171,7 +171,7 @@ ADR 0014 records the supplied CropCare material (`PROJECT_KNOWLEDGE/DOCUMENTS/RE
 | Localization and merge approval | **[x]** | EN/TL/CEB ARBs, ADR 0015 |
 | PR #6 merged to `master` | **[x]** | merge commit `0bd4d83` |
 
-Current verification: flutter test (233 passing); flutter analyze (unchanged 21 info-level lints); deno test (23 passing across scan-crop and send-campaign seams).
+Current verification: flutter test (244 passing); flutter analyze (unchanged 21 info-level lints); deno test (23 passing across scan-crop and send-campaign seams).
 
 ADR 0015 approves this as an additional design surface; it does not replace ADR 0013 or ADR 0001. Field Almanac routes, tokens, copy, localization, and goldens were not changed.
 
@@ -194,3 +194,19 @@ Externally blocked, so not claimed as closed:
 - FCM campaign delivery needs a Firebase service-account secret, the Edge Function wrapper, and deployment.
 - Analytics dashboards need a destination and owner; ADR 0009 human privacy sign-off is still required.
 - Manual TalkBack/VoiceOver and full-semantics audit need a device pass.
+
+---
+
+## 9. Prototype verdict fold-in (2026-11-22)
+
+Systematic debugging found that five chosen verdict elements had no acceptance contract, so they drifted into "deferred polish". All 14 briefs now map to Flutter code in `design/prototypes/IMPLEMENTATION_MAP.md`, guarded by `test/design/prototype_verdict_coverage_test.dart`.
+
+| Element | Status | Evidence |
+|---|---|---|
+| P3 wide trust panel | **[x]** | `lib/features/auth/screens/auth_screen.dart` — `LayoutBuilder` places one `OverlayHero` trust panel beside the opaque phone-first form at ≥840px |
+| P5 wide split dashboard | **[x]** | `lib/features/home/screens/home_screen.dart` — `LayoutBuilder` splits briefing/priority left and care/recent scans right at ≥840px |
+| P10 critical banner | **[x]** | `lib/features/advisories/screens/advisories_screen.dart` — severity-driven opaque banner above the inbox; `AppNotification.severity` parses an optional backend field |
+| P13 comparison table | **[x]** | `lib/features/pro/screens/agri_pro_paywall_screen.dart` — Free / Monthly / Seasonal comparison table on the plan screen |
+| P14 two-column profile | **[x]** | `lib/features/profile/screens/profile_screen.dart` — grouped farm and settings columns at ≥840px |
+
+No visual world changed: this completes the Field Almanac + optimized-glass direction under ADR 0013. New l10n keys are present in EN/TL/CEB. The critical banner is client-ready but needs a `notifications.severity` column from the backend; the Supabase CLI was unavailable, so that schema migration was not generated in this change.

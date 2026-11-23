@@ -2235,6 +2235,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Healthy soil leads to stronger crops.'**
   String get cropCareHealthySoilBody;
+
+  /// No description provided for @authTrustEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart Crops by Agri Lynk'**
+  String get authTrustEyebrow;
+
+  /// No description provided for @authTrustTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to your field office.'**
+  String get authTrustTitle;
+
+  /// No description provided for @authTrustBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your farm data stays private.'**
+  String get authTrustBody;
+
+  /// No description provided for @advisoriesCriticalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Critical advisory'**
+  String get advisoriesCriticalLabel;
+
+  /// No description provided for @agriProComparePlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan'**
+  String get agriProComparePlan;
+
+  /// No description provided for @agriProComparePrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get agriProComparePrice;
+
+  /// No description provided for @agriProCompareIncludes.
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s included'**
+  String get agriProCompareIncludes;
+
+  /// No description provided for @agriProPriceFree.
+  ///
+  /// In en, this message translates to:
+  /// **'₱0'**
+  String get agriProPriceFree;
 }
 
 class _AppLocalizationsDelegate

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_crops/app/localization/locale_provider.dart';
+import 'package:smart_crops/app/theme/app_tokens.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/models/app_models.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
@@ -94,32 +95,69 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
         ],
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          _ProfileHeader(profile: profile, l10n: l10n, theme: theme),
-          const SizedBox(height: 16),
-          _EditSection(
-            editing: _isEditing,
-            onToggleEdit: () => setState(() => _isEditing = !_isEditing),
-            nameController: _nameController,
-            farmController: _farmController,
-            locationController: _locationController,
-            phoneController: _phoneController,
-            l10n: l10n,
-            theme: theme,
-          ),
-          const SizedBox(height: 16),
-          _CropsSection(crops: crops, l10n: l10n, theme: theme),
-          const SizedBox(height: 16),
-           _AgriProSection(l10n: l10n, theme: theme),
-           const SizedBox(height: 16),
-           _AgriShopSection(l10n: l10n, theme: theme),
-           const SizedBox(height: 16),
-           _LanguageSection(l10n: l10n, theme: theme),
-          const SizedBox(height: 16),
-          _SignOutSection(l10n: l10n, theme: theme),
-        ],
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final farmSections = <Widget>[
+            _ProfileHeader(profile: profile, l10n: l10n, theme: theme),
+            const SizedBox(height: 16),
+            _EditSection(
+              editing: _isEditing,
+              onToggleEdit: () => setState(() => _isEditing = !_isEditing),
+              nameController: _nameController,
+              farmController: _farmController,
+              locationController: _locationController,
+              phoneController: _phoneController,
+              l10n: l10n,
+              theme: theme,
+            ),
+            const SizedBox(height: 16),
+            _CropsSection(crops: crops, l10n: l10n, theme: theme),
+          ];
+          final settingsSections = <Widget>[
+            _AgriProSection(l10n: l10n, theme: theme),
+            const SizedBox(height: 16),
+            _AgriShopSection(l10n: l10n, theme: theme),
+            const SizedBox(height: 16),
+            _LanguageSection(l10n: l10n, theme: theme),
+            const SizedBox(height: 16),
+            _SignOutSection(l10n: l10n, theme: theme),
+          ];
+
+          if (constraints.maxWidth < AppLayout.breakpoints['expanded']!) {
+            return ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                ...farmSections,
+                const SizedBox(height: 16),
+                ...settingsSections,
+              ],
+            );
+          }
+
+          return Row(
+            key: const Key('profile-wide-two-column'),
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                key: const Key('profile-farm-column'),
+                flex: 5,
+                child: ListView(
+                  padding: const EdgeInsets.all(16),
+                  children: farmSections,
+                ),
+              ),
+              const VerticalDivider(width: 1),
+              Expanded(
+                key: const Key('profile-settings-column'),
+                flex: 5,
+                child: ListView(
+                  padding: const EdgeInsets.all(16),
+                  children: settingsSections,
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -146,7 +184,11 @@ class _ProfileHeader extends StatelessWidget {
             CircleAvatar(
               radius: 40,
               backgroundColor: theme.colorScheme.primaryContainer,
-              child: Icon(Icons.person, size: 42, color: theme.colorScheme.onPrimaryContainer),
+              child: Icon(
+                Icons.person,
+                size: 42,
+                color: theme.colorScheme.onPrimaryContainer,
+              ),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -206,7 +248,12 @@ class _EditSection extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(l10n.profileTitle, style: theme.textTheme.titleLarge),
+                Expanded(
+                  child: Text(
+                    l10n.profileTitle,
+                    style: theme.textTheme.titleLarge,
+                  ),
+                ),
                 IconButton(
                   icon: Icon(editing ? Icons.close : Icons.edit),
                   onPressed: onToggleEdit,
@@ -250,11 +297,26 @@ class _EditSection extends StatelessWidget {
               ),
             ] else ...[
               const SizedBox(height: 12),
-              _InfoRow(icon: Icons.agriculture, label: l10n.farmName, value: nameController.text, theme: theme),
+              _InfoRow(
+                icon: Icons.agriculture,
+                label: l10n.farmName,
+                value: nameController.text,
+                theme: theme,
+              ),
               const SizedBox(height: 12),
-              _InfoRow(icon: Icons.location_on, label: l10n.location, value: locationController.text, theme: theme),
+              _InfoRow(
+                icon: Icons.location_on,
+                label: l10n.location,
+                value: locationController.text,
+                theme: theme,
+              ),
               const SizedBox(height: 12),
-              _InfoRow(icon: Icons.phone, label: l10n.phoneNumber, value: phoneController.text, theme: theme),
+              _InfoRow(
+                icon: Icons.phone,
+                label: l10n.phoneNumber,
+                value: phoneController.text,
+                theme: theme,
+              ),
             ],
           ],
         ),
@@ -322,7 +384,12 @@ class _CropsSection extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(l10n.profileCrops, style: theme.textTheme.titleLarge),
+                Expanded(
+                  child: Text(
+                    l10n.profileCrops,
+                    style: theme.textTheme.titleLarge,
+                  ),
+                ),
                 TextButton(
                   onPressed: () => context.go('/setup/profile'),
                   child: Text(l10n.profileManageCrops),
@@ -338,7 +405,11 @@ class _CropsSection extends StatelessWidget {
                 runSpacing: 8,
                 children: crops.map((crop) {
                   return Chip(
-                    avatar: Icon(Icons.eco, size: 18, color: theme.colorScheme.primary),
+                    avatar: Icon(
+                      Icons.eco,
+                      size: 18,
+                      color: theme.colorScheme.primary,
+                    ),
                     label: Text(crop.cropName),
                   );
                 }).toList(),
@@ -363,9 +434,9 @@ class _AgriProSection extends StatelessWidget {
 
     return Card(
       child: ListTile(
-        leading: Icon(isPro
-            ? Icons.workspace_premium
-            : Icons.workspace_premium_outlined),
+        leading: Icon(
+          isPro ? Icons.workspace_premium : Icons.workspace_premium_outlined,
+        ),
         title: Text(l10n.agriProTitle),
         subtitle: Text(
           isPro ? l10n.agriProPlanActive : l10n.agriProFeatureUnlimited,
@@ -429,11 +500,16 @@ class _LanguageSection extends StatelessWidget {
                 contentPadding: EdgeInsets.zero,
                 leading: Icon(
                   selected ? Icons.check_circle : Icons.circle_outlined,
-                  color: selected ? theme.colorScheme.primary : theme.colorScheme.outline,
+                  color: selected
+                      ? theme.colorScheme.primary
+                      : theme.colorScheme.outline,
                 ),
                 title: Text(name),
                 onTap: () {
-                  context.trackEvent('language_changed', params: {'language': code});
+                  context.trackEvent(
+                    'language_changed',
+                    params: {'language': code},
+                  );
                   context.read<LocaleProvider>().setLocale(code);
                 },
               );
@@ -458,7 +534,9 @@ class _SignOutSection extends StatelessWidget {
         leading: Icon(Icons.logout, color: theme.colorScheme.error),
         title: Text(
           l10n.profileSignout,
-          style: theme.textTheme.bodyLarge?.copyWith(color: theme.colorScheme.error),
+          style: theme.textTheme.bodyLarge?.copyWith(
+            color: theme.colorScheme.error,
+          ),
         ),
         onTap: () async {
           final confirmed = await showDialog<bool>(

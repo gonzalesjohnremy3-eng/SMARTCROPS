@@ -925,5 +925,13 @@
   "cropCareYourCrops": "Iyong mga Pananim",
   "cropCareNoRecentDisease": "Walang natukoy na sakit sa mga kamakailang scan.",
   "cropCareKeepSoilHealthy": "Panatilihing malusog ang lupa",
-  "cropCareHealthySoilBody": "Ang malusog na lupa ay nagbibigay ng mas malakas na pananim."
+  "cropCareHealthySoilBody": "Ang malusog na lupa ay nagbibigay ng mas malakas na pananim.",
+  "authTrustEyebrow": "Smart Crops ng Agri Lynk",
+  "authTrustTitle": "Maligayang pagdating sa iyong field office.",
+  "authTrustBody": "Pribado ang datos ng iyong bukid.",
+  "advisoriesCriticalLabel": "Kritikal na advisory",
+  "agriProComparePlan": "Plano",
+  "agriProComparePrice": "Presyo",
+  "agriProCompareIncludes": "Ano ang kasama",
+  "agriProPriceFree": "₱0"
 }

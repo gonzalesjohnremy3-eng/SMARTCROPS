@@ -37,21 +37,24 @@ class _AgriProPaywallScreenState extends State<AgriProPaywallScreen> {
 
     switch (outcome) {
       case BillingSucceeded():
-        context.trackEvent('purchase_completed', params: {'plan': _selected.name});
+        context.trackEvent(
+          'purchase_completed',
+          params: {'plan': _selected.name},
+        );
         await context.read<AgriProEntitlement>().refresh();
         if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.agriProUnlocked)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.agriProUnlocked)));
         Navigator.of(context).maybePop();
       case BillingUnavailable():
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.billingNotConfigured)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.billingNotConfigured)));
       case BillingFailed():
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.agriProPurchaseFailed)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.agriProPurchaseFailed)));
     }
 
     if (mounted) {
@@ -96,6 +99,76 @@ class _AgriProPaywallScreenState extends State<AgriProPaywallScreen> {
             ),
           ),
           const SizedBox(height: 16),
+          SingleChildScrollView(
+            key: const Key('pro-comparison-table'),
+            scrollDirection: Axis.horizontal,
+            child: Table(
+              columnWidths: const {
+                0: FixedColumnWidth(96),
+                1: FixedColumnWidth(112),
+                2: FixedColumnWidth(260),
+              },
+              border: TableBorder.all(
+                color: theme.colorScheme.outlineVariant,
+                width: 1,
+              ),
+              children: [
+                TableRow(
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.surfaceContainerHighest,
+                  ),
+                  children: [
+                    _CompareCell(
+                      text: l10n.agriProComparePlan,
+                      theme: theme,
+                      header: true,
+                    ),
+                    _CompareCell(
+                      text: l10n.agriProComparePrice,
+                      theme: theme,
+                      header: true,
+                    ),
+                    _CompareCell(
+                      text: l10n.agriProCompareIncludes,
+                      theme: theme,
+                      header: true,
+                    ),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    _CompareCell(text: l10n.agriProPlanFree, theme: theme),
+                    _CompareCell(text: l10n.agriProPriceFree, theme: theme),
+                    _CompareCell(
+                      text: l10n.agriProFreePlanSummary,
+                      theme: theme,
+                    ),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    _CompareCell(text: l10n.agriProPlanMonthly, theme: theme),
+                    _CompareCell(text: l10n.agriProPriceMonthly, theme: theme),
+                    _CompareCell(
+                      text: l10n.agriProFeatureUnlimited,
+                      theme: theme,
+                    ),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    _CompareCell(text: l10n.agriProPlanSeasonal, theme: theme),
+                    _CompareCell(text: l10n.agriProPriceSeasonal, theme: theme),
+                    _CompareCell(
+                      text: l10n.agriProFeatureUnlimited,
+                      theme: theme,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
           Card(
             color: theme.colorScheme.primaryContainer,
             child: Padding(
@@ -133,16 +206,21 @@ class _AgriProPaywallScreenState extends State<AgriProPaywallScreen> {
             ),
           ),
           const SizedBox(height: 16),
-          ..._plans.map((plan) => _PlanCard(
-                plan: plan,
-                selected: plan.id == _selected,
-                l10n: l10n,
-                theme: theme,
-                onTap: () {
-            context.trackEvent('paywall_plan_selected', params: {'plan': plan.id.name});
-            setState(() => _selected = plan.id);
-          },
-              )),
+          ..._plans.map(
+            (plan) => _PlanCard(
+              plan: plan,
+              selected: plan.id == _selected,
+              l10n: l10n,
+              theme: theme,
+              onTap: () {
+                context.trackEvent(
+                  'paywall_plan_selected',
+                  params: {'plan': plan.id.name},
+                );
+                setState(() => _selected = plan.id);
+              },
+            ),
+          ),
           const SizedBox(height: 8),
           Text(
             selected.id == AgriProPlanId.seasonal
@@ -195,8 +273,39 @@ class _AgriProPaywallScreenState extends State<AgriProPaywallScreen> {
   }
 }
 
+class _CompareCell extends StatelessWidget {
+  const _CompareCell({
+    required this.text,
+    required this.theme,
+    this.header = false,
+  });
+
+  final String text;
+  final ThemeData theme;
+  final bool header;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Text(
+        text,
+        style: header
+            ? theme.textTheme.labelLarge?.copyWith(
+                color: theme.colorScheme.onSurface,
+              )
+            : theme.textTheme.bodySmall,
+      ),
+    );
+  }
+}
+
 class _FeatureRow extends StatelessWidget {
-  const _FeatureRow({required this.icon, required this.label, required this.theme});
+  const _FeatureRow({
+    required this.icon,
+    required this.label,
+    required this.theme,
+  });
 
   final IconData icon;
   final String label;
@@ -248,7 +357,9 @@ class _PlanCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppRadius.card),
         side: BorderSide(
-          color: selected ? theme.colorScheme.primary : theme.colorScheme.outlineVariant,
+          color: selected
+              ? theme.colorScheme.primary
+              : theme.colorScheme.outlineVariant,
           width: selected ? 2 : 1,
         ),
       ),
@@ -266,7 +377,9 @@ class _PlanCard extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          isSeasonal ? l10n.agriProPlanSeasonal : l10n.agriProPlanMonthly,
+                          isSeasonal
+                              ? l10n.agriProPlanSeasonal
+                              : l10n.agriProPlanMonthly,
                           style: theme.textTheme.titleMedium,
                         ),
                         if (isSeasonal) ...[
@@ -278,7 +391,9 @@ class _PlanCard extends StatelessWidget {
                             ),
                             decoration: BoxDecoration(
                               color: theme.colorScheme.tertiaryContainer,
-                              borderRadius: BorderRadius.circular(AppRadius.pill),
+                              borderRadius: BorderRadius.circular(
+                                AppRadius.pill,
+                              ),
                             ),
                             child: Text(
                               l10n.agriProSavePercent,
@@ -302,7 +417,9 @@ class _PlanCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      isSeasonal ? l10n.agriProPriceSeasonal : l10n.agriProPriceMonthly,
+                      isSeasonal
+                          ? l10n.agriProPriceSeasonal
+                          : l10n.agriProPriceMonthly,
                       style: theme.textTheme.titleLarge?.copyWith(
                         color: theme.colorScheme.primary,
                       ),
@@ -318,7 +435,9 @@ class _PlanCard extends StatelessWidget {
                 ),
               ),
               Icon(
-                selected ? Icons.radio_button_checked : Icons.radio_button_unchecked,
+                selected
+                    ? Icons.radio_button_checked
+                    : Icons.radio_button_unchecked,
                 color: selected
                     ? theme.colorScheme.primary
                     : theme.colorScheme.onSurfaceVariant,

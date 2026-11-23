@@ -1142,4 +1142,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cropCareHealthySoilBody => 'Healthy soil leads to stronger crops.';
+
+  @override
+  String get authTrustEyebrow => 'Smart Crops by Agri Lynk';
+
+  @override
+  String get authTrustTitle => 'Welcome to your field office.';
+
+  @override
+  String get authTrustBody => 'Your farm data stays private.';
+
+  @override
+  String get advisoriesCriticalLabel => 'Critical advisory';
+
+  @override
+  String get agriProComparePlan => 'Plan';
+
+  @override
+  String get agriProComparePrice => 'Price';
+
+  @override
+  String get agriProCompareIncludes => 'What\'s included';
+
+  @override
+  String get agriProPriceFree => '₱0';
 }
