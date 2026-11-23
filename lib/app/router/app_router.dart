@@ -45,7 +45,8 @@ GoRouter buildAppRouter({
         profileComplete: isProfileComplete,
       );
 
-  return GoRouter(
+  GoRouter? routerRef;
+  final router = GoRouter(
     initialLocation: initialLocation,
     refreshListenable: controller,
     observers: observers,
@@ -221,12 +222,26 @@ GoRouter buildAppRouter({
       );
 
       if (decision.location == state.uri.path) {
-        return null;
+        // The guard passes this location through. Only do that when the
+        // route tree actually serves it: a reload at a stale or unknown URL
+        // would otherwise land on go_router's default "Page Not Found"
+        // error screen, so send those to the hub instead.
+        return _canServe(routerRef, state.uri) ? null : _fallbackLocation;
       }
       return decision.location;
     },
   );
+  routerRef = router;
+  return router;
 }
+
+/// Where the guard sends users whose requested URL has no matching route:
+/// the app's Cooperative Hub, the same surface cooperative destinations
+/// point to (see advisory_link_resolver).
+const _fallbackLocation = '/profile';
+
+bool _canServe(GoRouter? router, Uri uri) =>
+    router != null && !router.configuration.findMatch(uri).isError;
 
 Session? _currentSession() {
   try {
