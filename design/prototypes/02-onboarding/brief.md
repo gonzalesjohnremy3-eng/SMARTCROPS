@@ -17,4 +17,3 @@
 
 **Verdict:** A (Story spread) chosen — the overlay hero gives the Field Almanac identity its one memorable moment; copy comes verbatim from `UI_COPY_DECK.md`. B stays as a fallback for low-memory devices; C's guided question is reused in P4 rather than onboarding. Overlay: generated immersive image + Forest scrim.
 
-**Glass re-judgment (2026-11-22):** A confirmed — the hero's inner text plate is the single `.glass-dark` surface; B/C stay opaque.

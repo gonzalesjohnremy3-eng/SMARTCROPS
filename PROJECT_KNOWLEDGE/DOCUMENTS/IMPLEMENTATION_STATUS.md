@@ -2,7 +2,7 @@
 
 This document tracks the user-accessible reality of every feature against `PROJECT_PLANNING.md`, `WEATHER_FEATURE_PLAN.md`, the PDF design specification, and `UI_UX_BLUEPRINT.md`.
 
-**Audit date:** 2026-11-22 (Phase 1 MVP and locally closable Phase 2 gaps complete; Phase 3 partial; UI/UX craft lines Field Almanac + optimized glass and CropCare comparison merged; AI provider credits, universal-link domain, FCM delivery credentials, analytics dashboards, human privacy sign-off, and Cooperative Hub UI remain external)  
+**Audit date:** 2026-11-26 (Phase 1 MVP and locally closable Phase 2 gaps complete; Phase 3 partial; UI/UX craft line Field Almanac only; AI provider credits, universal-link domain, FCM delivery credentials, analytics dashboards, human privacy sign-off, and Cooperative Hub UI remain external)  
 **Important:** A backend table, Edge Function, or test-only implementation is not a shipped feature. Statuses below describe what a farmer can actually use in the app today.
 
 ---
@@ -130,50 +130,47 @@ Executed TDD-first from `design/prototypes/` (14 pages × 3 structurally differe
 | Client self-granted Agri Pro closed | **[x]** | `supabase/migrations/20261122000000_close_self_granted_premium.sql`, `set-pro-tester` Edge Function, `billing_boundary_test.dart` |
 | Cross-user cache leak closed | **[x]** | user-scoped cache keys + `clear()` on sign-out, `smart_crops_service_cache_test.dart` |
 | Generated photography overlays | **[x]** | Six images generated in OpenAI/Gemini free tier, optimized to WebP (814 KB total), wired into `OverlayHero` and three detail surfaces; credits in `PROJECT_KNOWLEDGE/ASSETS.md`, originals in `design/overlays/originals/` |
-| Scrim strengthening | **[x]** | Added `AppGlass.imageScrim` (rgba(18,55,42,0.82)) token; created `ScrimmedImage` widget; applied to Crop detail, Product detail, and Scan capture — replaced saturated darken filter with real overlay; switched icons to `textInverse` for WCAG AA (was 2.02:1); bumped Scan placeholder alpha 0.35→0.6; new test `scrimmed_image_test.dart` |
+| Scrim strengthening | **[x]** | Added `AppColors.imageScrim` (rgba(18,55,42,0.82)) token; created `ScrimmedImage` widget; applied to Crop detail, Product detail, and Scan capture — replaced saturated darken filter with real overlay; switched icons to `textInverse` for WCAG AA (was 2.02:1); bumped Scan placeholder alpha 0.35→0.6; new test `scrimmed_image_test.dart` |
 | HyperFrames ambient video loop | **[ ]** | Deferred per ADR 0012; `ffmpeg` not installed |
 
 Verification at the craft-sprint checkpoint: `flutter test` (213 passing), `flutter analyze` (only pre-existing info-level lints), `deno test` edge-function seam (8 passing), `deno check` both edge functions. Home golden baseline regenerated for the intended visual change.
 
 ---
 
-## 6. Optimized premium glassmorphism (2026-11-22)
+## 6. Glass layer retired (2026-11-26)
 
-ADR 0013 supersedes ADR 0010; ADR 0001's elevation rule is amended; `GLOSSARY.md` gains Glass Surface / Glass Tint / Glass Scrim. Tokens are `v2.0.0`.
+ADR 0013 is superseded; ADR 0001's opaque-surface rule is restored; `GLOSSARY.md` keeps Scrim only. Tokens are back to `v1.0.0`.
 
 | Slice | Status | Evidence |
 |---|---|---|
-| Glass token family + Dart mirror | **[x]** | `design/tokens.json` → `glass`, `AppGlass` in `app_tokens.dart` |
-| Worst-case contrast contract | **[x]** | `test/app/theme/tokens_test.dart` (glass parity + text 4.5:1 / boundary 3:1 over five backdrops) |
-| `GlassSurface` component, one blur per screen | **[x]** | `lib/app/widgets/glass_surface.dart`, `test/app/widgets/glass_surface_test.dart` |
-| Immersive heroes in Flutter | **[x]** | `OverlayHero` uses `GlassSurface` with `blur:false` on Onboarding (PageView builds several pages) |
-| Navigation chrome | **[x]** | `_ResponsiveBottomNavigation` wrapped in `GlassSurface(blur:false)` |
-| Prototype re-skin and glass re-judgment | **[x]** | `design/prototypes/GLASS_RESKIN.md`, shared `tokens.css`; all 14 briefs re-judged, glass opt-in on 5 immersive pages, dense pages opaque; contract in `test/design/prototype_glass_contract_test.dart` |
+| Glass tokens removed | **[x]** | `design/tokens.json` has no `glass` family; `AppGlass` removed from `app_tokens.dart` |
+| Live blur removed | **[x]** | `GlassSurface` and `test/app/widgets/glass_surface_test.dart` deleted; no `BackdropFilter` in `lib/` |
+| Heroes and navigation opaque | **[x]** | `OverlayHero` and `_ResponsiveBottomNavigation` use the Forest scrim/gradient without a glass plate |
+| Prototype glass removed | **[x]** | glass variables and `.glass-dark` deleted from `design/prototypes/shared/tokens.css`; all 14 briefs and 5 pages have no glass |
 | Motion/AI/backend gates | **[x]** | unchanged and re-verified (`flutter-motion` rules, overlay fallback, Supabase migrations/functions) |
 
-Verification after the re-skin and glass re-judgment (checkpoint): `flutter test` (213 passing, including `test/design/prototype_glass_contract_test.dart`), `flutter analyze` (info-level lints only), `deno test` (8 passing), `deno check` both edge functions. Home golden regenerated for the intended change.
+Verification after the revert: `flutter test` (see final checkpoint below); `flutter analyze` (info-level lints only); `deno test` (23 passing).
 
-Not changed: backend, business logic, localization, fonts or IA (ADR 0013); HyperFrames video and dark mode remain deferred.
+Not changed: backend, business logic, localization, fonts or IA; HyperFrames video and dark mode remain deferred.
 
 Generated overlays landed after this section: six WebP assets in `assets/images/overlays/`, wired into Home, Onboarding, Agri Pro, Scan capture, Crop detail and Product detail. Originals and credits are in `design/overlays/originals/` and `PROJECT_KNOWLEDGE/ASSETS.md`.
 
-ADR 0014 records the supplied CropCare material (`PROJECT_KNOWLEDGE/DOCUMENTS/REFERENCE.md`, `PROJECT_KNOWLEDGE/IMAGES/REFERENCE/HOME_REFERENCE.png`) as secondary visual guidance only. The Field Almanac + optimized glass line remains the default; the CropCare-derived comparison line was merged into `master` under ADR 0015.
+ADR 0014 records the supplied CropCare material (`PROJECT_KNOWLEDGE/DOCUMENTS/REFERENCE.md`, `PROJECT_KNOWLEDGE/IMAGES/REFERENCE/HOME_REFERENCE.png`) as secondary visual guidance only. The Field Almanac line remains the only design line.
 
 ---
 
-## 7. CropCare comparison line (2026-11-22)
+## 7. CropCare line retired (2026-11-26)
+
+The separate CropCare design line was removed so the app has a single design source, `design/prototypes/`.
 
 | Slice | Status | Evidence |
 |---|---|---|
-| Secondary reference recorded | **[x]** | ADR 0014 |
-| Isolated prototypes and contract | **[x]** | `design/prototypes-cropcare/`, `test/design/cropcare_prototype_contract_test.dart` |
-| Flutter routes and one-blur surfaces | **[x]** | `lib/cropcare/`, `/cropcare/*` in `lib/app/router/app_router.dart` |
-| Localization and merge approval | **[x]** | EN/TL/CEB ARBs, ADR 0015 |
-| PR #6 merged to `master` | **[x]** | merge commit `0bd4d83` |
+| CropCare prototypes removed | **[x]** | `design/prototypes-cropcare/` deleted |
+| CropCare Flutter surface removed | **[x]** | `lib/cropcare/` and `/cropcare/*` routes deleted |
+| CropCare contracts removed | **[x]** | `test/cropcare/`, `test/design/cropcare_prototype_contract_test.dart` deleted |
+| Field Almanac remains the only design line | **[x]** | `design/prototypes/`, `design/prototypes/IMPLEMENTATION_MAP.md` |
 
-Current verification: flutter test (244 passing); flutter analyze (unchanged 21 info-level lints); deno test (23 passing across scan-crop and send-campaign seams).
-
-ADR 0015 approves this as an additional design surface; it does not replace ADR 0013 or ADR 0001. Field Almanac routes, tokens, copy, localization, and goldens were not changed.
+Current verification: flutter test (239 passing); flutter analyze (info-level lints, no errors); deno test (23 passing across scan-crop and send-campaign seams).
 
 ---
 
@@ -209,4 +206,4 @@ Systematic debugging found that five chosen verdict elements had no acceptance c
 | P13 comparison table | **[x]** | `lib/features/pro/screens/agri_pro_paywall_screen.dart` — Free / Monthly / Seasonal comparison table on the plan screen |
 | P14 two-column profile | **[x]** | `lib/features/profile/screens/profile_screen.dart` — grouped farm and settings columns at ≥840px |
 
-No visual world changed: this completes the Field Almanac + optimized-glass direction under ADR 0013. New l10n keys are present in EN/TL/CEB. The critical banner is client-ready but needs a `notifications.severity` column from the backend; the Supabase CLI was unavailable, so that schema migration was not generated in this change.
+No visual world changed: this completes the Field Almanac direction under ADR 0010. New l10n keys are present in EN/TL/CEB. The critical banner is client-ready but needs a `notifications.severity` column from the backend; the Supabase CLI was unavailable, so that schema migration was not generated in this change.

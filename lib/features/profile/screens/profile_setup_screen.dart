@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:smart_crops/app/router/onboarding_controller.dart';
 import 'package:smart_crops/app/analytics/analytics.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
+import 'package:smart_crops/models/app_models.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
 
 const onboardingCompleteKey = 'onboarding_complete';
@@ -28,7 +29,7 @@ class ProfileSetupScreen extends StatefulWidget {
 
 class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _pageController = PageController();
+  late final PageController _pageController;
 
   final _fullNameController = TextEditingController();
   final _farmNameController = TextEditingController();
@@ -40,6 +41,31 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
   final Set<String> _selectedCrops = {};
   String _cropSearch = '';
   bool _isSaving = false;
+
+  static bool _aboutYouAlreadySet(UserProfile? profile) {
+    return profile != null &&
+        profile.fullName.isNotEmpty &&
+        profile.farmName != null &&
+        profile.location != null;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    final profile = context.read<SmartCropsService>().currentUserProfile;
+    _fullNameController.text = profile?.fullName ?? '';
+    _farmNameController.text = profile?.farmName ?? '';
+    _locationController.text = profile?.location ?? '';
+    _phoneController.text = profile?.phoneNumber ?? '';
+    if (_aboutYouAlreadySet(profile)) {
+      // About You was already filled in and saved earlier (e.g. an earlier
+      // login where the local completion flag is missing). Start at the Main
+      // Crops step so About You is not shown again and saving the wizard
+      // cannot overwrite the saved profile.
+      _currentStep = 1;
+    }
+    _pageController = PageController(initialPage: _currentStep);
+  }
 
   @override
   void dispose() {
@@ -79,7 +105,12 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
             .where((crop) => _selectedCrops.contains(crop.cropName))
             .map((crop) => crop.id)
             .toList();
-        context.trackEvent('crops_selected', params: {'crop_count': _selectedCrops.length});
+        if (mounted) {
+          context.trackEvent(
+            'crops_selected',
+            params: {'crop_count': _selectedCrops.length},
+          );
+        }
         if (cropIds.isNotEmpty) {
           await service.saveUserCrops(cropIds);
         }
@@ -107,10 +138,37 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
     }
   }
 
-  void _nextStep(List<String> crops) {
+  Future<bool> _persistAboutYou(SmartCropsService service) async {
+    setState(() => _isSaving = true);
+    try {
+      await service.updateProfile(
+        _fullNameController.text.trim(),
+        _farmNameController.text.trim(),
+        _locationController.text.trim(),
+        _phoneController.text.trim().isEmpty
+            ? null
+            : _phoneController.text.trim(),
+      );
+      return true;
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(AppLocalizations.of(context).errorGeneric)),
+        );
+      }
+      return false;
+    } finally {
+      if (mounted) setState(() => _isSaving = false);
+    }
+  }
+
+  Future<void> _nextStep(List<String> crops, SmartCropsService service) async {
     context.trackEvent('profile_step_completed', params: {'step': _currentStep});
     if (_currentStep == 0) {
       if (!(_formKey.currentState?.validate() ?? false)) return;
+      // Persist About You as its own step so closing the app before the final
+      // save cannot lose it and bring the empty step back.
+      if (!await _persistAboutYou(service)) return;
     }
     if (_currentStep < 2) {
       setState(() => _currentStep += 1);
@@ -193,8 +251,14 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: FilledButton.icon(
-                  onPressed: () => _nextStep(crops),
-                  icon: const Icon(Icons.arrow_forward),
+                  onPressed: _isSaving ? null : () => _nextStep(crops, service),
+                  icon: _isSaving
+                      ? const SizedBox(
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Icon(Icons.arrow_forward),
                   label: Text(l10n.next),
                 ),
               ),

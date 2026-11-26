@@ -19,7 +19,7 @@ void main() {
     // Image widget should be present (via DecorationImage)
     // The scrim DecoratedBox with color should be present
     final scrimBoxes = tester.widgetList<DecoratedBox>(
-      find.byWidgetPredicate((w) => w is DecoratedBox && w.decoration is BoxDecoration && (w.decoration as BoxDecoration).color == AppGlass.imageScrim),
+      find.byWidgetPredicate((w) => w is DecoratedBox && w.decoration is BoxDecoration && (w.decoration as BoxDecoration).color == AppColors.imageScrim),
     );
     expect(scrimBoxes, isNotEmpty);
 

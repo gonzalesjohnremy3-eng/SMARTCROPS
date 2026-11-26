@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:smart_crops/app/theme/app_tokens.dart';
-import 'package:smart_crops/app/widgets/glass_surface.dart';
 
 /// Branded immersive surface used for the Field Almanac's one memorable
 /// moment per screen. The gradient is the approved fallback when generated
@@ -13,7 +12,6 @@ class OverlayHero extends StatelessWidget {
     this.body,
     this.badge,
     this.height = 224,
-    this.blur = true,
     this.imagePath,
     this.onTap,
   });
@@ -23,7 +21,6 @@ class OverlayHero extends StatelessWidget {
   final String? body;
   final Widget? badge;
   final double height;
-  final bool blur;
   final String? imagePath;
   final VoidCallback? onTap;
 
@@ -91,10 +88,7 @@ class OverlayHero extends StatelessWidget {
                   ),
                 ),
               ),
-              GlassSurface(
-                tone: GlassTone.dark,
-                blur: blur,
-                borderRadius: BorderRadius.zero,
+              Padding(
                 padding: const EdgeInsets.all(AppSpacing.s6),
                 child: SingleChildScrollView(
                   child: Column(

@@ -5,6 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_crops/app/router/app_router.dart';
 import 'package:smart_crops/app/router/onboarding_controller.dart';
+import 'package:smart_crops/app/localization/language_preference.dart';
+import 'package:smart_crops/app/localization/locale_provider.dart';
+import 'package:smart_crops/features/pro/services/agri_pro_entitlement.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
 import 'package:smart_crops/services/weather_service.dart';
@@ -143,4 +146,50 @@ void main() {
     expect(find.byTooltip('Home'), findsOneWidget,
         reason: 'the guard must use live completion state, not startup state');
   });
+
+  testWidgets(
+    'a reload at a location without a route lands on the hub instead of the not-found screen',
+    (tester) async {
+      final router = buildAppRouter(
+        initialLocation: '/broadcast/new',
+        isAuthenticated: () => true,
+      );
+
+      await tester.pumpWidget(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (_) => SmartCropsService()),
+            ChangeNotifierProvider(create: (_) => WeatherService()),
+            ChangeNotifierProvider(create: (_) => AgriProEntitlement()),
+            ChangeNotifierProvider.value(
+              value: LocaleProvider(
+                preference: LanguagePreference(
+                  store: SharedPreferencesLanguageStore(),
+                ),
+              ),
+            ),
+          ],
+          child: MaterialApp.router(
+            routerConfig: router,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale('en'),
+              Locale('tl'),
+              Locale('ceb'),
+            ],
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('Page Not Found'), findsNothing);
+      expect(find.textContaining('GoException'), findsNothing);
+      expect(router.routeInformationProvider.value.uri.path, '/profile');
+    },
+  );
 }

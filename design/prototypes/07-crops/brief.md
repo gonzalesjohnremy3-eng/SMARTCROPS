@@ -17,4 +17,3 @@
 
 **Verdict:** A (card grid) for compact, B (master–detail) for ≥840dp — the same data, not two products. C (stage timeline) is rejected as a primary view but its stage bar is folded into Crop Detail. Overlay: generated crop-close-up image on Crop Detail hero only.
 
-**Glass re-judgment (2026-11-22):** Unchanged — the prototype's card grid stays opaque; the generated Crop Detail hero is rendered in the app, not in this prototype.

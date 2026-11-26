@@ -14,7 +14,7 @@
   .hero-block h1 { color: var(--text-inverse); }
   .hero-block .small { color: rgba(255,253,247,.82); }
   .hero-block .pill { background: rgba(255,253,247,.16); color: var(--text-inverse); }
-  .hero-block .glass-dark, .mini-hero .glass-dark { padding: 16px; border-radius: var(--radius-card); }
+  .hero-block .on-scrim, .mini-hero .on-scrim { padding: 16px; border-radius: var(--radius-card); }
   .content { padding: 16px 20px 24px; display: flex; flex-direction: column; gap: 16px; flex: 1; }
   .section-head { display: flex; align-items: center; justify-content: space-between; }
   .link { border: 0; background: transparent; color: var(--action-primary); font-weight: 600; }
@@ -37,7 +37,7 @@
       <section class="variant" data-variant="A" data-variant-name="Field Briefing hero">
         <div class="frame">
           <div class="top"><div><div class="caption muted">GOOD MORNING, ANA</div><div class="h2">Your Field Briefing</div></div><span class="pill healthy"><span class="dot"></span> 3 crops healthy</span></div>
-          <div class="hero-block img-overlay"><span class="pill" style="align-self:flex-start"><span class="dot"></span> Weather-adjusted · 12 Nov 2026</span><div class="glass-dark"><div class="eyebrow">TODAY'S PRIORITY</div><h1 class="h1" style="margin-top:8px">Hold off watering. Rain will do it for you.</h1><p class="small" style="margin-top:8px">Watering moved to tomorrow. Your pechay is on track.</p></div></div>
+          <div class="hero-block img-overlay"><span class="pill" style="align-self:flex-start"><span class="dot"></span> Weather-adjusted · 12 Nov 2026</span><div class="on-scrim"><div class="eyebrow">TODAY'S PRIORITY</div><h1 class="h1" style="margin-top:8px">Hold off watering. Rain will do it for you.</h1><p class="small" style="margin-top:8px">Watering moved to tomorrow. Your pechay is on track.</p></div></div>
           <div class="content">
             <div class="section-head"><div class="h3">Next in your Care Plan</div><button class="link">See all</button></div>
             <div class="task"><span class="mark"></span><div><div class="h3">Inspect rice leaves</div><div class="small muted">Today · Weather-adjusted</div></div><span class="pill watch">Watch</span></div>
@@ -60,7 +60,7 @@
               <div class="row-item"><span class="rank">2</span><div style="flex:1"><div class="h3">Scan pechay</div><div class="small muted">7 days since last scan</div></div></div>
               <div class="row-item"><span class="rank">3</span><div style="flex:1"><div class="h3">Review Health Log</div><div class="small muted">Season progress 62%</div></div></div>
             </div>
-            <div class="mini-hero img-overlay" style="margin-top:auto"><div class="glass-dark"><div class="eyebrow" style="color:#FFFDF7">NOTHING URGENT? KEEP WATCHING.</div><button class="btn" style="background:#FFFDF7;color:#12372A;margin-top:12px">Scan a crop</button></div></div>
+            <div class="mini-hero img-overlay" style="margin-top:auto"><div class="on-scrim"><div class="eyebrow" style="color:#FFFDF7">NOTHING URGENT? KEEP WATCHING.</div><button class="btn" style="background:#FFFDF7;color:#12372A;margin-top:12px">Scan a crop</button></div></div>
           </div>
         </div>
       </section>
@@ -72,7 +72,7 @@
           <div class="top"><div class="h2">Your Field Briefing</div><span class="pill healthy">All crops on track</span></div>
           <div class="content">
             <div class="split">
-              <div class="mini-hero img-overlay"><div class="glass-dark"><div class="eyebrow" style="color:#FFFDF7">PRIORITY</div><h2 style="margin-top:10px">Inspect the rice leaves before the rain.</h2><p class="small" style="margin-top:8px;color:rgba(255,253,247,.82)">One scan gives you a clear next step.</p></div></div>
+              <div class="mini-hero img-overlay"><div class="on-scrim"><div class="eyebrow" style="color:#FFFDF7">PRIORITY</div><h2 style="margin-top:10px">Inspect the rice leaves before the rain.</h2><p class="small" style="margin-top:8px;color:rgba(255,253,247,.82)">One scan gives you a clear next step.</p></div></div>
               <div style="display:flex;flex-direction:column;gap:12px"><div class="card"><div class="caption muted">WEATHER</div><div class="h3" style="margin-top:4px">26°C · Rain 2 PM</div></div><div class="card"><div class="caption muted">LAST SCAN</div><div class="h3" style="margin-top:4px">Pechay · Healthy</div></div></div>
             </div>
             <div class="section-head" style="margin-top:8px"><div class="h3">This week</div><button class="link">Field Calendar</button></div>

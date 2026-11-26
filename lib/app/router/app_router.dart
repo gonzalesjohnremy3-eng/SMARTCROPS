@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:smart_crops/app/router/route_guard.dart';
-import 'package:smart_crops/app/widgets/glass_surface.dart';
 import 'package:smart_crops/app/router/onboarding_controller.dart';
 import 'package:smart_crops/features/home/screens/home_screen.dart';
 import 'package:smart_crops/features/crops/screens/crops_screen.dart';
@@ -24,11 +23,6 @@ import 'package:smart_crops/features/pro/screens/agri_pro_paywall_screen.dart';
 import 'package:smart_crops/features/shop/screens/shop_screen.dart';
 import 'package:smart_crops/features/shop/screens/product_detail_screen.dart';
 import 'package:smart_crops/features/shop/domain/merchant_product.dart';
-import 'package:smart_crops/cropcare/screens/cropcare_home_screen.dart';
-import 'package:smart_crops/cropcare/screens/cropcare_scan_screen.dart';
-import 'package:smart_crops/cropcare/screens/cropcare_result_screen.dart';
-import 'package:smart_crops/cropcare/screens/cropcare_history_screen.dart';
-import 'package:smart_crops/cropcare/screens/cropcare_profile_screen.dart';
 
 GoRouter buildAppRouter({
   String initialLocation = '/home',
@@ -45,7 +39,8 @@ GoRouter buildAppRouter({
         profileComplete: isProfileComplete,
       );
 
-  return GoRouter(
+  GoRouter? routerRef;
+  final router = GoRouter(
     initialLocation: initialLocation,
     refreshListenable: controller,
     observers: observers,
@@ -99,32 +94,6 @@ GoRouter buildAppRouter({
       GoRoute(
         path: '/health-log',
         builder: (context, state) => const HealthLogScreen(),
-      ),
-      GoRoute(
-        path: '/cropcare',
-        redirect: (context, state) => '/cropcare/home',
-        routes: [
-          GoRoute(
-            path: 'home',
-            builder: (context, state) => const CropCareHomeScreen(),
-          ),
-          GoRoute(
-            path: 'scan',
-            builder: (context, state) => const CropCareScanScreen(),
-          ),
-          GoRoute(
-            path: 'result',
-            builder: (context, state) => const CropCareResultScreen(),
-          ),
-          GoRoute(
-            path: 'history',
-            builder: (context, state) => const CropCareHistoryScreen(),
-          ),
-          GoRoute(
-            path: 'profile',
-            builder: (context, state) => const CropCareProfileScreen(),
-          ),
-        ],
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
@@ -221,12 +190,26 @@ GoRouter buildAppRouter({
       );
 
       if (decision.location == state.uri.path) {
-        return null;
+        // The guard passes this location through. Only do that when the
+        // route tree actually serves it: a reload at a stale or unknown URL
+        // would otherwise land on go_router's default "Page Not Found"
+        // error screen, so send those to the hub instead.
+        return _canServe(routerRef, state.uri) ? null : _fallbackLocation;
       }
       return decision.location;
     },
   );
+  routerRef = router;
+  return router;
 }
+
+/// Where the guard sends users whose requested URL has no matching route:
+/// the app's Cooperative Hub, the same surface cooperative destinations
+/// point to (see advisory_link_resolver).
+const _fallbackLocation = '/profile';
+
+bool _canServe(GoRouter? router, Uri uri) =>
+    router != null && !router.configuration.findMatch(uri).isError;
 
 Session? _currentSession() {
   try {
@@ -291,12 +274,8 @@ class _ResponsiveBottomNavigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GlassSurface(
-      blur: false,
-      borderRadius: BorderRadius.zero,
-      padding: EdgeInsets.zero,
-      child: LayoutBuilder(
-        builder: (context, constraints) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
         if (constraints.maxWidth >= 840) {
           return NavigationRail(
             selectedIndex: currentIndex,
@@ -371,8 +350,7 @@ class _ResponsiveBottomNavigation extends StatelessWidget {
             ),
           ],
         );
-        },
-      ),
+      },
     );
   }
 }

@@ -256,7 +256,6 @@ class _OnboardingPage extends StatelessWidget {
           title: title,
           body: body,
           height: 400,
-          blur: false,
           badge: Icon(illustration, size: 48, color: AppColors.leaf),
         ),
       ),
