@@ -11,7 +11,7 @@ class ScrimmedImage extends StatelessWidget {
     super.key,
     required this.imagePath,
     this.borderRadius = BorderRadius.zero,
-    this.scrim = AppGlass.imageScrim,
+    this.scrim = AppColors.imageScrim,
     this.child,
   });
 

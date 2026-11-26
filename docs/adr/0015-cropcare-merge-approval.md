@@ -1,6 +1,6 @@
 # Approve the CropCare design line for merge after parity gates
 
-- **Status:** Accepted
+- **Status:** Superseded (2026-11-26) — the CropCare line was retired; `design/prototypes/` is the only design line
 - **Date:** 2026-11-22
 - **Extends:** 0014 (secondary visual reference)
 

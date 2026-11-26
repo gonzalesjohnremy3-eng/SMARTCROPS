@@ -19,4 +19,4 @@ This map closes the 14 Field Almanac briefs against `master`. Each row records t
 | `13-pro` | B value story; C quota context; comparison table from A | `lib/features/pro/screens/agri_pro_paywall_screen.dart` — hero, quota context, plan comparison table |
 | `14-profile` | A grouped sections; B identity header merged in; two-column profile at ≥840px | `lib/features/profile/screens/profile_screen.dart` — grouped columns in `LayoutBuilder` |
 
-Glass re-judgment remains governed by `GLASS_RESKIN.md` and ADR 0013; no A/B/C winner changed. The CropCare line is separate under ADR 0015.
+The Field Almanac direction is governed by ADR 0010 and the shared `shared/tokens.css`; no A/B/C winner changed. `design/prototypes/` is the only design line.

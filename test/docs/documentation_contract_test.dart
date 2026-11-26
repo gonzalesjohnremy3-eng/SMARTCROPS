@@ -3,12 +3,13 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('implementation status audit date reflects merged CropCare line', () {
+  test('implementation status audit date reflects retired CropCare line', () {
     final status = File(
       'PROJECT_KNOWLEDGE/DOCUMENTS/IMPLEMENTATION_STATUS.md',
     ).readAsStringSync();
 
-    expect(status, contains('**Audit date:** 2026-11-22'));
+    expect(status, contains('**Audit date:** 2026-11-26'));
+    expect(status, contains('## 7. CropCare line retired (2026-11-26)'));
   });
 
   test('implementation status uses the current verification count', () {
@@ -18,7 +19,7 @@ void main() {
 
     expect(
       status,
-      contains('Current verification: flutter test (244 passing)'),
+      contains('Current verification: flutter test (239 passing)'),
     );
   });
 

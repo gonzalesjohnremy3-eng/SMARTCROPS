@@ -18,4 +18,3 @@
 
 **Verdict:** A (Inbox list) is the base; B's critical banner is promoted into A when a real critical advisory exists. C is rejected — grouping hides recency on a field phone. No overlay. Motion: gentle banner entrance only, reduced-motion cross-fade.
 
-**Glass re-judgment (2026-11-22):** Unchanged — dense inbox. The critical banner stays an opaque alert, not a glass surface.

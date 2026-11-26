@@ -17,4 +17,3 @@
 
 **Verdict:** A (Priority stack) chosen — it answers "what now" in one glance. B is the compact checklist expression; C's stage bar is reused in P7. No overlay. Motion is a short local transition per completed item, never a full-page refresh.
 
-**Glass re-judgment (2026-11-22):** Unchanged — dense checklist surface; ranked items stay opaque for field legibility.

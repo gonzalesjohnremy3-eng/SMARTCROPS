@@ -105,7 +105,12 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
             .where((crop) => _selectedCrops.contains(crop.cropName))
             .map((crop) => crop.id)
             .toList();
-        context.trackEvent('crops_selected', params: {'crop_count': _selectedCrops.length});
+        if (mounted) {
+          context.trackEvent(
+            'crops_selected',
+            params: {'crop_count': _selectedCrops.length},
+          );
+        }
         if (cropIds.isNotEmpty) {
           await service.saveUserCrops(cropIds);
         }
@@ -133,10 +138,37 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
     }
   }
 
-  void _nextStep(List<String> crops) {
+  Future<bool> _persistAboutYou(SmartCropsService service) async {
+    setState(() => _isSaving = true);
+    try {
+      await service.updateProfile(
+        _fullNameController.text.trim(),
+        _farmNameController.text.trim(),
+        _locationController.text.trim(),
+        _phoneController.text.trim().isEmpty
+            ? null
+            : _phoneController.text.trim(),
+      );
+      return true;
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(AppLocalizations.of(context).errorGeneric)),
+        );
+      }
+      return false;
+    } finally {
+      if (mounted) setState(() => _isSaving = false);
+    }
+  }
+
+  Future<void> _nextStep(List<String> crops, SmartCropsService service) async {
     context.trackEvent('profile_step_completed', params: {'step': _currentStep});
     if (_currentStep == 0) {
       if (!(_formKey.currentState?.validate() ?? false)) return;
+      // Persist About You as its own step so closing the app before the final
+      // save cannot lose it and bring the empty step back.
+      if (!await _persistAboutYou(service)) return;
     }
     if (_currentStep < 2) {
       setState(() => _currentStep += 1);
@@ -219,8 +251,14 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: FilledButton.icon(
-                  onPressed: () => _nextStep(crops),
-                  icon: const Icon(Icons.arrow_forward),
+                  onPressed: _isSaving ? null : () => _nextStep(crops, service),
+                  icon: _isSaving
+                      ? const SizedBox(
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Icon(Icons.arrow_forward),
                   label: Text(l10n.next),
                 ),
               ),

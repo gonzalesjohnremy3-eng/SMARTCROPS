@@ -18,4 +18,3 @@
 
 **Verdict:** A (Day agenda) is the default with B (Week strip) as a tab and C (Month grid) as the long-range tab. No overlay — this is a dense task surface. Motion is limited to the changed task row.
 
-**Glass re-judgment (2026-11-22):** Unchanged — dense task surface. Calendar grid and task rows stay opaque; no live glass.

@@ -19,4 +19,3 @@
 
 **Verdict:** A (Viewfinder HUD) chosen for capture; C's result layout chosen with a mandatory Demo Diagnosis badge when `source=demo_offline`. B's guidance becomes inline tips, not a separate step. Overlay: generated field-close-up image on capture, with Forest scrim.
 
-**Glass re-judgment (2026-11-22):** Unchanged — A's reticle is the single glass plate over the viewfinder; C's result and demo badge stay opaque.

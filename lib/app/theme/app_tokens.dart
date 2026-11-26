@@ -39,6 +39,7 @@ class AppColors {
   static const actionSecondary = Color(0xFF7AC943);
   static const focusRing = Color(0xFF7AC943);
   static const overlayScrim = Color(0x8C12372A);
+  static const imageScrim = Color(0xD112372A);
   static const statusHealthy = Color(0xFF1F6B45);
   static const statusWatch = Color(0xFFD9A441);
   static const statusRisk = Color(0xFFB4482E);
@@ -65,6 +66,7 @@ class AppColors {
     'actionSecondary': actionSecondary,
     'focusRing': focusRing,
     'overlayScrim': overlayScrim,
+    'imageScrim': imageScrim,
     'statusHealthy': statusHealthy,
     'statusWatch': statusWatch,
     'statusRisk': statusRisk,
@@ -300,36 +302,6 @@ class AppTypography {
       weight: FontWeight.w600,
       letterSpacing: 0.1,
     ),
-  };
-}
-
-class AppGlass {
-  AppGlass._();
-
-  static const tintCanvas = Color(0xEBF2F6EC);
-  static const tintRaised = Color(0xF0FFFDF7);
-  static const tintDark = Color(0xDB12372A);
-  static const tintAccent = Color(0x383B6E8F);
-
-  static const border = Color(0x8CFFFDF7);
-  static const boundary = Color(0x8C12372A);
-  static const scrim = Color(0x8C12372A);
-  static const imageScrim = Color(0xD112372A);
-
-  static const sigmaCompact = 6.0;
-  static const sigmaExpanded = 12.0;
-  static const textSafeOpacity = 0.92;
-
-  static const tints = <String, Color>{
-    'canvas': tintCanvas,
-    'raised': tintRaised,
-    'dark': tintDark,
-    'accent': tintAccent,
-  };
-
-  static const sigma = <String, double>{
-    'compact': sigmaCompact,
-    'expanded': sigmaExpanded,
   };
 }
 

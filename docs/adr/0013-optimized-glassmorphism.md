@@ -1,6 +1,6 @@
 # Adopt Optimized Glassmorphism as a visual-layer re-skin
 
-- **Status:** Accepted
+- **Status:** Superseded (2026-11-26) — the glass layer was fully reverted; Field Almanac under ADR 0010 is the only design
 - **Date:** 2026-11-22
 - **Supersedes:** 0010 (evolve Field Almanac unchanged)
 
