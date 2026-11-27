@@ -75,4 +75,46 @@ void main() {
     expect(find.byKey(const Key('auth-trust-panel')), findsNothing);
     expect(find.byKey(const Key('auth-form-card')), findsOneWidget);
   });
+
+  testWidgets('compact auth opens on the phone number field', (tester) async {
+    await _pump(tester, size: const Size(390, 844));
+
+    expect(find.text('Mobile Number (+63...)'), findsOneWidget);
+  });
+
+  testWidgets('phone-first auth hides the email form until asked', (
+    tester,
+  ) async {
+    await _pump(tester, size: const Size(390, 844));
+
+    expect(find.text('Email Address'), findsNothing);
+  });
+
+  testWidgets('choosing email instead reveals the email form', (tester) async {
+    await _pump(tester, size: const Size(390, 844));
+
+    await tester.tap(find.text('Use email instead'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Email Address'), findsOneWidget);
+  });
+
+  testWidgets('email form offers a way back to phone', (tester) async {
+    await _pump(tester, size: const Size(390, 844));
+
+    await tester.tap(find.text('Use email instead'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Use phone instead'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Mobile Number (+63...)'), findsOneWidget);
+  });
+
+  testWidgets('phone-first auth keeps Google and Facebook sign-in', (
+    tester,
+  ) async {
+    await _pump(tester, size: const Size(390, 844));
+
+    expect(find.text('Continue with Google'), findsOneWidget);
+  });
 }

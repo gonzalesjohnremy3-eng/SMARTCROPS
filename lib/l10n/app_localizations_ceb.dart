@@ -606,6 +606,12 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get authContinuePhone => 'Padayon sa Telepono (OTP)';
 
   @override
+  String get authUseEmail => 'Gamita ang email';
+
+  @override
+  String get authUsePhone => 'Gamita ang telepono';
+
+  @override
   String get authTagline => 'Diskubreha Agad. Panggawi ang Imong Ani.';
 
   @override

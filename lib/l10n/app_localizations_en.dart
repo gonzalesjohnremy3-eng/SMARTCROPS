@@ -599,6 +599,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authContinuePhone => 'Continue with Phone (OTP)';
 
   @override
+  String get authUseEmail => 'Use email instead';
+
+  @override
+  String get authUsePhone => 'Use phone instead';
+
+  @override
   String get authTagline => 'Detect Early. Protect Your Harvest.';
 
   @override

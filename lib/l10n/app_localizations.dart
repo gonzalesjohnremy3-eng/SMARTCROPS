@@ -1216,6 +1216,18 @@ abstract class AppLocalizations {
   /// **'Continue with Phone (OTP)'**
   String get authContinuePhone;
 
+  /// authUseEmail
+  ///
+  /// In en, this message translates to:
+  /// **'Use email instead'**
+  String get authUseEmail;
+
+  /// authUsePhone
+  ///
+  /// In en, this message translates to:
+  /// **'Use phone instead'**
+  String get authUsePhone;
+
   /// authTagline
   ///
   /// In en, this message translates to:

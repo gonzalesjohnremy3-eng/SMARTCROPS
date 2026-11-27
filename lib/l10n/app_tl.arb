@@ -363,6 +363,14 @@
   "@authContinuePhone": {
     "description": "authContinuePhone"
   },
+  "authUseEmail": "Gumamit ng email",
+  "@authUseEmail": {
+    "description": "authUseEmail"
+  },
+  "authUsePhone": "Gumamit ng telepono",
+  "@authUsePhone": {
+    "description": "authUsePhone"
+  },
   "authTagline": "Tuklasin nang Maaga. Protektahan ang Iyong Ani.",
   "@authTagline": {
     "description": "authTagline"

@@ -607,6 +607,12 @@ class AppLocalizationsTl extends AppLocalizations {
   String get authContinuePhone => 'Magpatuloy sa Telepono (OTP)';
 
   @override
+  String get authUseEmail => 'Gumamit ng email';
+
+  @override
+  String get authUsePhone => 'Gumamit ng telepono';
+
+  @override
   String get authTagline => 'Tuklasin nang Maaga. Protektahan ang Iyong Ani.';
 
   @override

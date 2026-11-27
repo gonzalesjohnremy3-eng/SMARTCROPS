@@ -363,6 +363,14 @@
   "@authContinuePhone": {
     "description": "authContinuePhone"
   },
+  "authUseEmail": "Gamita ang email",
+  "@authUseEmail": {
+    "description": "authUseEmail"
+  },
+  "authUsePhone": "Gamita ang telepono",
+  "@authUsePhone": {
+    "description": "authUsePhone"
+  },
   "authTagline": "Diskubreha Agad. Panggawi ang Imong Ani.",
   "@authTagline": {
     "description": "authTagline"

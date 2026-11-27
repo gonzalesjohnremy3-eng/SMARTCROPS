@@ -749,6 +749,14 @@
   "@authContinuePhone": {
     "description": "authContinuePhone"
   },
+  "authUseEmail": "Use email instead",
+  "@authUseEmail": {
+    "description": "authUseEmail"
+  },
+  "authUsePhone": "Use phone instead",
+  "@authUsePhone": {
+    "description": "authUsePhone"
+  },
   "authTagline": "Detect Early. Protect Your Harvest.",
   "@authTagline": {
     "description": "authTagline"

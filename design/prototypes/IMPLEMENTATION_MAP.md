@@ -6,7 +6,7 @@ This map closes the 14 Field Almanac briefs against `master`. Each row records t
 |---|---|---|
 | `01-shell` | A grounded bar compact; B ≥840dp shell | `lib/app/router/app_router.dart` — `StatefulShellRoute`, `NavigationBar`, `NavigationRail` |
 | `02-onboarding` | A story spread | `lib/features/onboarding/screens/onboarding_screen.dart` — `PageView`, `OverlayHero` |
-| `03-auth` | B phone first; wide trust panel | `lib/features/auth/screens/auth_screen.dart` — phone OTP form; `OverlayHero` beside the card at ≥840px |
+| `03-auth` | B phone first; wide trust panel | `lib/features/auth/screens/auth_screen.dart` — inline phone OTP is the default method, email is "Use email instead"; `OverlayHero` beside the card at ≥840px |
 | `04-profile-setup` | A wizard steps | `lib/features/profile/screens/profile_setup_screen.dart` — 3-step wizard |
 | `05-home` | A Field Briefing hero; wide split dashboard | `lib/features/home/screens/home_screen.dart` — `OverlayHero`; two-column `LayoutBuilder` at ≥840px |
 | `06-scan` | A viewfinder HUD; C result layout + Demo badge | `lib/features/scan/screens/scan_capture_screen.dart`, `scan_result_screen.dart` |
