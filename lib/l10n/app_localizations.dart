@@ -1234,6 +1234,18 @@ abstract class AppLocalizations {
   /// **'Detect Early. Protect Your Harvest.'**
   String get authTagline;
 
+  /// authBrandName
+  ///
+  /// In en, this message translates to:
+  /// **'Smart Crops'**
+  String get authBrandName;
+
+  /// authBrandByline
+  ///
+  /// In en, this message translates to:
+  /// **'by Agri Lynk'**
+  String get authBrandByline;
+
   /// authEmail
   ///
   /// In en, this message translates to:

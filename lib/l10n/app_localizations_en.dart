@@ -608,6 +608,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authTagline => 'Detect Early. Protect Your Harvest.';
 
   @override
+  String get authBrandName => 'Smart Crops';
+
+  @override
+  String get authBrandByline => 'by Agri Lynk';
+
+  @override
   String get authEmail => 'Email Address';
 
   @override

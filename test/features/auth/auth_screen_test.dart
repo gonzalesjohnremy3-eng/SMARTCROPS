@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -108,6 +109,29 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Mobile Number (+63...)'), findsOneWidget);
+  });
+
+  testWidgets('brand lockup keeps the byline off the wordmark line', (
+    tester,
+  ) async {
+    await _pump(tester, size: const Size(390, 844));
+
+    expect(find.text('Smart Crops'), findsOneWidget);
+    expect(find.text('by Agri Lynk'), findsOneWidget);
+  });
+
+  testWidgets('phone field has no prefix icon', (tester) async {
+    await _pump(tester, size: const Size(390, 844));
+
+    expect(find.byIcon(Icons.phone), findsNothing);
+  });
+
+  testWidgets('Google and Facebook buttons carry their brand logos', (
+    tester,
+  ) async {
+    await _pump(tester, size: const Size(390, 844));
+
+    expect(find.byType(SvgPicture), findsNWidgets(2));
   });
 
   testWidgets('phone-first auth keeps Google and Facebook sign-in', (

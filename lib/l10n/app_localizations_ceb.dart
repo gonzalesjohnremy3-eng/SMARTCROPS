@@ -615,6 +615,12 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get authTagline => 'Diskubreha Agad. Panggawi ang Imong Ani.';
 
   @override
+  String get authBrandName => 'Smart Crops';
+
+  @override
+  String get authBrandByline => 'by Agri Lynk';
+
+  @override
   String get authEmail => 'Email Address';
 
   @override

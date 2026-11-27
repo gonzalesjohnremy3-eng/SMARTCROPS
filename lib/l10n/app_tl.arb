@@ -375,6 +375,14 @@
   "@authTagline": {
     "description": "authTagline"
   },
+  "authBrandName": "Smart Crops",
+  "@authBrandName": {
+    "description": "authBrandName"
+  },
+  "authBrandByline": "by Agri Lynk",
+  "@authBrandByline": {
+    "description": "authBrandByline"
+  },
   "authEmail": "Email Address",
   "@authEmail": {
     "description": "authEmail"

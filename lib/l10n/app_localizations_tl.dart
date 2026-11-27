@@ -616,6 +616,12 @@ class AppLocalizationsTl extends AppLocalizations {
   String get authTagline => 'Tuklasin nang Maaga. Protektahan ang Iyong Ani.';
 
   @override
+  String get authBrandName => 'Smart Crops';
+
+  @override
+  String get authBrandByline => 'by Agri Lynk';
+
+  @override
   String get authEmail => 'Email Address';
 
   @override
