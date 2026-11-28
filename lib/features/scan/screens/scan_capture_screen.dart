@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_crops/app/theme/app_tokens.dart';
+import 'package:smart_crops/app/widgets/app_logo.dart';
 import 'package:smart_crops/app/widgets/scrimmed_image.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
@@ -91,11 +92,7 @@ class _ScanCaptureScreenState extends State<ScanCaptureScreen> {
                   child: Stack(
                     children: [
                       Center(
-                        child: Icon(
-                          Icons.eco_outlined,
-                          size: 96,
-                          color: AppColors.textInverse.withValues(alpha: 0.6),
-                        ),
+                        child: AppLogo(size: 96, opacity: 0.6),
                       ),
                     ..._reticleBrackets(),
                     const Positioned(

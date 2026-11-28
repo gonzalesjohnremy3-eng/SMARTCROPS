@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_crops/app/theme/app_tokens.dart';
+import 'package:smart_crops/app/widgets/app_logo.dart';
 import 'package:smart_crops/app/widgets/overlay_hero.dart';
 import 'package:smart_crops/app/localization/locale_provider.dart';
 import 'package:smart_crops/app/router/onboarding_controller.dart';
@@ -23,17 +24,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         _OnboardingPageData(
           title: l10n.onboardingTitle1,
           body: l10n.onboardingBody1,
-          illustration: Icons.eco_outlined,
+          illustration: const AppLogo(size: 48),
         ),
         _OnboardingPageData(
           title: l10n.onboardingTitle2,
           body: l10n.onboardingBody2,
-          illustration: Icons.camera_alt_outlined,
+          illustration: const Icon(Icons.camera_alt_outlined, size: 48, color: AppColors.leaf),
         ),
         _OnboardingPageData(
           title: l10n.onboardingTitle3,
           body: l10n.onboardingBody3,
-          illustration: Icons.calendar_today_outlined,
+          illustration: const Icon(Icons.calendar_today_outlined, size: 48, color: AppColors.leaf),
         ),
       ];
 
@@ -230,7 +231,7 @@ class _OnboardingPageData {
   });
   final String title;
   final String body;
-  final IconData illustration;
+  final Widget illustration;
 }
 
 class _OnboardingPage extends StatelessWidget {
@@ -242,7 +243,7 @@ class _OnboardingPage extends StatelessWidget {
 
   final String title;
   final String body;
-  final IconData illustration;
+  final Widget illustration;
 
   @override
   Widget build(BuildContext context) {
@@ -256,7 +257,7 @@ class _OnboardingPage extends StatelessWidget {
           title: title,
           body: body,
           height: 400,
-          badge: Icon(illustration, size: 48, color: AppColors.leaf),
+          badge: illustration,
         ),
       ),
     );
