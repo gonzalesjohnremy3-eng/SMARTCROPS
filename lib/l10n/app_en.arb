@@ -62,6 +62,10 @@
   "@onboarding.body.3": {
     "description": "Onboarding page 3 body"
   },
+  "fieldRequired": "This field is required",
+  "@fieldRequired": {
+    "description": "Form validation: a required field was left empty"
+  },
   "profileSetupStep1Title": "About You",
   "@profileSetup.step1.title": {
     "description": "Profile setup step 1 title"

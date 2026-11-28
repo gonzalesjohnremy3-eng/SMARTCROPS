@@ -196,6 +196,12 @@ abstract class AppLocalizations {
   /// **'Your Field Calendar adjusts tasks based on the forecast so you never waste effort.'**
   String get onboardingBody3;
 
+  /// Form validation: a required field was left empty
+  ///
+  /// In en, this message translates to:
+  /// **'This field is required'**
+  String get fieldRequired;
+
   /// No description provided for @profileSetupStep1Title.
   ///
   /// In en, this message translates to:

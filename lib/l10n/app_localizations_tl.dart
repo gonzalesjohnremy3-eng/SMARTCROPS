@@ -78,6 +78,9 @@ class AppLocalizationsTl extends AppLocalizations {
       'Awtomatik na naaayon ang iyong Kalendaryo ng Bukid batay sa forecast upang hindi masayang ang pagsisikap.';
 
   @override
+  String get fieldRequired => 'Kailangan ang field na ito';
+
+  @override
   String get profileSetupStep1Title => 'Tungkol Sa Iyo';
 
   @override

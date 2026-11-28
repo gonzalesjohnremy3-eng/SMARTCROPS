@@ -78,6 +78,9 @@ class AppLocalizationsCeb extends AppLocalizations {
       'Awto nga mo-adjust ang imong Kalendaryo sa Uma base sa forecast aron dili masayang ang pagsikap.';
 
   @override
+  String get fieldRequired => 'Kinahanglan pun-an kini';
+
+  @override
   String get profileSetupStep1Title => 'Mahitungod Kanimo';
 
   @override

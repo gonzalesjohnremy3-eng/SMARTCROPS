@@ -78,6 +78,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your Field Calendar adjusts tasks based on the forecast so you never waste effort.';
 
   @override
+  String get fieldRequired => 'This field is required';
+
+  @override
   String get profileSetupStep1Title => 'About You';
 
   @override
