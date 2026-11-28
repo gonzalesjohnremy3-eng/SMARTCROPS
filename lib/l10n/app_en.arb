@@ -225,7 +225,7 @@
   "@scan.result.diagnosis": {
     "description": "Diagnosis label"
   },
-  "scanResultTreatmentSteps": "Treatment Steps",
+  "scanResultTreatmentSteps": "What to do now",
   "@scan.result.treatmentSteps": {
     "description": "Treatment steps label"
   },
@@ -1532,5 +1532,51 @@
   "scanAddCrops": "Add crops",
   "@scanAddCrops": {
     "description": "scanAddCrops"
+  },
+  "scanReviewQuestion": "Is the leaf clear?",
+  "@scanReviewQuestion": {
+    "description": "scanReviewQuestion"
+  },
+  "scanReviewHint": "Spots should be sharp and the leaf should fill most of the photo.",
+  "@scanReviewHint": {
+    "description": "scanReviewHint"
+  },
+  "scanAnalyzeFailed": "We couldn't analyze this photo. Check your connection and try again.",
+  "@scanAnalyzeFailed": {
+    "description": "scanAnalyzeFailed"
+  },
+  "@scanResultTreatmentSteps": {
+    "description": "scanResultTreatmentSteps"
+  },
+  "scanResultLearnMore": "Learn more",
+  "@scanResultLearnMore": {
+    "description": "scanResultLearnMore"
+  },
+  "scanFollowUpTitle": "Recheck {crop}: {diagnosis}",
+  "@scanFollowUpTitle": {
+    "description": "scanFollowUpTitle",
+    "placeholders": {
+      "crop": {
+        "type": "String"
+      },
+      "diagnosis": {
+        "type": "String"
+      }
+    }
+  },
+  "scanResultLowConfidenceTitle": "Not sure about this one",
+  "@scanResultLowConfidenceTitle": {
+    "description": "scanResultLowConfidenceTitle"
+  },
+  "scanResultLowConfidenceBody": "The photo wasn't clear enough for a confident answer. Retake it in daylight, close to one leaf.",
+  "@scanResultLowConfidenceBody": {
+    "description": "scanResultLowConfidenceBody"
+  },
+  "scanResultScanAnother": "Scan another crop",
+  "@scanResultScanAnother": {
+    "description": "scanResultScanAnother"
+  },
+  "@scanResultAddToCalendar": {
+    "description": "scanResultAddToCalendar"
   }
 }

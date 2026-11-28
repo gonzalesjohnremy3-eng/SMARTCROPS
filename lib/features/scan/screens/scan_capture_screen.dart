@@ -4,13 +4,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_crops/app/analytics/analytics.dart';
-import 'package:smart_crops/app/analytics/analytics_view.dart';
 import 'package:smart_crops/app/theme/app_tokens.dart';
 import 'package:smart_crops/app/widgets/reticle_frame.dart';
 import 'package:smart_crops/features/pro/services/agri_pro_entitlement.dart';
 import 'package:smart_crops/features/scan/domain/scan_quota.dart';
 import 'package:smart_crops/features/scan/domain/weekly_scan_window.dart';
-import 'package:smart_crops/features/scan/screens/scan_review_screen.dart';
 import 'package:smart_crops/features/scan/services/scan_queue_provider.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
@@ -49,14 +47,7 @@ class _ScanCaptureScreenState extends State<ScanCaptureScreen> {
       source == ImageSource.camera ? 'scan_photo_taken' : 'scan_gallery_opened',
     );
 
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => AnalyticsView(
-          event: 'scan_review_viewed',
-          child: ScanReviewScreen(imageFile: picked, cropName: cropName),
-        ),
-      ),
-    );
+    context.push('/scan/review', extra: (image: picked, cropName: cropName));
   }
 
   @override

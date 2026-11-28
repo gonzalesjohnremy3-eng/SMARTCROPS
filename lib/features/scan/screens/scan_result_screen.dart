@@ -1,15 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:smart_crops/app/theme/app_tokens.dart';
 import 'package:smart_crops/app/analytics/analytics.dart';
+import 'package:smart_crops/app/theme/app_tokens.dart';
+import 'package:smart_crops/app/widgets/pill_button.dart';
 import 'package:smart_crops/features/calendar/domain/task_draft.dart';
 import 'package:smart_crops/features/scan/domain/diagnosis_knowledge_base.dart';
 import 'package:smart_crops/features/scan/domain/diagnosis_presenter.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/models/app_models.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
+
+typedef _SeverityStyle = ({Color accent, Color surface, Color onAccent});
+
+_SeverityStyle _styleFor(DiagnosisSeverity severity) => switch (severity) {
+  DiagnosisSeverity.healthy => (
+    accent: AppColors.canopy,
+    surface: AppColors.statusHealthySurface,
+    onAccent: AppColors.textInverse,
+  ),
+  DiagnosisSeverity.watch => (
+    accent: AppColors.palay,
+    surface: AppColors.statusWarningSurface,
+    onAccent: AppColors.forestInk,
+  ),
+  DiagnosisSeverity.atRisk => (
+    accent: AppColors.clay,
+    surface: AppColors.statusCriticalSurface,
+    onAccent: AppColors.textInverse,
+  ),
+};
 
 class ScanResultScreen extends StatelessWidget {
   const ScanResultScreen({super.key, required this.input});
@@ -19,7 +40,6 @@ class ScanResultScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final theme = Theme.of(context);
     final view = presentDiagnosis(input);
     final details = knowledgeFor(
       diseaseDetected: view.diagnosis,
@@ -27,218 +47,249 @@ class ScanResultScreen extends StatelessWidget {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.scanResultTitle),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.share_outlined),
-            tooltip: l10n.scanResultShare,
-            onPressed: () {
-              context.trackEvent('diagnosis_shared');
-              Share.share(
-                '${view.crop}: ${view.diagnosis} (${view.confidencePercent}%)\n${view.treatmentSteps.map((step) => '• $step').join('\n')}',
-              );
-            },
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (view.isDemo) ...[
-              _DemoNotice(l10n: l10n, theme: theme),
-              const SizedBox(height: 20),
-            ],
-            _CropSummary(view: view, l10n: l10n, theme: theme),
-            const SizedBox(height: 24),
-            _DiagnosisCard(view: view, l10n: l10n, theme: theme),
-            const SizedBox(height: 24),
-            _DetailSection(
-              title: l10n.scanDetailCause,
-              icon: Icons.science_outlined,
-              theme: theme,
-              child: Text(details.cause, style: theme.textTheme.bodyMedium),
-            ),
-            const SizedBox(height: 20),
-            _DetailSection(
-              title: l10n.scanDetailSymptoms,
-              icon: Icons.visibility_outlined,
-              theme: theme,
-              child: _BulletList(items: details.symptoms, theme: theme),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              l10n.scanResultTreatmentSteps,
-              style: theme.textTheme.titleLarge,
-            ),
-            const SizedBox(height: 12),
-            ...view.treatmentSteps.asMap().entries.map(
-              (entry) => _TreatmentStep(
-                index: entry.key + 1,
-                step: entry.value,
-                theme: theme,
-              ),
-            ),
-            const SizedBox(height: 24),
-            _DetailSection(
-              title: l10n.scanDetailPrevention,
-              icon: Icons.shield_outlined,
-              theme: theme,
-              child: _BulletList(items: details.prevention, theme: theme),
-            ),
-            const SizedBox(height: 20),
-            _DetailSection(
-              title: l10n.scanDetailExpertNote,
-              icon: Icons.support_agent_outlined,
-              theme: theme,
-              child: Text(
-                details.expertNote,
-                style: theme.textTheme.bodyMedium,
-              ),
-            ),
-            const SizedBox(height: 24),
-            _Actions(view: view, l10n: l10n, theme: theme),
-            const SizedBox(height: 12),
-            Text(
-              l10n.scanQueuedOffline,
-              style: theme.textTheme.labelSmall?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _CropSummary extends StatelessWidget {
-  const _CropSummary({
-    required this.view,
-    required this.l10n,
-    required this.theme,
-  });
-
-  final DiagnosisView view;
-  final AppLocalizations l10n;
-  final ThemeData theme;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          width: 88,
-          height: 88,
-          decoration: BoxDecoration(
-            color: theme.colorScheme.surfaceContainerHighest,
-            borderRadius: BorderRadius.circular(AppRadius.card),
-          ),
-          child: Icon(
-            Icons.grass,
-            size: 44,
-            color: theme.colorScheme.onSurfaceVariant,
-          ),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(view.crop, style: theme.textTheme.headlineSmall),
-              const SizedBox(height: 4),
-              Text(l10n.scanResultTitle, style: theme.textTheme.labelMedium),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _DiagnosisCard extends StatelessWidget {
-  const _DiagnosisCard({
-    required this.view,
-    required this.l10n,
-    required this.theme,
-  });
-
-  final DiagnosisView view;
-  final AppLocalizations l10n;
-  final ThemeData theme;
-
-  Color _severityColor() {
-    switch (view.severity) {
-      case DiagnosisSeverity.healthy:
-        return theme.colorScheme.primary;
-      case DiagnosisSeverity.watch:
-        return theme.colorScheme.tertiary;
-      case DiagnosisSeverity.atRisk:
-        return theme.colorScheme.error;
-    }
-  }
-
-  String _severityLabel() {
-    switch (view.severity) {
-      case DiagnosisSeverity.healthy:
-        return l10n.severityHealthy;
-      case DiagnosisSeverity.watch:
-        return l10n.severityWatch;
-      case DiagnosisSeverity.atRisk:
-        return l10n.severityAtRisk;
-    }
-  }
-
-  String _confidenceLabel() {
-    switch (view.confidenceBand) {
-      case ConfidenceBand.low:
-        return l10n.confidenceLow;
-      case ConfidenceBand.medium:
-        return l10n.confidenceMedium;
-      case ConfidenceBand.high:
-        return l10n.confidenceHigh;
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final severityColor = _severityColor();
-
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(l10n.scanResultDiagnosis, style: theme.textTheme.labelLarge),
-            const SizedBox(height: 6),
-            Text(view.diagnosis, style: theme.textTheme.headlineMedium),
-            const SizedBox(height: 16),
-            Wrap(
-              spacing: 12,
-              runSpacing: 12,
-              children: [
-                _Chip(
-                  label: l10n.scanResultSeverity,
-                  value: _severityLabel(),
-                  color: severityColor,
-                  theme: theme,
-                ),
-                _Chip(
-                  label: l10n.scanResultConfidence,
-                  value:
-                      '${_confidenceLabel()} · ${view.confidencePercent.toStringAsFixed(0)}%',
-                  color: theme.colorScheme.primary,
-                  theme: theme,
+      backgroundColor: AppColors.paper,
+      body: Column(
+        children: [
+          Expanded(
+            child: CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(child: _VerdictHeader(view: view)),
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(
+                    AppSpacing.s5,
+                    AppSpacing.s6,
+                    AppSpacing.s5,
+                    AppSpacing.s8,
+                  ),
+                  sliver: SliverList.list(
+                    children: [
+                      if (view.isDemo) ...[
+                        _Notice(
+                          icon: Icons.science_outlined,
+                          title: l10n.scanDemoBannerTitle,
+                          body: l10n.scanDemoBannerBody,
+                        ),
+                        const SizedBox(height: AppSpacing.s4),
+                      ],
+                      if (view.showRetakePrimary) ...[
+                        _Notice(
+                          icon: Icons.center_focus_weak_rounded,
+                          title: l10n.scanResultLowConfidenceTitle,
+                          body: l10n.scanResultLowConfidenceBody,
+                        ),
+                        const SizedBox(height: AppSpacing.s4),
+                      ],
+                      _SectionTitle(l10n.scanResultTreatmentSteps),
+                      _Steps(steps: view.treatmentSteps),
+                      const SizedBox(height: AppSpacing.s8),
+                      _SectionTitle(l10n.scanResultLearnMore),
+                      _LearnMore(details: details),
+                    ],
+                  ),
                 ),
               ],
             ),
-            const SizedBox(height: 12),
-            Text(
-              '${l10n.scanResultConfidence}: ${view.confidencePercent.toStringAsFixed(1)}%',
-              style: theme.textTheme.bodyMedium,
+          ),
+          _ActionBar(view: view),
+        ],
+      ),
+    );
+  }
+}
+
+class _VerdictHeader extends StatelessWidget {
+  const _VerdictHeader({required this.view});
+
+  final DiagnosisView view;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final style = _styleFor(view.severity);
+    final severityLabel = switch (view.severity) {
+      DiagnosisSeverity.healthy => l10n.severityHealthy,
+      DiagnosisSeverity.watch => l10n.severityWatch,
+      DiagnosisSeverity.atRisk => l10n.severityAtRisk,
+    };
+    final bandLabel = switch (view.confidenceBand) {
+      ConfidenceBand.low => l10n.confidenceLow,
+      ConfidenceBand.medium => l10n.confidenceMedium,
+      ConfidenceBand.high => l10n.confidenceHigh,
+    };
+    final percent = view.confidencePercent.clamp(0, 100).round();
+
+    return ColoredBox(
+      color: style.surface,
+      child: SafeArea(
+        bottom: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(
+            AppSpacing.s3,
+            AppSpacing.s2,
+            AppSpacing.s3,
+            AppSpacing.s6,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  IconButton(
+                    tooltip: MaterialLocalizations.of(
+                      context,
+                    ).closeButtonTooltip,
+                    onPressed: () => context.go('/scan'),
+                    icon: const Icon(Icons.close_rounded),
+                    color: AppColors.textPrimary,
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    tooltip: l10n.scanResultShare,
+                    onPressed: () {
+                      context.trackEvent('diagnosis_shared');
+                      Share.share(
+                        '${view.crop}: ${view.diagnosis} ($percent%)\n'
+                        '${view.treatmentSteps.map((step) => '• $step').join('\n')}',
+                      );
+                    },
+                    icon: const Icon(Icons.ios_share_rounded),
+                    color: AppColors.textPrimary,
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.s2),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      view.crop,
+                      style: theme.textTheme.labelLarge?.copyWith(
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.s1),
+                    Text(
+                      view.diagnosis,
+                      style: theme.textTheme.displayLarge?.copyWith(
+                        color: AppColors.textPrimary,
+                        height: 1.05,
+                        fontSize: theme.textTheme.headlineMedium?.fontSize
+                            ?.clamp(0, 40)
+                            .toDouble(),
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.s5),
+                    Wrap(
+                      spacing: AppSpacing.s4,
+                      runSpacing: AppSpacing.s3,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: style.accent,
+                            borderRadius: BorderRadius.circular(AppRadius.pill),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: AppSpacing.s3,
+                              vertical: AppSpacing.s1 + 2,
+                            ),
+                            child: Text(
+                              severityLabel,
+                              style: theme.textTheme.labelMedium?.copyWith(
+                                color: style.onAccent,
+                              ),
+                            ),
+                          ),
+                        ),
+                        ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 220),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                '${l10n.scanResultConfidence} · '
+                                '$bandLabel · $percent%',
+                                style: theme.textTheme.labelMedium?.copyWith(
+                                  color: AppColors.textPrimary,
+                                  fontFeatures: const [
+                                    FontFeature.tabularFigures(),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: AppSpacing.s1 + 2),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(
+                                  AppRadius.pill,
+                                ),
+                                child: LinearProgressIndicator(
+                                  value: percent / 100,
+                                  minHeight: AppSpacing.s1 + 2,
+                                  color: style.accent,
+                                  backgroundColor: AppColors.textPrimary
+                                      .withValues(alpha: 0.08),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _Notice extends StatelessWidget {
+  const _Notice({required this.icon, required this.title, required this.body});
+
+  final IconData icon;
+  final String title;
+  final String body;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: AppColors.statusWarningSurface,
+        borderRadius: BorderRadius.circular(AppRadius.card),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpacing.s4),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(icon, color: AppColors.palay),
+            const SizedBox(width: AppSpacing.s3),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.s1),
+                  Text(
+                    body,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -247,290 +298,295 @@ class _DiagnosisCard extends StatelessWidget {
   }
 }
 
-class _Chip extends StatelessWidget {
-  const _Chip({
-    required this.label,
-    required this.value,
-    required this.color,
-    required this.theme,
-  });
+class _SectionTitle extends StatelessWidget {
+  const _SectionTitle(this.text);
 
-  final String label;
-  final String value;
-  final Color color;
-  final ThemeData theme;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(AppRadius.pill),
-        border: Border.all(color: color.withValues(alpha: 0.4)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text('$label: ', style: theme.textTheme.labelMedium),
-          Text(
-            value,
-            style: theme.textTheme.labelMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _TreatmentStep extends StatelessWidget {
-  const _TreatmentStep({
-    required this.index,
-    required this.step,
-    required this.theme,
-  });
-
-  final int index;
-  final String step;
-  final ThemeData theme;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 28,
-            height: 28,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: theme.colorScheme.primary,
-            ),
-            child: Text(
-              '$index',
-              style: theme.textTheme.labelMedium?.copyWith(
-                color: theme.colorScheme.onPrimary,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 4),
-              child: Text(step, style: theme.textTheme.bodyMedium),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _Actions extends StatelessWidget {
-  const _Actions({required this.view, required this.l10n, required this.theme});
-
-  final DiagnosisView view;
-  final AppLocalizations l10n;
-  final ThemeData theme;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        if (view.showRetakePrimary)
-          FilledButton.icon(
-            key: const Key('retake_primary'),
-            onPressed: () => context.trackEvent('low_confidence_retake'),
-            icon: const Icon(Icons.camera_alt_outlined),
-            label: Text(l10n.scanResultLowConfidenceRetake),
-          )
-        else
-          FilledButton.icon(
-            onPressed: () async {
-              try {
-                final service = context.read<SmartCropsService>();
-                final scan = ScanHistoryItem(
-                  id: DateTime.now().toIso8601String(),
-                  userId: '',
-                  imageUrl: '',
-                  diseaseDetected: view.diagnosis,
-                  confidenceScore: view.confidencePercent,
-                  commonCrop: view.crop,
-                  recommendedActions: view.treatmentSteps,
-                  scannedAt: DateTime.now(),
-                );
-                final draft = TaskDraft.followUpForScan(
-                  scan: scan,
-                  title: 'Recheck ${view.crop} — ${view.diagnosis}',
-                  now: DateTime.now(),
-                );
-                await service.addCalendarEvent(draft);
-                if (context.mounted) {
-                  context.trackEvent('diagnosis_added_to_calendar');
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(l10n.scanResultAddedToCalendar),
-                      action: SnackBarAction(
-                        label: l10n.viewCalendar,
-                        onPressed: () => context.push('/calendar'),
-                      ),
-                    ),
-                  );
-                }
-              } catch (_) {
-                if (context.mounted) {
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(SnackBar(content: Text(l10n.errorGeneric)));
-                }
-              }
-            },
-            icon: const Icon(Icons.calendar_today_outlined),
-            label: Text(l10n.scanResultAddToCalendar),
-          ),
-        const SizedBox(height: 12),
-        OutlinedButton.icon(
-          onPressed: () {},
-          icon: const Icon(Icons.notifications_none),
-          label: Text(l10n.scanResultSetReminder),
+      padding: const EdgeInsets.only(bottom: AppSpacing.s3),
+      child: Text(
+        text,
+        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+          fontFamily: 'Fraunces',
+          color: AppColors.textPrimary,
         ),
-        if (view.allowPartnerOffers) ...[
-          const SizedBox(height: 12),
-          TextButton.icon(
-            key: const Key('see_products_for_diagnosis'),
-            onPressed: () {
-              context.trackEvent('partner_offer_viewed');
-              context.push('/shop?q=${Uri.encodeComponent(view.diagnosis)}');
-            },
-            icon: const Icon(Icons.storefront_outlined),
-            label: Text(l10n.shopSeeProductsFor),
-          ),
-        ],
-      ],
+      ),
     );
   }
 }
 
-class _DemoNotice extends StatelessWidget {
-  const _DemoNotice({required this.l10n, required this.theme});
+class _Steps extends StatelessWidget {
+  const _Steps({required this.steps});
 
-  final AppLocalizations l10n;
-  final ThemeData theme;
+  final List<String> steps;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.tertiaryContainer,
-        borderRadius: BorderRadius.circular(AppRadius.card),
-        border: Border.all(color: theme.colorScheme.tertiary),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(
-            Icons.science_outlined,
-            color: theme.colorScheme.onTertiaryContainer,
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
+    final theme = Theme.of(context);
+    return Column(
+      children: [
+        for (var i = 0; i < steps.length; i++)
+          Padding(
+            padding: const EdgeInsets.only(bottom: AppSpacing.s3),
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  l10n.scanDemoBannerTitle,
-                  style: theme.textTheme.labelLarge?.copyWith(
-                    color: theme.colorScheme.onTertiaryContainer,
-                    fontWeight: FontWeight.w700,
+                Container(
+                  width: AppSpacing.s8,
+                  height: AppSpacing.s8,
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(
+                    color: AppColors.canopy,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Text(
+                    '${i + 1}',
+                    style: theme.textTheme.labelLarge?.copyWith(
+                      color: AppColors.textInverse,
+                    ),
                   ),
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  l10n.scanDemoBannerBody,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.onTertiaryContainer,
+                const SizedBox(width: AppSpacing.s3),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: AppSpacing.s1 + 2),
+                    child: Text(
+                      steps[i],
+                      style: theme.textTheme.bodyLarge?.copyWith(
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class _DetailSection extends StatelessWidget {
-  const _DetailSection({
-    required this.title,
-    required this.icon,
-    required this.theme,
-    required this.child,
-  });
-
-  final String title;
-  final IconData icon;
-  final ThemeData theme;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Icon(icon, size: 18, color: theme.colorScheme.primary),
-            const SizedBox(width: 8),
-            Text(title, style: theme.textTheme.titleMedium),
-          ],
-        ),
-        const SizedBox(height: 8),
-        child,
       ],
     );
   }
 }
 
-class _BulletList extends StatelessWidget {
-  const _BulletList({required this.items, required this.theme});
+class _LearnMore extends StatelessWidget {
+  const _LearnMore({required this.details});
 
-  final List<String> items;
-  final ThemeData theme;
+  final DiagnosisDetails details;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final body = theme.textTheme.bodyMedium?.copyWith(
+      color: AppColors.textSecondary,
+    );
+
+    Widget bullets(List<String> items) => Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         for (final item in items)
           Padding(
-            padding: const EdgeInsets.only(bottom: 6),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 7),
-                  child: Icon(
-                    Icons.circle,
-                    size: 6,
-                    color: theme.colorScheme.primary,
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(child: Text(item, style: theme.textTheme.bodyMedium)),
-              ],
-            ),
+            padding: const EdgeInsets.only(bottom: AppSpacing.s2),
+            child: Text('•  $item', style: body),
           ),
       ],
+    );
+
+    final sections = [
+      (
+        Icons.science_outlined,
+        l10n.scanDetailCause,
+        Text(details.cause, style: body),
+      ),
+      (
+        Icons.visibility_outlined,
+        l10n.scanDetailSymptoms,
+        bullets(details.symptoms),
+      ),
+      (
+        Icons.shield_outlined,
+        l10n.scanDetailPrevention,
+        bullets(details.prevention),
+      ),
+      (
+        Icons.support_agent_outlined,
+        l10n.scanDetailExpertNote,
+        Text(details.expertNote, style: body),
+      ),
+    ];
+
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: AppColors.surfaceRaised,
+        borderRadius: BorderRadius.circular(AppRadius.card),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.forestInk.withValues(alpha: 0.06),
+            blurRadius: AppSpacing.s4,
+            offset: const Offset(0, AppSpacing.s1),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          for (var i = 0; i < sections.length; i++) ...[
+            if (i > 0)
+              const Divider(
+                height: 1,
+                indent: AppSpacing.s4,
+                endIndent: AppSpacing.s4,
+                color: AppColors.borderSubtle,
+              ),
+            Theme(
+              data: theme.copyWith(dividerColor: Colors.transparent),
+              child: ExpansionTile(
+                leading: Icon(sections[i].$1, color: AppColors.canopy),
+                title: Text(
+                  sections[i].$2,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+                iconColor: AppColors.canopy,
+                collapsedIconColor: AppColors.textSecondary,
+                childrenPadding: const EdgeInsets.fromLTRB(
+                  AppSpacing.s16,
+                  0,
+                  AppSpacing.s4,
+                  AppSpacing.s4,
+                ),
+                expandedAlignment: Alignment.centerLeft,
+                children: [sections[i].$3],
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _ActionBar extends StatelessWidget {
+  const _ActionBar({required this.view});
+
+  final DiagnosisView view;
+
+  Future<void> _addToCalendar(BuildContext context) async {
+    final l10n = AppLocalizations.of(context);
+    try {
+      final service = context.read<SmartCropsService>();
+      final scan = ScanHistoryItem(
+        id: DateTime.now().toIso8601String(),
+        userId: '',
+        imageUrl: '',
+        diseaseDetected: view.diagnosis,
+        confidenceScore: view.confidencePercent,
+        commonCrop: view.crop,
+        recommendedActions: view.treatmentSteps,
+        scannedAt: DateTime.now(),
+      );
+      final draft = TaskDraft.followUpForScan(
+        scan: scan,
+        title: l10n.scanFollowUpTitle(view.crop, view.diagnosis),
+        now: DateTime.now(),
+      );
+      await service.addCalendarEvent(draft);
+      if (context.mounted) {
+        context.trackEvent('diagnosis_added_to_calendar');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.scanResultAddedToCalendar),
+            action: SnackBarAction(
+              label: l10n.viewCalendar,
+              onPressed: () => context.go('/calendar'),
+            ),
+          ),
+        );
+      }
+    } catch (_) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.errorGeneric)));
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: AppColors.paper,
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.forestInk.withValues(alpha: 0.08),
+            blurRadius: AppSpacing.s4,
+            offset: const Offset(0, -AppSpacing.s1),
+          ),
+        ],
+      ),
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(
+            AppSpacing.s5,
+            AppSpacing.s3,
+            AppSpacing.s5,
+            AppSpacing.s3,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (view.showRetakePrimary)
+                PillButton(
+                  key: const Key('retake_primary'),
+                  label: l10n.scanResultLowConfidenceRetake,
+                  onPressed: () {
+                    context.trackEvent('low_confidence_retake');
+                    context.go('/scan');
+                  },
+                )
+              else
+                PillButton(
+                  label: l10n.scanResultAddToCalendar,
+                  onPressed: () => _addToCalendar(context),
+                ),
+              Wrap(
+                alignment: WrapAlignment.center,
+                children: [
+                  TextButton(
+                    onPressed: () => context.go('/scan'),
+                    style: TextButton.styleFrom(
+                      foregroundColor: AppColors.canopy,
+                      minimumSize: const Size(0, AppLayout.touchTarget),
+                    ),
+                    child: Text(l10n.scanResultScanAnother),
+                  ),
+                  if (view.allowPartnerOffers)
+                    TextButton(
+                      key: const Key('see_products_for_diagnosis'),
+                      onPressed: () {
+                        context.trackEvent('partner_offer_viewed');
+                        context.push(
+                          '/shop?q=${Uri.encodeComponent(view.diagnosis)}',
+                        );
+                      },
+                      style: TextButton.styleFrom(
+                        foregroundColor: AppColors.canopy,
+                        minimumSize: const Size(0, AppLayout.touchTarget),
+                      ),
+                      child: Text(l10n.shopSeeProductsFor),
+                    ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

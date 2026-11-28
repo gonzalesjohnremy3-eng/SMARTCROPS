@@ -7,23 +7,26 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:smart_crops/app/analytics/analytics.dart';
 import 'package:smart_crops/app/theme/app_tokens.dart';
-import 'package:smart_crops/l10n/app_localizations.dart';
-import 'package:smart_crops/services/smart_crops_service.dart';
+import 'package:smart_crops/app/widgets/pill_button.dart';
+import 'package:smart_crops/app/widgets/reticle_frame.dart';
+import 'package:smart_crops/features/pro/services/agri_pro_entitlement.dart';
 import 'package:smart_crops/features/scan/domain/diagnosis_presenter.dart';
 import 'package:smart_crops/features/scan/domain/scan_quota.dart';
 import 'package:smart_crops/features/scan/domain/weekly_scan_window.dart';
 import 'package:smart_crops/features/scan/services/scan_queue_provider.dart';
-import 'package:smart_crops/features/scan/screens/scan_result_screen.dart';
-import 'package:smart_crops/app/analytics/analytics.dart';
-import 'package:smart_crops/app/analytics/analytics_view.dart';
-import 'package:smart_crops/features/pro/services/agri_pro_entitlement.dart';
+import 'package:smart_crops/l10n/app_localizations.dart';
+import 'package:smart_crops/services/smart_crops_service.dart';
 
 String scanImageExtension(XFile file) {
   final name = file.name.contains('.') ? file.name : file.path.split('/').last;
   final dot = name.lastIndexOf('.');
   return dot < 0 ? 'jpg' : name.substring(dot + 1).toLowerCase();
 }
+
+/// What `/scan/review` needs, passed as the route's `extra`.
+typedef ScanReviewRequest = ({XFile image, String cropName});
 
 class ScanReviewScreen extends StatefulWidget {
   const ScanReviewScreen({
@@ -44,6 +47,7 @@ class _ScanReviewScreenState extends State<ScanReviewScreen> {
   String? _errorMessage;
 
   Future<void> _analyze() async {
+    final l10n = AppLocalizations.of(context);
     final service = context.read<SmartCropsService>();
     final queueProvider = context.read<ScanQueueProvider>();
     final entitlement = context.read<AgriProEntitlement>();
@@ -68,28 +72,14 @@ class _ScanReviewScreenState extends State<ScanReviewScreen> {
     });
 
     try {
-      // Until image upload to Storage is wired, the Edge Function receives a
-      // sample image URL. The captured image is uploaded by the scan queue
-      // and by the online path below.
       final isOnline = await _hasConnectivity();
 
       if (!isOnline) {
-        await queueProvider.enqueueScan(
-          localImagePath: widget.imageFile.path,
-          cropName: widget.cropName,
-        );
-        if (!mounted) return;
-        context.trackEvent('scan_queued_offline');
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context).scanQueuedOffline),
-          ),
-        );
-        Navigator.of(context).popUntil((route) => route.isFirst);
+        await _queueAndReturn(queueProvider);
+        if (mounted) context.trackEvent('scan_queued_offline');
         return;
       }
 
-      // Online: upload the captured image and analyze it.
       final uploader = _SupabaseStorageUploader(service);
       final imageUrl = await uploader.upload(widget.imageFile);
 
@@ -99,10 +89,7 @@ class _ScanReviewScreenState extends State<ScanReviewScreen> {
 
       if (result == null) {
         context.trackEvent('scan_failed');
-        setState(() {
-          _errorMessage = 'Analysis failed. Please try again.';
-          _isAnalyzing = false;
-        });
+        setState(() => _errorMessage = l10n.scanAnalyzeFailed);
         return;
       }
 
@@ -116,47 +103,35 @@ class _ScanReviewScreenState extends State<ScanReviewScreen> {
         isDemo: result.source == 'demo_offline',
       );
 
-      context.trackEvent(
-        'scan_analyzed',
-        params: {'source': result.source},
-      );
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (_) => AnalyticsView(
-            event: 'scan_result_viewed',
-            child: ScanResultScreen(input: input),
-          ),
-        ),
-      );
-    } catch (error) {
+      context.trackEvent('scan_analyzed', params: {'source': result.source});
+      context.pushReplacement('/scan/result', extra: input);
+    } catch (_) {
       if (!mounted) return;
       // Network or upload failure: queue the scan for later analysis.
       try {
-        await queueProvider.enqueueScan(
-          localImagePath: widget.imageFile.path,
-          cropName: widget.cropName,
-        );
-        if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context).scanQueuedOffline),
-          ),
-        );
-        Navigator.of(context).popUntil((route) => route.isFirst);
-        return;
+        await _queueAndReturn(queueProvider);
       } catch (_) {
-        setState(() => _errorMessage = error.toString());
+        if (mounted) setState(() => _errorMessage = l10n.scanAnalyzeFailed);
       }
     } finally {
-      if (mounted) {
-        setState(() => _isAnalyzing = false);
-      }
+      if (mounted) setState(() => _isAnalyzing = false);
     }
+  }
+
+  Future<void> _queueAndReturn(ScanQueueProvider queueProvider) async {
+    await queueProvider.enqueueScan(
+      localImagePath: widget.imageFile.path,
+      cropName: widget.cropName,
+    );
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(AppLocalizations.of(context).scanQueuedOffline)),
+    );
+    context.go('/scan');
   }
 
   Future<bool> _hasConnectivity() async {
     try {
-      // Simple reachability check: connectivity_plus tells us if an interface is up.
       final result = await Connectivity().checkConnectivity();
       return result.any((r) => r != ConnectivityResult.none);
     } catch (_) {
@@ -164,92 +139,272 @@ class _ScanReviewScreenState extends State<ScanReviewScreen> {
     }
   }
 
+  void _retake() {
+    if (context.canPop()) {
+      context.pop();
+    } else {
+      context.go('/scan');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
+    final muted = AppColors.textInverse.withValues(alpha: 0.75);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.scanReviewTitle)),
+      backgroundColor: AppColors.forestInk,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(AppRadius.card),
-                  child: kIsWeb
-                      ? Image.network(widget.imageFile.path, fit: BoxFit.cover)
-                      : Image.file(File(widget.imageFile.path), fit: BoxFit.cover),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  Icon(Icons.grass, color: theme.colorScheme.primary),
-                  const SizedBox(width: 8),
-                  Text(widget.cropName, style: theme.textTheme.titleLarge),
-                ],
-              ),
-              const SizedBox(height: 16),
-              if (_errorMessage != null)
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.errorContainer,
-                    borderRadius: BorderRadius.circular(AppRadius.button),
+        child: LayoutBuilder(
+          builder: (context, constraints) => SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: IntrinsicHeight(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(
+                    AppSpacing.s5,
+                    AppSpacing.s3,
+                    AppSpacing.s5,
+                    AppSpacing.s4,
                   ),
-                  child: Row(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Icon(Icons.error_outline,
-                          color: theme.colorScheme.onErrorContainer),
-                      const SizedBox(width: 12),
+                      Row(
+                        children: [
+                          IconButton(
+                            tooltip: l10n.scanReviewRetake,
+                            onPressed: _isAnalyzing ? null : _retake,
+                            style: IconButton.styleFrom(
+                              backgroundColor: AppColors.textInverse.withValues(
+                                alpha: 0.1,
+                              ),
+                              foregroundColor: AppColors.textInverse,
+                            ),
+                            icon: const Icon(Icons.close_rounded),
+                          ),
+                          const Spacer(),
+                          Flexible(child: _CropPill(name: widget.cropName)),
+                        ],
+                      ),
+                      const SizedBox(height: AppSpacing.s4),
                       Expanded(
-                        child: Text(
-                          _errorMessage!,
-                          style: TextStyle(
-                            color: theme.colorScheme.onErrorContainer,
+                        child: _PhotoFrame(
+                          image: widget.imageFile,
+                          isAnalyzing: _isAnalyzing,
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.s6),
+                      Text(
+                        l10n.scanReviewQuestion,
+                        style: theme.textTheme.headlineMedium?.copyWith(
+                          color: AppColors.textInverse,
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.s2),
+                      Text(
+                        l10n.scanReviewHint,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: muted,
+                        ),
+                      ),
+                      if (_errorMessage != null) ...[
+                        const SizedBox(height: AppSpacing.s4),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Icon(
+                              Icons.error_outline_rounded,
+                              color: AppColors.palay,
+                              size: AppSpacing.s5,
+                            ),
+                            const SizedBox(width: AppSpacing.s2),
+                            Expanded(
+                              child: Text(
+                                _errorMessage!,
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: AppColors.textInverse,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                      const SizedBox(height: AppSpacing.s6),
+                      PillButton(
+                        label: _isAnalyzing
+                            ? l10n.scanAnalyzing
+                            : l10n.scanReviewAnalyze,
+                        isLoading: _isAnalyzing,
+                        onPressed: _analyze,
+                      ),
+                      const SizedBox(height: AppSpacing.s2),
+                      TextButton(
+                        onPressed: _isAnalyzing ? null : _retake,
+                        style: TextButton.styleFrom(
+                          foregroundColor: AppColors.textInverse,
+                          minimumSize: const Size.fromHeight(
+                            AppLayout.touchTarget,
                           ),
                         ),
+                        child: Text(l10n.scanReviewRetake),
                       ),
                     ],
                   ),
                 ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton.icon(
-                      onPressed: _isAnalyzing
-                          ? null
-                          : () => Navigator.of(context).pop(),
-                      icon: const Icon(Icons.replay),
-                      label: Text(l10n.scanReviewRetake),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _CropPill extends StatelessWidget {
+  const _CropPill({required this.name});
+
+  final String name;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: AppColors.leaf.withValues(alpha: 0.16),
+        borderRadius: BorderRadius.circular(AppRadius.pill),
+        border: Border.all(color: AppColors.leaf.withValues(alpha: 0.4)),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.s3,
+          vertical: AppSpacing.s1 + 2,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(
+              Icons.eco_outlined,
+              size: AppSpacing.s4,
+              color: AppColors.leaf,
+            ),
+            const SizedBox(width: AppSpacing.s1 + 2),
+            Flexible(
+              child: Text(
+                name,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(
+                  context,
+                ).textTheme.labelLarge?.copyWith(color: AppColors.textInverse),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// The captured photo inside the scan reticle; a line sweeps it while the
+/// analysis runs.
+class _PhotoFrame extends StatefulWidget {
+  const _PhotoFrame({required this.image, required this.isAnalyzing});
+
+  final XFile image;
+  final bool isAnalyzing;
+
+  @override
+  State<_PhotoFrame> createState() => _PhotoFrameState();
+}
+
+class _PhotoFrameState extends State<_PhotoFrame>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _sweep;
+
+  @override
+  void initState() {
+    super.initState();
+    _sweep = AnimationController(
+      vsync: this,
+      duration: AppMotion.scanSequence * 2,
+    );
+  }
+
+  @override
+  void didUpdateWidget(_PhotoFrame oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final reduceMotion = MediaQuery.of(context).disableAnimations;
+    if (widget.isAnalyzing && !reduceMotion) {
+      _sweep.repeat(reverse: true);
+    } else {
+      _sweep
+        ..stop()
+        ..value = 0.5;
+    }
+  }
+
+  @override
+  void dispose() {
+    _sweep.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Widget placeholder(BuildContext context, Object error, StackTrace? stack) =>
+        const ColoredBox(color: AppColors.surfaceDark);
+
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: 240),
+      child: ReticleFrame(
+        arm: AppSpacing.s8,
+        padding: const EdgeInsets.all(AppSpacing.s3),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(AppRadius.card),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              kIsWeb
+                  ? Image.network(
+                      widget.image.path,
+                      fit: BoxFit.cover,
+                      errorBuilder: placeholder,
+                    )
+                  : Image.file(
+                      File(widget.image.path),
+                      fit: BoxFit.cover,
+                      errorBuilder: placeholder,
                     ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: FilledButton.icon(
-                      onPressed: _isAnalyzing ? null : _analyze,
-                      icon: _isAnalyzing
-                          ? const SizedBox(
-                              width: 18,
-                              height: 18,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: Colors.white,
-                              ),
-                            )
-                          : const Icon(Icons.search),
-                      label: Text(
-                        _isAnalyzing ? l10n.scanAnalyzing : l10n.scanReviewAnalyze,
+              if (widget.isAnalyzing) ...[
+                ColoredBox(color: AppColors.forestInk.withValues(alpha: 0.35)),
+                AnimatedBuilder(
+                  animation: _sweep,
+                  builder: (context, _) => Align(
+                    alignment: Alignment(
+                      0,
+                      -1 + 2 * AppMotion.standardCurve.transform(_sweep.value),
+                    ),
+                    child: Container(
+                      height: 3,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            AppColors.leaf.withValues(alpha: 0),
+                            AppColors.leaf,
+                            AppColors.leaf.withValues(alpha: 0),
+                          ],
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.leaf.withValues(alpha: 0.5),
+                            blurRadius: AppSpacing.s3,
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ],
           ),
         ),
@@ -272,7 +427,8 @@ class _SupabaseStorageUploader {
     }
 
     final extension = scanImageExtension(imageFile);
-    final objectName = '${session.user.id}/${DateTime.now().millisecondsSinceEpoch}.$extension';
+    final objectName =
+        '${session.user.id}/${DateTime.now().millisecondsSinceEpoch}.$extension';
 
     final bytes = await imageFile.readAsBytes();
     await Supabase.instance.client.storage

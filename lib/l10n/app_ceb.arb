@@ -62,7 +62,7 @@
   "scanResultConfidence": "Kompiyansa",
   "scanResultSeverity": "Kagubot",
   "scanResultDiagnosis": "Diagnosis",
-  "scanResultTreatmentSteps": "Mga Lakang sa Tambal",
+  "scanResultTreatmentSteps": "Unsay buhaton karon",
   "scanResultAddToCalendar": "Idugang sa Kalendaryo sa Uma",
   "scanResultSetReminder": "Butangi og Pahinumdom",
   "scanResultShare": "Ibahin",
@@ -983,5 +983,13 @@
   "scanQuotaLeft": "{count, plural, =0{Wala nay libreng scan karong semanaha} =1{1 na lang ka libreng scan karong semanaha} other{{count} na lang ka libreng scan karong semanaha}}",
   "scanQuotaUnlimited": "Walay limit nga scan sa Pro",
   "scanNoCrops": "Idugang ang imong mga panguna nga tanom aron maka-scan.",
-  "scanAddCrops": "Pagdugang og tanom"
+  "scanAddCrops": "Pagdugang og tanom",
+  "scanReviewQuestion": "Klaro ba ang dahon?",
+  "scanReviewHint": "Kinahanglan klaro ang mga lama ug ang dahon mopuno sa kadaghanan sa litrato.",
+  "scanAnalyzeFailed": "Dili namo ma-analisar kini nga litrato. Susiha ang koneksyon ug sulayi pag-usab.",
+  "scanResultLearnMore": "Hibaloa pa",
+  "scanFollowUpTitle": "Susiha pag-usab ang {crop}: {diagnosis}",
+  "scanResultLowConfidenceTitle": "Dili pa sigurado",
+  "scanResultLowConfidenceBody": "Dili igo ka klaro ang litrato aron makasiguro. Pagkuha pag-usab sa kahayag sa adlaw, duol sa usa ka dahon.",
+  "scanResultScanAnother": "Pag-scan og laing tanom"
 }

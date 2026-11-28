@@ -23,4 +23,4 @@ free with scans left · free with none left (chip in clay) · Pro · no crops ·
 
 ## Notes
 
-- Review still opens with `Navigator.push`, unchanged in this pass; moving it into `go_router` belongs with the review screen redesign.
+- Review opens at `/scan/review` through `go_router` (see `06a-scan-review.md`).

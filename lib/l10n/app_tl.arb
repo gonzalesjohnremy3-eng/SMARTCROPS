@@ -62,7 +62,7 @@
   "scanResultConfidence": "Kumpiyansa",
   "scanResultSeverity": "Kagubatan",
   "scanResultDiagnosis": "Diagnosis",
-  "scanResultTreatmentSteps": "Mga Hakbang ng Gamot",
+  "scanResultTreatmentSteps": "Ano ang gagawin ngayon",
   "scanResultAddToCalendar": "Idagdag sa Kalendaryo ng Bukid",
   "scanResultSetReminder": "Maglagay ng Paalala",
   "scanResultShare": "Ibahagi",
@@ -983,5 +983,13 @@
   "scanQuotaLeft": "{count, plural, =0{Wala nang libreng scan ngayong linggo} =1{1 libreng scan na lang ngayong linggo} other{{count} libreng scan na lang ngayong linggo}}",
   "scanQuotaUnlimited": "Walang limitasyong scan sa Pro",
   "scanNoCrops": "Idagdag ang iyong mga pangunahing pananim para makapag-scan.",
-  "scanAddCrops": "Magdagdag ng pananim"
+  "scanAddCrops": "Magdagdag ng pananim",
+  "scanReviewQuestion": "Malinaw ba ang dahon?",
+  "scanReviewHint": "Dapat malinaw ang mga batik at sakop ng dahon ang halos buong litrato.",
+  "scanAnalyzeFailed": "Hindi namin masuri ang litratong ito. Tingnan ang koneksyon at subukang muli.",
+  "scanResultLearnMore": "Alamin pa",
+  "scanFollowUpTitle": "Suriin muli ang {crop}: {diagnosis}",
+  "scanResultLowConfidenceTitle": "Hindi pa sigurado",
+  "scanResultLowConfidenceBody": "Hindi sapat ang linaw ng litrato para makasiguro. Kumuha muli sa liwanag ng araw, malapit sa isang dahon.",
+  "scanResultScanAnother": "Mag-scan ng iba pang pananim"
 }

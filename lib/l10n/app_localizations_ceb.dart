@@ -206,7 +206,7 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get scanResultDiagnosis => 'Diagnosis';
 
   @override
-  String get scanResultTreatmentSteps => 'Mga Lakang sa Tambal';
+  String get scanResultTreatmentSteps => 'Unsay buhaton karon';
 
   @override
   String get scanResultAddToCalendar => 'Idugang sa Kalendaryo sa Uma';
@@ -1328,4 +1328,33 @@ class AppLocalizationsCeb extends AppLocalizations {
 
   @override
   String get scanAddCrops => 'Pagdugang og tanom';
+
+  @override
+  String get scanReviewQuestion => 'Klaro ba ang dahon?';
+
+  @override
+  String get scanReviewHint =>
+      'Kinahanglan klaro ang mga lama ug ang dahon mopuno sa kadaghanan sa litrato.';
+
+  @override
+  String get scanAnalyzeFailed =>
+      'Dili namo ma-analisar kini nga litrato. Susiha ang koneksyon ug sulayi pag-usab.';
+
+  @override
+  String get scanResultLearnMore => 'Hibaloa pa';
+
+  @override
+  String scanFollowUpTitle(String crop, String diagnosis) {
+    return 'Susiha pag-usab ang $crop: $diagnosis';
+  }
+
+  @override
+  String get scanResultLowConfidenceTitle => 'Dili pa sigurado';
+
+  @override
+  String get scanResultLowConfidenceBody =>
+      'Dili igo ka klaro ang litrato aron makasiguro. Pagkuha pag-usab sa kahayag sa adlaw, duol sa usa ka dahon.';
+
+  @override
+  String get scanResultScanAnother => 'Pag-scan og laing tanom';
 }

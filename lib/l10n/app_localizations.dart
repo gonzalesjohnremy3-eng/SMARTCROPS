@@ -448,13 +448,13 @@ abstract class AppLocalizations {
   /// **'Diagnosis'**
   String get scanResultDiagnosis;
 
-  /// No description provided for @scanResultTreatmentSteps.
+  /// scanResultTreatmentSteps
   ///
   /// In en, this message translates to:
-  /// **'Treatment Steps'**
+  /// **'What to do now'**
   String get scanResultTreatmentSteps;
 
-  /// No description provided for @scanResultAddToCalendar.
+  /// scanResultAddToCalendar
   ///
   /// In en, this message translates to:
   /// **'Add to Field Calendar'**
@@ -2511,6 +2511,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add crops'**
   String get scanAddCrops;
+
+  /// scanReviewQuestion
+  ///
+  /// In en, this message translates to:
+  /// **'Is the leaf clear?'**
+  String get scanReviewQuestion;
+
+  /// scanReviewHint
+  ///
+  /// In en, this message translates to:
+  /// **'Spots should be sharp and the leaf should fill most of the photo.'**
+  String get scanReviewHint;
+
+  /// scanAnalyzeFailed
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t analyze this photo. Check your connection and try again.'**
+  String get scanAnalyzeFailed;
+
+  /// scanResultLearnMore
+  ///
+  /// In en, this message translates to:
+  /// **'Learn more'**
+  String get scanResultLearnMore;
+
+  /// scanFollowUpTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Recheck {crop}: {diagnosis}'**
+  String scanFollowUpTitle(String crop, String diagnosis);
+
+  /// scanResultLowConfidenceTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Not sure about this one'**
+  String get scanResultLowConfidenceTitle;
+
+  /// scanResultLowConfidenceBody
+  ///
+  /// In en, this message translates to:
+  /// **'The photo wasn\'t clear enough for a confident answer. Retake it in daylight, close to one leaf.'**
+  String get scanResultLowConfidenceBody;
+
+  /// scanResultScanAnother
+  ///
+  /// In en, this message translates to:
+  /// **'Scan another crop'**
+  String get scanResultScanAnother;
 }
 
 class _AppLocalizationsDelegate

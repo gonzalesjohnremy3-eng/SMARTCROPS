@@ -206,7 +206,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get scanResultDiagnosis => 'Diagnosis';
 
   @override
-  String get scanResultTreatmentSteps => 'Mga Hakbang ng Gamot';
+  String get scanResultTreatmentSteps => 'Ano ang gagawin ngayon';
 
   @override
   String get scanResultAddToCalendar => 'Idagdag sa Kalendaryo ng Bukid';
@@ -1332,4 +1332,33 @@ class AppLocalizationsTl extends AppLocalizations {
 
   @override
   String get scanAddCrops => 'Magdagdag ng pananim';
+
+  @override
+  String get scanReviewQuestion => 'Malinaw ba ang dahon?';
+
+  @override
+  String get scanReviewHint =>
+      'Dapat malinaw ang mga batik at sakop ng dahon ang halos buong litrato.';
+
+  @override
+  String get scanAnalyzeFailed =>
+      'Hindi namin masuri ang litratong ito. Tingnan ang koneksyon at subukang muli.';
+
+  @override
+  String get scanResultLearnMore => 'Alamin pa';
+
+  @override
+  String scanFollowUpTitle(String crop, String diagnosis) {
+    return 'Suriin muli ang $crop: $diagnosis';
+  }
+
+  @override
+  String get scanResultLowConfidenceTitle => 'Hindi pa sigurado';
+
+  @override
+  String get scanResultLowConfidenceBody =>
+      'Hindi sapat ang linaw ng litrato para makasiguro. Kumuha muli sa liwanag ng araw, malapit sa isang dahon.';
+
+  @override
+  String get scanResultScanAnother => 'Mag-scan ng iba pang pananim';
 }

@@ -204,7 +204,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scanResultDiagnosis => 'Diagnosis';
 
   @override
-  String get scanResultTreatmentSteps => 'Treatment Steps';
+  String get scanResultTreatmentSteps => 'What to do now';
 
   @override
   String get scanResultAddToCalendar => 'Add to Field Calendar';
@@ -1306,4 +1306,33 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get scanAddCrops => 'Add crops';
+
+  @override
+  String get scanReviewQuestion => 'Is the leaf clear?';
+
+  @override
+  String get scanReviewHint =>
+      'Spots should be sharp and the leaf should fill most of the photo.';
+
+  @override
+  String get scanAnalyzeFailed =>
+      'We couldn\'t analyze this photo. Check your connection and try again.';
+
+  @override
+  String get scanResultLearnMore => 'Learn more';
+
+  @override
+  String scanFollowUpTitle(String crop, String diagnosis) {
+    return 'Recheck $crop: $diagnosis';
+  }
+
+  @override
+  String get scanResultLowConfidenceTitle => 'Not sure about this one';
+
+  @override
+  String get scanResultLowConfidenceBody =>
+      'The photo wasn\'t clear enough for a confident answer. Retake it in daylight, close to one leaf.';
+
+  @override
+  String get scanResultScanAnother => 'Scan another crop';
 }
