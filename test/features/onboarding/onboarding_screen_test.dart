@@ -35,7 +35,9 @@ Widget _wrap(
     providers: [
       ChangeNotifierProvider(create: (_) => WeatherService()),
       ChangeNotifierProvider(create: (_) => SmartCropsService()),
-      ChangeNotifierProvider(create: (_) => onboarding ?? OnboardingController()),
+      ChangeNotifierProvider(
+        create: (_) => onboarding ?? OnboardingController(),
+      ),
       ChangeNotifierProvider(
         create: (_) => LocaleProvider(
           preference: LanguagePreference(store: InMemoryLanguageStore(locale)),
@@ -56,9 +58,9 @@ Widget _wrap(
         ],
         supportedLocales: const [Locale('en'), Locale('tl'), Locale('ceb')],
         builder: (context, widget) => MediaQuery(
-          data: MediaQuery.of(context).copyWith(
-            textScaler: TextScaler.linear(textScale),
-          ),
+          data: MediaQuery.of(
+            context,
+          ).copyWith(textScaler: TextScaler.linear(textScale)),
           child: widget!,
         ),
         home: screen,
@@ -76,7 +78,9 @@ Widget _wrapRouter(
     providers: [
       ChangeNotifierProvider(create: (_) => WeatherService()),
       ChangeNotifierProvider(create: (_) => SmartCropsService()),
-      ChangeNotifierProvider(create: (_) => onboarding ?? OnboardingController()),
+      ChangeNotifierProvider(
+        create: (_) => onboarding ?? OnboardingController(),
+      ),
       ChangeNotifierProvider(
         create: (_) => LocaleProvider(
           preference: LanguagePreference(store: InMemoryLanguageStore('en')),
@@ -95,9 +99,9 @@ Widget _wrapRouter(
       ],
       supportedLocales: const [Locale('en'), Locale('tl'), Locale('ceb')],
       builder: (context, widget) => MediaQuery(
-        data: MediaQuery.of(context).copyWith(
-          textScaler: TextScaler.linear(textScale),
-        ),
+        data: MediaQuery.of(
+          context,
+        ).copyWith(textScaler: TextScaler.linear(textScale)),
         child: widget!,
       ),
       routerConfig: router,
@@ -133,7 +137,11 @@ void main() {
           FlutterError.onError = errors.add;
           try {
             await tester.pumpWidget(
-              _wrap(const OnboardingScreen(), locale: locale, textScale: textScale),
+              _wrap(
+                const OnboardingScreen(),
+                locale: locale,
+                textScale: textScale,
+              ),
             );
             await tester.pumpAndSettle();
             for (var page = 0; page < 2; page++) {
@@ -150,7 +158,83 @@ void main() {
     }
   }
 
-  testWidgets('switching to Cebuano applies immediately and the sheet closes', (tester) async {
+  group('pages', () {
+    Future<void> pumpPhone(WidgetTester tester) async {
+      tester.view.physicalSize = const Size(375 * 2, 812 * 2);
+      tester.view.devicePixelRatio = 2.0;
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(_wrap(const OnboardingScreen()));
+      await tester.pumpAndSettle();
+    }
+
+    // A long drag flings past a page, so advance the way a Farmer taps.
+    Future<void> next(WidgetTester tester) async {
+      await tester.tap(find.text('Next'));
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('the first page introduces Smart Crops by Agri Lynk', (
+      tester,
+    ) async {
+      await pumpPhone(tester);
+
+      expect(find.text('by Agri Lynk'), findsOneWidget);
+    });
+
+    testWidgets('titles read in sentence case', (tester) async {
+      await pumpPhone(tester);
+
+      expect(find.text('Protect your harvest'), findsOneWidget);
+    });
+
+    testWidgets('pages do not repeat the app name above every title', (
+      tester,
+    ) async {
+      await pumpPhone(tester);
+      await next(tester);
+
+      expect(find.text('Smart Crops by Agri Lynk'), findsNothing);
+    });
+
+    testWidgets('progress is announced as a step count', (tester) async {
+      final semantics = tester.ensureSemantics();
+      await pumpPhone(tester);
+      await next(tester);
+
+      expect(find.bySemanticsLabel('Step 2 of 3'), findsOneWidget);
+      semantics.dispose();
+    });
+
+    testWidgets('the weather page shows how the calendar adapts', (
+      tester,
+    ) async {
+      await pumpPhone(tester);
+      await next(tester);
+      await next(tester);
+
+      expect(find.text('Spraying moved to Thursday'), findsOneWidget);
+    });
+
+    testWidgets('Back returns to the previous page', (tester) async {
+      await pumpPhone(tester);
+      await next(tester);
+
+      await tester.tap(find.byTooltip('Back'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Protect your harvest'), findsOneWidget);
+    });
+
+    testWidgets('the first page has no Back button', (tester) async {
+      await pumpPhone(tester);
+
+      expect(find.byTooltip('Back'), findsNothing);
+    });
+  });
+
+  testWidgets('switching to Cebuano applies immediately and the sheet closes', (
+    tester,
+  ) async {
     tester.view.physicalSize = const Size(375 * 2, 667 * 2);
     tester.view.devicePixelRatio = 2.0;
     addTearDown(tester.view.reset);
@@ -165,7 +249,12 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byType(ListTile), findsNWidgets(3));
       await tester.tap(
-        find.descendant(of: find.byType(ListTile), matching: find.text('Cebuano')).first,
+        find
+            .descendant(
+              of: find.byType(ListTile),
+              matching: find.text('Cebuano'),
+            )
+            .first,
       );
       await tester.pump();
       await tester.pumpAndSettle();
@@ -193,7 +282,12 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byType(ListTile), findsNWidgets(3));
       await tester.tap(
-        find.descendant(of: find.byType(ListTile), matching: find.text('English')).first,
+        find
+            .descendant(
+              of: find.byType(ListTile),
+              matching: find.text('English'),
+            )
+            .first,
       );
       await tester.pump();
       await tester.pumpAndSettle();
@@ -228,7 +322,9 @@ void main() {
     expect(prefs.getBool('onboarding_complete'), isTrue);
   });
 
-  testWidgets('Get Started on the last page navigates to the auth route', (tester) async {
+  testWidgets('Get Started on the last page navigates to the auth route', (
+    tester,
+  ) async {
     tester.view.physicalSize = const Size(375 * 2, 667 * 2);
     tester.view.devicePixelRatio = 2.0;
     addTearDown(tester.view.reset);
@@ -248,7 +344,7 @@ void main() {
     await tester.drag(find.byType(PageView), const Offset(-800, 0));
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('Get Started'));
+    await tester.tap(find.text('Get started'));
     await tester.pumpAndSettle();
 
     expect(find.byType(AuthScreen), findsOneWidget);

@@ -43,24 +43,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get next => 'Next';
 
   @override
-  String get getStarted => 'Get Started';
+  String get getStarted => 'Get started';
 
   @override
-  String get onboardingTitle1 => 'Protect Your Harvest';
+  String get onboardingTitle1 => 'Protect your harvest';
 
   @override
   String get onboardingBody1 =>
       'Smart Crops helps you detect crop problems early so you can protect your harvest.';
 
   @override
-  String get onboardingTitle2 => 'Scan and Know';
+  String get onboardingTitle2 => 'Scan and know';
 
   @override
   String get onboardingBody2 =>
       'Take a photo of your crop and get an instant diagnosis with clear next steps.';
 
   @override
-  String get onboardingTitle3 => 'Plan with Weather';
+  String get onboardingTitle3 => 'Plan with the weather';
 
   @override
   String get onboardingBody3 =>
@@ -1235,4 +1235,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authBack => 'Back';
+
+  @override
+  String onboardingProgress(int current, int total) {
+    return 'Step $current of $total';
+  }
+
+  @override
+  String get onboardingExampleForecast => 'Rain tomorrow';
+
+  @override
+  String get onboardingExampleTask => 'Spraying moved to Thursday';
 }

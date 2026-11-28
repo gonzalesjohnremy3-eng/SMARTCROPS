@@ -148,16 +148,16 @@ abstract class AppLocalizations {
   /// **'Next'**
   String get next;
 
-  /// No description provided for @getStarted.
+  /// getStarted
   ///
   /// In en, this message translates to:
-  /// **'Get Started'**
+  /// **'Get started'**
   String get getStarted;
 
-  /// No description provided for @onboardingTitle1.
+  /// onboardingTitle1
   ///
   /// In en, this message translates to:
-  /// **'Protect Your Harvest'**
+  /// **'Protect your harvest'**
   String get onboardingTitle1;
 
   /// No description provided for @onboardingBody1.
@@ -166,10 +166,10 @@ abstract class AppLocalizations {
   /// **'Smart Crops helps you detect crop problems early so you can protect your harvest.'**
   String get onboardingBody1;
 
-  /// No description provided for @onboardingTitle2.
+  /// onboardingTitle2
   ///
   /// In en, this message translates to:
-  /// **'Scan and Know'**
+  /// **'Scan and know'**
   String get onboardingTitle2;
 
   /// No description provided for @onboardingBody2.
@@ -178,10 +178,10 @@ abstract class AppLocalizations {
   /// **'Take a photo of your crop and get an instant diagnosis with clear next steps.'**
   String get onboardingBody2;
 
-  /// No description provided for @onboardingTitle3.
+  /// onboardingTitle3
   ///
   /// In en, this message translates to:
-  /// **'Plan with Weather'**
+  /// **'Plan with the weather'**
   String get onboardingTitle3;
 
   /// No description provided for @onboardingBody3.
@@ -2397,6 +2397,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Back'**
   String get authBack;
+
+  /// onboardingProgress
+  ///
+  /// In en, this message translates to:
+  /// **'Step {current} of {total}'**
+  String onboardingProgress(int current, int total);
+
+  /// onboardingExampleForecast
+  ///
+  /// In en, this message translates to:
+  /// **'Rain tomorrow'**
+  String get onboardingExampleForecast;
+
+  /// onboardingExampleTask
+  ///
+  /// In en, this message translates to:
+  /// **'Spraying moved to Thursday'**
+  String get onboardingExampleTask;
 }
 
 class _AppLocalizationsDelegate

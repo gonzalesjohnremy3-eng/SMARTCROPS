@@ -46,21 +46,21 @@ class AppLocalizationsTl extends AppLocalizations {
   String get getStarted => 'Simulan na';
 
   @override
-  String get onboardingTitle1 => 'Protektahan ang Ani';
+  String get onboardingTitle1 => 'Protektahan ang ani';
 
   @override
   String get onboardingBody1 =>
       'Tutulungan ka ng Smart Crops na maagap na matukoy ang mga suliranin sa pananim upang maprotektahan ang iyong ani.';
 
   @override
-  String get onboardingTitle2 => 'I-scan at Malaman';
+  String get onboardingTitle2 => 'I-scan at malaman';
 
   @override
   String get onboardingBody2 =>
       'Kunan ng litrato ang iyong pananim at makuha agad ang diagnosis na may malinaw susunod na hakbang.';
 
   @override
-  String get onboardingTitle3 => 'Magplano ayon sa Panahon';
+  String get onboardingTitle3 => 'Magplano ayon sa panahon';
 
   @override
   String get onboardingBody3 =>
@@ -1260,4 +1260,15 @@ class AppLocalizationsTl extends AppLocalizations {
 
   @override
   String get authBack => 'Bumalik';
+
+  @override
+  String onboardingProgress(int current, int total) {
+    return 'Hakbang $current sa $total';
+  }
+
+  @override
+  String get onboardingExampleForecast => 'Uulan bukas';
+
+  @override
+  String get onboardingExampleTask => 'Inilipat sa Huwebes ang pag-spray';
 }

@@ -19,7 +19,7 @@ void main() {
 
     expect(
       status,
-      contains('Current verification: flutter test (289 passing)'),
+      contains('Current verification: flutter test (296 passing)'),
     );
   });
 

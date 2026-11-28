@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:smart_crops/app/theme/app_tokens.dart';
 import 'package:smart_crops/app/widgets/app_logo.dart';
+import 'package:smart_crops/app/widgets/pill_button.dart';
+import 'package:smart_crops/app/widgets/reticle_frame.dart';
 import 'package:smart_crops/app/widgets/scrimmed_image.dart';
 import 'package:smart_crops/features/auth/domain/auth_failure.dart';
 import 'package:smart_crops/features/auth/domain/philippine_mobile.dart';
@@ -335,7 +337,7 @@ class _AuthScreenState extends State<AuthScreen> {
           ),
         ),
         const SizedBox(height: AppSpacing.s6),
-        _PrimaryButton(
+        PillButton(
           label: l10n.authSendOtp,
           isLoading: _isLoading,
           onPressed: _sendCode,
@@ -502,7 +504,7 @@ class _AuthScreenState extends State<AuthScreen> {
             ),
           ],
           const SizedBox(height: AppSpacing.s6),
-          _PrimaryButton(
+          PillButton(
             label: _isLogin ? l10n.authSignIn : l10n.authCreateAccount,
             isLoading: _isLoading,
             onPressed: _submitEmail,
@@ -718,7 +720,7 @@ class _HeroContent extends StatelessWidget {
           ),
           const Spacer(),
           const SizedBox(height: AppSpacing.s8),
-          _ReticleFrame(
+          ReticleFrame(
             child: Text(
               l10n.authTagline,
               style: theme.textTheme.displayLarge?.copyWith(
@@ -771,130 +773,6 @@ class _HeroContent extends StatelessWidget {
               ),
             ),
           ],
-        ],
-      ),
-    );
-  }
-}
-
-/// Scan-reticle corners around the promise, echoing the logo and Scan screen.
-class _ReticleFrame extends StatelessWidget {
-  const _ReticleFrame({required this.child});
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      foregroundPainter: _ReticlePainter(),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.s4,
-          vertical: AppSpacing.s3,
-        ),
-        child: child,
-      ),
-    );
-  }
-}
-
-class _ReticlePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    const arm = AppSpacing.s4;
-    final paint = Paint()
-      ..color = AppColors.leaf
-      ..strokeWidth = 2.5
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round;
-    final right = size.width;
-    final bottom = size.height;
-    final corners = [
-      [Offset(0, arm), Offset.zero, const Offset(arm, 0)],
-      [Offset(right - arm, 0), Offset(right, 0), Offset(right, arm)],
-      [Offset(0, bottom - arm), Offset(0, bottom), Offset(arm, bottom)],
-      [
-        Offset(right - arm, bottom),
-        Offset(right, bottom),
-        Offset(right, bottom - arm),
-      ],
-    ];
-    for (final corner in corners) {
-      canvas.drawPath(
-        Path()
-          ..moveTo(corner[0].dx, corner[0].dy)
-          ..lineTo(corner[1].dx, corner[1].dy)
-          ..lineTo(corner[2].dx, corner[2].dy),
-        paint,
-      );
-    }
-  }
-
-  @override
-  bool shouldRepaint(_ReticlePainter oldDelegate) => false;
-}
-
-/// Full-width pill with the trailing arrow nested in its own circle.
-class _PrimaryButton extends StatelessWidget {
-  const _PrimaryButton({
-    required this.label,
-    required this.isLoading,
-    required this.onPressed,
-  });
-
-  final String label;
-  final bool isLoading;
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return FilledButton(
-      onPressed: isLoading ? null : onPressed,
-      style: FilledButton.styleFrom(
-        minimumSize: const Size.fromHeight(
-          AppLayout.touchTarget + AppSpacing.s2,
-        ),
-        backgroundColor: AppColors.actionPrimary,
-        foregroundColor: AppColors.textInverse,
-        disabledBackgroundColor: AppColors.actionPrimary.withValues(alpha: 0.6),
-        shape: const StadiumBorder(),
-        padding: const EdgeInsets.only(
-          left: AppSpacing.s6,
-          right: AppSpacing.s2,
-        ),
-        elevation: 0,
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(
-              label,
-              style: Theme.of(
-                context,
-              ).textTheme.labelLarge?.copyWith(color: AppColors.textInverse),
-            ),
-          ),
-          Container(
-            width: AppSpacing.s10,
-            height: AppSpacing.s10,
-            decoration: BoxDecoration(
-              color: AppColors.textInverse.withValues(alpha: 0.14),
-              shape: BoxShape.circle,
-            ),
-            child: isLoading
-                ? const Padding(
-                    padding: EdgeInsets.all(AppSpacing.s3 - 1),
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: AppColors.textInverse,
-                    ),
-                  )
-                : const Icon(
-                    Icons.arrow_forward_rounded,
-                    color: AppColors.textInverse,
-                    size: AppSpacing.s5,
-                  ),
-          ),
         ],
       ),
     );

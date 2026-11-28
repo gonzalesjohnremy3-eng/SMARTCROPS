@@ -28,8 +28,8 @@
   "skip": "Skip",
   "back": "Back",
   "next": "Next",
-  "getStarted": "Get Started",
-  "onboardingTitle1": "Protect Your Harvest",
+  "getStarted": "Get started",
+  "onboardingTitle1": "Protect your harvest",
   "@onboarding.title.1": {
     "description": "Onboarding page 1 title"
   },
@@ -37,7 +37,7 @@
   "@onboarding.body.1": {
     "description": "Onboarding page 1 body"
   },
-  "onboardingTitle2": "Scan and Know",
+  "onboardingTitle2": "Scan and know",
   "@onboarding.title.2": {
     "description": "Onboarding page 2 title"
   },
@@ -45,7 +45,7 @@
   "@onboarding.body.2": {
     "description": "Onboarding page 2 body"
   },
-  "onboardingTitle3": "Plan with Weather",
+  "onboardingTitle3": "Plan with the weather",
   "@onboarding.title.3": {
     "description": "Onboarding page 3 title"
   },
@@ -1423,5 +1423,37 @@
   "authBack": "Back",
   "@authBack": {
     "description": "authBack"
+  },
+  "@onboardingTitle1": {
+    "description": "onboardingTitle1"
+  },
+  "@onboardingTitle2": {
+    "description": "onboardingTitle2"
+  },
+  "@onboardingTitle3": {
+    "description": "onboardingTitle3"
+  },
+  "@getStarted": {
+    "description": "getStarted"
+  },
+  "onboardingProgress": "Step {current} of {total}",
+  "@onboardingProgress": {
+    "description": "onboardingProgress",
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "onboardingExampleForecast": "Rain tomorrow",
+  "@onboardingExampleForecast": {
+    "description": "onboardingExampleForecast"
+  },
+  "onboardingExampleTask": "Spraying moved to Thursday",
+  "@onboardingExampleTask": {
+    "description": "onboardingExampleTask"
   }
 }

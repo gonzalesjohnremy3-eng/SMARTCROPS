@@ -46,21 +46,21 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get getStarted => 'Sugda na';
 
   @override
-  String get onboardingTitle1 => 'Pangtagaan ang Ani';
+  String get onboardingTitle1 => 'Pangtagaan ang ani';
 
   @override
   String get onboardingBody1 =>
       'Tabangan ka sa Smart Crops nga maagang makita ang mga suliranon sa tanom aron mapangtagaan ang imong ani.';
 
   @override
-  String get onboardingTitle2 => 'I-scan ug Hibaloa';
+  String get onboardingTitle2 => 'I-scan ug hibaloa';
 
   @override
   String get onboardingBody2 =>
       'Kunhao og litrato ang imong tanom ug daghan ug kagawasan nga diagnosis nga naay klarong sunod nga lakang.';
 
   @override
-  String get onboardingTitle3 => 'Planoon Base sa Panahon';
+  String get onboardingTitle3 => 'Planoha base sa panahon';
 
   @override
   String get onboardingBody3 =>
@@ -1256,4 +1256,15 @@ class AppLocalizationsCeb extends AppLocalizations {
 
   @override
   String get authBack => 'Balik';
+
+  @override
+  String onboardingProgress(int current, int total) {
+    return 'Lakang $current sa $total';
+  }
+
+  @override
+  String get onboardingExampleForecast => 'Mouwan ugma';
+
+  @override
+  String get onboardingExampleTask => 'Gibalhin sa Huwebes ang pag-spray';
 }

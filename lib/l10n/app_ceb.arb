@@ -9,11 +9,11 @@
   "back": "Mobalik",
   "next": "Sunod",
   "getStarted": "Sugda na",
-  "onboardingTitle1": "Pangtagaan ang Ani",
+  "onboardingTitle1": "Pangtagaan ang ani",
   "onboardingBody1": "Tabangan ka sa Smart Crops nga maagang makita ang mga suliranon sa tanom aron mapangtagaan ang imong ani.",
-  "onboardingTitle2": "I-scan ug Hibaloa",
+  "onboardingTitle2": "I-scan ug hibaloa",
   "onboardingBody2": "Kunhao og litrato ang imong tanom ug daghan ug kagawasan nga diagnosis nga naay klarong sunod nga lakang.",
-  "onboardingTitle3": "Planoon Base sa Panahon",
+  "onboardingTitle3": "Planoha base sa panahon",
   "onboardingBody3": "Awto nga mo-adjust ang imong Kalendaryo sa Uma base sa forecast aron dili masayang ang pagsikap.",
   "profileSetupStep1Title": "Mahitungod Kanimo",
   "profileSetupStep1Subtitle": "Isulti sa amo mahitungod kanimo ug sa imong uma",
@@ -964,5 +964,8 @@
   "authErrorOffline": "Walay koneksyon. Susiha ang imong mobile data ug sulayi pag-usab.",
   "authErrorGeneric": "Adunay sayop. Sulayi pag-usab.",
   "authOtherWays": "Laing paagi sa pag-sign in",
-  "authBack": "Balik"
+  "authBack": "Balik",
+  "onboardingProgress": "Lakang {current} sa {total}",
+  "onboardingExampleForecast": "Mouwan ugma",
+  "onboardingExampleTask": "Gibalhin sa Huwebes ang pag-spray"
 }

@@ -9,11 +9,11 @@
   "back": "Bumalik",
   "next": "Sunod",
   "getStarted": "Simulan na",
-  "onboardingTitle1": "Protektahan ang Ani",
+  "onboardingTitle1": "Protektahan ang ani",
   "onboardingBody1": "Tutulungan ka ng Smart Crops na maagap na matukoy ang mga suliranin sa pananim upang maprotektahan ang iyong ani.",
-  "onboardingTitle2": "I-scan at Malaman",
+  "onboardingTitle2": "I-scan at malaman",
   "onboardingBody2": "Kunan ng litrato ang iyong pananim at makuha agad ang diagnosis na may malinaw susunod na hakbang.",
-  "onboardingTitle3": "Magplano ayon sa Panahon",
+  "onboardingTitle3": "Magplano ayon sa panahon",
   "onboardingBody3": "Awtomatik na naaayon ang iyong Kalendaryo ng Bukid batay sa forecast upang hindi masayang ang pagsisikap.",
   "profileSetupStep1Title": "Tungkol Sa Iyo",
   "profileSetupStep1Subtitle": "Sabihin sa amin ang tungkol sa iyo at sa iyong bukid",
@@ -964,5 +964,8 @@
   "authErrorOffline": "Walang koneksyon. Tingnan ang iyong mobile data at subukang muli.",
   "authErrorGeneric": "May nangyaring mali. Subukang muli.",
   "authOtherWays": "Ibang paraan ng pag-sign in",
-  "authBack": "Bumalik"
+  "authBack": "Bumalik",
+  "onboardingProgress": "Hakbang {current} sa {total}",
+  "onboardingExampleForecast": "Uulan bukas",
+  "onboardingExampleTask": "Inilipat sa Huwebes ang pag-spray"
 }
