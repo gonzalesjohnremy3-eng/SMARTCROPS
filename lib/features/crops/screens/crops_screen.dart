@@ -10,6 +10,7 @@ import 'package:smart_crops/features/scan/domain/diagnosis_presenter.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/models/app_models.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
+import 'package:smart_crops/features/crops/widgets/crop_icon.dart';
 
 const _maxConditionChips = 3;
 
@@ -309,7 +310,7 @@ class _CropCard extends StatelessWidget {
                         color: surface,
                         borderRadius: BorderRadius.circular(AppRadius.card - 4),
                       ),
-                      child: Icon(Icons.eco_outlined, color: color),
+                      child: CropIcon(name: crop.cropName, color: color),
                     ),
                     const SizedBox(width: AppSpacing.s3),
                     Expanded(

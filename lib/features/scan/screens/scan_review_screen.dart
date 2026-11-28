@@ -18,6 +18,7 @@ import 'package:smart_crops/features/scan/domain/weekly_scan_window.dart';
 import 'package:smart_crops/features/scan/services/scan_queue_provider.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
+import 'package:smart_crops/features/crops/widgets/crop_icon.dart';
 
 String scanImageExtension(XFile file) {
   final name = file.name.contains('.') ? file.name : file.path.split('/').last;
@@ -294,11 +295,7 @@ class _CropPill extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
-              Icons.eco_outlined,
-              size: AppSpacing.s4,
-              color: AppColors.leaf,
-            ),
+            CropIcon(name: name, size: AppSpacing.s4, color: AppColors.leaf),
             const SizedBox(width: AppSpacing.s1 + 2),
             Flexible(
               child: Text(

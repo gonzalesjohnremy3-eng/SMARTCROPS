@@ -83,6 +83,7 @@ flutter:
     - assets/images/overlays/
     - assets/images/brand/
     - assets/data/
+    - assets/icons/crops/
 
   fonts:
     - family: Fraunces

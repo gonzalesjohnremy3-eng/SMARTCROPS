@@ -11,6 +11,7 @@ import 'package:smart_crops/features/profile/widgets/location_picker_sheet.dart'
 import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/models/app_models.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
+import 'package:smart_crops/features/crops/widgets/crop_icon.dart';
 
 const _gutter = AppSpacing.s5;
 
@@ -770,11 +771,7 @@ class _CropsSection extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(
-                          Icons.eco_outlined,
-                          size: AppSpacing.s4 + 2,
-                          color: AppColors.canopy,
-                        ),
+                        CropIcon(name: crop.cropName, size: AppSpacing.s4 + 2),
                         const SizedBox(width: AppSpacing.s2),
                         Flexible(
                           child: Text(
