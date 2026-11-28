@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_crops/app/analytics/analytics.dart';
 import 'package:smart_crops/app/theme/app_tokens.dart';
+import 'package:smart_crops/app/widgets/app_back_button.dart';
 import 'package:smart_crops/app/widgets/feedback_states.dart';
 import 'package:smart_crops/app/widgets/reticle_frame.dart';
 import 'package:smart_crops/features/calendar/domain/care_plan.dart';
@@ -80,6 +81,11 @@ class CarePlanScreen extends StatelessWidget {
                     AppSpacing.s10,
                   ),
                   children: [
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: AppBackButton(),
+                    ),
+                    const SizedBox(height: AppSpacing.s4),
                     Text(
                       l10n.carePlanTitle,
                       style: Theme.of(context).textTheme.headlineMedium
@@ -385,7 +391,7 @@ class _CarePlanRow extends StatelessWidget {
                       const SizedBox(height: AppSpacing.s2),
                       Text(
                         '${l10n.calendarWeatherAdjusted}: '
-                        '${loc.formatShortMonthDay(item.originalDate!)} → '
+                        '${loc.formatShortMonthDay(item.originalDate!)} › '
                         '${loc.formatShortMonthDay(item.effectiveDate)}',
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: AppColors.canopy,

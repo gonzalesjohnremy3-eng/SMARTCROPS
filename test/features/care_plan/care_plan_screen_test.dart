@@ -240,6 +240,12 @@ void main() {
     });
   }
 
+  testWidgets('has a Back button, so Back does not exit the app', (tester) async {
+    await _pump(tester, _fullPlan());
+
+    expect(find.byTooltip('Back'), findsOneWidget);
+  });
+
   testWidgets('meets tap-target and label guidelines', (tester) async {
     final handle = tester.ensureSemantics();
     await _pump(tester, _fullPlan(), size: const Size(390, 1600));

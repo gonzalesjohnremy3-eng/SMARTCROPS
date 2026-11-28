@@ -62,7 +62,7 @@ void main() {
 
     expect(find.byTooltip('Home'), findsOneWidget);
     expect(find.byTooltip('My Crops'), findsOneWidget);
-    expect(find.byTooltip('Scan Crop'), findsOneWidget);
+    expect(find.byTooltip('Scan a crop'), findsOneWidget);
     expect(find.byTooltip('Field Calendar'), findsOneWidget);
     expect(find.byTooltip('Profile'), findsOneWidget);
   });

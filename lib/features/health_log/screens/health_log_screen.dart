@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_crops/app/theme/app_tokens.dart';
+import 'package:smart_crops/app/widgets/app_back_button.dart';
 import 'package:smart_crops/app/widgets/feedback_states.dart';
 import 'package:smart_crops/app/widgets/pill_button.dart';
 import 'package:smart_crops/app/widgets/reticle_frame.dart';
@@ -67,6 +68,11 @@ class _HealthLogScreenState extends State<HealthLogScreen> {
                     AppSpacing.s10,
                   ),
                   children: [
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: AppBackButton(),
+                    ),
+                    const SizedBox(height: AppSpacing.s4),
                     Text(
                       l10n.healthLogTitle,
                       style: theme.textTheme.headlineMedium?.copyWith(

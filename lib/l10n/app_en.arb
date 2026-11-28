@@ -62,6 +62,107 @@
   "@onboarding.body.3": {
     "description": "Onboarding page 3 body"
   },
+  "navHome": "Home",
+  "@navHome": {
+    "description": "Bottom navigation label"
+  },
+  "navCrops": "Crops",
+  "@navCrops": {
+    "description": "Bottom navigation label"
+  },
+  "navScan": "Scan",
+  "@navScan": {
+    "description": "Bottom navigation label"
+  },
+  "navCalendar": "Calendar",
+  "@navCalendar": {
+    "description": "Bottom navigation label"
+  },
+  "navProfile": "Profile",
+  "@navProfile": {
+    "description": "Bottom navigation label"
+  },
+  "locationPickerTitle": "Your location",
+  "@locationPickerTitle": {
+    "description": "Location picker"
+  },
+  "locationUseCurrent": "Use my current location",
+  "@locationUseCurrent": {
+    "description": "Location picker"
+  },
+  "locationFinding": "Finding your location…",
+  "@locationFinding": {
+    "description": "Location picker"
+  },
+  "locationProvinceLabel": "Province",
+  "@locationProvinceLabel": {
+    "description": "Location picker"
+  },
+  "locationChooseArea": "City or municipality",
+  "@locationChooseArea": {
+    "description": "Location picker"
+  },
+  "locationChooseBarangay": "Barangay",
+  "@locationChooseBarangay": {
+    "description": "Location picker"
+  },
+  "locationSearchHint": "Search",
+  "@locationSearchHint": {
+    "description": "Location picker"
+  },
+  "locationChangeArea": "Change city or municipality",
+  "@locationChangeArea": {
+    "description": "Location picker"
+  },
+  "locationFoundChooseBarangay": "We found {area}. Now choose your barangay.",
+  "@locationFoundChooseBarangay": {
+    "description": "Location picker: the city was found from the phone, the barangay is still needed",
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "locationPermissionOff": "Location permission is off. You can choose your location below.",
+  "@locationPermissionOff": {
+    "description": "Location picker"
+  },
+  "locationServiceOff": "Your phone's location is off. Turn it on, or choose your location below.",
+  "@locationServiceOff": {
+    "description": "Location picker"
+  },
+  "locationOutsideProvince": "We only cover Davao del Sur for now. Choose your location below.",
+  "@locationOutsideProvince": {
+    "description": "Location picker"
+  },
+  "locationUnavailable": "We couldn't get your location. Choose it below.",
+  "@locationUnavailable": {
+    "description": "Location picker"
+  },
+  "locationChoose": "Choose your location",
+  "@locationChoose": {
+    "description": "Location picker"
+  },
+  "avatarChange": "Change photo",
+  "@avatarChange": {
+    "description": "Profile photo"
+  },
+  "avatarTake": "Take a photo",
+  "@avatarTake": {
+    "description": "Profile photo"
+  },
+  "avatarChoose": "Choose from gallery",
+  "@avatarChoose": {
+    "description": "Profile photo"
+  },
+  "avatarUploadFailed": "We couldn't upload your photo. Please try again.",
+  "@avatarUploadFailed": {
+    "description": "Profile photo"
+  },
+  "avatarUpdated": "Photo updated.",
+  "@avatarUpdated": {
+    "description": "Profile photo"
+  },
   "fieldRequired": "This field is required",
   "@fieldRequired": {
     "description": "Form validation: a required field was left empty"
@@ -1136,7 +1237,7 @@
   "@agriProManageBilledBy": {
     "description": "agriProManageBilledBy"
   },
-  "agriProManageCancelHow": "To cancel, open Google Play → Subscriptions → Smart Crops, or the App Store → Subscriptions. Access continues until the end of the paid period.",
+  "agriProManageCancelHow": "To cancel, open Google Play › Subscriptions › Smart Crops, or the App Store › Subscriptions. Access continues until the end of the paid period.",
   "@agriProManageCancelHow": {
     "description": "agriProManageCancelHow"
   },

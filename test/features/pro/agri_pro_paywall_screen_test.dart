@@ -242,6 +242,42 @@ void main() {
     );
   });
 
+  testWidgets('each plan in the comparison has its own icon', (tester) async {
+    await _pumpPaywall(
+      tester,
+      snapshot: _snapshot(),
+      billing: _FakeBilling(outcome: const BillingUnavailable()),
+      subscriptionRow: null,
+    );
+
+    final table = find.byKey(const Key('pro-comparison-table'));
+    expect(
+      find.descendant(of: table, matching: find.byType(Icon)),
+      findsNWidgets(3),
+    );
+  });
+
+  testWidgets('the comparison rows start at the left, not the middle', (
+    tester,
+  ) async {
+    await _pumpPaywall(
+      tester,
+      snapshot: _snapshot(),
+      billing: _FakeBilling(outcome: const BillingUnavailable()),
+      subscriptionRow: null,
+    );
+
+    final table = find.byKey(const Key('pro-comparison-table'));
+    final tableLeft = tester.getTopLeft(table).dx;
+    final iconLeft = tester
+        .getTopLeft(
+          find.descendant(of: table, matching: find.byType(Icon)).first,
+        )
+        .dx;
+
+    expect(iconLeft - tableLeft, lessThan(32));
+  });
+
   testWidgets('says what Pro adds beyond unlimited scans', (tester) async {
     await _pumpPaywall(
       tester,

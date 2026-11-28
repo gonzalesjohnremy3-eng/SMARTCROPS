@@ -32,6 +32,33 @@ void main() {
       expect(result.map((p) => p.productName), ['Neem Oil', 'Bio-Pesticide B. subtilis', 'Copper Fungicide', 'NPK 16-16-16']);
     });
 
+    group('matching any word (a diagnosis handed over from a scan)', () {
+      test('finds the product for the one word that matches', () {
+        final result = filterAndSortProducts(catalog, query: 'Early blight', matchAnyWord: true);
+        expect(result.map((p) => p.productName), ['Copper Fungicide']);
+      });
+
+      test('the strict search still needs every word', () {
+        final result = filterAndSortProducts(catalog, query: 'Early blight');
+        expect(result, isEmpty);
+      });
+
+      test('finds a leaf spot product for a longer diagnosis', () {
+        final result = filterAndSortProducts(catalog, query: 'Bacterial leaf spot', matchAnyWord: true);
+        expect(result.map((p) => p.productName), ['Neem Oil']);
+      });
+
+      test('ignores short words and punctuation that would match everything', () {
+        final result = filterAndSortProducts(catalog, query: 'of - / a', matchAnyWord: true);
+        expect(result, isEmpty);
+      });
+
+      test('ranks the product that matches more words first', () {
+        final result = filterAndSortProducts(catalog, query: 'Powdery mildew on leaf', matchAnyWord: true);
+        expect(result.first.productName, 'Bio-Pesticide B. subtilis');
+      });
+    });
+
     test('category filter narrows the catalog', () {
       final result = filterAndSortProducts(catalog, category: 'Organic Treatment');
       expect(result, hasLength(1));

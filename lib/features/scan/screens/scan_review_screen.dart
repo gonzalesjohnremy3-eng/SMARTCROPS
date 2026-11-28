@@ -42,6 +42,9 @@ class ScanReviewScreen extends StatefulWidget {
   State<ScanReviewScreen> createState() => _ScanReviewScreenState();
 }
 
+/// How long a photo upload may take before the scan is queued for later.
+const _uploadTimeout = Duration(seconds: 45);
+
 class _ScanReviewScreenState extends State<ScanReviewScreen> {
   bool _isAnalyzing = false;
   String? _errorMessage;
@@ -81,9 +84,17 @@ class _ScanReviewScreenState extends State<ScanReviewScreen> {
       }
 
       final uploader = _SupabaseStorageUploader(service);
-      final imageUrl = await uploader.upload(widget.imageFile);
+      debugPrint('scan: uploading photo');
+      // A stalled upload falls into the catch below, which queues the scan.
+      final imageUrl = await uploader
+          .upload(widget.imageFile)
+          .timeout(_uploadTimeout);
+      debugPrint('scan: photo uploaded');
 
       final result = await service.performAiScan(imageUrl, widget.cropName);
+      debugPrint(
+        'scan: analysis finished (${result == null ? 'failed' : 'ok'})',
+      );
 
       if (!mounted) return;
 

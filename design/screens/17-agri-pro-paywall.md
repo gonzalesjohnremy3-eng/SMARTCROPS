@@ -12,7 +12,7 @@
 - **Hero:** the Pro photo under a dark scrim, a premium mark, and the headline "Protect more of what you grow." in Fraunces.
 - **Quota context:** only when the Farmer arrives from the scan limit, a clay-tinted callout saying how many of the 5 free scans this week they have used.
 - **What you get:** one raised surface listing unlimited scans, priority analysis, health trends, weather-adjusted reminders and the offline pack.
-- **Compare:** Free, Monthly and Seasonal as stacked rows (plan, price, what is included) on one surface. It no longer scrolls sideways.
+- **Compare:** Free, Monthly and Seasonal as stacked rows on one surface, each with its own icon, left-aligned, then the plan name and price and what is included. It no longer scrolls sideways.
 - **Plans:** two selectable cards, Seasonal (pre-selected, with its saving) and Monthly, each with the price, a one-line reason and a radio mark. The selected card has a canopy border.
 - **Terms:** the renewal line for the selected plan and "Cancel anytime." directly above the button.
 - **Start Agri Pro:** a full-width pill button with a loading state while the store responds. Under it, a quiet "Not now", then the payment note.

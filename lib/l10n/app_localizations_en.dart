@@ -78,6 +78,85 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your Field Calendar adjusts tasks based on the forecast so you never waste effort.';
 
   @override
+  String get navHome => 'Home';
+
+  @override
+  String get navCrops => 'Crops';
+
+  @override
+  String get navScan => 'Scan';
+
+  @override
+  String get navCalendar => 'Calendar';
+
+  @override
+  String get navProfile => 'Profile';
+
+  @override
+  String get locationPickerTitle => 'Your location';
+
+  @override
+  String get locationUseCurrent => 'Use my current location';
+
+  @override
+  String get locationFinding => 'Finding your location…';
+
+  @override
+  String get locationProvinceLabel => 'Province';
+
+  @override
+  String get locationChooseArea => 'City or municipality';
+
+  @override
+  String get locationChooseBarangay => 'Barangay';
+
+  @override
+  String get locationSearchHint => 'Search';
+
+  @override
+  String get locationChangeArea => 'Change city or municipality';
+
+  @override
+  String locationFoundChooseBarangay(String area) {
+    return 'We found $area. Now choose your barangay.';
+  }
+
+  @override
+  String get locationPermissionOff =>
+      'Location permission is off. You can choose your location below.';
+
+  @override
+  String get locationServiceOff =>
+      'Your phone\'s location is off. Turn it on, or choose your location below.';
+
+  @override
+  String get locationOutsideProvince =>
+      'We only cover Davao del Sur for now. Choose your location below.';
+
+  @override
+  String get locationUnavailable =>
+      'We couldn\'t get your location. Choose it below.';
+
+  @override
+  String get locationChoose => 'Choose your location';
+
+  @override
+  String get avatarChange => 'Change photo';
+
+  @override
+  String get avatarTake => 'Take a photo';
+
+  @override
+  String get avatarChoose => 'Choose from gallery';
+
+  @override
+  String get avatarUploadFailed =>
+      'We couldn\'t upload your photo. Please try again.';
+
+  @override
+  String get avatarUpdated => 'Photo updated.';
+
+  @override
   String get fieldRequired => 'This field is required';
 
   @override
@@ -889,7 +968,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get agriProManageCancelHow =>
-      'To cancel, open Google Play → Subscriptions → Smart Crops, or the App Store → Subscriptions. Access continues until the end of the paid period.';
+      'To cancel, open Google Play › Subscriptions › Smart Crops, or the App Store › Subscriptions. Access continues until the end of the paid period.';
 
   @override
   String get agriProRestore => 'Restore purchase';

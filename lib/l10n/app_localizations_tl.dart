@@ -78,6 +78,85 @@ class AppLocalizationsTl extends AppLocalizations {
       'Awtomatik na naaayon ang iyong Kalendaryo ng Bukid batay sa forecast upang hindi masayang ang pagsisikap.';
 
   @override
+  String get navHome => 'Home';
+
+  @override
+  String get navCrops => 'Pananim';
+
+  @override
+  String get navScan => 'I-scan';
+
+  @override
+  String get navCalendar => 'Kalendaryo';
+
+  @override
+  String get navProfile => 'Profile';
+
+  @override
+  String get locationPickerTitle => 'Iyong lokasyon';
+
+  @override
+  String get locationUseCurrent => 'Gamitin ang aking kasalukuyang lokasyon';
+
+  @override
+  String get locationFinding => 'Hinahanap ang iyong lokasyon…';
+
+  @override
+  String get locationProvinceLabel => 'Lalawigan';
+
+  @override
+  String get locationChooseArea => 'Lungsod o munisipalidad';
+
+  @override
+  String get locationChooseBarangay => 'Barangay';
+
+  @override
+  String get locationSearchHint => 'Maghanap';
+
+  @override
+  String get locationChangeArea => 'Palitan ang lungsod o munisipalidad';
+
+  @override
+  String locationFoundChooseBarangay(String area) {
+    return 'Natagpuan namin ang $area. Piliin na ngayon ang iyong barangay.';
+  }
+
+  @override
+  String get locationPermissionOff =>
+      'Naka-off ang pahintulot sa lokasyon. Maaari mong piliin ang iyong lokasyon sa ibaba.';
+
+  @override
+  String get locationServiceOff =>
+      'Naka-off ang lokasyon ng iyong telepono. I-on ito, o piliin ang iyong lokasyon sa ibaba.';
+
+  @override
+  String get locationOutsideProvince =>
+      'Davao del Sur pa lang ang sakop namin sa ngayon. Piliin ang iyong lokasyon sa ibaba.';
+
+  @override
+  String get locationUnavailable =>
+      'Hindi namin makuha ang iyong lokasyon. Piliin ito sa ibaba.';
+
+  @override
+  String get locationChoose => 'Piliin ang iyong lokasyon';
+
+  @override
+  String get avatarChange => 'Palitan ang litrato';
+
+  @override
+  String get avatarTake => 'Kumuha ng litrato';
+
+  @override
+  String get avatarChoose => 'Pumili mula sa gallery';
+
+  @override
+  String get avatarUploadFailed =>
+      'Hindi namin ma-upload ang iyong litrato. Pakisubukan muli.';
+
+  @override
+  String get avatarUpdated => 'Napalitan ang litrato.';
+
+  @override
   String get fieldRequired => 'Kailangan ang field na ito';
 
   @override
@@ -904,7 +983,7 @@ class AppLocalizationsTl extends AppLocalizations {
 
   @override
   String get agriProManageCancelHow =>
-      'Upang kanselahin, buksan ang Google Play → Subscriptions → Smart Crops, o ang App Store → Subscriptions. Mananatili ang access hanggang sa matapos ang bayad na panahon.';
+      'Upang kanselahin, buksan ang Google Play › Subscriptions › Smart Crops, o ang App Store › Subscriptions. Mananatili ang access hanggang sa matapos ang bayad na panahon.';
 
   @override
   String get agriProRestore => 'Ibalik ang bili';

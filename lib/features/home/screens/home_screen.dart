@@ -137,7 +137,7 @@ class HomeScreen extends StatelessWidget {
               actionLabel: AppLocalizations.of(context).viewAll,
               onAction: () {
                 context.trackEvent('care_plan_opened_from_home');
-                context.go('/care-plan');
+                context.push('/care-plan');
               },
             ),
             _CareList(events: service.calendarEvents),
@@ -145,7 +145,7 @@ class HomeScreen extends StatelessWidget {
             _SectionHeader(
               title: AppLocalizations.of(context).homeRecentScans,
               actionLabel: AppLocalizations.of(context).viewAll,
-              onAction: () => context.go('/health-log'),
+              onAction: () => context.push('/health-log'),
             ),
             _ScanList(scans: service.scanHistory, now: now ?? DateTime.now()),
           ];
@@ -275,7 +275,7 @@ class _Greeting extends StatelessWidget {
           offset: const Offset(-6, 6),
           child: IconButton(
             tooltip: l10n.advisoriesTitle,
-            onPressed: () => context.go('/advisories'),
+            onPressed: () => context.push('/advisories'),
             style: IconButton.styleFrom(
               fixedSize: const Size.square(AppLayout.touchTarget),
               backgroundColor: AppColors.surfaceSunken,
@@ -497,7 +497,7 @@ class _AdvisoryStrip extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppRadius.card),
         child: InkWell(
           borderRadius: BorderRadius.circular(AppRadius.card),
-          onTap: () => context.go('/advisories'),
+          onTap: () => context.push('/advisories'),
           child: Padding(
             padding: const EdgeInsets.all(AppSpacing.s4),
             child: Row(
@@ -810,7 +810,7 @@ class _ScanRow extends StatelessWidget {
     };
 
     return InkWell(
-      onTap: () => context.go('/health-log'),
+      onTap: () => context.push('/health-log'),
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.s4),
         child: Row(

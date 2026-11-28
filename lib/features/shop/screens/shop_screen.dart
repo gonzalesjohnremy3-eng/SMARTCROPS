@@ -199,6 +199,11 @@ class _ShopScreenState extends State<ShopScreen> {
                   snapshot.data ?? const [],
                   query: _query,
                   category: _category,
+                  // The diagnosis from a scan is a phrase; until the Farmer
+                  // edits it, one matching word is enough.
+                  matchAnyWord:
+                      widget.initialQuery != null &&
+                      _query == widget.initialQuery,
                 );
                 if (products.isEmpty) {
                   return ConstrainedBox(

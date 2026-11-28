@@ -53,6 +53,7 @@ void main() {
     List<MerchantProduct> products, {
     String locale = 'en',
     double textScale = 1,
+    String? initialQuery,
   }) {
     return MultiProvider(
       providers: [
@@ -75,7 +76,7 @@ void main() {
           ).copyWith(textScaler: TextScaler.linear(textScale)),
           child: child!,
         ),
-        home: const ShopScreen(),
+        home: ShopScreen(initialQuery: initialQuery),
       ),
     );
   }
@@ -85,6 +86,38 @@ void main() {
     _product(name: 'Neem Oil Organic Spray Concentrate', category: 'Organic Treatment', disease: 'Leaf Spot', price: 280),
     _product(name: 'Balanced NPK Fertilizer', category: 'Fertilizer', disease: 'Nutrient deficiency', price: 520.5),
   ];
+
+  testWidgets('a diagnosis from a scan finds the product for its key word', (tester) async {
+    await tester.binding.setSurfaceSize(const Size(390, 1800));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+
+    await tester.pumpWidget(buildShop(catalog, initialQuery: 'Early blight'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Copper Fungicide'), findsOneWidget);
+  });
+
+  testWidgets('a diagnosis from a scan hides products that do not fit it', (tester) async {
+    await tester.binding.setSurfaceSize(const Size(390, 1800));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+
+    await tester.pumpWidget(buildShop(catalog, initialQuery: 'Early blight'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Balanced NPK Fertilizer'), findsNothing);
+  });
+
+  testWidgets('once the Farmer edits the search it matches every word again', (tester) async {
+    await tester.binding.setSurfaceSize(const Size(390, 1800));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+
+    await tester.pumpWidget(buildShop(catalog, initialQuery: 'Early blight'));
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextField), 'Early blight x');
+    await tester.pumpAndSettle();
+
+    expect(find.text('Copper Fungicide'), findsNothing);
+  });
 
   testWidgets('says what the shop is for', (tester) async {
     await tester.binding.setSurfaceSize(const Size(390, 1800));

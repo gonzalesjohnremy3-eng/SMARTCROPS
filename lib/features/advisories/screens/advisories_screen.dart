@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_crops/app/analytics/analytics.dart';
 import 'package:smart_crops/app/theme/app_tokens.dart';
+import 'package:smart_crops/app/widgets/app_back_button.dart';
 import 'package:smart_crops/app/widgets/feedback_states.dart';
 import 'package:smart_crops/app/widgets/reticle_frame.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
@@ -55,6 +56,11 @@ class AdvisoriesScreen extends StatelessWidget {
                     AppSpacing.s10,
                   ),
                   children: [
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: AppBackButton(),
+                    ),
+                    const SizedBox(height: AppSpacing.s4),
                     // Wrap lets the action drop under long translations.
                     Wrap(
                       alignment: WrapAlignment.spaceBetween,

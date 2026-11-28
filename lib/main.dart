@@ -21,6 +21,7 @@ import 'services/smart_crops_service.dart';
 import 'services/weather_service.dart';
 import 'features/pro/services/agri_pro_entitlement.dart';
 import 'features/pro/domain/billing.dart';
+import 'features/profile/services/device_place_finder.dart';
 import 'features/scan/data/shared_preferences_scan_queue_store.dart';
 import 'features/scan/services/scan_queue_provider.dart';
 
@@ -141,6 +142,7 @@ class _SmartCropsAppState extends State<SmartCropsApp> {
         ChangeNotifierProvider.value(value: widget.onboardingController),
         ChangeNotifierProvider.value(value: widget.agriProEntitlement),
         Provider<BillingRepository>.value(value: widget.billingRepository),
+        Provider<DevicePlaceFinder>(create: (_) => const GeolocatorPlaceFinder()),
         ChangeNotifierProvider(
           create: (context) => ScanQueueProvider(
             store: SharedPreferencesScanQueueStore(),

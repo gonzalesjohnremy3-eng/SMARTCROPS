@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_crops/app/analytics/analytics.dart';
 import 'package:smart_crops/app/localization/locale_provider.dart';
 import 'package:smart_crops/app/theme/app_tokens.dart';
 import 'package:smart_crops/app/widgets/pill_button.dart';
 import 'package:smart_crops/features/pro/services/agri_pro_entitlement.dart';
+import 'package:smart_crops/features/profile/widgets/location_picker_sheet.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/models/app_models.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
@@ -13,7 +15,13 @@ import 'package:smart_crops/services/smart_crops_service.dart';
 const _gutter = AppSpacing.s5;
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  const ProfileScreen({super.key, this.pickLocation, this.pickAvatar});
+
+  /// Asks where the Farmer farms; the Davao del Sur picker when null.
+  final Future<String?> Function(BuildContext context)? pickLocation;
+
+  /// Picks a profile photo; the camera or gallery when null.
+  final Future<XFile?> Function(ImageSource source)? pickAvatar;
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -26,6 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final _phoneController = TextEditingController();
   bool _isEditing = false;
   bool _isSaving = false;
+  bool _isUploadingAvatar = false;
 
   @override
   void initState() {
@@ -73,6 +82,64 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  Future<void> _chooseLocation() async {
+    final chosen = await (widget.pickLocation ?? showLocationPicker)(context);
+    if (chosen != null && mounted) {
+      setState(() => _locationController.text = chosen);
+    }
+  }
+
+  Future<void> _changeAvatar() async {
+    final l10n = AppLocalizations.of(context);
+    final service = context.read<SmartCropsService>();
+    final messenger = ScaffoldMessenger.of(context);
+
+    final source = await showModalBottomSheet<ImageSource>(
+      context: context,
+      useRootNavigator: true,
+      showDragHandle: true,
+      backgroundColor: AppColors.paper,
+      builder: (sheetContext) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _PhotoSourceTile(
+              icon: Icons.photo_camera_outlined,
+              label: l10n.avatarTake,
+              onTap: () => Navigator.of(sheetContext).pop(ImageSource.camera),
+            ),
+            _PhotoSourceTile(
+              icon: Icons.photo_library_outlined,
+              label: l10n.avatarChoose,
+              onTap: () => Navigator.of(sheetContext).pop(ImageSource.gallery),
+            ),
+            const SizedBox(height: AppSpacing.s2),
+          ],
+        ),
+      ),
+    );
+    if (source == null || !mounted) return;
+
+    final pick =
+        widget.pickAvatar ??
+        (ImageSource s) =>
+            ImagePicker().pickImage(source: s, maxWidth: 600, imageQuality: 85);
+    final file = await pick(source);
+    if (file == null || !mounted) return;
+
+    setState(() => _isUploadingAvatar = true);
+    try {
+      final bytes = await file.readAsBytes();
+      final isPng = file.name.toLowerCase().endsWith('.png');
+      await service.updateAvatar(bytes, extension: isPng ? 'png' : 'jpg');
+      messenger.showSnackBar(SnackBar(content: Text(l10n.avatarUpdated)));
+    } catch (_) {
+      messenger.showSnackBar(SnackBar(content: Text(l10n.avatarUploadFailed)));
+    } finally {
+      if (mounted) setState(() => _isUploadingAvatar = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final service = context.watch<SmartCropsService>();
@@ -83,7 +150,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       _Identity(
         profile: profile,
         isEditing: _isEditing,
+        isUploadingAvatar: _isUploadingAvatar,
         onToggleEdit: () => setState(() => _isEditing = !_isEditing),
+        onChangePhoto: _changeAvatar,
       ),
       const SizedBox(height: AppSpacing.s5),
       _FarmDetails(
@@ -94,6 +163,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         farmController: _farmController,
         locationController: _locationController,
         phoneController: _phoneController,
+        onChooseLocation: _chooseLocation,
       ),
       const SizedBox(height: AppSpacing.s8),
       _CropsSection(crops: crops),
@@ -209,14 +279,15 @@ class _Raised extends StatelessWidget {
 }
 
 class _SectionTitle extends StatelessWidget {
-  const _SectionTitle(this.text);
+  const _SectionTitle(this.text, {this.padded = true});
 
   final String text;
+  final bool padded;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: AppSpacing.s3),
+      padding: EdgeInsets.only(bottom: padded ? AppSpacing.s3 : 0),
       child: Text(
         text,
         style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -232,12 +303,16 @@ class _Identity extends StatelessWidget {
   const _Identity({
     required this.profile,
     required this.isEditing,
+    required this.isUploadingAvatar,
     required this.onToggleEdit,
+    required this.onChangePhoto,
   });
 
   final UserProfile? profile;
   final bool isEditing;
+  final bool isUploadingAvatar;
   final VoidCallback onToggleEdit;
+  final VoidCallback onChangePhoto;
 
   @override
   Widget build(BuildContext context) {
@@ -252,21 +327,12 @@ class _Identity extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          width: AppSpacing.s12 + AppSpacing.s4,
-          height: AppSpacing.s12 + AppSpacing.s4,
-          alignment: Alignment.center,
-          decoration: const BoxDecoration(
-            color: AppColors.canopy,
-            shape: BoxShape.circle,
-          ),
-          child: Text(
-            String.fromCharCode(name.runes.first).toUpperCase(),
-            style: theme.textTheme.headlineMedium?.copyWith(
-              fontFamily: 'Fraunces',
-              color: AppColors.textInverse,
-            ),
-          ),
+        _Avatar(
+          name: name,
+          imageUrl: profile?.avatarUrl,
+          isEditing: isEditing,
+          isUploading: isUploadingAvatar,
+          onTap: onChangePhoto,
         ),
         const SizedBox(width: AppSpacing.s4),
         Expanded(
@@ -337,6 +403,7 @@ class _FarmDetails extends StatelessWidget {
     required this.farmController,
     required this.locationController,
     required this.phoneController,
+    required this.onChooseLocation,
   });
 
   final bool editing;
@@ -346,6 +413,7 @@ class _FarmDetails extends StatelessWidget {
   final TextEditingController farmController;
   final TextEditingController locationController;
   final TextEditingController phoneController;
+  final VoidCallback onChooseLocation;
 
   @override
   Widget build(BuildContext context) {
@@ -370,7 +438,11 @@ class _FarmDetails extends StatelessWidget {
         children: [
           field(nameController, l10n.fullName),
           field(farmController, l10n.farmName),
-          field(locationController, l10n.location),
+          _LocationField(
+            key: const Key('profile_location_field'),
+            controller: locationController,
+            onTap: onChooseLocation,
+          ),
           field(phoneController, l10n.phoneNumber, phone: true),
           const SizedBox(height: AppSpacing.s2),
           PillButton(
@@ -400,6 +472,201 @@ class _FarmDetails extends StatelessWidget {
           value: phoneController.text,
         ),
       ],
+    );
+  }
+}
+
+class _Avatar extends StatelessWidget {
+  const _Avatar({
+    required this.name,
+    required this.imageUrl,
+    required this.isEditing,
+    required this.isUploading,
+    required this.onTap,
+  });
+
+  final String name;
+  final String? imageUrl;
+  final bool isEditing;
+  final bool isUploading;
+  final VoidCallback onTap;
+
+  static const double _size = AppSpacing.s12 + AppSpacing.s4;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final initial = Container(
+      width: _size,
+      height: _size,
+      alignment: Alignment.center,
+      color: AppColors.canopy,
+      child: Text(
+        String.fromCharCode(name.runes.first).toUpperCase(),
+        style: theme.textTheme.headlineMedium?.copyWith(
+          fontFamily: 'Fraunces',
+          color: AppColors.textInverse,
+        ),
+      ),
+    );
+    final url = imageUrl;
+
+    return Semantics(
+      button: isEditing,
+      label: isEditing ? l10n.avatarChange : null,
+      child: InkWell(
+        key: const Key('profile_avatar'),
+        customBorder: const CircleBorder(),
+        onTap: isEditing && !isUploading ? onTap : null,
+        child: SizedBox(
+          width: _size,
+          height: _size,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              // Every photo is cropped to a circle, whatever its shape.
+              ClipOval(
+                child: url == null
+                    ? initial
+                    : Image.network(
+                        url,
+                        key: const Key('profile_avatar_image'),
+                        width: _size,
+                        height: _size,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, _, _) => initial,
+                      ),
+              ),
+              if (isUploading)
+                const Positioned.fill(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Color(0x66000000),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: SizedBox(
+                        width: AppSpacing.s6,
+                        height: AppSpacing.s6,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: AppColors.textInverse,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              if (isEditing && !isUploading)
+                Positioned(
+                  right: -AppSpacing.s1,
+                  bottom: -AppSpacing.s1,
+                  child: Container(
+                    key: const Key('profile_avatar_badge'),
+                    width: AppSpacing.s6 + AppSpacing.s1,
+                    height: AppSpacing.s6 + AppSpacing.s1,
+                    decoration: BoxDecoration(
+                      color: AppColors.actionPrimary,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: AppColors.paper, width: 2),
+                    ),
+                    child: const Icon(
+                      Icons.photo_camera_rounded,
+                      size: AppSpacing.s4,
+                      color: AppColors.textInverse,
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _PhotoSourceTile extends StatelessWidget {
+  const _PhotoSourceTile({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: AppLayout.touchTarget),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.s5,
+            vertical: AppSpacing.s3,
+          ),
+          child: Row(
+            children: [
+              Icon(icon, color: AppColors.canopy),
+              const SizedBox(width: AppSpacing.s4),
+              Expanded(
+                child: Text(
+                  label,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// The location is chosen from the Davao del Sur list, not typed.
+class _LocationField extends StatelessWidget {
+  const _LocationField({
+    super.key,
+    required this.controller,
+    required this.onTap,
+  });
+
+  final TextEditingController controller;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final text = controller.text.trim();
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpacing.s3),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(AppRadius.card),
+        child: InputDecorator(
+          isEmpty: text.isEmpty,
+          decoration: InputDecoration(
+            labelText: l10n.location,
+            hintText: l10n.locationChoose,
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+            suffixIcon: const Icon(Icons.my_location_rounded),
+          ),
+          child: text.isEmpty
+              ? null
+              : Text(
+                  text,
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+        ),
+      ),
     );
   }
 }
@@ -463,19 +730,20 @@ class _CropsSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Wrap lets "Manage" drop under long translations at large text.
-        Wrap(
-          alignment: WrapAlignment.spaceBetween,
-          crossAxisAlignment: WrapCrossAlignment.center,
+        Row(
           children: [
-            _SectionTitle(l10n.profileCrops),
+            Expanded(child: _SectionTitle(l10n.profileCrops, padded: false)),
             TextButton(
-              onPressed: () => context.go('/setup/profile'),
-              style: TextButton.styleFrom(foregroundColor: AppColors.canopy),
+              onPressed: () => context.push('/manage-crops'),
+              style: TextButton.styleFrom(
+                foregroundColor: AppColors.canopy,
+                minimumSize: const Size(0, AppLayout.touchTarget),
+              ),
               child: Text(l10n.profileManageCrops),
             ),
           ],
         ),
+        const SizedBox(height: AppSpacing.s2),
         if (crops.isEmpty)
           Text(
             l10n.cropsEmpty,
