@@ -16,10 +16,16 @@ import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
 import 'package:smart_crops/services/weather_service.dart';
 
+/// Keeps the golden off the network: Home asks for weather when it opens.
+class _OfflineWeather extends WeatherService {
+  @override
+  Future<void> fetchWeatherForLocation(String location) async {}
+}
+
 Widget _wrap(Widget child) {
   return MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (_) => WeatherService()),
+      ChangeNotifierProvider<WeatherService>(create: (_) => _OfflineWeather()),
       ChangeNotifierProvider(create: (_) => SmartCropsService()),
     ],
     child: MaterialApp(
@@ -39,11 +45,21 @@ Widget _wrap(Widget child) {
 
 Future<void> _loadFonts() async {
   final fraunces = FontLoader('Fraunces')
-    ..addFont(rootBundle.load('assets/fonts/fraunces/fraunces-v38-latin-regular.ttf'))
-    ..addFont(rootBundle.load('assets/fonts/fraunces/fraunces-v38-latin-600.ttf'));
+    ..addFont(
+      rootBundle.load('assets/fonts/fraunces/fraunces-v38-latin-regular.ttf'),
+    )
+    ..addFont(
+      rootBundle.load('assets/fonts/fraunces/fraunces-v38-latin-600.ttf'),
+    );
   final publicSans = FontLoader('Public Sans')
-    ..addFont(rootBundle.load('assets/fonts/public_sans/public-sans-v21-latin-regular.ttf'))
-    ..addFont(rootBundle.load('assets/fonts/public_sans/public-sans-v21-latin-600.ttf'));
+    ..addFont(
+      rootBundle.load(
+        'assets/fonts/public_sans/public-sans-v21-latin-regular.ttf',
+      ),
+    )
+    ..addFont(
+      rootBundle.load('assets/fonts/public_sans/public-sans-v21-latin-600.ttf'),
+    );
 
   final loaders = <Future<void>>[fraunces.load(), publicSans.load()];
 

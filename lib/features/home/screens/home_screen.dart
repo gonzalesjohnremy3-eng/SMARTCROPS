@@ -72,7 +72,7 @@ BriefingContent briefingContent(
 
 const _gutter = AppSpacing.s5;
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, this.briefingFacts, this.now});
 
   final BriefingFacts? briefingFacts;
@@ -80,9 +80,31 @@ class HomeScreen extends StatelessWidget {
   /// Fixes the clock for the greeting and relative dates in goldens.
   final DateTime? now;
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // The Field Briefing's weather is only ever fetched from here.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final location = context
+          .read<SmartCropsService>()
+          .currentUserProfile
+          ?.location;
+      context.read<WeatherService>().fetchWeatherForLocation(
+        location == null || location.isEmpty ? 'Philippines' : location,
+      );
+    });
+  }
+
   BriefingFacts _factsFrom(BuildContext context) {
     final service = context.read<SmartCropsService>();
-    final weather = context.read<WeatherService>();
+    // Watched so the priority action reacts when the weather arrives.
+    final weather = context.watch<WeatherService>();
     final now = DateTime.now();
 
     return BriefingFacts(
@@ -107,7 +129,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final facts = briefingFacts ?? _factsFrom(context);
+    final facts = widget.briefingFacts ?? _factsFrom(context);
 
     return Scaffold(
       backgroundColor: AppColors.paper,
@@ -124,7 +146,7 @@ class HomeScreen extends StatelessWidget {
           }
 
           final briefing = [
-            _Greeting(service: service, now: now ?? DateTime.now()),
+            _Greeting(service: service, now: widget.now ?? DateTime.now()),
             const SizedBox(height: AppSpacing.s6),
             _FieldBriefingCard(facts: facts),
             _AdvisoryStrip(notifications: service.notifications),
@@ -147,7 +169,10 @@ class HomeScreen extends StatelessWidget {
               actionLabel: AppLocalizations.of(context).viewAll,
               onAction: () => context.push('/health-log'),
             ),
-            _ScanList(scans: service.scanHistory, now: now ?? DateTime.now()),
+            _ScanList(
+              scans: service.scanHistory,
+              now: widget.now ?? DateTime.now(),
+            ),
           ];
 
           return RefreshIndicator(
@@ -355,6 +380,11 @@ class _FieldBriefingCard extends StatelessWidget {
                         weather == null
                             ? '—'
                             : '${weather.temperature.round()}°',
+                        // Already display-sized; unclamped it leaves no room
+                        // for the place name at large text.
+                        textScaler: MediaQuery.textScalerOf(
+                          context,
+                        ).clamp(maxScaleFactor: 1.2),
                         style: theme.textTheme.displayLarge?.copyWith(
                           color: inverse,
                           height: 1,
