@@ -1231,7 +1231,7 @@ abstract class AppLocalizations {
   /// authTagline
   ///
   /// In en, this message translates to:
-  /// **'Detect Early. Protect Your Harvest.'**
+  /// **'Know what your crops need.'**
   String get authTagline;
 
   /// authBrandName
@@ -1297,31 +1297,31 @@ abstract class AppLocalizations {
   /// authOtpMobile
   ///
   /// In en, this message translates to:
-  /// **'Mobile Number (+63...)'**
+  /// **'Mobile number'**
   String get authOtpMobile;
 
   /// authOtpCode
   ///
   /// In en, this message translates to:
-  /// **'Enter OTP Code'**
+  /// **'Enter the 6-digit code'**
   String get authOtpCode;
 
   /// authSendOtp
   ///
   /// In en, this message translates to:
-  /// **'Send OTP'**
+  /// **'Continue'**
   String get authSendOtp;
 
   /// authVerifyOtp
   ///
   /// In en, this message translates to:
-  /// **'Verify OTP'**
+  /// **'Verify code'**
   String get authVerifyOtp;
 
   /// authOtpTitle
   ///
   /// In en, this message translates to:
-  /// **'Phone Number (OTP) Login'**
+  /// **'Sign in or create your account'**
   String get authOtpTitle;
 
   /// authOtpSent
@@ -2307,6 +2307,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'₱0'**
   String get agriProPriceFree;
+
+  /// authPromiseBody
+  ///
+  /// In en, this message translates to:
+  /// **'Scan a leaf, get a diagnosis and a care plan, in Tagalog, Cebuano or English.'**
+  String get authPromiseBody;
+
+  /// authPhoneHelper
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll text you a 6-digit code.'**
+  String get authPhoneHelper;
+
+  /// authPhoneInvalid
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an 11-digit mobile number that starts with 09.'**
+  String get authPhoneInvalid;
+
+  /// authCodeSentTo
+  ///
+  /// In en, this message translates to:
+  /// **'Sent by SMS to {phone}'**
+  String authCodeSentTo(String phone);
+
+  /// authChangeNumber
+  ///
+  /// In en, this message translates to:
+  /// **'Change number'**
+  String get authChangeNumber;
+
+  /// authResendIn
+  ///
+  /// In en, this message translates to:
+  /// **'Resend code in {seconds}s'**
+  String authResendIn(int seconds);
+
+  /// authResendCode
+  ///
+  /// In en, this message translates to:
+  /// **'Resend code'**
+  String get authResendCode;
+
+  /// authErrorBadCode
+  ///
+  /// In en, this message translates to:
+  /// **'That code is wrong or has expired. Check the SMS or resend a new one.'**
+  String get authErrorBadCode;
+
+  /// authErrorTooManyWait
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Try again in {seconds}s.'**
+  String authErrorTooManyWait(int seconds);
+
+  /// authErrorTooMany
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Wait a minute, then try again.'**
+  String get authErrorTooMany;
+
+  /// authErrorUnreachable
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t send a code to this number. Check it and try again.'**
+  String get authErrorUnreachable;
+
+  /// authErrorOffline
+  ///
+  /// In en, this message translates to:
+  /// **'No connection. Check your mobile data and try again.'**
+  String get authErrorOffline;
+
+  /// authErrorGeneric
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Try again.'**
+  String get authErrorGeneric;
+
+  /// authOtherWays
+  ///
+  /// In en, this message translates to:
+  /// **'Other ways to sign in'**
+  String get authOtherWays;
+
+  /// authBack
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get authBack;
 }
 
 class _AppLocalizationsDelegate

@@ -605,7 +605,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authUsePhone => 'Use phone instead';
 
   @override
-  String get authTagline => 'Detect Early. Protect Your Harvest.';
+  String get authTagline => 'Know what your crops need.';
 
   @override
   String get authBrandName => 'Smart Crops';
@@ -638,19 +638,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authPhoneLabel => 'Mobile Number / Phone (Optional)';
 
   @override
-  String get authOtpMobile => 'Mobile Number (+63...)';
+  String get authOtpMobile => 'Mobile number';
 
   @override
-  String get authOtpCode => 'Enter OTP Code';
+  String get authOtpCode => 'Enter the 6-digit code';
 
   @override
-  String get authSendOtp => 'Send OTP';
+  String get authSendOtp => 'Continue';
 
   @override
-  String get authVerifyOtp => 'Verify OTP';
+  String get authVerifyOtp => 'Verify code';
 
   @override
-  String get authOtpTitle => 'Phone Number (OTP) Login';
+  String get authOtpTitle => 'Sign in or create your account';
 
   @override
   String get authOtpSent => 'OTP sent to your mobile number!';
@@ -1178,4 +1178,61 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get agriProPriceFree => '₱0';
+
+  @override
+  String get authPromiseBody =>
+      'Scan a leaf, get a diagnosis and a care plan, in Tagalog, Cebuano or English.';
+
+  @override
+  String get authPhoneHelper => 'We\'ll text you a 6-digit code.';
+
+  @override
+  String get authPhoneInvalid =>
+      'Enter an 11-digit mobile number that starts with 09.';
+
+  @override
+  String authCodeSentTo(String phone) {
+    return 'Sent by SMS to $phone';
+  }
+
+  @override
+  String get authChangeNumber => 'Change number';
+
+  @override
+  String authResendIn(int seconds) {
+    return 'Resend code in ${seconds}s';
+  }
+
+  @override
+  String get authResendCode => 'Resend code';
+
+  @override
+  String get authErrorBadCode =>
+      'That code is wrong or has expired. Check the SMS or resend a new one.';
+
+  @override
+  String authErrorTooManyWait(int seconds) {
+    return 'Too many attempts. Try again in ${seconds}s.';
+  }
+
+  @override
+  String get authErrorTooMany =>
+      'Too many attempts. Wait a minute, then try again.';
+
+  @override
+  String get authErrorUnreachable =>
+      'We couldn\'t send a code to this number. Check it and try again.';
+
+  @override
+  String get authErrorOffline =>
+      'No connection. Check your mobile data and try again.';
+
+  @override
+  String get authErrorGeneric => 'Something went wrong. Try again.';
+
+  @override
+  String get authOtherWays => 'Other ways to sign in';
+
+  @override
+  String get authBack => 'Back';
 }

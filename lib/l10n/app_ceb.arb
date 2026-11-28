@@ -371,7 +371,7 @@
   "@authUsePhone": {
     "description": "authUsePhone"
   },
-  "authTagline": "Diskubreha Agad. Panggawi ang Imong Ani.",
+  "authTagline": "Hibaloa ang kinahanglan sa imong tanom.",
   "@authTagline": {
     "description": "authTagline"
   },
@@ -415,23 +415,23 @@
   "@authPhoneLabel": {
     "description": "authPhoneLabel"
   },
-  "authOtpMobile": "Numero sa Mobile (+63...)",
+  "authOtpMobile": "Numero sa mobile",
   "@authOtpMobile": {
     "description": "authOtpMobile"
   },
-  "authOtpCode": "Ibutang ang OTP Code",
+  "authOtpCode": "Ibutang ang 6-digit nga code",
   "@authOtpCode": {
     "description": "authOtpCode"
   },
-  "authSendOtp": "Ipadala ang OTP",
+  "authSendOtp": "Padayon",
   "@authSendOtp": {
     "description": "authSendOtp"
   },
-  "authVerifyOtp": "I-verify ang OTP",
+  "authVerifyOtp": "I-verify ang code",
   "@authVerifyOtp": {
     "description": "authVerifyOtp"
   },
-  "authOtpTitle": "Login gamit ang Telepono (OTP)",
+  "authOtpTitle": "Mag-sign in o paghimo og account",
   "@authOtpTitle": {
     "description": "authOtpTitle"
   },
@@ -949,5 +949,20 @@
   "agriProComparePlan": "Plano",
   "agriProComparePrice": "Presyo",
   "agriProCompareIncludes": "Unsa ang apil",
-  "agriProPriceFree": "₱0"
+  "agriProPriceFree": "₱0",
+  "authPromiseBody": "I-scan ang dahon, mahibal-an ang sakit ug plano sa pag-atiman, sa Tagalog, Cebuano o English.",
+  "authPhoneHelper": "Padad-an ka namo og 6-digit nga code pinaagi sa SMS.",
+  "authPhoneInvalid": "Ibutang ang 11-digit nga mobile number nga nagsugod sa 09.",
+  "authCodeSentTo": "Gipadala pinaagi sa SMS sa {phone}",
+  "authChangeNumber": "Usba ang numero",
+  "authResendIn": "Ipadala pag-usab sulod sa {seconds}s",
+  "authResendCode": "Ipadala pag-usab ang code",
+  "authErrorBadCode": "Sayop o expired na ang code. Tan-awa ang SMS o pagpadala og bag-o.",
+  "authErrorTooManyWait": "Daghan na kaayo nga pagsulay. Sulayi pag-usab sulod sa {seconds}s.",
+  "authErrorTooMany": "Daghan na kaayo nga pagsulay. Paghulat og usa ka minuto ug sulayi pag-usab.",
+  "authErrorUnreachable": "Dili mi makapadala og code niini nga numero. Susiha ug sulayi pag-usab.",
+  "authErrorOffline": "Walay koneksyon. Susiha ang imong mobile data ug sulayi pag-usab.",
+  "authErrorGeneric": "Adunay sayop. Sulayi pag-usab.",
+  "authOtherWays": "Laing paagi sa pag-sign in",
+  "authBack": "Balik"
 }

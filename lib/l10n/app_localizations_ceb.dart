@@ -612,7 +612,7 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get authUsePhone => 'Gamita ang telepono';
 
   @override
-  String get authTagline => 'Diskubreha Agad. Panggawi ang Imong Ani.';
+  String get authTagline => 'Hibaloa ang kinahanglan sa imong tanom.';
 
   @override
   String get authBrandName => 'Smart Crops';
@@ -646,19 +646,19 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get authPhoneLabel => 'Numero sa Telepono / Mobile (Opsyonal)';
 
   @override
-  String get authOtpMobile => 'Numero sa Mobile (+63...)';
+  String get authOtpMobile => 'Numero sa mobile';
 
   @override
-  String get authOtpCode => 'Ibutang ang OTP Code';
+  String get authOtpCode => 'Ibutang ang 6-digit nga code';
 
   @override
-  String get authSendOtp => 'Ipadala ang OTP';
+  String get authSendOtp => 'Padayon';
 
   @override
-  String get authVerifyOtp => 'I-verify ang OTP';
+  String get authVerifyOtp => 'I-verify ang code';
 
   @override
-  String get authOtpTitle => 'Login gamit ang Telepono (OTP)';
+  String get authOtpTitle => 'Mag-sign in o paghimo og account';
 
   @override
   String get authOtpSent => 'Naipadala na ang OTP sa imong mobile number!';
@@ -1198,4 +1198,62 @@ class AppLocalizationsCeb extends AppLocalizations {
 
   @override
   String get agriProPriceFree => '₱0';
+
+  @override
+  String get authPromiseBody =>
+      'I-scan ang dahon, mahibal-an ang sakit ug plano sa pag-atiman, sa Tagalog, Cebuano o English.';
+
+  @override
+  String get authPhoneHelper =>
+      'Padad-an ka namo og 6-digit nga code pinaagi sa SMS.';
+
+  @override
+  String get authPhoneInvalid =>
+      'Ibutang ang 11-digit nga mobile number nga nagsugod sa 09.';
+
+  @override
+  String authCodeSentTo(String phone) {
+    return 'Gipadala pinaagi sa SMS sa $phone';
+  }
+
+  @override
+  String get authChangeNumber => 'Usba ang numero';
+
+  @override
+  String authResendIn(int seconds) {
+    return 'Ipadala pag-usab sulod sa ${seconds}s';
+  }
+
+  @override
+  String get authResendCode => 'Ipadala pag-usab ang code';
+
+  @override
+  String get authErrorBadCode =>
+      'Sayop o expired na ang code. Tan-awa ang SMS o pagpadala og bag-o.';
+
+  @override
+  String authErrorTooManyWait(int seconds) {
+    return 'Daghan na kaayo nga pagsulay. Sulayi pag-usab sulod sa ${seconds}s.';
+  }
+
+  @override
+  String get authErrorTooMany =>
+      'Daghan na kaayo nga pagsulay. Paghulat og usa ka minuto ug sulayi pag-usab.';
+
+  @override
+  String get authErrorUnreachable =>
+      'Dili mi makapadala og code niini nga numero. Susiha ug sulayi pag-usab.';
+
+  @override
+  String get authErrorOffline =>
+      'Walay koneksyon. Susiha ang imong mobile data ug sulayi pag-usab.';
+
+  @override
+  String get authErrorGeneric => 'Adunay sayop. Sulayi pag-usab.';
+
+  @override
+  String get authOtherWays => 'Laing paagi sa pag-sign in';
+
+  @override
+  String get authBack => 'Balik';
 }

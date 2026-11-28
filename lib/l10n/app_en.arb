@@ -757,7 +757,7 @@
   "@authUsePhone": {
     "description": "authUsePhone"
   },
-  "authTagline": "Detect Early. Protect Your Harvest.",
+  "authTagline": "Know what your crops need.",
   "@authTagline": {
     "description": "authTagline"
   },
@@ -801,23 +801,23 @@
   "@authPhoneLabel": {
     "description": "authPhoneLabel"
   },
-  "authOtpMobile": "Mobile Number (+63...)",
+  "authOtpMobile": "Mobile number",
   "@authOtpMobile": {
     "description": "authOtpMobile"
   },
-  "authOtpCode": "Enter OTP Code",
+  "authOtpCode": "Enter the 6-digit code",
   "@authOtpCode": {
     "description": "authOtpCode"
   },
-  "authSendOtp": "Send OTP",
+  "authSendOtp": "Continue",
   "@authSendOtp": {
     "description": "authSendOtp"
   },
-  "authVerifyOtp": "Verify OTP",
+  "authVerifyOtp": "Verify code",
   "@authVerifyOtp": {
     "description": "authVerifyOtp"
   },
-  "authOtpTitle": "Phone Number (OTP) Login",
+  "authOtpTitle": "Sign in or create your account",
   "@authOtpTitle": {
     "description": "authOtpTitle"
   },
@@ -1318,7 +1318,9 @@
   "@cropCareDaysAgo": {
     "description": "Relative day count for a past scan",
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "cropCareLastWeek": "Last week",
@@ -1330,7 +1332,9 @@
   "@cropCareCropCount": {
     "description": "Count of Main Crops on the profile",
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "cropCareYourCrops": "Your Crops",
@@ -1344,5 +1348,80 @@
   "agriProComparePlan": "Plan",
   "agriProComparePrice": "Price",
   "agriProCompareIncludes": "What's included",
-  "agriProPriceFree": "₱0"
+  "agriProPriceFree": "₱0",
+  "authPromiseBody": "Scan a leaf, get a diagnosis and a care plan, in Tagalog, Cebuano or English.",
+  "@authPromiseBody": {
+    "description": "authPromiseBody"
+  },
+  "authPhoneHelper": "We'll text you a 6-digit code.",
+  "@authPhoneHelper": {
+    "description": "authPhoneHelper"
+  },
+  "authPhoneInvalid": "Enter an 11-digit mobile number that starts with 09.",
+  "@authPhoneInvalid": {
+    "description": "authPhoneInvalid"
+  },
+  "authCodeSentTo": "Sent by SMS to {phone}",
+  "@authCodeSentTo": {
+    "description": "authCodeSentTo",
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "authChangeNumber": "Change number",
+  "@authChangeNumber": {
+    "description": "authChangeNumber"
+  },
+  "authResendIn": "Resend code in {seconds}s",
+  "@authResendIn": {
+    "description": "authResendIn",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "authResendCode": "Resend code",
+  "@authResendCode": {
+    "description": "authResendCode"
+  },
+  "authErrorBadCode": "That code is wrong or has expired. Check the SMS or resend a new one.",
+  "@authErrorBadCode": {
+    "description": "authErrorBadCode"
+  },
+  "authErrorTooManyWait": "Too many attempts. Try again in {seconds}s.",
+  "@authErrorTooManyWait": {
+    "description": "authErrorTooManyWait",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "authErrorTooMany": "Too many attempts. Wait a minute, then try again.",
+  "@authErrorTooMany": {
+    "description": "authErrorTooMany"
+  },
+  "authErrorUnreachable": "We couldn't send a code to this number. Check it and try again.",
+  "@authErrorUnreachable": {
+    "description": "authErrorUnreachable"
+  },
+  "authErrorOffline": "No connection. Check your mobile data and try again.",
+  "@authErrorOffline": {
+    "description": "authErrorOffline"
+  },
+  "authErrorGeneric": "Something went wrong. Try again.",
+  "@authErrorGeneric": {
+    "description": "authErrorGeneric"
+  },
+  "authOtherWays": "Other ways to sign in",
+  "@authOtherWays": {
+    "description": "authOtherWays"
+  },
+  "authBack": "Back",
+  "@authBack": {
+    "description": "authBack"
+  }
 }

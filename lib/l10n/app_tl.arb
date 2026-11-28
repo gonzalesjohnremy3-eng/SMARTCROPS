@@ -371,7 +371,7 @@
   "@authUsePhone": {
     "description": "authUsePhone"
   },
-  "authTagline": "Tuklasin nang Maaga. Protektahan ang Iyong Ani.",
+  "authTagline": "Alamin ang kailangan ng iyong pananim.",
   "@authTagline": {
     "description": "authTagline"
   },
@@ -415,23 +415,23 @@
   "@authPhoneLabel": {
     "description": "authPhoneLabel"
   },
-  "authOtpMobile": "Numero ng Mobile (+63...)",
+  "authOtpMobile": "Numero ng mobile",
   "@authOtpMobile": {
     "description": "authOtpMobile"
   },
-  "authOtpCode": "Ilagay ang OTP Code",
+  "authOtpCode": "Ilagay ang 6-digit na code",
   "@authOtpCode": {
     "description": "authOtpCode"
   },
-  "authSendOtp": "Ipadala ang OTP",
+  "authSendOtp": "Magpatuloy",
   "@authSendOtp": {
     "description": "authSendOtp"
   },
-  "authVerifyOtp": "Patunayan ang OTP",
+  "authVerifyOtp": "I-verify ang code",
   "@authVerifyOtp": {
     "description": "authVerifyOtp"
   },
-  "authOtpTitle": "Login gamit ang Telepono (OTP)",
+  "authOtpTitle": "Mag-sign in o gumawa ng account",
   "@authOtpTitle": {
     "description": "authOtpTitle"
   },
@@ -949,5 +949,20 @@
   "agriProComparePlan": "Plano",
   "agriProComparePrice": "Presyo",
   "agriProCompareIncludes": "Ano ang kasama",
-  "agriProPriceFree": "₱0"
+  "agriProPriceFree": "₱0",
+  "authPromiseBody": "I-scan ang dahon, alamin ang sakit at plano ng pag-aalaga, sa Tagalog, Cebuano o English.",
+  "authPhoneHelper": "Padadalhan ka namin ng 6-digit na code sa SMS.",
+  "authPhoneInvalid": "Maglagay ng 11-digit na mobile number na nagsisimula sa 09.",
+  "authCodeSentTo": "Ipinadala sa SMS sa {phone}",
+  "authChangeNumber": "Palitan ang numero",
+  "authResendIn": "Ipadala muli sa loob ng {seconds}s",
+  "authResendCode": "Ipadala muli ang code",
+  "authErrorBadCode": "Mali o expired na ang code. Tingnan ang SMS o magpadala ng bago.",
+  "authErrorTooManyWait": "Masyadong maraming subok. Subukang muli sa loob ng {seconds}s.",
+  "authErrorTooMany": "Masyadong maraming subok. Maghintay ng isang minuto at subukang muli.",
+  "authErrorUnreachable": "Hindi kami makapagpadala ng code sa numerong ito. Suriin ito at subukang muli.",
+  "authErrorOffline": "Walang koneksyon. Tingnan ang iyong mobile data at subukang muli.",
+  "authErrorGeneric": "May nangyaring mali. Subukang muli.",
+  "authOtherWays": "Ibang paraan ng pag-sign in",
+  "authBack": "Bumalik"
 }

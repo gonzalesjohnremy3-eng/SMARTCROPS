@@ -170,7 +170,7 @@ The separate CropCare design line was removed so the app has a single design sou
 | CropCare contracts removed | **[x]** | `test/cropcare/`, `test/design/cropcare_prototype_contract_test.dart` deleted |
 | Field Almanac remains the only design line | **[x]** | `design/prototypes/`, `design/prototypes/IMPLEMENTATION_MAP.md` |
 
-Current verification: flutter test (247 passing); flutter analyze (info-level lints, no errors); deno test (23 passing across scan-crop and send-campaign seams).
+Current verification: flutter test (289 passing); flutter analyze (info-level lints, no errors); deno test (23 passing across scan-crop and send-campaign seams).
 
 ---
 
@@ -207,3 +207,16 @@ Systematic debugging found that five chosen verdict elements had no acceptance c
 | P14 two-column profile | **[x]** | `lib/features/profile/screens/profile_screen.dart` — grouped farm and settings columns at ≥840px |
 
 No visual world changed: this completes the Field Almanac direction under ADR 0010. New l10n keys are present in EN/TL/CEB. The critical banner is client-ready but needs a `notifications.severity` column from the backend; the Supabase CLI was unavailable, so that schema migration was not generated in this change.
+
+---
+
+## 10. Premium redesign and screen specs (2026-11-28)
+
+The HTML prototypes in `design/prototypes/` were deleted (ADR 0016); the implementation map above is kept as history. Flutter is the only visual source of truth, and each redesigned screen gets a spec in `design/screens/`, guarded by `test/design/screen_spec_contract_test.dart`. The premium redesign runs one screen per pull request inside Field Almanac (ADR 0017), starting with auth.
+
+| Item | Status | Evidence |
+|---|---|---|
+| Prototypes retired | **[x]** | `design/prototypes/` and `prototype_verdict_coverage_test.dart` deleted |
+| Product context | **[x]** | `PRODUCT.md` |
+| Auth redesign | **[x]** | `design/screens/03-auth.md`, `lib/features/auth/` |
+| Onboarding, home, scan, crops, calendar, remaining screens | **[ ]** | one pull request each |

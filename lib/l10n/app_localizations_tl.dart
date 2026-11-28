@@ -613,7 +613,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get authUsePhone => 'Gumamit ng telepono';
 
   @override
-  String get authTagline => 'Tuklasin nang Maaga. Protektahan ang Iyong Ani.';
+  String get authTagline => 'Alamin ang kailangan ng iyong pananim.';
 
   @override
   String get authBrandName => 'Smart Crops';
@@ -647,19 +647,19 @@ class AppLocalizationsTl extends AppLocalizations {
   String get authPhoneLabel => 'Numero ng Telepono / Mobile (Opsyonal)';
 
   @override
-  String get authOtpMobile => 'Numero ng Mobile (+63...)';
+  String get authOtpMobile => 'Numero ng mobile';
 
   @override
-  String get authOtpCode => 'Ilagay ang OTP Code';
+  String get authOtpCode => 'Ilagay ang 6-digit na code';
 
   @override
-  String get authSendOtp => 'Ipadala ang OTP';
+  String get authSendOtp => 'Magpatuloy';
 
   @override
-  String get authVerifyOtp => 'Patunayan ang OTP';
+  String get authVerifyOtp => 'I-verify ang code';
 
   @override
-  String get authOtpTitle => 'Login gamit ang Telepono (OTP)';
+  String get authOtpTitle => 'Mag-sign in o gumawa ng account';
 
   @override
   String get authOtpSent => 'Ang OTP ay ipinadala sa iyong mobile number!';
@@ -1202,4 +1202,62 @@ class AppLocalizationsTl extends AppLocalizations {
 
   @override
   String get agriProPriceFree => '₱0';
+
+  @override
+  String get authPromiseBody =>
+      'I-scan ang dahon, alamin ang sakit at plano ng pag-aalaga, sa Tagalog, Cebuano o English.';
+
+  @override
+  String get authPhoneHelper =>
+      'Padadalhan ka namin ng 6-digit na code sa SMS.';
+
+  @override
+  String get authPhoneInvalid =>
+      'Maglagay ng 11-digit na mobile number na nagsisimula sa 09.';
+
+  @override
+  String authCodeSentTo(String phone) {
+    return 'Ipinadala sa SMS sa $phone';
+  }
+
+  @override
+  String get authChangeNumber => 'Palitan ang numero';
+
+  @override
+  String authResendIn(int seconds) {
+    return 'Ipadala muli sa loob ng ${seconds}s';
+  }
+
+  @override
+  String get authResendCode => 'Ipadala muli ang code';
+
+  @override
+  String get authErrorBadCode =>
+      'Mali o expired na ang code. Tingnan ang SMS o magpadala ng bago.';
+
+  @override
+  String authErrorTooManyWait(int seconds) {
+    return 'Masyadong maraming subok. Subukang muli sa loob ng ${seconds}s.';
+  }
+
+  @override
+  String get authErrorTooMany =>
+      'Masyadong maraming subok. Maghintay ng isang minuto at subukang muli.';
+
+  @override
+  String get authErrorUnreachable =>
+      'Hindi kami makapagpadala ng code sa numerong ito. Suriin ito at subukang muli.';
+
+  @override
+  String get authErrorOffline =>
+      'Walang koneksyon. Tingnan ang iyong mobile data at subukang muli.';
+
+  @override
+  String get authErrorGeneric => 'May nangyaring mali. Subukang muli.';
+
+  @override
+  String get authOtherWays => 'Ibang paraan ng pag-sign in';
+
+  @override
+  String get authBack => 'Bumalik';
 }
