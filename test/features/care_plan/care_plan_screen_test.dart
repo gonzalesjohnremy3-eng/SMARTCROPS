@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:smart_crops/app/localization/ceb_fallback_localizations.dart';
 import 'package:smart_crops/features/care_plan/screens/care_plan_screen.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/models/app_models.dart';
@@ -25,31 +26,27 @@ class _StubLoader implements FarmDataLoader {
 }
 
 CropItem _tomato() => CropItem(
-      id: 'crop-tomato',
-      cropName: 'Tomato',
-      optimalConditions: const {},
-    );
+  id: 'crop-tomato',
+  cropName: 'Tomato',
+  optimalConditions: const {},
+);
 
 CropCalendarEvent _task({
   required String id,
   required String title,
   required DateTime date,
   String priority = 'Normal',
-}) =>
-    CropCalendarEvent(
-      id: id,
-      userId: 'u',
-      eventTitle: title,
-      eventCategory: 'Nutrition',
-      scheduledDate: date,
-      isCompleted: false,
-      priority: priority,
-    );
+}) => CropCalendarEvent(
+  id: id,
+  userId: 'u',
+  eventTitle: title,
+  eventCategory: 'Nutrition',
+  scheduledDate: date,
+  isCompleted: false,
+  priority: priority,
+);
 
-ScanHistoryItem _scan({
-  required String disease,
-  DateTime? scannedAt,
-}) =>
+ScanHistoryItem _scan({required String disease, DateTime? scannedAt}) =>
     ScanHistoryItem(
       id: 'scan-$disease',
       userId: 'u',
@@ -64,39 +61,80 @@ ScanHistoryItem _scan({
 FarmSnapshot _snapshot({
   List<CropCalendarEvent> tasks = const [],
   List<ScanHistoryItem> scans = const [],
-}) =>
-    FarmSnapshot(
-      availableCrops: [_tomato()],
-      userCrops: [_tomato()],
-      scanHistory: scans,
-      notifications: const [],
-      calendarEvents: tasks,
-      fetchedAt: DateTime(2026, 1, 1),
-    );
+}) => FarmSnapshot(
+  availableCrops: [_tomato()],
+  userCrops: [_tomato()],
+  scanHistory: scans,
+  notifications: const [],
+  calendarEvents: tasks,
+  fetchedAt: DateTime(2026, 1, 1),
+);
 
-Future<void> _pump(WidgetTester tester, FarmSnapshot snapshot) async {
-  await tester.binding.setSurfaceSize(const Size(500, 2200));
+FarmSnapshot _fullPlan() {
+  final now = DateTime.now();
+  return _snapshot(
+    tasks: [
+      _task(
+        id: 'overdue',
+        title: 'Mulch the beds',
+        date: now.subtract(const Duration(days: 2)),
+      ),
+      _task(
+        id: 'thisweek',
+        title: 'Apply stakes',
+        date: now.add(const Duration(days: 3)),
+        priority: 'High',
+      ),
+      _task(
+        id: 'preventive',
+        title: 'Soil pH check',
+        date: now.add(const Duration(days: 15)),
+      ),
+    ],
+    scans: [_scan(disease: 'Early blight')],
+  );
+}
+
+Future<void> _pump(
+  WidgetTester tester,
+  FarmSnapshot snapshot, {
+  Size size = const Size(500, 2200),
+  String locale = 'en',
+  double textScale = 1,
+}) async {
+  await tester.binding.setSurfaceSize(size);
   addTearDown(() => tester.binding.setSurfaceSize(null));
 
   final service = SmartCropsService(loader: _StubLoader(snapshot));
   await service.initializeUserData();
 
-  await tester.pumpWidget(MultiProvider(
-    providers: [
-      ChangeNotifierProvider.value(value: service),
-      ChangeNotifierProvider(create: (_) => WeatherService()),
-    ],
-    child: MaterialApp(
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
+  await tester.pumpWidget(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: service),
+        ChangeNotifierProvider(create: (_) => WeatherService()),
       ],
-      supportedLocales: const [Locale('en'), Locale('tl'), Locale('ceb')],
-      home: const CarePlanScreen(),
+      child: MaterialApp(
+        locale: Locale(locale),
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          CebMaterialLocalizationsDelegate(),
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          CebCupertinoLocalizationsDelegate(),
+        ],
+        supportedLocales: const [Locale('en'), Locale('tl'), Locale('ceb')],
+        builder: (context, child) => MediaQuery(
+          data: MediaQuery.of(
+            context,
+          ).copyWith(textScaler: TextScaler.linear(textScale)),
+          child: child!,
+        ),
+        home: const CarePlanScreen(),
+      ),
     ),
-  ));
+  );
   await tester.pumpAndSettle();
 }
 
@@ -107,7 +145,7 @@ void main() {
     try {
       await Supabase.initialize(
         url: 'https://test.supabase.co',
-        anonKey: 'test-anon-key',
+        publishableKey: 'test-anon-key',
       );
     } catch (_) {
       // Already initialized.
@@ -115,29 +153,7 @@ void main() {
   });
 
   testWidgets('groups tasks by segment and shows reasons', (tester) async {
-    final now = DateTime.now();
-
-    await _pump(tester, _snapshot(
-      tasks: [
-        _task(
-          id: 'overdue',
-          title: 'Mulch the beds',
-          date: now.subtract(const Duration(days: 2)),
-        ),
-        _task(
-          id: 'thisweek',
-          title: 'Apply stakes',
-          date: now.add(const Duration(days: 3)),
-          priority: 'High',
-        ),
-        _task(
-          id: 'preventive',
-          title: 'Soil pH check',
-          date: now.add(const Duration(days: 15)),
-        ),
-      ],
-      scans: [_scan(disease: 'Early blight')],
-    ));
+    await _pump(tester, _fullPlan());
 
     expect(find.text('Today'), findsWidgets);
     expect(find.text('This Week'), findsWidgets);
@@ -151,9 +167,85 @@ void main() {
     expect(find.textContaining('Recheck Tomato'), findsOneWidget);
   });
 
-  testWidgets('shows the empty state when there is nothing to plan', (tester) async {
+  testWidgets('shows the empty state when there is nothing to plan', (
+    tester,
+  ) async {
     await _pump(tester, _snapshot());
 
-    expect(find.text('No care items due. Your crops look good.'), findsOneWidget);
+    expect(
+      find.text('No care items due. Your crops look good.'),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('every open task has a labelled done button', (tester) async {
+    await _pump(tester, _fullPlan());
+
+    expect(find.byTooltip('Mark done'), findsNWidgets(3));
+  });
+
+  testWidgets('says why each task is due with one reason, not two chips', (
+    tester,
+  ) async {
+    await _pump(tester, _fullPlan());
+
+    expect(find.text('Why now'), findsNothing);
+  });
+
+  testWidgets('an overdue task carries exactly one Overdue reason', (
+    tester,
+  ) async {
+    await _pump(tester, _fullPlan());
+
+    expect(find.text('Overdue'), findsOneWidget);
+  });
+
+  testWidgets('the suggestion button stays reachable', (tester) async {
+    await _pump(tester, _fullPlan());
+
+    expect(find.byKey(const Key('care_plan_add_suggestion')), findsOneWidget);
+  });
+
+  testWidgets('lays out on a wide screen without overflow', (tester) async {
+    final errors = <FlutterErrorDetails>[];
+    final original = FlutterError.onError;
+    FlutterError.onError = errors.add;
+    try {
+      await _pump(tester, _fullPlan(), size: const Size(1200, 900));
+    } finally {
+      FlutterError.onError = original;
+    }
+
+    expect(errors, isEmpty);
+  });
+
+  for (final locale in ['en', 'tl', 'ceb']) {
+    testWidgets('fits a phone at 200% text in $locale', (tester) async {
+      final errors = <FlutterErrorDetails>[];
+      final original = FlutterError.onError;
+      FlutterError.onError = errors.add;
+      try {
+        await _pump(
+          tester,
+          _fullPlan(),
+          size: const Size(375, 667),
+          locale: locale,
+          textScale: 2,
+        );
+      } finally {
+        FlutterError.onError = original;
+      }
+
+      expect(errors, isEmpty);
+    });
+  }
+
+  testWidgets('meets tap-target and label guidelines', (tester) async {
+    final handle = tester.ensureSemantics();
+    await _pump(tester, _fullPlan(), size: const Size(390, 1600));
+
+    await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
+    await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
+    handle.dispose();
   });
 }

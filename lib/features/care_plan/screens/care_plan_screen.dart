@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:smart_crops/app/analytics/analytics.dart';
 import 'package:smart_crops/app/theme/app_tokens.dart';
 import 'package:smart_crops/app/widgets/feedback_states.dart';
+import 'package:smart_crops/app/widgets/reticle_frame.dart';
 import 'package:smart_crops/features/calendar/domain/care_plan.dart';
 import 'package:smart_crops/features/calendar/domain/task_draft.dart';
 import 'package:smart_crops/features/calendar/domain/weather_adjustment.dart';
@@ -12,16 +13,17 @@ import 'package:smart_crops/models/app_models.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
 import 'package:smart_crops/services/weather_service.dart';
 
+const _gutter = AppSpacing.s5;
+
 class CarePlanScreen extends StatelessWidget {
   const CarePlanScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.carePlanTitle)),
+      backgroundColor: AppColors.paper,
       body: Consumer2<SmartCropsService, WeatherService>(
         builder: (context, service, weather, child) {
           if (service.isLoading) {
@@ -34,90 +36,86 @@ class CarePlanScreen extends StatelessWidget {
             );
           }
 
-          final rainMm = weather.currentWeather?.precipitationMm ?? 0;
           final forecast = WeatherForecast(
-            precipitationMmNext24h: rainMm,
+            precipitationMmNext24h:
+                weather.currentWeather?.precipitationMm ?? 0,
             isSample: weather.currentWeather?.isSample ?? true,
           );
-          final now = DateTime.now();
           final plan = buildCarePlan(
             events: service.calendarEvents,
             scans: service.scanHistory,
-            now: now,
+            now: DateTime.now(),
             forecast: forecast,
           );
 
-          if (plan.isEmpty) {
-            return _EmptyState(l10n: l10n, theme: theme);
-          }
-
-          return ListView(
-            padding: const EdgeInsets.all(16),
+          Widget items(String title, List<CarePlanItem> list) => _Section(
+            title: title,
             children: [
-              if (plan.today.isNotEmpty) ...[
-                _SectionHeader(title: l10n.carePlanToday, theme: theme),
-                const SizedBox(height: 8),
-                ...plan.today.map((item) => _CarePlanItemCard(
-                      item: item,
-                      l10n: l10n,
-                      theme: theme,
-                      onToggle: (value) {
-                        context.trackEvent('care_plan_item_completed');
-                        service.toggleCalendarEventCompletion(item.event.id, value);
-                      },
-                      onOpen: () =>
-                          context.push('/calendar/events/${item.event.id}'),
-                    )),
-                const SizedBox(height: 8),
-              ],
-              if (plan.thisWeek.isNotEmpty) ...[
-                _SectionHeader(title: l10n.carePlanThisWeek, theme: theme),
-                const SizedBox(height: 8),
-                ...plan.thisWeek.map((item) => _CarePlanItemCard(
-                      item: item,
-                      l10n: l10n,
-                      theme: theme,
-                      onToggle: (value) {
-                        context.trackEvent('care_plan_item_completed');
-                        service.toggleCalendarEventCompletion(item.event.id, value);
-                      },
-                      onOpen: () =>
-                          context.push('/calendar/events/${item.event.id}'),
-                    )),
-                const SizedBox(height: 8),
-              ],
-              if (plan.preventive.isNotEmpty) ...[
-                _SectionHeader(title: l10n.carePlanPreventive, theme: theme),
-                const SizedBox(height: 8),
-                ...plan.preventive.map((item) => _CarePlanItemCard(
-                      item: item,
-                      l10n: l10n,
-                      theme: theme,
-                      onToggle: (value) {
-                        context.trackEvent('care_plan_item_completed');
-                        service.toggleCalendarEventCompletion(item.event.id, value);
-                      },
-                      onOpen: () =>
-                          context.push('/calendar/events/${item.event.id}'),
-                    )),
-                const SizedBox(height: 8),
-              ],
-              if (plan.suggestions.isNotEmpty) ...[
-                _SectionHeader(title: l10n.carePlanSuggested, theme: theme),
-                const SizedBox(height: 8),
-                ...plan.suggestions.map((suggestion) => _SuggestionCard(
-                      suggestion: suggestion,
-                      l10n: l10n,
-                      theme: theme,
-                      onAdd: () => _addSuggestion(
-                        context,
-                        service,
-                        suggestion,
-                        l10n,
-                      ),
-                    )),
-              ],
+              for (final item in list)
+                _CarePlanRow(
+                  item: item,
+                  onToggle: (value) {
+                    context.trackEvent('care_plan_item_completed');
+                    service.toggleCalendarEventCompletion(item.event.id, value);
+                  },
+                  onOpen: () =>
+                      context.push('/calendar/events/${item.event.id}'),
+                ),
             ],
+          );
+
+          return SafeArea(
+            bottom: false,
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: AppLayout.maxWidths['reading']!,
+                ),
+                child: ListView(
+                  padding: const EdgeInsets.fromLTRB(
+                    _gutter,
+                    AppSpacing.s4,
+                    _gutter,
+                    AppSpacing.s10,
+                  ),
+                  children: [
+                    Text(
+                      l10n.carePlanTitle,
+                      style: Theme.of(context).textTheme.headlineMedium
+                          ?.copyWith(color: AppColors.textPrimary, height: 1.1),
+                    ),
+                    const SizedBox(height: AppSpacing.s6),
+                    if (plan.isEmpty)
+                      const _EmptyState()
+                    else ...[
+                      if (plan.today.isNotEmpty)
+                        items(l10n.carePlanToday, plan.today),
+                      if (plan.thisWeek.isNotEmpty)
+                        items(l10n.carePlanThisWeek, plan.thisWeek),
+                      if (plan.preventive.isNotEmpty)
+                        items(l10n.carePlanPreventive, plan.preventive),
+                      if (plan.suggestions.isNotEmpty)
+                        _Section(
+                          title: l10n.carePlanSuggested,
+                          children: [
+                            for (final suggestion in plan.suggestions)
+                              _SuggestionRow(
+                                suggestion: suggestion,
+                                onAdd: () => _addSuggestion(
+                                  context,
+                                  service,
+                                  suggestion,
+                                  l10n,
+                                ),
+                              ),
+                          ],
+                        ),
+                    ],
+                  ],
+                ),
+              ),
+            ),
           );
         },
       ),
@@ -164,215 +162,240 @@ class CarePlanScreen extends StatelessWidget {
       }
     } catch (_) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.errorGeneric)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.errorGeneric)));
       }
     }
   }
 }
 
-class _SectionHeader extends StatelessWidget {
-  const _SectionHeader({required this.title, required this.theme});
+/// A titled group of rows on one raised surface, separated by hairlines.
+class _Section extends StatelessWidget {
+  const _Section({required this.title, required this.children});
 
   final String title;
-  final ThemeData theme;
+  final List<Widget> children;
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      title,
-      style: theme.textTheme.titleSmall?.copyWith(
-        color: theme.colorScheme.primary,
-        fontWeight: FontWeight.w600,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpacing.s6),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: AppSpacing.s2),
+            child: Text(
+              title,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                fontFamily: 'Fraunces',
+                color: AppColors.textPrimary,
+              ),
+            ),
+          ),
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: AppColors.surfaceRaised,
+              borderRadius: BorderRadius.circular(AppRadius.card),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.forestInk.withValues(alpha: 0.06),
+                  blurRadius: AppSpacing.s4,
+                  offset: const Offset(0, AppSpacing.s1),
+                ),
+              ],
+            ),
+            child: Column(
+              children: [
+                for (var i = 0; i < children.length; i++) ...[
+                  if (i > 0)
+                    const Divider(
+                      height: 1,
+                      indent: AppSpacing.s4,
+                      endIndent: AppSpacing.s4,
+                      color: AppColors.borderSubtle,
+                    ),
+                  children[i],
+                ],
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
 class _EmptyState extends StatelessWidget {
-  const _EmptyState({required this.l10n, required this.theme});
-
-  final AppLocalizations l10n;
-  final ThemeData theme;
+  const _EmptyState();
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.task_alt_outlined,
-                size: 64, color: theme.colorScheme.onSurfaceVariant),
-            const SizedBox(height: 16),
-            Text(
-              l10n.carePlanNoItems,
-              textAlign: TextAlign.center,
-              style: theme.textTheme.bodyLarge,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.s8),
+      child: Column(
+        children: [
+          const ReticleFrame(
+            padding: EdgeInsets.all(AppSpacing.s5),
+            child: Icon(
+              Icons.task_alt_outlined,
+              color: AppColors.canopy,
+              size: AppSpacing.s10,
             ),
-          ],
-        ),
+          ),
+          const SizedBox(height: AppSpacing.s6),
+          Text(
+            AppLocalizations.of(context).carePlanNoItems,
+            textAlign: TextAlign.center,
+            style: Theme.of(
+              context,
+            ).textTheme.bodyLarge?.copyWith(color: AppColors.textSecondary),
+          ),
+        ],
       ),
     );
   }
 }
 
-class _CarePlanItemCard extends StatelessWidget {
-  const _CarePlanItemCard({
+class _CarePlanRow extends StatelessWidget {
+  const _CarePlanRow({
     required this.item,
-    required this.l10n,
-    required this.theme,
     required this.onToggle,
     required this.onOpen,
   });
 
   final CarePlanItem item;
-  final AppLocalizations l10n;
-  final ThemeData theme;
   final ValueChanged<bool> onToggle;
   final VoidCallback onOpen;
 
-  String _reasonLabel() {
-    switch (item.reason) {
-      case CarePlanReason.weather:
-        return l10n.carePlanReasonWeather;
-      case CarePlanReason.overdue:
-        return l10n.carePlanReasonOverdue;
-      case CarePlanReason.scanAtRisk:
-        return l10n.carePlanReasonScan;
-      case CarePlanReason.routine:
-        return l10n.carePlanReasonRoutine;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final loc = MaterialLocalizations.of(context);
     final event = item.event;
-
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      child: InkWell(
-        onTap: onOpen,
-        borderRadius: BorderRadius.circular(AppRadius.card),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Checkbox(
-                value: event.isCompleted,
-                onChanged: (value) => onToggle(value ?? false),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(event.eventTitle, style: theme.textTheme.titleMedium),
-                    const SizedBox(height: 4),
-                    Text(event.eventCategory, style: theme.textTheme.labelMedium),
-                    const SizedBox(height: 8),
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 6,
-                      children: [
-                        _MetaChip(
-                          text: l10n.carePlanItemReason,
-                          theme: theme,
-                        ),
-                        _MetaChip(
-                          text: _reasonLabel(),
-                          theme: theme,
-                          emphasized: item.reason == CarePlanReason.overdue,
-                        ),
-                        _MetaChip(
-                          text:
-                              '${item.effectiveDate.month}/${item.effectiveDate.day}',
-                          theme: theme,
-                        ),
-                      ],
-                    ),
-                    if (item.isWeatherAdjusted && item.originalDate != null) ...[
-                      const SizedBox(height: 8),
-                      Row(
-                        children: [
-                          Icon(Icons.water_drop_outlined,
-                              size: 16, color: theme.colorScheme.primary),
-                          const SizedBox(width: 6),
-                          Expanded(
-                            child: Text(
-                              '${l10n.calendarWeatherAdjusted}: '
-                              '${item.originalDate!.month}/${item.originalDate!.day} → '
-                              '${item.effectiveDate.month}/${item.effectiveDate.day}',
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                color: theme.colorScheme.primary,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
+    final done = event.isCompleted;
+    final (reasonLabel, reasonIcon) = switch (item.reason) {
+      CarePlanReason.weather => (
+        l10n.carePlanReasonWeather,
+        Icons.water_drop_outlined,
       ),
-    );
-  }
-}
+      CarePlanReason.overdue => (
+        l10n.carePlanReasonOverdue,
+        Icons.schedule_rounded,
+      ),
+      CarePlanReason.scanAtRisk => (
+        l10n.carePlanReasonScan,
+        Icons.healing_outlined,
+      ),
+      CarePlanReason.routine => (
+        l10n.carePlanReasonRoutine,
+        Icons.event_repeat_outlined,
+      ),
+    };
+    final urgent = item.reason == CarePlanReason.overdue;
 
-class _SuggestionCard extends StatelessWidget {
-  const _SuggestionCard({
-    required this.suggestion,
-    required this.l10n,
-    required this.theme,
-    required this.onAdd,
-  });
-
-  final CarePlanSuggestion suggestion;
-  final AppLocalizations l10n;
-  final ThemeData theme;
-  final Future<void> Function() onAdd;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
+    return InkWell(
+      borderRadius: BorderRadius.circular(AppRadius.card),
+      onTap: onOpen,
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.fromLTRB(
+          AppSpacing.s2,
+          AppSpacing.s2,
+          AppSpacing.s4,
+          AppSpacing.s2,
+        ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    l10n.carePlanSuggestionTitle(
-                      suggestion.cropName,
-                      suggestion.scan.diseaseDetected,
-                    ),
-                    style: theme.textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    suggestion.scan.diseaseDetected,
-                    style: theme.textTheme.labelMedium,
-                  ),
-                  const SizedBox(height: 8),
-                  _MetaChip(text: l10n.carePlanReasonScan, theme: theme),
-                ],
+            IconButton(
+              tooltip: done
+                  ? l10n.calendarTaskCompleted
+                  : l10n.calendarCompleteTask,
+              onPressed: () => onToggle(!done),
+              icon: Icon(
+                done
+                    ? Icons.check_circle_rounded
+                    : Icons.radio_button_unchecked_rounded,
+                color: done ? AppColors.canopy : AppColors.borderStrong,
               ),
             ),
-            const SizedBox(width: 8),
-            OutlinedButton.icon(
-              key: const Key('care_plan_add_suggestion'),
-              onPressed: () => onAdd(),
-              icon: const Icon(Icons.add),
-              label: Text(l10n.carePlanAddToCalendar),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(top: AppSpacing.s2),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      event.eventTitle,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        color: done
+                            ? AppColors.textSecondary
+                            : AppColors.textPrimary,
+                        decoration: done ? TextDecoration.lineThrough : null,
+                      ),
+                    ),
+                    Text(
+                      '${event.eventCategory} · '
+                      '${loc.formatShortMonthDay(item.effectiveDate)}',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.s2),
+                    DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: urgent
+                            ? AppColors.statusCriticalSurface
+                            : AppColors.mist,
+                        borderRadius: BorderRadius.circular(AppRadius.pill),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.s3 - 2,
+                          vertical: AppSpacing.s1,
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              reasonIcon,
+                              size: AppSpacing.s4,
+                              color: urgent ? AppColors.clay : AppColors.canopy,
+                            ),
+                            const SizedBox(width: AppSpacing.s1 + 2),
+                            Flexible(
+                              child: Text(
+                                reasonLabel,
+                                style: theme.textTheme.labelSmall?.copyWith(
+                                  color: urgent
+                                      ? AppColors.clay
+                                      : AppColors.textSecondary,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    if (item.isWeatherAdjusted &&
+                        item.originalDate != null) ...[
+                      const SizedBox(height: AppSpacing.s2),
+                      Text(
+                        '${l10n.calendarWeatherAdjusted}: '
+                        '${loc.formatShortMonthDay(item.originalDate!)} → '
+                        '${loc.formatShortMonthDay(item.effectiveDate)}',
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: AppColors.canopy,
+                        ),
+                      ),
+                    ],
+                    const SizedBox(height: AppSpacing.s2),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
@@ -381,29 +404,51 @@ class _SuggestionCard extends StatelessWidget {
   }
 }
 
-class _MetaChip extends StatelessWidget {
-  const _MetaChip({required this.text, required this.theme, this.emphasized = false});
+class _SuggestionRow extends StatelessWidget {
+  const _SuggestionRow({required this.suggestion, required this.onAdd});
 
-  final String text;
-  final ThemeData theme;
-  final bool emphasized;
+  final CarePlanSuggestion suggestion;
+  final Future<void> Function() onAdd;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: emphasized
-            ? theme.colorScheme.errorContainer
-            : theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(AppRadius.pill),
-      ),
-      child: Text(
-        text,
-        style: theme.textTheme.labelSmall?.copyWith(
-          fontWeight: emphasized ? FontWeight.w600 : null,
-          color: emphasized ? theme.colorScheme.onErrorContainer : null,
-        ),
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.all(AppSpacing.s4),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            l10n.carePlanSuggestionTitle(
+              suggestion.cropName,
+              suggestion.scan.diseaseDetected,
+            ),
+            style: theme.textTheme.titleMedium?.copyWith(
+              color: AppColors.textPrimary,
+            ),
+          ),
+          Text(
+            l10n.carePlanReasonScan,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: AppColors.textSecondary,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.s3),
+          FilledButton.icon(
+            key: const Key('care_plan_add_suggestion'),
+            onPressed: () => onAdd(),
+            style: FilledButton.styleFrom(
+              backgroundColor: AppColors.actionPrimary,
+              foregroundColor: AppColors.textInverse,
+              minimumSize: const Size(0, AppLayout.touchTarget),
+              shape: const StadiumBorder(),
+            ),
+            icon: const Icon(Icons.add_rounded),
+            label: Text(l10n.carePlanAddToCalendar),
+          ),
+        ],
       ),
     );
   }
