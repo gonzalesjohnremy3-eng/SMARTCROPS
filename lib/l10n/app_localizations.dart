@@ -124,6 +124,12 @@ abstract class AppLocalizations {
   /// **'Saved. We\'ll analyze this when you\'re back online.'**
   String get scanQueuedOffline;
 
+  /// Crops screen: how many Main Crops last scanned At Risk
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 crop needs attention} other{{count} crops need attention}}'**
+  String cropsNeedAttention(int count);
+
   /// Number of Main Crops selected during profile setup
   ///
   /// In en, this message translates to:
@@ -148,16 +154,16 @@ abstract class AppLocalizations {
   /// **'Next'**
   String get next;
 
-  /// No description provided for @getStarted.
+  /// getStarted
   ///
   /// In en, this message translates to:
-  /// **'Get Started'**
+  /// **'Get started'**
   String get getStarted;
 
-  /// No description provided for @onboardingTitle1.
+  /// onboardingTitle1
   ///
   /// In en, this message translates to:
-  /// **'Protect Your Harvest'**
+  /// **'Protect your harvest'**
   String get onboardingTitle1;
 
   /// No description provided for @onboardingBody1.
@@ -166,10 +172,10 @@ abstract class AppLocalizations {
   /// **'Smart Crops helps you detect crop problems early so you can protect your harvest.'**
   String get onboardingBody1;
 
-  /// No description provided for @onboardingTitle2.
+  /// onboardingTitle2
   ///
   /// In en, this message translates to:
-  /// **'Scan and Know'**
+  /// **'Scan and know'**
   String get onboardingTitle2;
 
   /// No description provided for @onboardingBody2.
@@ -178,10 +184,10 @@ abstract class AppLocalizations {
   /// **'Take a photo of your crop and get an instant diagnosis with clear next steps.'**
   String get onboardingBody2;
 
-  /// No description provided for @onboardingTitle3.
+  /// onboardingTitle3
   ///
   /// In en, this message translates to:
-  /// **'Plan with Weather'**
+  /// **'Plan with the weather'**
   String get onboardingTitle3;
 
   /// No description provided for @onboardingBody3.
@@ -189,6 +195,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your Field Calendar adjusts tasks based on the forecast so you never waste effort.'**
   String get onboardingBody3;
+
+  /// Form validation: a required field was left empty
+  ///
+  /// In en, this message translates to:
+  /// **'This field is required'**
+  String get fieldRequired;
 
   /// No description provided for @profileSetupStep1Title.
   ///
@@ -331,13 +343,13 @@ abstract class AppLocalizations {
   /// homeCarePlan
   ///
   /// In en, this message translates to:
-  /// **'This Week\'s Care Plan'**
+  /// **'This week\'s care'**
   String get homeCarePlan;
 
   /// homeRecentScans
   ///
   /// In en, this message translates to:
-  /// **'Recent Diagnoses'**
+  /// **'Recent diagnoses'**
   String get homeRecentScans;
 
   /// No description provided for @homeEmptyFarm.
@@ -388,10 +400,10 @@ abstract class AppLocalizations {
   /// **'Growth Timeline'**
   String get cropDetailGrowthTimeline;
 
-  /// No description provided for @scanCaptureTitle.
+  /// scanCaptureTitle
   ///
   /// In en, this message translates to:
-  /// **'Scan Your Crop'**
+  /// **'Scan a crop'**
   String get scanCaptureTitle;
 
   /// No description provided for @scanCaptureGuidance.
@@ -448,13 +460,13 @@ abstract class AppLocalizations {
   /// **'Diagnosis'**
   String get scanResultDiagnosis;
 
-  /// No description provided for @scanResultTreatmentSteps.
+  /// scanResultTreatmentSteps
   ///
   /// In en, this message translates to:
-  /// **'Treatment Steps'**
+  /// **'What to do now'**
   String get scanResultTreatmentSteps;
 
-  /// No description provided for @scanResultAddToCalendar.
+  /// scanResultAddToCalendar
   ///
   /// In en, this message translates to:
   /// **'Add to Field Calendar'**
@@ -871,7 +883,7 @@ abstract class AppLocalizations {
   /// homeScanCTA
   ///
   /// In en, this message translates to:
-  /// **'Scan a Crop'**
+  /// **'Scan a crop'**
   String get homeScanCTA;
 
   /// calendarSetReminder
@@ -1162,6 +1174,12 @@ abstract class AppLocalizations {
   /// **'Apply'**
   String get languageApply;
 
+  /// Profile: button that saves edited farm details
+  ///
+  /// In en, this message translates to:
+  /// **'Save changes'**
+  String get profileSave;
+
   /// profileUpdated
   ///
   /// In en, this message translates to:
@@ -1216,11 +1234,35 @@ abstract class AppLocalizations {
   /// **'Continue with Phone (OTP)'**
   String get authContinuePhone;
 
+  /// authUseEmail
+  ///
+  /// In en, this message translates to:
+  /// **'Use email instead'**
+  String get authUseEmail;
+
+  /// authUsePhone
+  ///
+  /// In en, this message translates to:
+  /// **'Use phone instead'**
+  String get authUsePhone;
+
   /// authTagline
   ///
   /// In en, this message translates to:
-  /// **'Detect Early. Protect Your Harvest.'**
+  /// **'Know what your crops need.'**
   String get authTagline;
+
+  /// authBrandName
+  ///
+  /// In en, this message translates to:
+  /// **'Smart Crops'**
+  String get authBrandName;
+
+  /// authBrandByline
+  ///
+  /// In en, this message translates to:
+  /// **'by Agri Lynk'**
+  String get authBrandByline;
 
   /// authEmail
   ///
@@ -1273,31 +1315,31 @@ abstract class AppLocalizations {
   /// authOtpMobile
   ///
   /// In en, this message translates to:
-  /// **'Mobile Number (+63...)'**
+  /// **'Mobile number'**
   String get authOtpMobile;
 
   /// authOtpCode
   ///
   /// In en, this message translates to:
-  /// **'Enter OTP Code'**
+  /// **'Enter the 6-digit code'**
   String get authOtpCode;
 
   /// authSendOtp
   ///
   /// In en, this message translates to:
-  /// **'Send OTP'**
+  /// **'Continue'**
   String get authSendOtp;
 
   /// authVerifyOtp
   ///
   /// In en, this message translates to:
-  /// **'Verify OTP'**
+  /// **'Verify code'**
   String get authVerifyOtp;
 
   /// authOtpTitle
   ///
   /// In en, this message translates to:
-  /// **'Phone Number (OTP) Login'**
+  /// **'Sign in or create your account'**
   String get authOtpTitle;
 
   /// authOtpSent
@@ -1341,6 +1383,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You\'re offline. Showing cached weather.'**
   String get homeOfflineBanner;
+
+  /// calendarHighPriority
+  ///
+  /// In en, this message translates to:
+  /// **'High priority'**
+  String get calendarHighPriority;
 
   /// calendarAddTask
   ///
@@ -1711,7 +1759,7 @@ abstract class AppLocalizations {
   /// agriProManageBilling
   ///
   /// In en, this message translates to:
-  /// **'Pagbayad'**
+  /// **'Billing'**
   String get agriProManageBilling;
 
   /// agriProManageBilledBy
@@ -2283,6 +2331,258 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'₱0'**
   String get agriProPriceFree;
+
+  /// authPromiseBody
+  ///
+  /// In en, this message translates to:
+  /// **'Scan a leaf, get a diagnosis and a care plan, in Tagalog, Cebuano or English.'**
+  String get authPromiseBody;
+
+  /// authPhoneHelper
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll text you a 6-digit code.'**
+  String get authPhoneHelper;
+
+  /// authPhoneInvalid
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an 11-digit mobile number that starts with 09.'**
+  String get authPhoneInvalid;
+
+  /// authCodeSentTo
+  ///
+  /// In en, this message translates to:
+  /// **'Sent by SMS to {phone}'**
+  String authCodeSentTo(String phone);
+
+  /// authChangeNumber
+  ///
+  /// In en, this message translates to:
+  /// **'Change number'**
+  String get authChangeNumber;
+
+  /// authResendIn
+  ///
+  /// In en, this message translates to:
+  /// **'Resend code in {seconds}s'**
+  String authResendIn(int seconds);
+
+  /// authResendCode
+  ///
+  /// In en, this message translates to:
+  /// **'Resend code'**
+  String get authResendCode;
+
+  /// authErrorBadCode
+  ///
+  /// In en, this message translates to:
+  /// **'That code is wrong or has expired. Check the SMS or resend a new one.'**
+  String get authErrorBadCode;
+
+  /// authErrorTooManyWait
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Try again in {seconds}s.'**
+  String authErrorTooManyWait(int seconds);
+
+  /// authErrorTooMany
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Wait a minute, then try again.'**
+  String get authErrorTooMany;
+
+  /// authErrorUnreachable
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t send a code to this number. Check it and try again.'**
+  String get authErrorUnreachable;
+
+  /// authErrorOffline
+  ///
+  /// In en, this message translates to:
+  /// **'No connection. Check your mobile data and try again.'**
+  String get authErrorOffline;
+
+  /// authErrorGeneric
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Try again.'**
+  String get authErrorGeneric;
+
+  /// authOtherWays
+  ///
+  /// In en, this message translates to:
+  /// **'Other ways to sign in'**
+  String get authOtherWays;
+
+  /// authBack
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get authBack;
+
+  /// onboardingProgress
+  ///
+  /// In en, this message translates to:
+  /// **'Step {current} of {total}'**
+  String onboardingProgress(int current, int total);
+
+  /// onboardingExampleForecast
+  ///
+  /// In en, this message translates to:
+  /// **'Rain tomorrow'**
+  String get onboardingExampleForecast;
+
+  /// onboardingExampleTask
+  ///
+  /// In en, this message translates to:
+  /// **'Spraying moved to Thursday'**
+  String get onboardingExampleTask;
+
+  /// homeGreetingMorning
+  ///
+  /// In en, this message translates to:
+  /// **'Good morning'**
+  String get homeGreetingMorning;
+
+  /// homeGreetingAfternoon
+  ///
+  /// In en, this message translates to:
+  /// **'Good afternoon'**
+  String get homeGreetingAfternoon;
+
+  /// homeGreetingEvening
+  ///
+  /// In en, this message translates to:
+  /// **'Good evening'**
+  String get homeGreetingEvening;
+
+  /// homeHumidity
+  ///
+  /// In en, this message translates to:
+  /// **'Humidity {value}%'**
+  String homeHumidity(int value);
+
+  /// homeYesterday
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get homeYesterday;
+
+  /// homeScanPromptBody
+  ///
+  /// In en, this message translates to:
+  /// **'Spot problems early. Point your camera at one leaf.'**
+  String get homeScanPromptBody;
+
+  /// scanWhichCrop
+  ///
+  /// In en, this message translates to:
+  /// **'Which crop is this?'**
+  String get scanWhichCrop;
+
+  /// scanTakePhoto
+  ///
+  /// In en, this message translates to:
+  /// **'Take photo'**
+  String get scanTakePhoto;
+
+  /// scanUploadPhoto
+  ///
+  /// In en, this message translates to:
+  /// **'Upload'**
+  String get scanUploadPhoto;
+
+  /// scanTipOneLeaf
+  ///
+  /// In en, this message translates to:
+  /// **'One leaf'**
+  String get scanTipOneLeaf;
+
+  /// scanTipFillFrame
+  ///
+  /// In en, this message translates to:
+  /// **'Fill the frame'**
+  String get scanTipFillFrame;
+
+  /// scanTipNoShadows
+  ///
+  /// In en, this message translates to:
+  /// **'No shadows'**
+  String get scanTipNoShadows;
+
+  /// scanQuotaLeft
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No free scans left this week} =1{1 free scan left this week} other{{count} free scans left this week}}'**
+  String scanQuotaLeft(int count);
+
+  /// scanQuotaUnlimited
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited scans with Pro'**
+  String get scanQuotaUnlimited;
+
+  /// scanNoCrops
+  ///
+  /// In en, this message translates to:
+  /// **'Add your Main Crops to start scanning.'**
+  String get scanNoCrops;
+
+  /// scanAddCrops
+  ///
+  /// In en, this message translates to:
+  /// **'Add crops'**
+  String get scanAddCrops;
+
+  /// scanReviewQuestion
+  ///
+  /// In en, this message translates to:
+  /// **'Is the leaf clear?'**
+  String get scanReviewQuestion;
+
+  /// scanReviewHint
+  ///
+  /// In en, this message translates to:
+  /// **'Spots should be sharp and the leaf should fill most of the photo.'**
+  String get scanReviewHint;
+
+  /// scanAnalyzeFailed
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t analyze this photo. Check your connection and try again.'**
+  String get scanAnalyzeFailed;
+
+  /// scanResultLearnMore
+  ///
+  /// In en, this message translates to:
+  /// **'Learn more'**
+  String get scanResultLearnMore;
+
+  /// scanFollowUpTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Recheck {crop}: {diagnosis}'**
+  String scanFollowUpTitle(String crop, String diagnosis);
+
+  /// scanResultLowConfidenceTitle
+  ///
+  /// In en, this message translates to:
+  /// **'Not sure about this one'**
+  String get scanResultLowConfidenceTitle;
+
+  /// scanResultLowConfidenceBody
+  ///
+  /// In en, this message translates to:
+  /// **'The photo wasn\'t clear enough for a confident answer. Retake it in daylight, close to one leaf.'**
+  String get scanResultLowConfidenceBody;
+
+  /// scanResultScanAnother
+  ///
+  /// In en, this message translates to:
+  /// **'Scan another crop'**
+  String get scanResultScanAnother;
 }
 
 class _AppLocalizationsDelegate

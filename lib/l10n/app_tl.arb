@@ -4,17 +4,19 @@
   "scanCrop": "I-scan ang pananim",
   "fieldCalendar": "Kalendaryo ng Bukid",
   "scanQueuedOffline": "Nai-save. Susuriin namin ito kapag may koneksyon ka na.",
+  "cropsNeedAttention": "{count, plural, =1{1 pananim ang kailangang tingnan} other{{count} pananim ang kailangang tingnan}}",
   "cropsSelectedCount": "{count, plural, =0{Wala pang napiling pananim} =1{{count} pananim ang napili} other{{count} pananim ang napili}}",
   "skip": "Lagtaan",
   "back": "Bumalik",
   "next": "Sunod",
   "getStarted": "Simulan na",
-  "onboardingTitle1": "Protektahan ang Ani",
+  "onboardingTitle1": "Protektahan ang ani",
   "onboardingBody1": "Tutulungan ka ng Smart Crops na maagap na matukoy ang mga suliranin sa pananim upang maprotektahan ang iyong ani.",
-  "onboardingTitle2": "I-scan at Malaman",
+  "onboardingTitle2": "I-scan at malaman",
   "onboardingBody2": "Kunan ng litrato ang iyong pananim at makuha agad ang diagnosis na may malinaw susunod na hakbang.",
-  "onboardingTitle3": "Magplano ayon sa Panahon",
+  "onboardingTitle3": "Magplano ayon sa panahon",
   "onboardingBody3": "Awtomatik na naaayon ang iyong Kalendaryo ng Bukid batay sa forecast upang hindi masayang ang pagsisikap.",
+  "fieldRequired": "Kailangan ang field na ito",
   "profileSetupStep1Title": "Tungkol Sa Iyo",
   "profileSetupStep1Subtitle": "Sabihin sa amin ang tungkol sa iyo at sa iyong bukid",
   "fullName": "Buong Pangalan",
@@ -38,8 +40,8 @@
   "homeFieldBriefing": "Field Briefing Ngayon",
   "homePriorityAction": "Pangunahing Kilos",
   "homeScanCta": "I-scan ang Pananim",
-  "homeCarePlan": "Care Plan Ng Linggang Ito",
-  "homeRecentScans": "Mga Nakaraang Diagnosis",
+  "homeCarePlan": "Pag-aalaga ngayong linggo",
+  "homeRecentScans": "Mga kamakailang diagnosis",
   "homeEmptyFarm": "Handa na ang iyong field office. Kumuha ng unang scan upang simulan ang talaan ng kalusugan ng iyong pananim.",
   "homeMonitoring": "Ligtas lahat. Patuloy naming bantayan ang iyong mga pananim.",
   "cropsTitle": "Aking mga Pananim",
@@ -52,7 +54,7 @@
   "cropDetailYourScans": "Mga scan mo para sa pananim na ito",
   "cropDetailUpcomingTasks": "Mga susunod na gawain",
   "cropDetailOpenCalendar": "Buksan ang kalendaryo",
-  "scanCaptureTitle": "I-scan ang Iyong Pananim",
+  "scanCaptureTitle": "I-scan ang pananim",
   "scanCaptureGuidance": "Punan ang frame ng isang dahon. Iwasan ang anino.",
   "scanReviewTitle": "Surin ang Iyong Litrato",
   "scanReviewRetake": "Muling Kunan",
@@ -62,7 +64,7 @@
   "scanResultConfidence": "Kumpiyansa",
   "scanResultSeverity": "Kagubatan",
   "scanResultDiagnosis": "Diagnosis",
-  "scanResultTreatmentSteps": "Mga Hakbang ng Gamot",
+  "scanResultTreatmentSteps": "Ano ang gagawin ngayon",
   "scanResultAddToCalendar": "Idagdag sa Kalendaryo ng Bukid",
   "scanResultSetReminder": "Maglagay ng Paalala",
   "scanResultShare": "Ibahagi",
@@ -144,7 +146,7 @@
   "@homeRecentScans": {
     "description": "homeRecentScans"
   },
-  "homeScanCTA": "I-scan ang Pananim",
+  "homeScanCTA": "I-scan ang pananim",
   "@homeScanCTA": {
     "description": "homeScanCTA"
   },
@@ -327,6 +329,7 @@
   "@languageApply": {
     "description": "languageApply"
   },
+  "profileSave": "I-save ang mga pagbabago",
   "profileUpdated": "Nai-save ang mga pagbabago.",
   "@profileUpdated": {
     "description": "profileUpdated"
@@ -363,9 +366,25 @@
   "@authContinuePhone": {
     "description": "authContinuePhone"
   },
-  "authTagline": "Tuklasin nang Maaga. Protektahan ang Iyong Ani.",
+  "authUseEmail": "Gumamit ng email",
+  "@authUseEmail": {
+    "description": "authUseEmail"
+  },
+  "authUsePhone": "Gumamit ng telepono",
+  "@authUsePhone": {
+    "description": "authUsePhone"
+  },
+  "authTagline": "Alamin ang kailangan ng iyong pananim.",
   "@authTagline": {
     "description": "authTagline"
+  },
+  "authBrandName": "Smart Crops",
+  "@authBrandName": {
+    "description": "authBrandName"
+  },
+  "authBrandByline": "by Agri Lynk",
+  "@authBrandByline": {
+    "description": "authBrandByline"
   },
   "authEmail": "Email Address",
   "@authEmail": {
@@ -399,23 +418,23 @@
   "@authPhoneLabel": {
     "description": "authPhoneLabel"
   },
-  "authOtpMobile": "Numero ng Mobile (+63...)",
+  "authOtpMobile": "Numero ng mobile",
   "@authOtpMobile": {
     "description": "authOtpMobile"
   },
-  "authOtpCode": "Ilagay ang OTP Code",
+  "authOtpCode": "Ilagay ang 6-digit na code",
   "@authOtpCode": {
     "description": "authOtpCode"
   },
-  "authSendOtp": "Ipadala ang OTP",
+  "authSendOtp": "Magpatuloy",
   "@authSendOtp": {
     "description": "authSendOtp"
   },
-  "authVerifyOtp": "Patunayan ang OTP",
+  "authVerifyOtp": "I-verify ang code",
   "@authVerifyOtp": {
     "description": "authVerifyOtp"
   },
-  "authOtpTitle": "Login gamit ang Telepono (OTP)",
+  "authOtpTitle": "Mag-sign in o gumawa ng account",
   "@authOtpTitle": {
     "description": "authOtpTitle"
   },
@@ -447,6 +466,7 @@
   "@homeOfflineBanner": {
     "description": "homeOfflineBanner"
   },
+  "calendarHighPriority": "Mataas na priyoridad",
   "calendarAddTask": "Magdagdag ng Gawain",
   "@calendarAddTask": {
     "description": "calendarAddTask"
@@ -933,5 +953,47 @@
   "agriProComparePlan": "Plano",
   "agriProComparePrice": "Presyo",
   "agriProCompareIncludes": "Ano ang kasama",
-  "agriProPriceFree": "₱0"
+  "agriProPriceFree": "₱0",
+  "authPromiseBody": "I-scan ang dahon, alamin ang sakit at plano ng pag-aalaga, sa Tagalog, Cebuano o English.",
+  "authPhoneHelper": "Padadalhan ka namin ng 6-digit na code sa SMS.",
+  "authPhoneInvalid": "Maglagay ng 11-digit na mobile number na nagsisimula sa 09.",
+  "authCodeSentTo": "Ipinadala sa SMS sa {phone}",
+  "authChangeNumber": "Palitan ang numero",
+  "authResendIn": "Ipadala muli sa loob ng {seconds}s",
+  "authResendCode": "Ipadala muli ang code",
+  "authErrorBadCode": "Mali o expired na ang code. Tingnan ang SMS o magpadala ng bago.",
+  "authErrorTooManyWait": "Masyadong maraming subok. Subukang muli sa loob ng {seconds}s.",
+  "authErrorTooMany": "Masyadong maraming subok. Maghintay ng isang minuto at subukang muli.",
+  "authErrorUnreachable": "Hindi kami makapagpadala ng code sa numerong ito. Suriin ito at subukang muli.",
+  "authErrorOffline": "Walang koneksyon. Tingnan ang iyong mobile data at subukang muli.",
+  "authErrorGeneric": "May nangyaring mali. Subukang muli.",
+  "authOtherWays": "Ibang paraan ng pag-sign in",
+  "authBack": "Bumalik",
+  "onboardingProgress": "Hakbang {current} sa {total}",
+  "onboardingExampleForecast": "Uulan bukas",
+  "onboardingExampleTask": "Inilipat sa Huwebes ang pag-spray",
+  "homeGreetingMorning": "Magandang umaga",
+  "homeGreetingAfternoon": "Magandang hapon",
+  "homeGreetingEvening": "Magandang gabi",
+  "homeHumidity": "Halumigmig {value}%",
+  "homeYesterday": "Kahapon",
+  "homeScanPromptBody": "Makita agad ang problema. Itutok ang camera sa isang dahon.",
+  "scanWhichCrop": "Anong pananim ito?",
+  "scanTakePhoto": "Kumuha ng litrato",
+  "scanUploadPhoto": "Mag-upload",
+  "scanTipOneLeaf": "Isang dahon",
+  "scanTipFillFrame": "Punuin ang frame",
+  "scanTipNoShadows": "Walang anino",
+  "scanQuotaLeft": "{count, plural, =0{Wala nang libreng scan ngayong linggo} =1{1 libreng scan na lang ngayong linggo} other{{count} libreng scan na lang ngayong linggo}}",
+  "scanQuotaUnlimited": "Walang limitasyong scan sa Pro",
+  "scanNoCrops": "Idagdag ang iyong mga pangunahing pananim para makapag-scan.",
+  "scanAddCrops": "Magdagdag ng pananim",
+  "scanReviewQuestion": "Malinaw ba ang dahon?",
+  "scanReviewHint": "Dapat malinaw ang mga batik at sakop ng dahon ang halos buong litrato.",
+  "scanAnalyzeFailed": "Hindi namin masuri ang litratong ito. Tingnan ang koneksyon at subukang muli.",
+  "scanResultLearnMore": "Alamin pa",
+  "scanFollowUpTitle": "Suriin muli ang {crop}: {diagnosis}",
+  "scanResultLowConfidenceTitle": "Hindi pa sigurado",
+  "scanResultLowConfidenceBody": "Hindi sapat ang linaw ng litrato para makasiguro. Kumuha muli sa liwanag ng araw, malapit sa isang dahon.",
+  "scanResultScanAnother": "Mag-scan ng iba pang pananim"
 }

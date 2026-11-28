@@ -170,7 +170,7 @@ The separate CropCare design line was removed so the app has a single design sou
 | CropCare contracts removed | **[x]** | `test/cropcare/`, `test/design/cropcare_prototype_contract_test.dart` deleted |
 | Field Almanac remains the only design line | **[x]** | `design/prototypes/`, `design/prototypes/IMPLEMENTATION_MAP.md` |
 
-Current verification: flutter test (239 passing); flutter analyze (info-level lints, no errors); deno test (23 passing across scan-crop and send-campaign seams).
+Current verification: flutter test (495 passing); flutter analyze (info-level lints, no errors); deno test (23 passing across scan-crop and send-campaign seams).
 
 ---
 
@@ -207,3 +207,33 @@ Systematic debugging found that five chosen verdict elements had no acceptance c
 | P14 two-column profile | **[x]** | `lib/features/profile/screens/profile_screen.dart` — grouped farm and settings columns at ≥840px |
 
 No visual world changed: this completes the Field Almanac direction under ADR 0010. New l10n keys are present in EN/TL/CEB. The critical banner is client-ready but needs a `notifications.severity` column from the backend; the Supabase CLI was unavailable, so that schema migration was not generated in this change.
+
+---
+
+## 10. Premium redesign and screen specs (2026-11-28)
+
+The HTML prototypes in `design/prototypes/` were deleted (ADR 0016); the implementation map above is kept as history. Flutter is the only visual source of truth, and each redesigned screen gets a spec in `design/screens/`, guarded by `test/design/screen_spec_contract_test.dart`. The premium redesign runs one screen per pull request inside Field Almanac (ADR 0017), starting with auth.
+
+| Item | Status | Evidence |
+|---|---|---|
+| Prototypes retired | **[x]** | `design/prototypes/` and `prototype_verdict_coverage_test.dart` deleted |
+| Product context | **[x]** | `PRODUCT.md` |
+| Auth redesign | **[x]** | `design/screens/03-auth.md`, `lib/features/auth/` |
+| Onboarding redesign | **[x]** | `design/screens/02-onboarding.md`, `lib/features/onboarding/`; shared `PillButton` and `ReticleFrame` in `lib/app/widgets/` |
+| Home redesign | **[x]** | `design/screens/05-home.md`, `lib/features/home/screens/home_screen.dart`; golden pinned to a fixed clock |
+| Scan capture redesign | **[x]** | `design/screens/06-scan.md`, `lib/features/scan/screens/scan_capture_screen.dart`|
+| Crops redesign | **[x]** | `design/screens/07-crops.md`, `lib/features/crops/screens/crops_screen.dart` |
+| Calendar redesign | **[x]** | `design/screens/08-calendar.md`, `lib/features/calendar/screens/field_calendar_screen.dart` |
+| Profile redesign | **[x]** | `design/screens/09-profile.md`, `lib/features/profile/screens/profile_screen.dart` |
+| Shop redesign | **[x]** | `design/screens/10-shop.md`, `lib/features/shop/screens/shop_screen.dart` |
+| Health Log redesign | **[x]** | `design/screens/11-health-log.md`, `lib/features/health_log/screens/health_log_screen.dart` |
+| Care Plan redesign | **[x]** | `design/screens/12-care-plan.md`, `lib/features/care_plan/screens/care_plan_screen.dart` |
+| Advisories redesign | **[x]** | `design/screens/13-advisories.md`, `lib/features/advisories/screens/advisories_screen.dart` |
+| Crop detail redesign | **[x]** | `design/screens/14-crop-detail.md`, `lib/features/crops/screens/crop_detail_screen.dart` |
+| Task detail redesign | **[x]** | `design/screens/15-task-detail.md`, `lib/features/calendar/screens/task_detail_screen.dart` |
+| Product detail redesign | **[x]** | `design/screens/16-product-detail.md`, `lib/features/shop/screens/product_detail_screen.dart` |
+| Agri Pro paywall redesign | **[x]** | `design/screens/17-agri-pro-paywall.md`, `lib/features/pro/screens/agri_pro_paywall_screen.dart` |
+| Agri Pro manage redesign | **[x]** | `design/screens/18-agri-pro-manage.md`, `lib/features/pro/screens/agri_pro_manage_screen.dart` |
+| Profile setup redesign | **[x]** | `design/screens/19-profile-setup.md`, `lib/features/profile/screens/profile_setup_screen.dart` |
+| Scan review and result redesign | **[x]** | `design/screens/06a-scan-review.md`, `design/screens/06b-scan-result.md`; `/scan/review` and `/scan/result` are go_router routes above the shell |
+| Crops, calendar, remaining screens | **[ ]** | one pull request each |

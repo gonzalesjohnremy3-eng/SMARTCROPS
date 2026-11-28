@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:smart_crops/app/localization/ceb_fallback_localizations.dart';
 import 'package:smart_crops/features/shop/domain/merchant_product.dart';
 import 'package:smart_crops/features/shop/screens/shop_screen.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
@@ -48,22 +49,126 @@ void main() {
     }
   });
 
-  Widget buildShop(List<MerchantProduct> products) {
+  Widget buildShop(
+    List<MerchantProduct> products, {
+    String locale = 'en',
+    double textScale = 1,
+  }) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<SmartCropsService>(create: (_) => _StubShopService(products)),
       ],
       child: MaterialApp(
+        locale: Locale(locale),
         localizationsDelegates: const [
           AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
+          CebMaterialLocalizationsDelegate(),
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
+          CebCupertinoLocalizationsDelegate(),
         ],
         supportedLocales: const [Locale('en'), Locale('tl'), Locale('ceb')],
+        builder: (context, child) => MediaQuery(
+          data: MediaQuery.of(
+            context,
+          ).copyWith(textScaler: TextScaler.linear(textScale)),
+          child: child!,
+        ),
         home: const ShopScreen(),
       ),
     );
+  }
+
+  final catalog = [
+    _product(name: 'Copper Fungicide', category: 'Fungicide', disease: 'Blight', price: 350),
+    _product(name: 'Neem Oil Organic Spray Concentrate', category: 'Organic Treatment', disease: 'Leaf Spot', price: 280),
+    _product(name: 'Balanced NPK Fertilizer', category: 'Fertilizer', disease: 'Nutrient deficiency', price: 520.5),
+  ];
+
+  testWidgets('says what the shop is for', (tester) async {
+    await tester.binding.setSurfaceSize(const Size(390, 1800));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+
+    await tester.pumpWidget(buildShop(catalog));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Partner products matched to your diagnosis'), findsOneWidget);
+  });
+
+  testWidgets('shows the price with two decimals', (tester) async {
+    await tester.binding.setSurfaceSize(const Size(390, 1800));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+
+    await tester.pumpWidget(buildShop(catalog));
+    await tester.pumpAndSettle();
+
+    expect(find.text('₱520.50'), findsOneWidget);
+  });
+
+  testWidgets('shows what each product treats', (tester) async {
+    await tester.binding.setSurfaceSize(const Size(390, 1800));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+
+    await tester.pumpWidget(buildShop(catalog));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Blight'), findsOneWidget);
+  });
+
+  testWidgets('a search with no match says so, not that the catalog is empty', (
+    tester,
+  ) async {
+    await tester.binding.setSurfaceSize(const Size(390, 1800));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+
+    await tester.pumpWidget(buildShop(catalog));
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextField), 'zzzz');
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text('No matching products for this diagnosis. Your care plan still works without them.'),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('lays products out in columns on a tablet without overflow', (
+    tester,
+  ) async {
+    await tester.binding.setSurfaceSize(const Size(1000, 900));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    final errors = <FlutterErrorDetails>[];
+    final original = FlutterError.onError;
+    FlutterError.onError = errors.add;
+    try {
+      await tester.pumpWidget(buildShop(catalog));
+      await tester.pumpAndSettle();
+    } finally {
+      FlutterError.onError = original;
+    }
+
+    expect(errors, isEmpty);
+  });
+
+  for (final locale in ['en', 'tl', 'ceb']) {
+    testWidgets('fits a phone at 200% text in $locale', (tester) async {
+      await tester.binding.setSurfaceSize(const Size(375, 667));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+      final errors = <FlutterErrorDetails>[];
+      final original = FlutterError.onError;
+      FlutterError.onError = errors.add;
+      try {
+        await tester.pumpWidget(
+          buildShop(catalog, locale: locale, textScale: 2),
+        );
+        await tester.pumpAndSettle();
+      } finally {
+        FlutterError.onError = original;
+      }
+
+      expect(errors, isEmpty);
+    });
   }
 
   testWidgets('renders product cards from the catalog', (tester) async {

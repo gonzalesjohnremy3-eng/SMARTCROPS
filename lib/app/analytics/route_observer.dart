@@ -13,6 +13,8 @@ class AnalyticsRouteObserver extends NavigatorObserver {
     '/home': 'home_viewed',
     '/crops': 'crops_viewed',
     '/scan': 'scan_capture_opened',
+    '/scan/review': 'scan_review_viewed',
+    '/scan/result': 'scan_result_viewed',
     '/calendar': 'calendar_viewed',
     '/care-plan': 'care_plan_viewed',
     '/health-log': 'health_log_viewed',

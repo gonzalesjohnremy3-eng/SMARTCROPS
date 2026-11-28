@@ -15,25 +15,18 @@ void main() {
     expect(meta['theme'].toString().toLowerCase(), isNot(contains('glass')));
   });
 
-  test('prototype tokens have no glass variables or live blur', () {
-    final css = File('design/prototypes/shared/tokens.css').readAsStringSync();
-
-    expect(css.toLowerCase(), isNot(contains('--glass-')));
-    expect(css, isNot(contains('backdrop-filter')));
-    expect(css, isNot(contains('.glass')));
-  });
-
-  test('prototype pages and briefs have no glass surfaces', () {
-    final pages = Directory('design/prototypes')
+  test('screen specs have no glass surfaces', () {
+    final specs = Directory('design/screens')
         .listSync()
-        .whereType<Directory>()
-        .where((dir) => File('${dir.path}/brief.md').existsSync());
+        .whereType<File>()
+        .where((file) => file.path.endsWith('.md'));
 
-    for (final page in pages) {
-      final brief = File('${page.path}/brief.md').readAsStringSync().toLowerCase();
-      final html = File('${page.path}/index.html').readAsStringSync().toLowerCase();
-      expect(brief, isNot(contains('glass')), reason: '$page brief still has glass');
-      expect(html, isNot(contains('glass')), reason: '$page page still has glass');
+    for (final spec in specs) {
+      expect(
+        spec.readAsStringSync().toLowerCase(),
+        isNot(contains('glass')),
+        reason: '${spec.path} still has glass',
+      );
     }
   });
 

@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_crops/app/analytics/analytics.dart';
 import 'package:smart_crops/app/theme/app_tokens.dart';
-import 'package:smart_crops/app/widgets/overlay_hero.dart';
 import 'package:smart_crops/app/widgets/feedback_states.dart';
+import 'package:smart_crops/app/widgets/reticle_frame.dart';
 import 'package:smart_crops/features/home/domain/field_briefing.dart';
-import 'package:smart_crops/models/app_models.dart';
-import 'package:smart_crops/services/weather_service.dart';
 import 'package:smart_crops/features/scan/domain/diagnosis_presenter.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
+import 'package:smart_crops/models/app_models.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
-import 'package:smart_crops/features/scan/screens/scan_capture_screen.dart';
-import 'package:smart_crops/app/analytics/analytics.dart';
-import 'package:smart_crops/app/analytics/analytics_view.dart';
+import 'package:smart_crops/services/weather_service.dart';
 
 typedef BriefingContent = ({
   IconData icon,
@@ -72,10 +70,15 @@ BriefingContent briefingContent(
   };
 }
 
+const _gutter = AppSpacing.s5;
+
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key, this.briefingFacts});
+  const HomeScreen({super.key, this.briefingFacts, this.now});
 
   final BriefingFacts? briefingFacts;
+
+  /// Fixes the clock for the greeting and relative dates in goldens.
+  final DateTime? now;
 
   BriefingFacts _factsFrom(BuildContext context) {
     final service = context.read<SmartCropsService>();
@@ -104,21 +107,10 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final theme = Theme.of(context);
     final facts = briefingFacts ?? _factsFrom(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.appTitle),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications_outlined),
-            onPressed: () => context.go('/advisories'),
-            tooltip: l10n.advisoriesTitle,
-          ),
-        ],
-      ),
+      backgroundColor: AppColors.paper,
       body: Consumer<SmartCropsService>(
         builder: (context, service, child) {
           if (service.isLoading) {
@@ -130,99 +122,64 @@ class HomeScreen extends StatelessWidget {
               onRetry: service.initializeUserData,
             );
           }
+
+          final briefing = [
+            _Greeting(service: service, now: now ?? DateTime.now()),
+            const SizedBox(height: AppSpacing.s6),
+            _FieldBriefingCard(facts: facts),
+            _AdvisoryStrip(notifications: service.notifications),
+            const SizedBox(height: AppSpacing.s4),
+            const _ScanPrompt(),
+          ];
+          final lists = [
+            _SectionHeader(
+              title: AppLocalizations.of(context).homeCarePlan,
+              actionLabel: AppLocalizations.of(context).viewAll,
+              onAction: () {
+                context.trackEvent('care_plan_opened_from_home');
+                context.go('/care-plan');
+              },
+            ),
+            _CareList(events: service.calendarEvents),
+            const SizedBox(height: AppSpacing.s8),
+            _SectionHeader(
+              title: AppLocalizations.of(context).homeRecentScans,
+              actionLabel: AppLocalizations.of(context).viewAll,
+              onAction: () => context.go('/health-log'),
+            ),
+            _ScanList(scans: service.scanHistory, now: now ?? DateTime.now()),
+          ];
+
           return RefreshIndicator(
+            color: AppColors.canopy,
             onRefresh: service.initializeUserData,
             child: LayoutBuilder(
               builder: (context, constraints) {
                 if (constraints.maxWidth >=
                     AppLayout.breakpoints['expanded']!) {
-                  return _wideDashboard(
-                    context: context,
-                    facts: facts,
-                    l10n: l10n,
-                    theme: theme,
-                  );
-                }
-                return CustomScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  slivers: [
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                        child: _BriefingHero(facts: facts, l10n: l10n),
-                      ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: _FieldBriefingCard(l10n: l10n, theme: theme),
-                    ),
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
-                        child: Text(
-                          l10n.homePriorityAction,
-                          style: theme.textTheme.titleLarge,
-                        ),
-                      ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: _PriorityActionCard(
-                          facts: facts,
-                          l10n: l10n,
-                          theme: theme,
-                        ),
-                      ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  return Row(
+                    key: const Key('home-wide-split'),
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Expanded(flex: 6, child: _Column(children: briefing)),
+                      Expanded(
+                        key: const Key('home-wide-actions'),
+                        flex: 5,
+                        child: _Column(
                           children: [
-                            Expanded(
-                              child: Text(
-                                l10n.homeCarePlan,
-                                style: theme.textTheme.titleLarge,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                context.trackEvent(
-                                  'care_plan_opened_from_home',
-                                );
-                                context.go('/care-plan');
-                              },
-                              child: Text(l10n.viewAll),
-                            ),
+                            const SizedBox(height: AppSpacing.s12),
+                            ...lists,
                           ],
                         ),
                       ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: _CarePlanPreview(l10n: l10n, theme: theme),
-                      ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
-                        child: Text(
-                          l10n.homeRecentScans,
-                          style: theme.textTheme.titleLarge,
-                        ),
-                      ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: _RecentScansPreview(l10n: l10n, theme: theme),
-                      ),
-                    ),
-                    const SliverToBoxAdapter(child: SizedBox(height: 100)),
+                    ],
+                  );
+                }
+                return _Column(
+                  children: [
+                    ...briefing,
+                    const SizedBox(height: AppSpacing.s8),
+                    ...lists,
                   ],
                 );
               },
@@ -230,125 +187,29 @@ class HomeScreen extends StatelessWidget {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        key: const Key('fab_scan'),
-        onPressed: () => Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => const AnalyticsView(
-              event: 'scan_capture_opened',
-              child: ScanCaptureScreen(),
-            ),
-          ),
-        ),
-        icon: const Icon(Icons.camera_alt),
-        label: Text(l10n.homeScanCTA),
-      ),
     );
   }
+}
 
-  Widget _wideDashboard({
-    required BuildContext context,
-    required BriefingFacts facts,
-    required AppLocalizations l10n,
-    required ThemeData theme,
-  }) {
-    return Row(
-      key: const Key('home-wide-split'),
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Expanded(
-          flex: 6,
-          child: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 16, 12, 0),
-                  child: _BriefingHero(facts: facts, l10n: l10n),
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: _FieldBriefingCard(l10n: l10n, theme: theme),
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 24, 12, 8),
-                  child: Text(
-                    l10n.homePriorityAction,
-                    style: theme.textTheme.titleLarge,
-                  ),
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: _PriorityActionCard(
-                    facts: facts,
-                    l10n: l10n,
-                    theme: theme,
-                  ),
-                ),
-              ),
-              const SliverToBoxAdapter(child: SizedBox(height: 100)),
-            ],
-          ),
-        ),
-        const VerticalDivider(width: 1),
-        Expanded(
-          key: const Key('home-wide-actions'),
-          flex: 4,
-          child: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(12, 16, 24, 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          l10n.homeCarePlan,
-                          style: theme.textTheme.titleLarge,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          context.trackEvent('care_plan_opened_from_home');
-                          context.go('/care-plan');
-                        },
-                        child: Text(l10n.viewAll),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: _CarePlanPreview(l10n: l10n, theme: theme),
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(12, 24, 24, 8),
-                  child: Text(
-                    l10n.homeRecentScans,
-                    style: theme.textTheme.titleLarge,
-                  ),
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: _RecentScansPreview(l10n: l10n, theme: theme),
-                ),
-              ),
-              const SliverToBoxAdapter(child: SizedBox(height: 100)),
-            ],
+class _Column extends StatelessWidget {
+  const _Column({required this.children});
+
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      slivers: [
+        SliverSafeArea(
+          sliver: SliverPadding(
+            padding: const EdgeInsets.fromLTRB(
+              _gutter,
+              AppSpacing.s4,
+              _gutter,
+              AppSpacing.s10,
+            ),
+            sliver: SliverList.list(children: children),
           ),
         ),
       ],
@@ -356,473 +217,650 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class _BriefingHero extends StatelessWidget {
-  const _BriefingHero({required this.facts, required this.l10n});
+class _Greeting extends StatelessWidget {
+  const _Greeting({required this.service, required this.now});
 
-  final BriefingFacts facts;
-  final AppLocalizations l10n;
-
-  @override
-  Widget build(BuildContext context) {
-    final content = briefingContent(selectPriorityAction(facts).kind, l10n);
-
-    return OverlayHero(
-      imagePath: 'assets/images/overlays/home.webp',
-      eyebrow: l10n.homeFieldBriefing,
-      title: content.title,
-      body: content.body,
-      badge: Semantics(
-        label: content.cta,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          decoration: BoxDecoration(
-            color: AppColors.overlayScrim,
-            borderRadius: BorderRadius.circular(AppRadius.pill),
-            border: Border.all(color: AppColors.leaf.withValues(alpha: 0.5)),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(content.icon, size: 16, color: AppColors.leaf),
-              const SizedBox(width: 6),
-              Text(
-                content.cta,
-                style: const TextStyle(
-                  color: AppColors.textInverse,
-                  fontFamily: 'Public Sans',
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      onTap: () => context.go(content.route),
-    );
-  }
-}
-
-class _FieldBriefingCard extends StatelessWidget {
-  const _FieldBriefingCard({required this.l10n, required this.theme});
-
-  final AppLocalizations l10n;
-  final ThemeData theme;
+  final SmartCropsService service;
+  final DateTime now;
 
   @override
   Widget build(BuildContext context) {
-    final weatherService = context.watch<WeatherService>();
-    final weather = weatherService.currentWeather;
-    final lastUpdated = weatherService.lastUpdated;
-    final notices = context.watch<SmartCropsService>().notifications;
-    final latestUnread = notices.where((n) => !n.isRead).isEmpty
-        ? null
-        : notices.firstWhere((n) => !n.isRead);
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final greeting = now.hour < 12
+        ? l10n.homeGreetingMorning
+        : now.hour < 18
+        ? l10n.homeGreetingAfternoon
+        : l10n.homeGreetingEvening;
+    final fullName = service.currentUserProfile?.fullName.trim() ?? '';
+    final firstName = fullName.isEmpty ? null : fullName.split(' ').first;
+    final hasUnread = service.notifications.any((n) => !n.isRead);
 
-    return Card(
-      margin: const EdgeInsets.all(16),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(Icons.wb_sunny_outlined, color: theme.colorScheme.primary),
-                const SizedBox(width: 8),
-                Flexible(
-                  child: Text(
-                    l10n.homeFieldBriefing,
-                    style: theme.textTheme.titleLarge,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                Expanded(
-                  child: _WeatherSummary(
-                    weather: weather,
-                    lastUpdated: lastUpdated,
-                    l10n: l10n,
-                    theme: theme,
-                  ),
-                ),
-                if (latestUnread != null) ...[
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _CriticalAdvisoryBanner(
-                      title: latestUnread.title,
-                      l10n: l10n,
-                      theme: theme,
-                    ),
-                  ),
-                ],
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _WeatherSummary extends StatelessWidget {
-  const _WeatherSummary({
-    required this.weather,
-    required this.lastUpdated,
-    required this.l10n,
-    required this.theme,
-  });
-
-  final WeatherCondition? weather;
-  final DateTime? lastUpdated;
-  final AppLocalizations l10n;
-  final ThemeData theme;
-
-  @override
-  Widget build(BuildContext context) {
-    final location = weather?.locationName ?? '—';
-    final temperature = weather == null
-        ? '—'
-        : '${weather!.temperature.round()}°';
-    final condition = weather?.condition ?? '—';
-    final humidity = weather == null ? '—' : 'Humidity ${weather!.humidity}%';
-
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(location, style: theme.textTheme.labelMedium),
-          const SizedBox(height: 4),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                temperature,
-                style: theme.textTheme.headlineMedium?.copyWith(
-                  fontFamily: 'Fraunces',
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(width: 8),
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(condition, style: theme.textTheme.bodyMedium),
-                    Text(humidity, style: theme.textTheme.labelSmall),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          if (lastUpdated != null) ...[
-            const SizedBox(height: 6),
-            Text(
-              '${l10n.homeWeatherUpdated} ${lastUpdated!.hour.toString().padLeft(2, '0')}:${lastUpdated!.minute.toString().padLeft(2, '0')}',
-              style: theme.textTheme.labelSmall,
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-}
-
-class _CriticalAdvisoryBanner extends StatelessWidget {
-  const _CriticalAdvisoryBanner({
-    required this.title,
-    required this.l10n,
-    required this.theme,
-  });
-
-  final String title;
-  final AppLocalizations l10n;
-  final ThemeData theme;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.errorContainer,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        children: [
-          Icon(
-            Icons.warning_amber_rounded,
-            color: theme.colorScheme.onErrorContainer,
-          ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              title,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onErrorContainer,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _PriorityActionCard extends StatelessWidget {
-  const _PriorityActionCard({
-    required this.facts,
-    required this.l10n,
-    required this.theme,
-  });
-
-  final BriefingFacts facts;
-  final AppLocalizations l10n;
-  final ThemeData theme;
-
-  BriefingContent _content(BriefingAction action) =>
-      briefingContent(action.kind, l10n);
-
-  @override
-  Widget build(BuildContext context) {
-    final action = selectPriorityAction(facts);
-    final (:icon, :title, :body, :route, :cta) = _content(action);
-
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(icon, color: theme.colorScheme.primary),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(title, style: theme.textTheme.titleMedium),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Text(body, style: theme.textTheme.bodyMedium),
-            const SizedBox(height: 12),
-            FilledButton.icon(
-              onPressed: () {
-                context.trackEvent('priority_action_opened');
-                context.go(route);
-              },
-              icon: const Icon(Icons.arrow_forward),
-              label: Text(cta),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _CarePlanPreview extends StatelessWidget {
-  const _CarePlanPreview({required this.l10n, required this.theme});
-
-  final AppLocalizations l10n;
-  final ThemeData theme;
-
-  @override
-  Widget build(BuildContext context) {
-    final items = context
-        .watch<SmartCropsService>()
-        .calendarEvents
-        .where((event) => !event.isCompleted)
-        .take(2)
-        .toList();
-
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: items.isEmpty
-            ? Text(l10n.carePlanEmpty, style: theme.textTheme.bodyMedium)
-            : Column(
-                children: [
-                  for (var i = 0; i < items.length; i++) ...[
-                    if (i > 0) const Divider(height: 24),
-                    _CarePlanItem(event: items[i], l10n: l10n, theme: theme),
-                  ],
-                ],
-              ),
-      ),
-    );
-  }
-}
-
-class _CarePlanItem extends StatelessWidget {
-  const _CarePlanItem({
-    required this.event,
-    required this.l10n,
-    required this.theme,
-  });
-
-  final CropCalendarEvent event;
-  final AppLocalizations l10n;
-  final ThemeData theme;
-
-  @override
-  Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                event.eventTitle,
-                style: theme.textTheme.titleMedium,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+                MaterialLocalizations.of(context).formatMediumDate(now),
+                style: theme.textTheme.labelMedium?.copyWith(
+                  color: AppColors.textSecondary,
+                ),
               ),
-              const SizedBox(height: 4),
-              Text(event.eventCategory, style: theme.textTheme.bodySmall),
+              const SizedBox(height: AppSpacing.s1),
+              Text(
+                firstName == null ? greeting : '$greeting,',
+                style: theme.textTheme.headlineMedium?.copyWith(
+                  color: AppColors.textPrimary,
+                  height: 1.1,
+                ),
+              ),
+              if (firstName != null)
+                Text(
+                  firstName,
+                  style: theme.textTheme.headlineMedium?.copyWith(
+                    color: AppColors.canopy,
+                    height: 1.1,
+                  ),
+                ),
             ],
           ),
         ),
-        const SizedBox(width: 8),
-        FilledButton(
-          onPressed: () => context
-              .read<SmartCropsService>()
-              .toggleCalendarEventCompletion(event.id, true),
-          child: Text(l10n.calendarCompleteTask),
+        Badge(
+          isLabelVisible: hasUnread,
+          backgroundColor: AppColors.clay,
+          smallSize: AppSpacing.s2 + 2,
+          offset: const Offset(-6, 6),
+          child: IconButton(
+            tooltip: l10n.advisoriesTitle,
+            onPressed: () => context.go('/advisories'),
+            style: IconButton.styleFrom(
+              fixedSize: const Size.square(AppLayout.touchTarget),
+              backgroundColor: AppColors.surfaceSunken,
+              foregroundColor: AppColors.textPrimary,
+            ),
+            icon: const Icon(Icons.notifications_none_rounded),
+          ),
         ),
       ],
     );
   }
 }
 
-class _RecentScansPreview extends StatelessWidget {
-  const _RecentScansPreview({required this.l10n, required this.theme});
+/// Weather on the farm plus the one priority action, over the paddies photo.
+class _FieldBriefingCard extends StatelessWidget {
+  const _FieldBriefingCard({required this.facts});
 
-  final AppLocalizations l10n;
-  final ThemeData theme;
+  final BriefingFacts facts;
 
   @override
   Widget build(BuildContext context) {
-    final scans = context
-        .watch<SmartCropsService>()
-        .scanHistory
-        .take(2)
-        .toList();
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final weatherService = context.watch<WeatherService>();
+    final weather = weatherService.currentWeather;
+    final lastUpdated = weatherService.lastUpdated;
+    final action = briefingContent(selectPriorityAction(facts).kind, l10n);
+    final inverse = AppColors.textInverse;
 
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: scans.isEmpty
-            ? Text(l10n.healthLogEmpty, style: theme.textTheme.bodyMedium)
-            : Column(
-                children: [
-                  for (var i = 0; i < scans.length; i++) ...[
-                    if (i > 0) const Divider(height: 24),
-                    _RecentScanItem(scan: scans[i], theme: theme),
-                  ],
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppRadius.hero),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.forestInk.withValues(alpha: 0.12),
+            blurRadius: AppSpacing.s6,
+            offset: const Offset(0, AppSpacing.s2),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(AppRadius.hero),
+        child: DecoratedBox(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/overlays/home.webp'),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  AppColors.forestInk.withValues(alpha: 0.45),
+                  AppColors.forestInk.withValues(alpha: 0.88),
                 ],
               ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(AppSpacing.s5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.homeFieldBriefing,
+                    style: theme.textTheme.labelMedium?.copyWith(
+                      color: inverse.withValues(alpha: 0.8),
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.s3),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        weather == null
+                            ? '—'
+                            : '${weather.temperature.round()}°',
+                        style: theme.textTheme.displayLarge?.copyWith(
+                          color: inverse,
+                          height: 1,
+                          fontFeatures: const [FontFeature.tabularFigures()],
+                        ),
+                      ),
+                      const SizedBox(width: AppSpacing.s3),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              weather?.locationName ?? '—',
+                              style: theme.textTheme.titleMedium?.copyWith(
+                                color: inverse,
+                              ),
+                            ),
+                            Text(
+                              weather == null
+                                  ? '—'
+                                  : '${weather.condition} · '
+                                        '${l10n.homeHumidity(weather.humidity)}',
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: inverse.withValues(alpha: 0.8),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (lastUpdated != null) ...[
+                    const SizedBox(height: AppSpacing.s1),
+                    Text(
+                      '${l10n.homeWeatherUpdated} '
+                      '${MaterialLocalizations.of(context).formatTimeOfDay(TimeOfDay.fromDateTime(lastUpdated))}',
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        color: inverse.withValues(alpha: 0.65),
+                      ),
+                    ),
+                  ],
+                  const SizedBox(height: AppSpacing.s6),
+                  Divider(height: 1, color: inverse.withValues(alpha: 0.18)),
+                  const SizedBox(height: AppSpacing.s5),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: AppSpacing.s10,
+                        height: AppSpacing.s10,
+                        decoration: BoxDecoration(
+                          color: AppColors.leaf.withValues(alpha: 0.2),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          action.icon,
+                          color: AppColors.leaf,
+                          size: AppSpacing.s5,
+                        ),
+                      ),
+                      const SizedBox(width: AppSpacing.s3),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              action.title,
+                              style: theme.textTheme.titleLarge?.copyWith(
+                                fontFamily: 'Fraunces',
+                                color: inverse,
+                              ),
+                            ),
+                            const SizedBox(height: AppSpacing.s1),
+                            Text(
+                              action.body,
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                color: inverse.withValues(alpha: 0.85),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: AppSpacing.s5),
+                  FilledButton(
+                    onPressed: () {
+                      context.trackEvent('priority_action_opened');
+                      context.go(action.route);
+                    },
+                    style: FilledButton.styleFrom(
+                      backgroundColor: AppColors.paper,
+                      foregroundColor: AppColors.forestInk,
+                      minimumSize: const Size.fromHeight(AppLayout.touchTarget),
+                      shape: const StadiumBorder(),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            action.cta,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        const SizedBox(width: AppSpacing.s2),
+                        const Icon(
+                          Icons.arrow_forward_rounded,
+                          size: AppSpacing.s4 + 2,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
 }
 
-class _RecentScanItem extends StatelessWidget {
-  const _RecentScanItem({required this.scan, required this.theme});
+class _AdvisoryStrip extends StatelessWidget {
+  const _AdvisoryStrip({required this.notifications});
+
+  final List<AppNotification> notifications;
+
+  @override
+  Widget build(BuildContext context) {
+    final unread = notifications.where((n) => !n.isRead);
+    if (unread.isEmpty) return const SizedBox.shrink();
+    final theme = Theme.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.only(top: AppSpacing.s3),
+      child: Material(
+        color: AppColors.statusCriticalSurface,
+        borderRadius: BorderRadius.circular(AppRadius.card),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(AppRadius.card),
+          onTap: () => context.go('/advisories'),
+          child: Padding(
+            padding: const EdgeInsets.all(AppSpacing.s4),
+            child: Row(
+              children: [
+                const Icon(Icons.campaign_outlined, color: AppColors.clay),
+                const SizedBox(width: AppSpacing.s3),
+                Expanded(
+                  child: Text(
+                    unread.first.title,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: AppColors.textPrimary,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                const Icon(
+                  Icons.chevron_right_rounded,
+                  color: AppColors.textSecondary,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ScanPrompt extends StatelessWidget {
+  const _ScanPrompt();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+
+    return Material(
+      color: AppColors.mist,
+      borderRadius: BorderRadius.circular(AppRadius.card),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(AppRadius.card),
+        onTap: () => context.go('/scan'),
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.s4),
+          child: Row(
+            children: [
+              const ReticleFrame(
+                arm: AppSpacing.s2 + 2,
+                padding: EdgeInsets.all(AppSpacing.s3 - 2),
+                child: Icon(
+                  Icons.photo_camera_outlined,
+                  color: AppColors.canopy,
+                  size: AppSpacing.s6,
+                ),
+              ),
+              const SizedBox(width: AppSpacing.s4),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n.homeScanCTA,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                    Text(
+                      l10n.homeScanPromptBody,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Icon(Icons.arrow_forward_rounded, color: AppColors.canopy),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SectionHeader extends StatelessWidget {
+  const _SectionHeader({
+    required this.title,
+    required this.actionLabel,
+    required this.onAction,
+  });
+
+  final String title;
+  final String actionLabel;
+  final VoidCallback onAction;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppSpacing.s2),
+      // Wrap lets "View all" drop under long translations at large text.
+      child: Wrap(
+        alignment: WrapAlignment.spaceBetween,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          Text(
+            title,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              fontFamily: 'Fraunces',
+              color: AppColors.textPrimary,
+            ),
+          ),
+          TextButton(
+            onPressed: onAction,
+            style: TextButton.styleFrom(foregroundColor: AppColors.canopy),
+            child: Text(actionLabel),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Rows grouped on one raised surface, separated by hairlines.
+class _Surface extends StatelessWidget {
+  const _Surface({required this.children});
+
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: AppColors.surfaceRaised,
+        borderRadius: BorderRadius.circular(AppRadius.card),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.forestInk.withValues(alpha: 0.06),
+            blurRadius: AppSpacing.s4,
+            offset: const Offset(0, AppSpacing.s1),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          for (var i = 0; i < children.length; i++) ...[
+            if (i > 0)
+              const Divider(
+                height: 1,
+                indent: AppSpacing.s4,
+                endIndent: AppSpacing.s4,
+                color: AppColors.borderSubtle,
+              ),
+            children[i],
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _CareList extends StatelessWidget {
+  const _CareList({required this.events});
+
+  final List<CropCalendarEvent> events;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final open = events.where((event) => !event.isCompleted).take(3).toList();
+
+    if (open.isEmpty) {
+      return _Surface(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(AppSpacing.s4),
+            child: Text(
+              l10n.carePlanEmpty,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: AppColors.textSecondary,
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+
+    return _Surface(
+      children: [
+        for (final event in open)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.s2,
+              AppSpacing.s2,
+              AppSpacing.s4,
+              AppSpacing.s2,
+            ),
+            child: Row(
+              children: [
+                IconButton(
+                  tooltip: l10n.calendarCompleteTask,
+                  onPressed: () => context
+                      .read<SmartCropsService>()
+                      .toggleCalendarEventCompletion(event.id, true),
+                  icon: const Icon(
+                    Icons.radio_button_unchecked_rounded,
+                    color: AppColors.borderStrong,
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        event.eventTitle,
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          color: AppColors.textPrimary,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        '${event.eventCategory} · '
+                        '${MaterialLocalizations.of(context).formatShortMonthDay(event.scheduledDate)}',
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+class _ScanList extends StatelessWidget {
+  const _ScanList({required this.scans, required this.now});
+
+  final List<ScanHistoryItem> scans;
+  final DateTime now;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final recent = scans.take(3).toList();
+
+    if (recent.isEmpty) {
+      return _Surface(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(AppSpacing.s4),
+            child: Text(
+              l10n.healthLogEmpty,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: AppColors.textSecondary,
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+
+    return _Surface(
+      children: [for (final scan in recent) _ScanRow(scan: scan, now: now)],
+    );
+  }
+}
+
+class _ScanRow extends StatelessWidget {
+  const _ScanRow({required this.scan, required this.now});
 
   final ScanHistoryItem scan;
-  final ThemeData theme;
+  final DateTime now;
 
-  Color _severityColor(DiagnosisSeverity severity) {
-    switch (severity) {
-      case DiagnosisSeverity.healthy:
-        return theme.colorScheme.primary;
-      case DiagnosisSeverity.watch:
-        return theme.colorScheme.tertiary;
-      case DiagnosisSeverity.atRisk:
-        return theme.colorScheme.error;
-    }
-  }
-
-  String _severityLabel(DiagnosisSeverity severity) {
-    switch (severity) {
-      case DiagnosisSeverity.healthy:
-        return 'HEALTHY';
-      case DiagnosisSeverity.watch:
-        return 'WATCH';
-      case DiagnosisSeverity.atRisk:
-        return 'AT RISK';
-    }
-  }
-
-  String _relativeDate(DateTime date) {
-    final now = DateTime.now();
+  String _relativeDate(BuildContext context, AppLocalizations l10n) {
     final today = DateTime(now.year, now.month, now.day);
-    final day = DateTime(date.year, date.month, date.day);
-    final diff = today.difference(day).inDays;
-    if (diff <= 0) return 'Today';
-    if (diff == 1) return 'Yesterday';
-    return '${date.day}/${date.month}';
+    final date = scan.scannedAt;
+    final days = today.difference(DateTime(date.year, date.month, date.day));
+    if (days.inDays <= 0) return l10n.calendarToday;
+    if (days.inDays == 1) return l10n.homeYesterday;
+    return MaterialLocalizations.of(context).formatShortMonthDay(date);
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
     final severity = diagnosisSeverity(scan.diseaseDetected);
-    final color = _severityColor(severity);
+    final (label, color, surface) = switch (severity) {
+      DiagnosisSeverity.healthy => (
+        l10n.severityHealthy,
+        AppColors.statusHealthy,
+        AppColors.statusHealthySurface,
+      ),
+      DiagnosisSeverity.watch => (
+        l10n.severityWatch,
+        AppColors.palay,
+        AppColors.statusWarningSurface,
+      ),
+      DiagnosisSeverity.atRisk => (
+        l10n.severityAtRisk,
+        AppColors.clay,
+        AppColors.statusCriticalSurface,
+      ),
+    };
 
     return InkWell(
-      onTap: () {},
-      borderRadius: BorderRadius.circular(12),
+      onTap: () => context.go('/health-log'),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.all(AppSpacing.s4),
         child: Row(
           children: [
             Container(
-              width: 48,
-              height: 48,
+              width: AppLayout.touchTarget,
+              height: AppLayout.touchTarget,
               decoration: BoxDecoration(
-                color: theme.colorScheme.surfaceContainerHighest,
-                borderRadius: BorderRadius.circular(12),
+                color: surface,
+                borderRadius: BorderRadius.circular(AppRadius.card - 4),
               ),
-              child: Icon(
-                Icons.grass,
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
+              child: Icon(Icons.eco_outlined, color: color),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: AppSpacing.s3),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(scan.commonCrop, style: theme.textTheme.titleMedium),
-                  const SizedBox(height: 2),
                   Text(
-                    '${scan.diseaseDetected} · ${scan.confidenceScore.round()}% · ${_relativeDate(scan.scannedAt)}',
-                    style: theme.textTheme.bodySmall,
+                    scan.commonCrop,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  Text(
+                    '${scan.diseaseDetected} · '
+                    '${scan.confidenceScore.round()}% · '
+                    '${_relativeDate(context, l10n)}',
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: AppColors.textSecondary,
+                      fontFeatures: const [FontFeature.tabularFigures()],
+                    ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),
             ),
+            const SizedBox(width: AppSpacing.s2),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.s3 - 2,
+                vertical: AppSpacing.s1,
+              ),
               decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(8),
+                color: surface,
+                borderRadius: BorderRadius.circular(AppRadius.pill),
               ),
               child: Text(
-                _severityLabel(severity),
+                label,
                 style: theme.textTheme.labelSmall?.copyWith(
                   color: color,
                   fontWeight: FontWeight.w600,

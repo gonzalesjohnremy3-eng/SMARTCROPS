@@ -22,6 +22,17 @@ class AppLocalizationsCeb extends AppLocalizations {
       'Na-save. Susihon namo kini kung naa na kay koneksyon.';
 
   @override
+  String cropsNeedAttention(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ka tanom ang kinahanglan tagdon',
+      one: '1 ka tanom ang kinahanglan tagdon',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String cropsSelectedCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -46,25 +57,28 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get getStarted => 'Sugda na';
 
   @override
-  String get onboardingTitle1 => 'Pangtagaan ang Ani';
+  String get onboardingTitle1 => 'Pangtagaan ang ani';
 
   @override
   String get onboardingBody1 =>
       'Tabangan ka sa Smart Crops nga maagang makita ang mga suliranon sa tanom aron mapangtagaan ang imong ani.';
 
   @override
-  String get onboardingTitle2 => 'I-scan ug Hibaloa';
+  String get onboardingTitle2 => 'I-scan ug hibaloa';
 
   @override
   String get onboardingBody2 =>
       'Kunhao og litrato ang imong tanom ug daghan ug kagawasan nga diagnosis nga naay klarong sunod nga lakang.';
 
   @override
-  String get onboardingTitle3 => 'Planoon Base sa Panahon';
+  String get onboardingTitle3 => 'Planoha base sa panahon';
 
   @override
   String get onboardingBody3 =>
       'Awto nga mo-adjust ang imong Kalendaryo sa Uma base sa forecast aron dili masayang ang pagsikap.';
+
+  @override
+  String get fieldRequired => 'Kinahanglan pun-an kini';
 
   @override
   String get profileSetupStep1Title => 'Mahitungod Kanimo';
@@ -142,10 +156,10 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get homeScanCta => 'I-scan ang Tanom';
 
   @override
-  String get homeCarePlan => 'Care Plan Sa Semana Karon';
+  String get homeCarePlan => 'Pag-atiman karong semanaha';
 
   @override
-  String get homeRecentScans => 'Mga Miaging Diagnosis';
+  String get homeRecentScans => 'Bag-ong mga diagnosis';
 
   @override
   String get homeEmptyFarm =>
@@ -175,7 +189,7 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get cropDetailGrowthTimeline => 'Timeline sa Paglago';
 
   @override
-  String get scanCaptureTitle => 'I-scan ang Imong Tanom';
+  String get scanCaptureTitle => 'I-scan ang tanom';
 
   @override
   String get scanCaptureGuidance =>
@@ -206,7 +220,7 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get scanResultDiagnosis => 'Diagnosis';
 
   @override
-  String get scanResultTreatmentSteps => 'Mga Lakang sa Tambal';
+  String get scanResultTreatmentSteps => 'Unsay buhaton karon';
 
   @override
   String get scanResultAddToCalendar => 'Idugang sa Kalendaryo sa Uma';
@@ -425,7 +439,7 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get viewAll => 'Tan-awa ang tanan';
 
   @override
-  String get homeScanCTA => 'I-scan ang Tanom';
+  String get homeScanCTA => 'I-scan ang tanom';
 
   @override
   String get calendarSetReminder => 'Magbutang og Pahinumdom';
@@ -579,6 +593,9 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get languageApply => 'I-apply';
 
   @override
+  String get profileSave => 'I-save ang mga kausaban';
+
+  @override
   String get profileUpdated => 'Na-save ang mga kausaban.';
 
   @override
@@ -606,7 +623,19 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get authContinuePhone => 'Padayon sa Telepono (OTP)';
 
   @override
-  String get authTagline => 'Diskubreha Agad. Panggawi ang Imong Ani.';
+  String get authUseEmail => 'Gamita ang email';
+
+  @override
+  String get authUsePhone => 'Gamita ang telepono';
+
+  @override
+  String get authTagline => 'Hibaloa ang kinahanglan sa imong tanom.';
+
+  @override
+  String get authBrandName => 'Smart Crops';
+
+  @override
+  String get authBrandByline => 'by Agri Lynk';
 
   @override
   String get authEmail => 'Email Address';
@@ -634,19 +663,19 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get authPhoneLabel => 'Numero sa Telepono / Mobile (Opsyonal)';
 
   @override
-  String get authOtpMobile => 'Numero sa Mobile (+63...)';
+  String get authOtpMobile => 'Numero sa mobile';
 
   @override
-  String get authOtpCode => 'Ibutang ang OTP Code';
+  String get authOtpCode => 'Ibutang ang 6-digit nga code';
 
   @override
-  String get authSendOtp => 'Ipadala ang OTP';
+  String get authSendOtp => 'Padayon';
 
   @override
-  String get authVerifyOtp => 'I-verify ang OTP';
+  String get authVerifyOtp => 'I-verify ang code';
 
   @override
-  String get authOtpTitle => 'Login gamit ang Telepono (OTP)';
+  String get authOtpTitle => 'Mag-sign in o paghimo og account';
 
   @override
   String get authOtpSent => 'Naipadala na ang OTP sa imong mobile number!';
@@ -670,6 +699,9 @@ class AppLocalizationsCeb extends AppLocalizations {
   @override
   String get homeOfflineBanner =>
       'Offline ka. Gipakita ang cached nga panahon.';
+
+  @override
+  String get calendarHighPriority => 'Taas nga prayoridad';
 
   @override
   String get calendarAddTask => 'Pagdugang og Buluhaton';
@@ -1186,4 +1218,163 @@ class AppLocalizationsCeb extends AppLocalizations {
 
   @override
   String get agriProPriceFree => '₱0';
+
+  @override
+  String get authPromiseBody =>
+      'I-scan ang dahon, mahibal-an ang sakit ug plano sa pag-atiman, sa Tagalog, Cebuano o English.';
+
+  @override
+  String get authPhoneHelper =>
+      'Padad-an ka namo og 6-digit nga code pinaagi sa SMS.';
+
+  @override
+  String get authPhoneInvalid =>
+      'Ibutang ang 11-digit nga mobile number nga nagsugod sa 09.';
+
+  @override
+  String authCodeSentTo(String phone) {
+    return 'Gipadala pinaagi sa SMS sa $phone';
+  }
+
+  @override
+  String get authChangeNumber => 'Usba ang numero';
+
+  @override
+  String authResendIn(int seconds) {
+    return 'Ipadala pag-usab sulod sa ${seconds}s';
+  }
+
+  @override
+  String get authResendCode => 'Ipadala pag-usab ang code';
+
+  @override
+  String get authErrorBadCode =>
+      'Sayop o expired na ang code. Tan-awa ang SMS o pagpadala og bag-o.';
+
+  @override
+  String authErrorTooManyWait(int seconds) {
+    return 'Daghan na kaayo nga pagsulay. Sulayi pag-usab sulod sa ${seconds}s.';
+  }
+
+  @override
+  String get authErrorTooMany =>
+      'Daghan na kaayo nga pagsulay. Paghulat og usa ka minuto ug sulayi pag-usab.';
+
+  @override
+  String get authErrorUnreachable =>
+      'Dili mi makapadala og code niini nga numero. Susiha ug sulayi pag-usab.';
+
+  @override
+  String get authErrorOffline =>
+      'Walay koneksyon. Susiha ang imong mobile data ug sulayi pag-usab.';
+
+  @override
+  String get authErrorGeneric => 'Adunay sayop. Sulayi pag-usab.';
+
+  @override
+  String get authOtherWays => 'Laing paagi sa pag-sign in';
+
+  @override
+  String get authBack => 'Balik';
+
+  @override
+  String onboardingProgress(int current, int total) {
+    return 'Lakang $current sa $total';
+  }
+
+  @override
+  String get onboardingExampleForecast => 'Mouwan ugma';
+
+  @override
+  String get onboardingExampleTask => 'Gibalhin sa Huwebes ang pag-spray';
+
+  @override
+  String get homeGreetingMorning => 'Maayong buntag';
+
+  @override
+  String get homeGreetingAfternoon => 'Maayong hapon';
+
+  @override
+  String get homeGreetingEvening => 'Maayong gabii';
+
+  @override
+  String homeHumidity(int value) {
+    return 'Kaumog $value%';
+  }
+
+  @override
+  String get homeYesterday => 'Gahapon';
+
+  @override
+  String get homeScanPromptBody =>
+      'Makita dayon ang problema. Itutok ang camera sa usa ka dahon.';
+
+  @override
+  String get scanWhichCrop => 'Unsang tanoma kini?';
+
+  @override
+  String get scanTakePhoto => 'Pagkuha og litrato';
+
+  @override
+  String get scanUploadPhoto => 'I-upload';
+
+  @override
+  String get scanTipOneLeaf => 'Usa ka dahon';
+
+  @override
+  String get scanTipFillFrame => 'Pun-a ang frame';
+
+  @override
+  String get scanTipNoShadows => 'Walay landong';
+
+  @override
+  String scanQuotaLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count na lang ka libreng scan karong semanaha',
+      one: '1 na lang ka libreng scan karong semanaha',
+      zero: 'Wala nay libreng scan karong semanaha',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get scanQuotaUnlimited => 'Walay limit nga scan sa Pro';
+
+  @override
+  String get scanNoCrops =>
+      'Idugang ang imong mga panguna nga tanom aron maka-scan.';
+
+  @override
+  String get scanAddCrops => 'Pagdugang og tanom';
+
+  @override
+  String get scanReviewQuestion => 'Klaro ba ang dahon?';
+
+  @override
+  String get scanReviewHint =>
+      'Kinahanglan klaro ang mga lama ug ang dahon mopuno sa kadaghanan sa litrato.';
+
+  @override
+  String get scanAnalyzeFailed =>
+      'Dili namo ma-analisar kini nga litrato. Susiha ang koneksyon ug sulayi pag-usab.';
+
+  @override
+  String get scanResultLearnMore => 'Hibaloa pa';
+
+  @override
+  String scanFollowUpTitle(String crop, String diagnosis) {
+    return 'Susiha pag-usab ang $crop: $diagnosis';
+  }
+
+  @override
+  String get scanResultLowConfidenceTitle => 'Dili pa sigurado';
+
+  @override
+  String get scanResultLowConfidenceBody =>
+      'Dili igo ka klaro ang litrato aron makasiguro. Pagkuha pag-usab sa kahayag sa adlaw, duol sa usa ka dahon.';
+
+  @override
+  String get scanResultScanAnother => 'Pag-scan og laing tanom';
 }

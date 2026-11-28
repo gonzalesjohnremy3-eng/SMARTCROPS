@@ -4,17 +4,19 @@
   "scanCrop": "I-scan ang tanom",
   "fieldCalendar": "Kalendaryo sa Uma",
   "scanQueuedOffline": "Na-save. Susihon namo kini kung naa na kay koneksyon.",
+  "cropsNeedAttention": "{count, plural, =1{1 ka tanom ang kinahanglan tagdon} other{{count} ka tanom ang kinahanglan tagdon}}",
   "cropsSelectedCount": "{count, plural, =0{Wala pay napiling tanom} =1{{count} tanom ang napili} other{{count} tanom ang napili}}",
   "skip": "Laktaw",
   "back": "Mobalik",
   "next": "Sunod",
   "getStarted": "Sugda na",
-  "onboardingTitle1": "Pangtagaan ang Ani",
+  "onboardingTitle1": "Pangtagaan ang ani",
   "onboardingBody1": "Tabangan ka sa Smart Crops nga maagang makita ang mga suliranon sa tanom aron mapangtagaan ang imong ani.",
-  "onboardingTitle2": "I-scan ug Hibaloa",
+  "onboardingTitle2": "I-scan ug hibaloa",
   "onboardingBody2": "Kunhao og litrato ang imong tanom ug daghan ug kagawasan nga diagnosis nga naay klarong sunod nga lakang.",
-  "onboardingTitle3": "Planoon Base sa Panahon",
+  "onboardingTitle3": "Planoha base sa panahon",
   "onboardingBody3": "Awto nga mo-adjust ang imong Kalendaryo sa Uma base sa forecast aron dili masayang ang pagsikap.",
+  "fieldRequired": "Kinahanglan pun-an kini",
   "profileSetupStep1Title": "Mahitungod Kanimo",
   "profileSetupStep1Subtitle": "Isulti sa amo mahitungod kanimo ug sa imong uma",
   "fullName": "Tibuok Ngalan",
@@ -38,8 +40,8 @@
   "homeFieldBriefing": "Field Briefing Karon",
   "homePriorityAction": "Pangunahing Lakang",
   "homeScanCta": "I-scan ang Tanom",
-  "homeCarePlan": "Care Plan Sa Semana Karon",
-  "homeRecentScans": "Mga Miaging Diagnosis",
+  "homeCarePlan": "Pag-atiman karong semanaha",
+  "homeRecentScans": "Bag-ong mga diagnosis",
   "homeEmptyFarm": "Andam na ang imong field office. Kuhaa ang una nga scan aron sugdan ang health record sa imong tanom.",
   "homeMonitoring": "Luwas tanan. Padayon namo bantayan ang imong mga tanom.",
   "cropsTitle": "Akong mga Tanom",
@@ -52,7 +54,7 @@
   "cropDetailYourScans": "Imong mga scan para niining tanom",
   "cropDetailUpcomingTasks": "Umaabot nga buluhaton",
   "cropDetailOpenCalendar": "Ablihi ang kalendaryo",
-  "scanCaptureTitle": "I-scan ang Imong Tanom",
+  "scanCaptureTitle": "I-scan ang tanom",
   "scanCaptureGuidance": "Punoa ang frame og usa ka dahon. Likayi ang landong.",
   "scanReviewTitle": "Tan-awa ang Imong Litrato",
   "scanReviewRetake": "Mobalik Kunan",
@@ -62,7 +64,7 @@
   "scanResultConfidence": "Kompiyansa",
   "scanResultSeverity": "Kagubot",
   "scanResultDiagnosis": "Diagnosis",
-  "scanResultTreatmentSteps": "Mga Lakang sa Tambal",
+  "scanResultTreatmentSteps": "Unsay buhaton karon",
   "scanResultAddToCalendar": "Idugang sa Kalendaryo sa Uma",
   "scanResultSetReminder": "Butangi og Pahinumdom",
   "scanResultShare": "Ibahin",
@@ -144,7 +146,7 @@
   "@homeRecentScans": {
     "description": "homeRecentScans"
   },
-  "homeScanCTA": "I-scan ang Tanom",
+  "homeScanCTA": "I-scan ang tanom",
   "@homeScanCTA": {
     "description": "homeScanCTA"
   },
@@ -327,6 +329,7 @@
   "@languageApply": {
     "description": "languageApply"
   },
+  "profileSave": "I-save ang mga kausaban",
   "profileUpdated": "Na-save ang mga kausaban.",
   "@profileUpdated": {
     "description": "profileUpdated"
@@ -363,9 +366,25 @@
   "@authContinuePhone": {
     "description": "authContinuePhone"
   },
-  "authTagline": "Diskubreha Agad. Panggawi ang Imong Ani.",
+  "authUseEmail": "Gamita ang email",
+  "@authUseEmail": {
+    "description": "authUseEmail"
+  },
+  "authUsePhone": "Gamita ang telepono",
+  "@authUsePhone": {
+    "description": "authUsePhone"
+  },
+  "authTagline": "Hibaloa ang kinahanglan sa imong tanom.",
   "@authTagline": {
     "description": "authTagline"
+  },
+  "authBrandName": "Smart Crops",
+  "@authBrandName": {
+    "description": "authBrandName"
+  },
+  "authBrandByline": "by Agri Lynk",
+  "@authBrandByline": {
+    "description": "authBrandByline"
   },
   "authEmail": "Email Address",
   "@authEmail": {
@@ -399,23 +418,23 @@
   "@authPhoneLabel": {
     "description": "authPhoneLabel"
   },
-  "authOtpMobile": "Numero sa Mobile (+63...)",
+  "authOtpMobile": "Numero sa mobile",
   "@authOtpMobile": {
     "description": "authOtpMobile"
   },
-  "authOtpCode": "Ibutang ang OTP Code",
+  "authOtpCode": "Ibutang ang 6-digit nga code",
   "@authOtpCode": {
     "description": "authOtpCode"
   },
-  "authSendOtp": "Ipadala ang OTP",
+  "authSendOtp": "Padayon",
   "@authSendOtp": {
     "description": "authSendOtp"
   },
-  "authVerifyOtp": "I-verify ang OTP",
+  "authVerifyOtp": "I-verify ang code",
   "@authVerifyOtp": {
     "description": "authVerifyOtp"
   },
-  "authOtpTitle": "Login gamit ang Telepono (OTP)",
+  "authOtpTitle": "Mag-sign in o paghimo og account",
   "@authOtpTitle": {
     "description": "authOtpTitle"
   },
@@ -447,6 +466,7 @@
   "@homeOfflineBanner": {
     "description": "homeOfflineBanner"
   },
+  "calendarHighPriority": "Taas nga prayoridad",
   "calendarAddTask": "Pagdugang og Buluhaton",
   "@calendarAddTask": {
     "description": "calendarAddTask"
@@ -933,5 +953,47 @@
   "agriProComparePlan": "Plano",
   "agriProComparePrice": "Presyo",
   "agriProCompareIncludes": "Unsa ang apil",
-  "agriProPriceFree": "₱0"
+  "agriProPriceFree": "₱0",
+  "authPromiseBody": "I-scan ang dahon, mahibal-an ang sakit ug plano sa pag-atiman, sa Tagalog, Cebuano o English.",
+  "authPhoneHelper": "Padad-an ka namo og 6-digit nga code pinaagi sa SMS.",
+  "authPhoneInvalid": "Ibutang ang 11-digit nga mobile number nga nagsugod sa 09.",
+  "authCodeSentTo": "Gipadala pinaagi sa SMS sa {phone}",
+  "authChangeNumber": "Usba ang numero",
+  "authResendIn": "Ipadala pag-usab sulod sa {seconds}s",
+  "authResendCode": "Ipadala pag-usab ang code",
+  "authErrorBadCode": "Sayop o expired na ang code. Tan-awa ang SMS o pagpadala og bag-o.",
+  "authErrorTooManyWait": "Daghan na kaayo nga pagsulay. Sulayi pag-usab sulod sa {seconds}s.",
+  "authErrorTooMany": "Daghan na kaayo nga pagsulay. Paghulat og usa ka minuto ug sulayi pag-usab.",
+  "authErrorUnreachable": "Dili mi makapadala og code niini nga numero. Susiha ug sulayi pag-usab.",
+  "authErrorOffline": "Walay koneksyon. Susiha ang imong mobile data ug sulayi pag-usab.",
+  "authErrorGeneric": "Adunay sayop. Sulayi pag-usab.",
+  "authOtherWays": "Laing paagi sa pag-sign in",
+  "authBack": "Balik",
+  "onboardingProgress": "Lakang {current} sa {total}",
+  "onboardingExampleForecast": "Mouwan ugma",
+  "onboardingExampleTask": "Gibalhin sa Huwebes ang pag-spray",
+  "homeGreetingMorning": "Maayong buntag",
+  "homeGreetingAfternoon": "Maayong hapon",
+  "homeGreetingEvening": "Maayong gabii",
+  "homeHumidity": "Kaumog {value}%",
+  "homeYesterday": "Gahapon",
+  "homeScanPromptBody": "Makita dayon ang problema. Itutok ang camera sa usa ka dahon.",
+  "scanWhichCrop": "Unsang tanoma kini?",
+  "scanTakePhoto": "Pagkuha og litrato",
+  "scanUploadPhoto": "I-upload",
+  "scanTipOneLeaf": "Usa ka dahon",
+  "scanTipFillFrame": "Pun-a ang frame",
+  "scanTipNoShadows": "Walay landong",
+  "scanQuotaLeft": "{count, plural, =0{Wala nay libreng scan karong semanaha} =1{1 na lang ka libreng scan karong semanaha} other{{count} na lang ka libreng scan karong semanaha}}",
+  "scanQuotaUnlimited": "Walay limit nga scan sa Pro",
+  "scanNoCrops": "Idugang ang imong mga panguna nga tanom aron maka-scan.",
+  "scanAddCrops": "Pagdugang og tanom",
+  "scanReviewQuestion": "Klaro ba ang dahon?",
+  "scanReviewHint": "Kinahanglan klaro ang mga lama ug ang dahon mopuno sa kadaghanan sa litrato.",
+  "scanAnalyzeFailed": "Dili namo ma-analisar kini nga litrato. Susiha ang koneksyon ug sulayi pag-usab.",
+  "scanResultLearnMore": "Hibaloa pa",
+  "scanFollowUpTitle": "Susiha pag-usab ang {crop}: {diagnosis}",
+  "scanResultLowConfidenceTitle": "Dili pa sigurado",
+  "scanResultLowConfidenceBody": "Dili igo ka klaro ang litrato aron makasiguro. Pagkuha pag-usab sa kahayag sa adlaw, duol sa usa ka dahon.",
+  "scanResultScanAnother": "Pag-scan og laing tanom"
 }

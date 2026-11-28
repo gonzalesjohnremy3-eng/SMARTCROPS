@@ -22,6 +22,17 @@ class AppLocalizationsEn extends AppLocalizations {
       'Saved. We\'ll analyze this when you\'re back online.';
 
   @override
+  String cropsNeedAttention(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count crops need attention',
+      one: '1 crop needs attention',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String cropsSelectedCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -43,28 +54,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get next => 'Next';
 
   @override
-  String get getStarted => 'Get Started';
+  String get getStarted => 'Get started';
 
   @override
-  String get onboardingTitle1 => 'Protect Your Harvest';
+  String get onboardingTitle1 => 'Protect your harvest';
 
   @override
   String get onboardingBody1 =>
       'Smart Crops helps you detect crop problems early so you can protect your harvest.';
 
   @override
-  String get onboardingTitle2 => 'Scan and Know';
+  String get onboardingTitle2 => 'Scan and know';
 
   @override
   String get onboardingBody2 =>
       'Take a photo of your crop and get an instant diagnosis with clear next steps.';
 
   @override
-  String get onboardingTitle3 => 'Plan with Weather';
+  String get onboardingTitle3 => 'Plan with the weather';
 
   @override
   String get onboardingBody3 =>
       'Your Field Calendar adjusts tasks based on the forecast so you never waste effort.';
+
+  @override
+  String get fieldRequired => 'This field is required';
 
   @override
   String get profileSetupStep1Title => 'About You';
@@ -141,10 +155,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeScanCta => 'Scan a Crop';
 
   @override
-  String get homeCarePlan => 'This Week\'s Care Plan';
+  String get homeCarePlan => 'This week\'s care';
 
   @override
-  String get homeRecentScans => 'Recent Diagnoses';
+  String get homeRecentScans => 'Recent diagnoses';
 
   @override
   String get homeEmptyFarm =>
@@ -173,7 +187,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cropDetailGrowthTimeline => 'Growth Timeline';
 
   @override
-  String get scanCaptureTitle => 'Scan Your Crop';
+  String get scanCaptureTitle => 'Scan a crop';
 
   @override
   String get scanCaptureGuidance =>
@@ -204,7 +218,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scanResultDiagnosis => 'Diagnosis';
 
   @override
-  String get scanResultTreatmentSteps => 'Treatment Steps';
+  String get scanResultTreatmentSteps => 'What to do now';
 
   @override
   String get scanResultAddToCalendar => 'Add to Field Calendar';
@@ -421,7 +435,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get viewAll => 'View all';
 
   @override
-  String get homeScanCTA => 'Scan a Crop';
+  String get homeScanCTA => 'Scan a crop';
 
   @override
   String get calendarSetReminder => 'Set Reminder';
@@ -572,6 +586,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageApply => 'Apply';
 
   @override
+  String get profileSave => 'Save changes';
+
+  @override
   String get profileUpdated => 'Changes saved.';
 
   @override
@@ -599,7 +616,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authContinuePhone => 'Continue with Phone (OTP)';
 
   @override
-  String get authTagline => 'Detect Early. Protect Your Harvest.';
+  String get authUseEmail => 'Use email instead';
+
+  @override
+  String get authUsePhone => 'Use phone instead';
+
+  @override
+  String get authTagline => 'Know what your crops need.';
+
+  @override
+  String get authBrandName => 'Smart Crops';
+
+  @override
+  String get authBrandByline => 'by Agri Lynk';
 
   @override
   String get authEmail => 'Email Address';
@@ -626,19 +655,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authPhoneLabel => 'Mobile Number / Phone (Optional)';
 
   @override
-  String get authOtpMobile => 'Mobile Number (+63...)';
+  String get authOtpMobile => 'Mobile number';
 
   @override
-  String get authOtpCode => 'Enter OTP Code';
+  String get authOtpCode => 'Enter the 6-digit code';
 
   @override
-  String get authSendOtp => 'Send OTP';
+  String get authSendOtp => 'Continue';
 
   @override
-  String get authVerifyOtp => 'Verify OTP';
+  String get authVerifyOtp => 'Verify code';
 
   @override
-  String get authOtpTitle => 'Phone Number (OTP) Login';
+  String get authOtpTitle => 'Sign in or create your account';
 
   @override
   String get authOtpSent => 'OTP sent to your mobile number!';
@@ -660,6 +689,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homeOfflineBanner => 'You\'re offline. Showing cached weather.';
+
+  @override
+  String get calendarHighPriority => 'High priority';
 
   @override
   String get calendarAddTask => 'Add Task';
@@ -850,7 +882,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get agriProManageRenewal => 'Renews';
 
   @override
-  String get agriProManageBilling => 'Pagbayad';
+  String get agriProManageBilling => 'Billing';
 
   @override
   String get agriProManageBilledBy => 'Managed by your app store.';
@@ -1166,4 +1198,161 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get agriProPriceFree => '₱0';
+
+  @override
+  String get authPromiseBody =>
+      'Scan a leaf, get a diagnosis and a care plan, in Tagalog, Cebuano or English.';
+
+  @override
+  String get authPhoneHelper => 'We\'ll text you a 6-digit code.';
+
+  @override
+  String get authPhoneInvalid =>
+      'Enter an 11-digit mobile number that starts with 09.';
+
+  @override
+  String authCodeSentTo(String phone) {
+    return 'Sent by SMS to $phone';
+  }
+
+  @override
+  String get authChangeNumber => 'Change number';
+
+  @override
+  String authResendIn(int seconds) {
+    return 'Resend code in ${seconds}s';
+  }
+
+  @override
+  String get authResendCode => 'Resend code';
+
+  @override
+  String get authErrorBadCode =>
+      'That code is wrong or has expired. Check the SMS or resend a new one.';
+
+  @override
+  String authErrorTooManyWait(int seconds) {
+    return 'Too many attempts. Try again in ${seconds}s.';
+  }
+
+  @override
+  String get authErrorTooMany =>
+      'Too many attempts. Wait a minute, then try again.';
+
+  @override
+  String get authErrorUnreachable =>
+      'We couldn\'t send a code to this number. Check it and try again.';
+
+  @override
+  String get authErrorOffline =>
+      'No connection. Check your mobile data and try again.';
+
+  @override
+  String get authErrorGeneric => 'Something went wrong. Try again.';
+
+  @override
+  String get authOtherWays => 'Other ways to sign in';
+
+  @override
+  String get authBack => 'Back';
+
+  @override
+  String onboardingProgress(int current, int total) {
+    return 'Step $current of $total';
+  }
+
+  @override
+  String get onboardingExampleForecast => 'Rain tomorrow';
+
+  @override
+  String get onboardingExampleTask => 'Spraying moved to Thursday';
+
+  @override
+  String get homeGreetingMorning => 'Good morning';
+
+  @override
+  String get homeGreetingAfternoon => 'Good afternoon';
+
+  @override
+  String get homeGreetingEvening => 'Good evening';
+
+  @override
+  String homeHumidity(int value) {
+    return 'Humidity $value%';
+  }
+
+  @override
+  String get homeYesterday => 'Yesterday';
+
+  @override
+  String get homeScanPromptBody =>
+      'Spot problems early. Point your camera at one leaf.';
+
+  @override
+  String get scanWhichCrop => 'Which crop is this?';
+
+  @override
+  String get scanTakePhoto => 'Take photo';
+
+  @override
+  String get scanUploadPhoto => 'Upload';
+
+  @override
+  String get scanTipOneLeaf => 'One leaf';
+
+  @override
+  String get scanTipFillFrame => 'Fill the frame';
+
+  @override
+  String get scanTipNoShadows => 'No shadows';
+
+  @override
+  String scanQuotaLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count free scans left this week',
+      one: '1 free scan left this week',
+      zero: 'No free scans left this week',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get scanQuotaUnlimited => 'Unlimited scans with Pro';
+
+  @override
+  String get scanNoCrops => 'Add your Main Crops to start scanning.';
+
+  @override
+  String get scanAddCrops => 'Add crops';
+
+  @override
+  String get scanReviewQuestion => 'Is the leaf clear?';
+
+  @override
+  String get scanReviewHint =>
+      'Spots should be sharp and the leaf should fill most of the photo.';
+
+  @override
+  String get scanAnalyzeFailed =>
+      'We couldn\'t analyze this photo. Check your connection and try again.';
+
+  @override
+  String get scanResultLearnMore => 'Learn more';
+
+  @override
+  String scanFollowUpTitle(String crop, String diagnosis) {
+    return 'Recheck $crop: $diagnosis';
+  }
+
+  @override
+  String get scanResultLowConfidenceTitle => 'Not sure about this one';
+
+  @override
+  String get scanResultLowConfidenceBody =>
+      'The photo wasn\'t clear enough for a confident answer. Retake it in daylight, close to one leaf.';
+
+  @override
+  String get scanResultScanAnother => 'Scan another crop';
 }

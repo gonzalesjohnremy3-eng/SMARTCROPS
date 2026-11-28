@@ -8,6 +8,9 @@ import 'package:smart_crops/app/router/onboarding_controller.dart';
 import 'package:smart_crops/app/localization/language_preference.dart';
 import 'package:smart_crops/app/localization/locale_provider.dart';
 import 'package:smart_crops/features/pro/services/agri_pro_entitlement.dart';
+import 'package:smart_crops/features/scan/data/shared_preferences_scan_queue_store.dart';
+import 'package:smart_crops/features/scan/screens/scan_capture_screen.dart';
+import 'package:smart_crops/features/scan/services/scan_queue_provider.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
 import 'package:smart_crops/services/weather_service.dart';
@@ -63,6 +66,52 @@ void main() {
     expect(find.byTooltip('Field Calendar'), findsOneWidget);
     expect(find.byTooltip('Profile'), findsOneWidget);
   });
+
+  for (final location in ['/scan/review', '/scan/result']) {
+    testWidgets('$location without its photo or diagnosis returns to Scan', (
+      tester,
+    ) async {
+      final router = buildAppRouter(
+        initialLocation: location,
+        enforceGuard: false,
+      );
+      final service = SmartCropsService();
+      final entitlement = AgriProEntitlement(fetchRow: () async => null);
+
+      await tester.pumpWidget(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider.value(value: service),
+            ChangeNotifierProvider(create: (_) => WeatherService()),
+            ChangeNotifierProvider.value(value: entitlement),
+            ChangeNotifierProvider(
+              create: (_) => ScanQueueProvider(
+                store: SharedPreferencesScanQueueStore(),
+                service: service,
+              ),
+            ),
+          ],
+          child: MaterialApp.router(
+            routerConfig: router,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale('en'),
+              Locale('tl'),
+              Locale('ceb'),
+            ],
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byType(ScanCaptureScreen), findsOneWidget);
+    });
+  }
 
   testWidgets('an authenticated farmer landing on / reaches home, not an error page',
       (tester) async {

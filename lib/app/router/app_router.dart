@@ -8,7 +8,10 @@ import 'package:smart_crops/features/home/screens/home_screen.dart';
 import 'package:smart_crops/features/crops/screens/crops_screen.dart';
 import 'package:smart_crops/features/crops/screens/crop_detail_screen.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
+import 'package:smart_crops/features/scan/domain/diagnosis_presenter.dart';
 import 'package:smart_crops/features/scan/screens/scan_capture_screen.dart';
+import 'package:smart_crops/features/scan/screens/scan_result_screen.dart';
+import 'package:smart_crops/features/scan/screens/scan_review_screen.dart';
 import 'package:smart_crops/features/calendar/screens/field_calendar_screen.dart';
 import 'package:smart_crops/features/calendar/screens/task_detail_screen.dart';
 import 'package:smart_crops/features/profile/screens/profile_screen.dart';
@@ -94,6 +97,27 @@ GoRouter buildAppRouter({
       GoRoute(
         path: '/health-log',
         builder: (context, state) => const HealthLogScreen(),
+      ),
+      // Review and result sit above the shell as full-screen steps. Their
+      // photo and diagnosis only exist in memory, so a reload starts over.
+      GoRoute(
+        path: '/scan/review',
+        redirect: (context, state) =>
+            state.extra is ScanReviewRequest ? null : '/scan',
+        builder: (context, state) {
+          final request = state.extra! as ScanReviewRequest;
+          return ScanReviewScreen(
+            imageFile: request.image,
+            cropName: request.cropName,
+          );
+        },
+      ),
+      GoRoute(
+        path: '/scan/result',
+        redirect: (context, state) =>
+            state.extra is DiagnosisInput ? null : '/scan',
+        builder: (context, state) =>
+            ScanResultScreen(input: state.extra! as DiagnosisInput),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
