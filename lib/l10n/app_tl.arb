@@ -464,6 +464,7 @@
   "@homeOfflineBanner": {
     "description": "homeOfflineBanner"
   },
+  "calendarHighPriority": "Mataas na priyoridad",
   "calendarAddTask": "Magdagdag ng Gawain",
   "@calendarAddTask": {
     "description": "calendarAddTask"

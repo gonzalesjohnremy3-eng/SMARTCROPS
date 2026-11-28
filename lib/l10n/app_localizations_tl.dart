@@ -697,6 +697,9 @@ class AppLocalizationsTl extends AppLocalizations {
       'Offline ka. Ipinapakita ang cached na panahon.';
 
   @override
+  String get calendarHighPriority => 'Mataas na priyoridad';
+
+  @override
   String get calendarAddTask => 'Magdagdag ng Gawain';
 
   @override

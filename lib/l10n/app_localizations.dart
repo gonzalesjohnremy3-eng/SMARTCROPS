@@ -1372,6 +1372,12 @@ abstract class AppLocalizations {
   /// **'You\'re offline. Showing cached weather.'**
   String get homeOfflineBanner;
 
+  /// calendarHighPriority
+  ///
+  /// In en, this message translates to:
+  /// **'High priority'**
+  String get calendarHighPriority;
+
   /// calendarAddTask
   ///
   /// In en, this message translates to:

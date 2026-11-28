@@ -858,6 +858,10 @@
   "@homeOfflineBanner": {
     "description": "homeOfflineBanner"
   },
+  "calendarHighPriority": "High priority",
+  "@calendarHighPriority": {
+    "description": "calendarHighPriority"
+  },
   "calendarAddTask": "Add Task",
   "@calendarAddTask": {
     "description": "calendarAddTask"

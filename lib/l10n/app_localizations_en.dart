@@ -685,6 +685,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeOfflineBanner => 'You\'re offline. Showing cached weather.';
 
   @override
+  String get calendarHighPriority => 'High priority';
+
+  @override
   String get calendarAddTask => 'Add Task';
 
   @override

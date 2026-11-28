@@ -695,6 +695,9 @@ class AppLocalizationsCeb extends AppLocalizations {
       'Offline ka. Gipakita ang cached nga panahon.';
 
   @override
+  String get calendarHighPriority => 'Taas nga prayoridad';
+
+  @override
   String get calendarAddTask => 'Pagdugang og Buluhaton';
 
   @override
