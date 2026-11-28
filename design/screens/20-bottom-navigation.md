@@ -12,7 +12,7 @@
 - **Destinations:** five equal slots, each an icon in a capsule over a label.
   - The current destination has a soft mist capsule, a filled icon, and a bold canopy label.
   - Other destinations are a quiet outlined icon and a grey label.
-  - **Scan** is always a filled canopy capsule with a light icon, even when it is not the current one, so the main action never looks like just another tab.
+  - **Scan** is a 64px round canopy button that rises out of the middle of the island, with a camera icon in light ink, a soft canopy-tinted shadow, and its label on the same baseline as the other four. A paper-coloured ring around it reads as a notch cut into the island. It presses in slightly when touched (instant with reduced motion), and the raised part is tappable like the rest. The main action never looks like just another tab.
 - **Labels:** localized (English, Tagalog, Cebuano). They were hardcoded English. At large text they scale down to fit their slot instead of overflowing, and the touch targets stay at least 48px.
 - **Motion:** the highlight eases between destinations with the shared motion tokens, and is instant when the Farmer has reduced motion on.
 - **Tooltips and screen readers:** each slot announces its name, that it is a button, and whether it is selected. Tooltips use the fuller names ("My Crops", "Field Calendar", "Scan a crop").

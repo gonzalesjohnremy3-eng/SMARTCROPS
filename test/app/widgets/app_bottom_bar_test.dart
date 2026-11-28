@@ -118,7 +118,57 @@ void main() {
   ) async {
     await _pump(tester, current: 0);
 
-    expect(_indicatorColor(tester, 2), AppColors.actionPrimary);
+    final button = tester.widget<Container>(
+      find.byKey(const Key('nav_indicator_2')),
+    );
+
+    expect((button.decoration as BoxDecoration).color, AppColors.actionPrimary);
+  });
+
+  testWidgets('Scan rises above the top edge of the bar', (tester) async {
+    await _pump(tester);
+
+    final scanTop = tester.getTopLeft(find.byKey(const Key('nav_indicator_2')));
+    final barTop = tester.getTopLeft(find.byKey(const Key('bottom_nav_bar')));
+
+    expect(scanTop.dy, lessThan(barTop.dy));
+  });
+
+  testWidgets('the bar stays short instead of filling the screen', (
+    tester,
+  ) async {
+    await _pump(tester);
+
+    expect(tester.getSize(find.byType(AppBottomBar)).height, lessThan(140));
+  });
+
+  testWidgets('Scan sits in the middle of the bar', (tester) async {
+    await _pump(tester);
+
+    expect(tester.getCenter(find.byKey(const Key('nav_indicator_2'))).dx, 195);
+  });
+
+  testWidgets('Scan is a large round button', (tester) async {
+    await _pump(tester);
+
+    expect(tester.getSize(find.byKey(const Key('nav_indicator_2'))).width, 64);
+  });
+
+  testWidgets('tapping the part of Scan above the bar still opens it', (
+    tester,
+  ) async {
+    final taps = await _pump(tester);
+    final barTop = tester.getTopLeft(find.byKey(const Key('bottom_nav_bar')));
+    await tester.tapAt(Offset(195, barTop.dy - 12));
+
+    expect(taps, [2]);
+  });
+
+  testWidgets('tapping the Scan label opens it too', (tester) async {
+    final taps = await _pump(tester);
+    await tester.tap(find.text('Scan'));
+
+    expect(taps, [2]);
   });
 
   testWidgets('labels follow the app language', (tester) async {

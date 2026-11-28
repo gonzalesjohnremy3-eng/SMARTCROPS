@@ -70,6 +70,65 @@ FarmSnapshot _farmSnapshot({List<AppNotification> notifications = const []}) =>
       fetchedAt: DateTime(2026, 1, 1),
     );
 
+class _RecordingWeather extends WeatherService {
+  _RecordingWeather({this.current});
+
+  final WeatherCondition? current;
+  final requested = <String>[];
+
+  @override
+  WeatherCondition? get currentWeather => current;
+
+  @override
+  Future<void> fetchWeatherForLocation(String location) async {
+    requested.add(location);
+  }
+}
+
+Future<_RecordingWeather> _openHomeWithProfile(
+  WidgetTester tester, {
+  String? location,
+}) async {
+  final snapshot = FarmSnapshot(
+    profile: UserProfile(
+      id: 'u',
+      fullName: 'Maria Santos',
+      email: 'maria@example.com',
+      location: location,
+    ),
+    availableCrops: const [],
+    userCrops: const [],
+    scanHistory: const [],
+    notifications: const [],
+    calendarEvents: const [],
+    fetchedAt: DateTime(2026, 1, 1),
+  );
+  final service = SmartCropsService(loader: _StubLoader(snapshot));
+  await service.initializeUserData();
+  final weather = _RecordingWeather();
+
+  await tester.pumpWidget(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<WeatherService>.value(value: weather),
+        ChangeNotifierProvider<SmartCropsService>.value(value: service),
+      ],
+      child: MaterialApp(
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [Locale('en'), Locale('tl'), Locale('ceb')],
+        home: const HomeScreen(),
+      ),
+    ),
+  );
+  await tester.pumpAndSettle();
+  return weather;
+}
+
 void main() {
   setUpAll(() async {
     TestWidgetsFlutterBinding.ensureInitialized();
@@ -87,7 +146,9 @@ void main() {
   Widget buildHome(BriefingFacts facts) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => WeatherService()),
+        ChangeNotifierProvider<WeatherService>(
+          create: (_) => _RecordingWeather(),
+        ),
         ChangeNotifierProvider(create: (_) => SmartCropsService()),
       ],
       child: MaterialApp(
@@ -102,6 +163,25 @@ void main() {
       ),
     );
   }
+
+  testWidgets('Home loads the weather for the Farmer\'s saved location', (
+    tester,
+  ) async {
+    final weather = await _openHomeWithProfile(
+      tester,
+      location: 'Matti, Digos City, Davao del Sur',
+    );
+
+    expect(weather.requested, ['Matti, Digos City, Davao del Sur']);
+  });
+
+  testWidgets('Home still loads weather when no location is saved', (
+    tester,
+  ) async {
+    final weather = await _openHomeWithProfile(tester);
+
+    expect(weather.requested, ['Philippines']);
+  });
 
   testWidgets('Home renders the critical weather priority action', (
     tester,
@@ -223,7 +303,9 @@ void main() {
     await tester.pumpWidget(
       MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (_) => WeatherService()),
+          ChangeNotifierProvider<WeatherService>(
+            create: (_) => _RecordingWeather(),
+          ),
           ChangeNotifierProvider.value(value: service),
         ],
         child: MaterialApp(
@@ -284,7 +366,9 @@ void main() {
     await tester.pumpWidget(
       MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (_) => WeatherService()),
+          ChangeNotifierProvider<WeatherService>(
+            create: (_) => _RecordingWeather(),
+          ),
           ChangeNotifierProvider.value(value: service),
         ],
         child: MaterialApp(
@@ -440,7 +524,9 @@ void main() {
     await tester.pumpWidget(
       MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (_) => WeatherService()),
+          ChangeNotifierProvider<WeatherService>(
+            create: (_) => _RecordingWeather(),
+          ),
           ChangeNotifierProvider.value(value: service),
         ],
         child: MaterialApp(
@@ -516,7 +602,17 @@ void main() {
         await tester.pumpWidget(
           MultiProvider(
             providers: [
-              ChangeNotifierProvider(create: (_) => WeatherService()),
+              ChangeNotifierProvider<WeatherService>(
+                create: (_) => _RecordingWeather(
+                  current: WeatherCondition(
+                    locationName: 'Matti, Digos City, Davao del Sur',
+                    temperature: 31,
+                    condition: 'Light rain shower',
+                    humidity: 86,
+                    iconCode: '09d',
+                  ),
+                ),
+              ),
               ChangeNotifierProvider.value(value: service),
             ],
             child: MaterialApp(
