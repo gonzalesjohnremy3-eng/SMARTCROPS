@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_crops/app/analytics/analytics.dart';
+import 'package:smart_crops/app/theme/app_tokens.dart';
 import 'package:smart_crops/app/widgets/feedback_states.dart';
 import 'package:smart_crops/features/shop/domain/merchant_product.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
+
+const _gutter = AppSpacing.s5;
+const _stateHeight = 280.0;
 
 class ShopScreen extends StatefulWidget {
   const ShopScreen({super.key, this.initialQuery});
@@ -18,8 +22,9 @@ class ShopScreen extends StatefulWidget {
 }
 
 class _ShopScreenState extends State<ShopScreen> {
-  late final TextEditingController _queryController =
-      TextEditingController(text: widget.initialQuery ?? '');
+  late final TextEditingController _queryController = TextEditingController(
+    text: widget.initialQuery ?? '',
+  );
   late String _query = _queryController.text;
   String? _category;
   Future<List<MerchantProduct>>? _productsFuture;
@@ -27,7 +32,9 @@ class _ShopScreenState extends State<ShopScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _productsFuture ??= context.read<SmartCropsService>().fetchMerchantProducts();
+    _productsFuture ??= context
+        .read<SmartCropsService>()
+        .fetchMerchantProducts();
   }
 
   @override
@@ -37,24 +44,35 @@ class _ShopScreenState extends State<ShopScreen> {
   }
 
   Future<void> _reload() async {
-    setState(() => _productsFuture = context.read<SmartCropsService>().fetchMerchantProducts());
+    setState(
+      () => _productsFuture = context
+          .read<SmartCropsService>()
+          .fetchMerchantProducts(),
+    );
   }
 
   void _submitSearch(String value) {
     setState(() => _query = value);
-    context.trackEvent('shop_search', params: {'query_length': value.trim().length});
+    context.trackEvent(
+      'shop_search',
+      params: {'query_length': value.trim().length},
+    );
   }
 
   void _selectCategory(String? category) {
     setState(() => _category = category);
-    context.trackEvent('shop_filter_changed', params: {'category': category ?? 'all'});
+    context.trackEvent(
+      'shop_filter_changed',
+      params: {'category': category ?? 'all'},
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
 
-    final chips = <(String?, String)>[
+    final categories = <(String?, String)>[
       (null, l10n.shopAll),
       (ShopCategory.organic, l10n.shopCategoryOrganic),
       (ShopCategory.fungicide, l10n.shopCategoryFungicide),
@@ -63,22 +81,69 @@ class _ShopScreenState extends State<ShopScreen> {
     ];
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.shopTitle)),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
-            child: TextField(
+      backgroundColor: AppColors.paper,
+      body: SafeArea(
+        bottom: false,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(
+            _gutter,
+            AppSpacing.s4,
+            _gutter,
+            AppSpacing.s10,
+          ),
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (Navigator.of(context).canPop())
+                  Padding(
+                    padding: const EdgeInsets.only(right: AppSpacing.s2),
+                    child: IconButton(
+                      tooltip: l10n.back,
+                      onPressed: () => context.pop(),
+                      style: IconButton.styleFrom(
+                        fixedSize: const Size.square(AppLayout.touchTarget),
+                        backgroundColor: AppColors.surfaceSunken,
+                        foregroundColor: AppColors.textPrimary,
+                      ),
+                      icon: const Icon(Icons.arrow_back_rounded),
+                    ),
+                  ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.shopTitle,
+                        style: theme.textTheme.headlineMedium?.copyWith(
+                          color: AppColors.textPrimary,
+                          height: 1.1,
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.s1),
+                      Text(
+                        l10n.shopProfileSubtitle,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: AppSpacing.s5),
+            TextField(
               controller: _queryController,
               textInputAction: TextInputAction.search,
               onSubmitted: _submitSearch,
               onChanged: (value) => setState(() => _query = value),
               decoration: InputDecoration(
                 hintText: l10n.shopSearchHint,
-                prefixIcon: const Icon(Icons.search),
+                prefixIcon: const Icon(Icons.search_rounded),
                 suffixIcon: _query.isNotEmpty
                     ? IconButton(
-                        icon: const Icon(Icons.clear),
+                        icon: const Icon(Icons.clear_rounded),
                         tooltip: l10n.profileCancel,
                         onPressed: () {
                           _queryController.clear();
@@ -87,42 +152,47 @@ class _ShopScreenState extends State<ShopScreen> {
                       )
                     : null,
                 filled: true,
+                fillColor: AppColors.surfaceSunken,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(28),
+                  borderRadius: BorderRadius.circular(AppRadius.pill),
                   borderSide: BorderSide.none,
                 ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 48,
-            child: ListView(
+            const SizedBox(height: AppSpacing.s3),
+            SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              children: [
-                for (final (value, label) in chips)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
-                    child: FilterChip(
-                      label: Text(label),
-                      selected: _category == value,
-                      onSelected: (_) => _selectCategory(value),
+              child: Row(
+                children: [
+                  for (final (value, label) in categories)
+                    Padding(
+                      padding: const EdgeInsets.only(right: AppSpacing.s2),
+                      child: _CategoryPill(
+                        label: label,
+                        selected: _category == value,
+                        onTap: () => _selectCategory(value),
+                      ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Expanded(
-            child: FutureBuilder<List<MerchantProduct>>(
+            const SizedBox(height: AppSpacing.s5),
+            FutureBuilder<List<MerchantProduct>>(
               future: _productsFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const LoadingState();
+                  return ConstrainedBox(
+                    constraints: const BoxConstraints(minHeight: _stateHeight),
+                    child: const LoadingState(),
+                  );
                 }
                 if (snapshot.hasError) {
-                  return ErrorState(
-                    message: l10n.shopCouldNotLoad,
-                    onRetry: _reload,
+                  return ConstrainedBox(
+                    constraints: const BoxConstraints(minHeight: _stateHeight),
+                    child: ErrorState(
+                      message: l10n.shopCouldNotLoad,
+                      onRetry: _reload,
+                    ),
                   );
                 }
                 final products = filterAndSortProducts(
@@ -131,52 +201,103 @@ class _ShopScreenState extends State<ShopScreen> {
                   category: _category,
                 );
                 if (products.isEmpty) {
-                  return EmptyState(
-                    icon: Icons.storefront_outlined,
-                    message: (snapshot.data ?? const []).isEmpty ? l10n.shopEmptyAll : l10n.shopEmpty,
+                  return ConstrainedBox(
+                    constraints: const BoxConstraints(minHeight: _stateHeight),
+                    child: EmptyState(
+                      icon: Icons.storefront_outlined,
+                      message: (snapshot.data ?? const []).isEmpty
+                          ? l10n.shopEmptyAll
+                          : l10n.shopEmpty,
+                    ),
                   );
                 }
                 return LayoutBuilder(
                   builder: (context, constraints) {
-                    final columns = constraints.maxWidth >= 1200
+                    final columns = constraints.maxWidth >= 1200 - 2 * _gutter
                         ? 3
-                        : constraints.maxWidth >= 600
-                            ? 2
-                            : 1;
-                    return GridView.builder(
-                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: columns,
-                        mainAxisSpacing: 12,
-                        crossAxisSpacing: 12,
-                        childAspectRatio: columns == 1 ? 2.1 : 0.72,
-                      ),
-                      itemCount: products.length,
-                      itemBuilder: (context, index) => _ProductCard(
-                        product: products[index],
-                        columns: columns,
-                        onTap: () => context.push(
-                          '/shop/products/${products[index].id}',
-                          extra: products[index],
-                        ),
-                      ),
+                        : constraints.maxWidth >= 600 - 2 * _gutter
+                        ? 2
+                        : 1;
+                    final width =
+                        (constraints.maxWidth - (columns - 1) * AppSpacing.s3) /
+                        columns;
+                    return Wrap(
+                      spacing: AppSpacing.s3,
+                      runSpacing: AppSpacing.s3,
+                      children: [
+                        for (final product in products)
+                          SizedBox(
+                            width: width,
+                            child: _ProductCard(
+                              product: product,
+                              onTap: () => context.push(
+                                '/shop/products/${product.id}',
+                                extra: product,
+                              ),
+                            ),
+                          ),
+                      ],
                     );
                   },
                 );
               },
             ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _CategoryPill extends StatelessWidget {
+  const _CategoryPill({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      button: true,
+      selected: selected,
+      child: Material(
+        color: selected ? AppColors.canopy : AppColors.mist,
+        shape: const StadiumBorder(),
+        child: InkWell(
+          customBorder: const StadiumBorder(),
+          onTap: onTap,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: AppLayout.touchTarget),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.s4),
+              child: Center(
+                widthFactor: 1,
+                child: Text(
+                  label,
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    color: selected
+                        ? AppColors.textInverse
+                        : AppColors.textPrimary,
+                  ),
+                ),
+              ),
+            ),
           ),
-        ],
+        ),
       ),
     );
   }
 }
 
 class _ProductCard extends StatelessWidget {
-  const _ProductCard({required this.product, required this.columns, required this.onTap});
+  const _ProductCard({required this.product, required this.onTap});
 
   final MerchantProduct product;
-  final int columns;
   final VoidCallback onTap;
 
   @override
@@ -184,96 +305,127 @@ class _ProductCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
 
-    final info = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          product.productName,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          style: theme.textTheme.titleMedium,
-        ),
-        const SizedBox(height: 2),
-        Text(
-          product.merchantName,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: theme.textTheme.bodySmall?.copyWith(
-            color: theme.colorScheme.onSurfaceVariant,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Wrap(
-          spacing: 8,
-          runSpacing: 4,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          children: [
-            Text(
-              '₱${product.price.toStringAsFixed(2)}',
-              style: theme.textTheme.titleSmall?.copyWith(
-                color: theme.colorScheme.primary,
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-              decoration: BoxDecoration(
-                color: theme.colorScheme.secondaryContainer,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Text(
-                l10n.shopPartnerOffer,
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: theme.colorScheme.onSecondaryContainer,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-
-    final icon = Container(
-      width: columns == 1 ? 72 : double.infinity,
-      height: columns == 1 ? 72 : 96,
+    return DecoratedBox(
       decoration: BoxDecoration(
-        color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(12),
+        color: AppColors.surfaceRaised,
+        borderRadius: BorderRadius.circular(AppRadius.card),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.forestInk.withValues(alpha: 0.06),
+            blurRadius: AppSpacing.s4,
+            offset: const Offset(0, AppSpacing.s1),
+          ),
+        ],
       ),
-      child: Icon(
-        _categoryIcon(product.category),
-        size: 36,
-        color: theme.colorScheme.primary,
-      ),
-    );
-
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: columns == 1
-              ? Row(
-                  children: [
-                    icon,
-                    const SizedBox(width: 12),
-                    Expanded(child: info),
-                  ],
-                )
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    icon,
-                    const SizedBox(height: 8),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        physics: const NeverScrollableScrollPhysics(),
-                        child: info,
-                      ),
-                    ),
-                  ],
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(AppRadius.card),
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.all(AppSpacing.s4),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: AppSpacing.s12,
+                  height: AppSpacing.s12,
+                  decoration: BoxDecoration(
+                    color: AppColors.mist,
+                    borderRadius: BorderRadius.circular(AppRadius.card - 4),
+                  ),
+                  child: Icon(
+                    _categoryIcon(product.category),
+                    color: AppColors.canopy,
+                  ),
                 ),
+                const SizedBox(width: AppSpacing.s3),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        product.productName,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
+                      Text(
+                        product.merchantName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                      if (product.targetDisease.isNotEmpty) ...[
+                        const SizedBox(height: AppSpacing.s2),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Icon(
+                              Icons.healing_outlined,
+                              size: AppSpacing.s4,
+                              color: AppColors.canopy,
+                            ),
+                            const SizedBox(width: AppSpacing.s1 + 2),
+                            Expanded(
+                              child: Text(
+                                product.targetDisease,
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: AppColors.textPrimary,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                      const SizedBox(height: AppSpacing.s3),
+                      Wrap(
+                        spacing: AppSpacing.s2,
+                        runSpacing: AppSpacing.s2,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: [
+                          Text(
+                            '₱${product.price.toStringAsFixed(2)}',
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              color: AppColors.canopy,
+                              fontWeight: FontWeight.w700,
+                              fontFeatures: const [
+                                FontFeature.tabularFigures(),
+                              ],
+                            ),
+                          ),
+                          DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: AppColors.mist,
+                              borderRadius: BorderRadius.circular(
+                                AppRadius.pill,
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: AppSpacing.s3 - 2,
+                                vertical: AppSpacing.s1,
+                              ),
+                              child: Text(
+                                l10n.shopPartnerOffer,
+                                style: theme.textTheme.labelSmall?.copyWith(
+                                  color: AppColors.textSecondary,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
