@@ -4,6 +4,7 @@
   "scanCrop": "I-scan ang pananim",
   "fieldCalendar": "Kalendaryo ng Bukid",
   "scanQueuedOffline": "Nai-save. Susuriin namin ito kapag may koneksyon ka na.",
+  "cropsNeedAttention": "{count, plural, =1{1 pananim ang kailangang tingnan} other{{count} pananim ang kailangang tingnan}}",
   "cropsSelectedCount": "{count, plural, =0{Wala pang napiling pananim} =1{{count} pananim ang napili} other{{count} pananim ang napili}}",
   "skip": "Lagtaan",
   "back": "Bumalik",

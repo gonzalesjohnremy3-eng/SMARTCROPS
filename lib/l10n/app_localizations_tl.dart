@@ -22,6 +22,17 @@ class AppLocalizationsTl extends AppLocalizations {
       'Nai-save. Susuriin namin ito kapag may koneksyon ka na.';
 
   @override
+  String cropsNeedAttention(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count pananim ang kailangang tingnan',
+      one: '1 pananim ang kailangang tingnan',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String cropsSelectedCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

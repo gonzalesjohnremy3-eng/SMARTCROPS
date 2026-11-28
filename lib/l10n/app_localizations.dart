@@ -124,6 +124,12 @@ abstract class AppLocalizations {
   /// **'Saved. We\'ll analyze this when you\'re back online.'**
   String get scanQueuedOffline;
 
+  /// Crops screen: how many Main Crops last scanned At Risk
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 crop needs attention} other{{count} crops need attention}}'**
+  String cropsNeedAttention(int count);
+
   /// Number of Main Crops selected during profile setup
   ///
   /// In en, this message translates to:

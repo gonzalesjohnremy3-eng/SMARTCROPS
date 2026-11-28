@@ -22,6 +22,17 @@ class AppLocalizationsEn extends AppLocalizations {
       'Saved. We\'ll analyze this when you\'re back online.';
 
   @override
+  String cropsNeedAttention(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count crops need attention',
+      one: '1 crop needs attention',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String cropsSelectedCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

@@ -22,6 +22,17 @@ class AppLocalizationsCeb extends AppLocalizations {
       'Na-save. Susihon namo kini kung naa na kay koneksyon.';
 
   @override
+  String cropsNeedAttention(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ka tanom ang kinahanglan tagdon',
+      one: '1 ka tanom ang kinahanglan tagdon',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String cropsSelectedCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
