@@ -142,10 +142,10 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get homeScanCta => 'I-scan ang Tanom';
 
   @override
-  String get homeCarePlan => 'Care Plan Sa Semana Karon';
+  String get homeCarePlan => 'Pag-atiman karong semanaha';
 
   @override
-  String get homeRecentScans => 'Mga Miaging Diagnosis';
+  String get homeRecentScans => 'Bag-ong mga diagnosis';
 
   @override
   String get homeEmptyFarm =>
@@ -425,7 +425,7 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get viewAll => 'Tan-awa ang tanan';
 
   @override
-  String get homeScanCTA => 'I-scan ang Tanom';
+  String get homeScanCTA => 'I-scan ang tanom';
 
   @override
   String get calendarSetReminder => 'Magbutang og Pahinumdom';
@@ -1267,4 +1267,25 @@ class AppLocalizationsCeb extends AppLocalizations {
 
   @override
   String get onboardingExampleTask => 'Gibalhin sa Huwebes ang pag-spray';
+
+  @override
+  String get homeGreetingMorning => 'Maayong buntag';
+
+  @override
+  String get homeGreetingAfternoon => 'Maayong hapon';
+
+  @override
+  String get homeGreetingEvening => 'Maayong gabii';
+
+  @override
+  String homeHumidity(int value) {
+    return 'Kaumog $value%';
+  }
+
+  @override
+  String get homeYesterday => 'Gahapon';
+
+  @override
+  String get homeScanPromptBody =>
+      'Makita dayon ang problema. Itutok ang camera sa usa ka dahon.';
 }

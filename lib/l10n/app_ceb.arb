@@ -38,8 +38,8 @@
   "homeFieldBriefing": "Field Briefing Karon",
   "homePriorityAction": "Pangunahing Lakang",
   "homeScanCta": "I-scan ang Tanom",
-  "homeCarePlan": "Care Plan Sa Semana Karon",
-  "homeRecentScans": "Mga Miaging Diagnosis",
+  "homeCarePlan": "Pag-atiman karong semanaha",
+  "homeRecentScans": "Bag-ong mga diagnosis",
   "homeEmptyFarm": "Andam na ang imong field office. Kuhaa ang una nga scan aron sugdan ang health record sa imong tanom.",
   "homeMonitoring": "Luwas tanan. Padayon namo bantayan ang imong mga tanom.",
   "cropsTitle": "Akong mga Tanom",
@@ -144,7 +144,7 @@
   "@homeRecentScans": {
     "description": "homeRecentScans"
   },
-  "homeScanCTA": "I-scan ang Tanom",
+  "homeScanCTA": "I-scan ang tanom",
   "@homeScanCTA": {
     "description": "homeScanCTA"
   },
@@ -967,5 +967,11 @@
   "authBack": "Balik",
   "onboardingProgress": "Lakang {current} sa {total}",
   "onboardingExampleForecast": "Mouwan ugma",
-  "onboardingExampleTask": "Gibalhin sa Huwebes ang pag-spray"
+  "onboardingExampleTask": "Gibalhin sa Huwebes ang pag-spray",
+  "homeGreetingMorning": "Maayong buntag",
+  "homeGreetingAfternoon": "Maayong hapon",
+  "homeGreetingEvening": "Maayong gabii",
+  "homeHumidity": "Kaumog {value}%",
+  "homeYesterday": "Gahapon",
+  "homeScanPromptBody": "Makita dayon ang problema. Itutok ang camera sa usa ka dahon."
 }

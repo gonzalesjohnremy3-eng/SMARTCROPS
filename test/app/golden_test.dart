@@ -103,8 +103,9 @@ void main() {
   testWidgets('Home with an overdue task matches the golden', (tester) async {
     await pumpAtPhone(
       tester,
-      const HomeScreen(
-        briefingFacts: BriefingFacts(
+      HomeScreen(
+        now: DateTime(2026, 11, 28, 7, 30),
+        briefingFacts: const BriefingFacts(
           hasCriticalWeather: false,
           overdueTaskCount: 1,
           hasRecentAtRiskDiagnosis: false,

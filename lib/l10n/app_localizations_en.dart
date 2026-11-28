@@ -141,10 +141,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeScanCta => 'Scan a Crop';
 
   @override
-  String get homeCarePlan => 'This Week\'s Care Plan';
+  String get homeCarePlan => 'This week\'s care';
 
   @override
-  String get homeRecentScans => 'Recent Diagnoses';
+  String get homeRecentScans => 'Recent diagnoses';
 
   @override
   String get homeEmptyFarm =>
@@ -421,7 +421,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get viewAll => 'View all';
 
   @override
-  String get homeScanCTA => 'Scan a Crop';
+  String get homeScanCTA => 'Scan a crop';
 
   @override
   String get calendarSetReminder => 'Set Reminder';
@@ -1246,4 +1246,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingExampleTask => 'Spraying moved to Thursday';
+
+  @override
+  String get homeGreetingMorning => 'Good morning';
+
+  @override
+  String get homeGreetingAfternoon => 'Good afternoon';
+
+  @override
+  String get homeGreetingEvening => 'Good evening';
+
+  @override
+  String homeHumidity(int value) {
+    return 'Humidity $value%';
+  }
+
+  @override
+  String get homeYesterday => 'Yesterday';
+
+  @override
+  String get homeScanPromptBody =>
+      'Spot problems early. Point your camera at one leaf.';
 }

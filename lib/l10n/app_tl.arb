@@ -38,8 +38,8 @@
   "homeFieldBriefing": "Field Briefing Ngayon",
   "homePriorityAction": "Pangunahing Kilos",
   "homeScanCta": "I-scan ang Pananim",
-  "homeCarePlan": "Care Plan Ng Linggang Ito",
-  "homeRecentScans": "Mga Nakaraang Diagnosis",
+  "homeCarePlan": "Pag-aalaga ngayong linggo",
+  "homeRecentScans": "Mga kamakailang diagnosis",
   "homeEmptyFarm": "Handa na ang iyong field office. Kumuha ng unang scan upang simulan ang talaan ng kalusugan ng iyong pananim.",
   "homeMonitoring": "Ligtas lahat. Patuloy naming bantayan ang iyong mga pananim.",
   "cropsTitle": "Aking mga Pananim",
@@ -144,7 +144,7 @@
   "@homeRecentScans": {
     "description": "homeRecentScans"
   },
-  "homeScanCTA": "I-scan ang Pananim",
+  "homeScanCTA": "I-scan ang pananim",
   "@homeScanCTA": {
     "description": "homeScanCTA"
   },
@@ -967,5 +967,11 @@
   "authBack": "Bumalik",
   "onboardingProgress": "Hakbang {current} sa {total}",
   "onboardingExampleForecast": "Uulan bukas",
-  "onboardingExampleTask": "Inilipat sa Huwebes ang pag-spray"
+  "onboardingExampleTask": "Inilipat sa Huwebes ang pag-spray",
+  "homeGreetingMorning": "Magandang umaga",
+  "homeGreetingAfternoon": "Magandang hapon",
+  "homeGreetingEvening": "Magandang gabi",
+  "homeHumidity": "Halumigmig {value}%",
+  "homeYesterday": "Kahapon",
+  "homeScanPromptBody": "Makita agad ang problema. Itutok ang camera sa isang dahon."
 }

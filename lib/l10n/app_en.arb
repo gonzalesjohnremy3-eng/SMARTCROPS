@@ -145,11 +145,11 @@
   "@home.scanCTA": {
     "description": "Home screen scan CTA"
   },
-  "homeCarePlan": "This Week's Care Plan",
+  "homeCarePlan": "This week's care",
   "@home.carePlan": {
     "description": "Home screen care plan title"
   },
-  "homeRecentScans": "Recent Diagnoses",
+  "homeRecentScans": "Recent diagnoses",
   "@home.recentScans": {
     "description": "Home screen recent scans title"
   },
@@ -514,7 +514,7 @@
   "@homeRecentScans": {
     "description": "homeRecentScans"
   },
-  "homeScanCTA": "Scan a Crop",
+  "homeScanCTA": "Scan a crop",
   "@homeScanCTA": {
     "description": "homeScanCTA"
   },
@@ -1455,5 +1455,34 @@
   "onboardingExampleTask": "Spraying moved to Thursday",
   "@onboardingExampleTask": {
     "description": "onboardingExampleTask"
+  },
+  "homeGreetingMorning": "Good morning",
+  "@homeGreetingMorning": {
+    "description": "homeGreetingMorning"
+  },
+  "homeGreetingAfternoon": "Good afternoon",
+  "@homeGreetingAfternoon": {
+    "description": "homeGreetingAfternoon"
+  },
+  "homeGreetingEvening": "Good evening",
+  "@homeGreetingEvening": {
+    "description": "homeGreetingEvening"
+  },
+  "homeHumidity": "Humidity {value}%",
+  "@homeHumidity": {
+    "description": "homeHumidity",
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "homeYesterday": "Yesterday",
+  "@homeYesterday": {
+    "description": "homeYesterday"
+  },
+  "homeScanPromptBody": "Spot problems early. Point your camera at one leaf.",
+  "@homeScanPromptBody": {
+    "description": "homeScanPromptBody"
   }
 }

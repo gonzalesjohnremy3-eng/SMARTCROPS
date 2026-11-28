@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_crops/app/localization/ceb_fallback_localizations.dart';
 import 'package:smart_crops/features/home/domain/field_briefing.dart';
 import 'package:smart_crops/features/home/screens/home_screen.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
@@ -29,39 +30,45 @@ class _StubLoader implements FarmDataLoader {
   }
 }
 
-FarmSnapshot _farmSnapshot() => FarmSnapshot(
-  availableCrops: [
-    CropItem(id: 't', cropName: 'Tomato', optimalConditions: const {}),
-  ],
-  userCrops: [
-    CropItem(id: 't', cropName: 'Tomato', optimalConditions: const {}),
-  ],
-  scanHistory: [
-    ScanHistoryItem(
-      id: 's1',
-      userId: 'u',
-      imageUrl: 'https://example.com/a.jpg',
-      diseaseDetected: 'Healthy',
-      confidenceScore: 96,
-      commonCrop: 'Ampalaya',
-      recommendedActions: const ['Keep monitoring'],
-      scannedAt: DateTime(2026, 1, 1),
-    ),
-  ],
-  notifications: const [],
-  calendarEvents: [
-    CropCalendarEvent(
-      id: 'e1',
-      userId: 'u',
-      eventTitle: 'Mulch the beds',
-      eventCategory: 'Nutrition',
-      scheduledDate: DateTime(2026, 1, 2),
-      isCompleted: false,
-      priority: 'Normal',
-    ),
-  ],
-  fetchedAt: DateTime(2026, 1, 1),
-);
+FarmSnapshot _farmSnapshot({List<AppNotification> notifications = const []}) =>
+    FarmSnapshot(
+      profile: UserProfile(
+        id: 'u',
+        fullName: 'Maria Santos',
+        email: 'maria@example.com',
+      ),
+      availableCrops: [
+        CropItem(id: 't', cropName: 'Tomato', optimalConditions: const {}),
+      ],
+      userCrops: [
+        CropItem(id: 't', cropName: 'Tomato', optimalConditions: const {}),
+      ],
+      scanHistory: [
+        ScanHistoryItem(
+          id: 's1',
+          userId: 'u',
+          imageUrl: 'https://example.com/a.jpg',
+          diseaseDetected: 'Healthy',
+          confidenceScore: 96,
+          commonCrop: 'Ampalaya',
+          recommendedActions: const ['Keep monitoring'],
+          scannedAt: DateTime(2026, 1, 1),
+        ),
+      ],
+      notifications: notifications,
+      calendarEvents: [
+        CropCalendarEvent(
+          id: 'e1',
+          userId: 'u',
+          eventTitle: 'Mulch the beds',
+          eventCategory: 'Nutrition',
+          scheduledDate: DateTime(2026, 1, 2),
+          isCompleted: false,
+          priority: 'Normal',
+        ),
+      ],
+      fetchedAt: DateTime(2026, 1, 1),
+    );
 
 void main() {
   setUpAll(() async {
@@ -112,8 +119,8 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Critical weather'), findsNWidgets(2));
-    expect(find.text('Scan a Crop'), findsOneWidget);
+    expect(find.text('Critical weather'), findsOneWidget);
+    expect(find.text('Scan a crop'), findsOneWidget);
   });
 
   testWidgets('Home renders the overdue task priority action', (tester) async {
@@ -130,7 +137,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Overdue tasks'), findsNWidgets(2));
+    expect(find.text('Overdue tasks'), findsOneWidget);
   });
 
   testWidgets('Home renders the at-risk diagnosis priority action', (
@@ -149,7 +156,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Crop needs attention'), findsNWidgets(2));
+    expect(find.text('Crop needs attention'), findsOneWidget);
   });
 
   testWidgets('Home renders the routine care priority action', (tester) async {
@@ -167,7 +174,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Care Plan'), findsWidgets);
-    expect(find.text('Care needed'), findsNWidgets(2));
+    expect(find.text('Care needed'), findsOneWidget);
   });
 
   testWidgets('Home renders the empty farm priority action', (tester) async {
@@ -184,7 +191,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Your field office is ready'), findsNWidgets(2));
+    expect(find.text('Your field office is ready'), findsOneWidget);
   });
 
   testWidgets('Home renders the all-clear monitoring action', (tester) async {
@@ -201,7 +208,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('All clear'), findsNWidgets(2));
+    expect(find.text('All clear'), findsOneWidget);
   });
 
   testWidgets('Home previews render real service data, not hardcoded seeds', (
@@ -265,6 +272,126 @@ void main() {
       find.textContaining('High wind alert'),
       findsNothing,
       reason: 'the fake critical advisory must not appear without data',
+    );
+  });
+
+  Future<void> pumpWithService(
+    WidgetTester tester,
+    SmartCropsService service,
+  ) async {
+    await tester.binding.setSurfaceSize(const Size(500, 2000));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => WeatherService()),
+          ChangeNotifierProvider.value(value: service),
+        ],
+        child: MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en'), Locale('tl'), Locale('ceb')],
+          home: const HomeScreen(
+            briefingFacts: BriefingFacts(
+              hasCriticalWeather: false,
+              overdueTaskCount: 0,
+              hasRecentAtRiskDiagnosis: false,
+              routineCareCount: 1,
+              hasCrops: true,
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+  }
+
+  testWidgets('greets the Farmer by first name', (tester) async {
+    final service = SmartCropsService(loader: _StubLoader(_farmSnapshot()));
+    await service.initializeUserData();
+
+    await pumpWithService(tester, service);
+
+    expect(find.text('Maria'), findsOneWidget);
+  });
+
+  testWidgets('scan severity reads in words, not shouted labels', (
+    tester,
+  ) async {
+    final service = SmartCropsService(loader: _StubLoader(_farmSnapshot()));
+    await service.initializeUserData();
+
+    await pumpWithService(tester, service);
+
+    expect(find.text('Healthy'), findsOneWidget);
+  });
+
+  testWidgets('an unread advisory appears under the briefing', (tester) async {
+    final service = SmartCropsService(
+      loader: _StubLoader(
+        _farmSnapshot(
+          notifications: [
+            AppNotification(
+              id: 'n1',
+              userId: 'u',
+              title: 'Typhoon signal 2 in your area',
+              message: 'Secure seedlings.',
+              isRead: false,
+              createdAt: DateTime(2026, 1, 1),
+            ),
+          ],
+        ),
+      ),
+    );
+    await service.initializeUserData();
+
+    await pumpWithService(tester, service);
+
+    expect(find.text('Typhoon signal 2 in your area'), findsOneWidget);
+  });
+
+  testWidgets('scanning is offered inline, not as a floating button', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      buildHome(
+        const BriefingFacts(
+          hasCriticalWeather: false,
+          overdueTaskCount: 0,
+          hasRecentAtRiskDiagnosis: false,
+          routineCareCount: 1,
+          hasCrops: true,
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byType(FloatingActionButton), findsNothing);
+  });
+
+  testWidgets('the scan prompt explains why to scan', (tester) async {
+    await tester.binding.setSurfaceSize(const Size(500, 2000));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    await tester.pumpWidget(
+      buildHome(
+        const BriefingFacts(
+          hasCriticalWeather: false,
+          overdueTaskCount: 0,
+          hasRecentAtRiskDiagnosis: false,
+          routineCareCount: 1,
+          hasCrops: true,
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text('Spot problems early. Point your camera at one leaf.'),
+      findsOneWidget,
     );
   });
 
@@ -374,6 +501,70 @@ void main() {
     expect(find.byKey(const Key('home-wide-split')), findsOneWidget);
     expect(find.byKey(const Key('home-wide-actions')), findsOneWidget);
   });
+
+  for (final locale in ['en', 'tl', 'ceb']) {
+    testWidgets('fits a phone at 200% text in $locale', (tester) async {
+      await tester.binding.setSurfaceSize(const Size(375, 667));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+      final service = SmartCropsService(loader: _StubLoader(_farmSnapshot()));
+      await service.initializeUserData();
+
+      final errors = <FlutterErrorDetails>[];
+      final original = FlutterError.onError;
+      FlutterError.onError = errors.add;
+      try {
+        await tester.pumpWidget(
+          MultiProvider(
+            providers: [
+              ChangeNotifierProvider(create: (_) => WeatherService()),
+              ChangeNotifierProvider.value(value: service),
+            ],
+            child: MaterialApp(
+              locale: Locale(locale),
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                CebMaterialLocalizationsDelegate(),
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+                CebCupertinoLocalizationsDelegate(),
+              ],
+              supportedLocales: const [
+                Locale('en'),
+                Locale('tl'),
+                Locale('ceb'),
+              ],
+              builder: (context, child) => MediaQuery(
+                data: MediaQuery.of(
+                  context,
+                ).copyWith(textScaler: const TextScaler.linear(2)),
+                child: child!,
+              ),
+              home: const HomeScreen(
+                briefingFacts: BriefingFacts(
+                  hasCriticalWeather: true,
+                  overdueTaskCount: 0,
+                  hasRecentAtRiskDiagnosis: false,
+                  routineCareCount: 1,
+                  hasCrops: true,
+                ),
+              ),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+        await tester.drag(
+          find.byType(CustomScrollView),
+          const Offset(0, -3000),
+        );
+        await tester.pumpAndSettle();
+      } finally {
+        FlutterError.onError = original;
+      }
+
+      expect(errors, isEmpty);
+    });
+  }
 
   testWidgets('keeps the single-column dashboard compact', (tester) async {
     await tester.binding.setSurfaceSize(const Size(390, 844));

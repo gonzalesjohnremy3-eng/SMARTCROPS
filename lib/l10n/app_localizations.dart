@@ -331,13 +331,13 @@ abstract class AppLocalizations {
   /// homeCarePlan
   ///
   /// In en, this message translates to:
-  /// **'This Week\'s Care Plan'**
+  /// **'This week\'s care'**
   String get homeCarePlan;
 
   /// homeRecentScans
   ///
   /// In en, this message translates to:
-  /// **'Recent Diagnoses'**
+  /// **'Recent diagnoses'**
   String get homeRecentScans;
 
   /// No description provided for @homeEmptyFarm.
@@ -871,7 +871,7 @@ abstract class AppLocalizations {
   /// homeScanCTA
   ///
   /// In en, this message translates to:
-  /// **'Scan a Crop'**
+  /// **'Scan a crop'**
   String get homeScanCTA;
 
   /// calendarSetReminder
@@ -2415,6 +2415,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Spraying moved to Thursday'**
   String get onboardingExampleTask;
+
+  /// homeGreetingMorning
+  ///
+  /// In en, this message translates to:
+  /// **'Good morning'**
+  String get homeGreetingMorning;
+
+  /// homeGreetingAfternoon
+  ///
+  /// In en, this message translates to:
+  /// **'Good afternoon'**
+  String get homeGreetingAfternoon;
+
+  /// homeGreetingEvening
+  ///
+  /// In en, this message translates to:
+  /// **'Good evening'**
+  String get homeGreetingEvening;
+
+  /// homeHumidity
+  ///
+  /// In en, this message translates to:
+  /// **'Humidity {value}%'**
+  String homeHumidity(int value);
+
+  /// homeYesterday
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get homeYesterday;
+
+  /// homeScanPromptBody
+  ///
+  /// In en, this message translates to:
+  /// **'Spot problems early. Point your camera at one leaf.'**
+  String get homeScanPromptBody;
 }
 
 class _AppLocalizationsDelegate
