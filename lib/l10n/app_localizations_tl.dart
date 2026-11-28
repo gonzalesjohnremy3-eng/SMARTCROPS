@@ -175,7 +175,7 @@ class AppLocalizationsTl extends AppLocalizations {
   String get cropDetailGrowthTimeline => 'Timeline ng Paglago';
 
   @override
-  String get scanCaptureTitle => 'I-scan ang Iyong Pananim';
+  String get scanCaptureTitle => 'I-scan ang pananim';
 
   @override
   String get scanCaptureGuidance =>
@@ -1292,4 +1292,44 @@ class AppLocalizationsTl extends AppLocalizations {
   @override
   String get homeScanPromptBody =>
       'Makita agad ang problema. Itutok ang camera sa isang dahon.';
+
+  @override
+  String get scanWhichCrop => 'Anong pananim ito?';
+
+  @override
+  String get scanTakePhoto => 'Kumuha ng litrato';
+
+  @override
+  String get scanUploadPhoto => 'Mag-upload';
+
+  @override
+  String get scanTipOneLeaf => 'Isang dahon';
+
+  @override
+  String get scanTipFillFrame => 'Punuin ang frame';
+
+  @override
+  String get scanTipNoShadows => 'Walang anino';
+
+  @override
+  String scanQuotaLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count libreng scan na lang ngayong linggo',
+      one: '1 libreng scan na lang ngayong linggo',
+      zero: 'Wala nang libreng scan ngayong linggo',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get scanQuotaUnlimited => 'Walang limitasyong scan sa Pro';
+
+  @override
+  String get scanNoCrops =>
+      'Idagdag ang iyong mga pangunahing pananim para makapag-scan.';
+
+  @override
+  String get scanAddCrops => 'Magdagdag ng pananim';
 }

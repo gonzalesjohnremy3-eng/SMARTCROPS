@@ -185,7 +185,7 @@
   "@cropDetail.growthTimeline": {
     "description": "Crop detail growth timeline section"
   },
-  "scanCaptureTitle": "Scan Your Crop",
+  "scanCaptureTitle": "Scan a crop",
   "@scan.capture.title": {
     "description": "Scan capture screen title"
   },
@@ -1484,5 +1484,53 @@
   "homeScanPromptBody": "Spot problems early. Point your camera at one leaf.",
   "@homeScanPromptBody": {
     "description": "homeScanPromptBody"
+  },
+  "@scanCaptureTitle": {
+    "description": "scanCaptureTitle"
+  },
+  "scanWhichCrop": "Which crop is this?",
+  "@scanWhichCrop": {
+    "description": "scanWhichCrop"
+  },
+  "scanTakePhoto": "Take photo",
+  "@scanTakePhoto": {
+    "description": "scanTakePhoto"
+  },
+  "scanUploadPhoto": "Upload",
+  "@scanUploadPhoto": {
+    "description": "scanUploadPhoto"
+  },
+  "scanTipOneLeaf": "One leaf",
+  "@scanTipOneLeaf": {
+    "description": "scanTipOneLeaf"
+  },
+  "scanTipFillFrame": "Fill the frame",
+  "@scanTipFillFrame": {
+    "description": "scanTipFillFrame"
+  },
+  "scanTipNoShadows": "No shadows",
+  "@scanTipNoShadows": {
+    "description": "scanTipNoShadows"
+  },
+  "scanQuotaLeft": "{count, plural, =0{No free scans left this week} =1{1 free scan left this week} other{{count} free scans left this week}}",
+  "@scanQuotaLeft": {
+    "description": "scanQuotaLeft",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "scanQuotaUnlimited": "Unlimited scans with Pro",
+  "@scanQuotaUnlimited": {
+    "description": "scanQuotaUnlimited"
+  },
+  "scanNoCrops": "Add your Main Crops to start scanning.",
+  "@scanNoCrops": {
+    "description": "scanNoCrops"
+  },
+  "scanAddCrops": "Add crops",
+  "@scanAddCrops": {
+    "description": "scanAddCrops"
   }
 }

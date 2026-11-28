@@ -52,7 +52,7 @@
   "cropDetailYourScans": "Imong mga scan para niining tanom",
   "cropDetailUpcomingTasks": "Umaabot nga buluhaton",
   "cropDetailOpenCalendar": "Ablihi ang kalendaryo",
-  "scanCaptureTitle": "I-scan ang Imong Tanom",
+  "scanCaptureTitle": "I-scan ang tanom",
   "scanCaptureGuidance": "Punoa ang frame og usa ka dahon. Likayi ang landong.",
   "scanReviewTitle": "Tan-awa ang Imong Litrato",
   "scanReviewRetake": "Mobalik Kunan",
@@ -973,5 +973,15 @@
   "homeGreetingEvening": "Maayong gabii",
   "homeHumidity": "Kaumog {value}%",
   "homeYesterday": "Gahapon",
-  "homeScanPromptBody": "Makita dayon ang problema. Itutok ang camera sa usa ka dahon."
+  "homeScanPromptBody": "Makita dayon ang problema. Itutok ang camera sa usa ka dahon.",
+  "scanWhichCrop": "Unsang tanoma kini?",
+  "scanTakePhoto": "Pagkuha og litrato",
+  "scanUploadPhoto": "I-upload",
+  "scanTipOneLeaf": "Usa ka dahon",
+  "scanTipFillFrame": "Pun-a ang frame",
+  "scanTipNoShadows": "Walay landong",
+  "scanQuotaLeft": "{count, plural, =0{Wala nay libreng scan karong semanaha} =1{1 na lang ka libreng scan karong semanaha} other{{count} na lang ka libreng scan karong semanaha}}",
+  "scanQuotaUnlimited": "Walay limit nga scan sa Pro",
+  "scanNoCrops": "Idugang ang imong mga panguna nga tanom aron maka-scan.",
+  "scanAddCrops": "Pagdugang og tanom"
 }

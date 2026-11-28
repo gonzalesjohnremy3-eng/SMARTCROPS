@@ -173,7 +173,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cropDetailGrowthTimeline => 'Growth Timeline';
 
   @override
-  String get scanCaptureTitle => 'Scan Your Crop';
+  String get scanCaptureTitle => 'Scan a crop';
 
   @override
   String get scanCaptureGuidance =>
@@ -1267,4 +1267,43 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get homeScanPromptBody =>
       'Spot problems early. Point your camera at one leaf.';
+
+  @override
+  String get scanWhichCrop => 'Which crop is this?';
+
+  @override
+  String get scanTakePhoto => 'Take photo';
+
+  @override
+  String get scanUploadPhoto => 'Upload';
+
+  @override
+  String get scanTipOneLeaf => 'One leaf';
+
+  @override
+  String get scanTipFillFrame => 'Fill the frame';
+
+  @override
+  String get scanTipNoShadows => 'No shadows';
+
+  @override
+  String scanQuotaLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count free scans left this week',
+      one: '1 free scan left this week',
+      zero: 'No free scans left this week',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get scanQuotaUnlimited => 'Unlimited scans with Pro';
+
+  @override
+  String get scanNoCrops => 'Add your Main Crops to start scanning.';
+
+  @override
+  String get scanAddCrops => 'Add crops';
 }

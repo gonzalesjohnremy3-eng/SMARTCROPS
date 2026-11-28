@@ -52,7 +52,7 @@
   "cropDetailYourScans": "Mga scan mo para sa pananim na ito",
   "cropDetailUpcomingTasks": "Mga susunod na gawain",
   "cropDetailOpenCalendar": "Buksan ang kalendaryo",
-  "scanCaptureTitle": "I-scan ang Iyong Pananim",
+  "scanCaptureTitle": "I-scan ang pananim",
   "scanCaptureGuidance": "Punan ang frame ng isang dahon. Iwasan ang anino.",
   "scanReviewTitle": "Surin ang Iyong Litrato",
   "scanReviewRetake": "Muling Kunan",
@@ -973,5 +973,15 @@
   "homeGreetingEvening": "Magandang gabi",
   "homeHumidity": "Halumigmig {value}%",
   "homeYesterday": "Kahapon",
-  "homeScanPromptBody": "Makita agad ang problema. Itutok ang camera sa isang dahon."
+  "homeScanPromptBody": "Makita agad ang problema. Itutok ang camera sa isang dahon.",
+  "scanWhichCrop": "Anong pananim ito?",
+  "scanTakePhoto": "Kumuha ng litrato",
+  "scanUploadPhoto": "Mag-upload",
+  "scanTipOneLeaf": "Isang dahon",
+  "scanTipFillFrame": "Punuin ang frame",
+  "scanTipNoShadows": "Walang anino",
+  "scanQuotaLeft": "{count, plural, =0{Wala nang libreng scan ngayong linggo} =1{1 libreng scan na lang ngayong linggo} other{{count} libreng scan na lang ngayong linggo}}",
+  "scanQuotaUnlimited": "Walang limitasyong scan sa Pro",
+  "scanNoCrops": "Idagdag ang iyong mga pangunahing pananim para makapag-scan.",
+  "scanAddCrops": "Magdagdag ng pananim"
 }

@@ -388,10 +388,10 @@ abstract class AppLocalizations {
   /// **'Growth Timeline'**
   String get cropDetailGrowthTimeline;
 
-  /// No description provided for @scanCaptureTitle.
+  /// scanCaptureTitle
   ///
   /// In en, this message translates to:
-  /// **'Scan Your Crop'**
+  /// **'Scan a crop'**
   String get scanCaptureTitle;
 
   /// No description provided for @scanCaptureGuidance.
@@ -2451,6 +2451,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Spot problems early. Point your camera at one leaf.'**
   String get homeScanPromptBody;
+
+  /// scanWhichCrop
+  ///
+  /// In en, this message translates to:
+  /// **'Which crop is this?'**
+  String get scanWhichCrop;
+
+  /// scanTakePhoto
+  ///
+  /// In en, this message translates to:
+  /// **'Take photo'**
+  String get scanTakePhoto;
+
+  /// scanUploadPhoto
+  ///
+  /// In en, this message translates to:
+  /// **'Upload'**
+  String get scanUploadPhoto;
+
+  /// scanTipOneLeaf
+  ///
+  /// In en, this message translates to:
+  /// **'One leaf'**
+  String get scanTipOneLeaf;
+
+  /// scanTipFillFrame
+  ///
+  /// In en, this message translates to:
+  /// **'Fill the frame'**
+  String get scanTipFillFrame;
+
+  /// scanTipNoShadows
+  ///
+  /// In en, this message translates to:
+  /// **'No shadows'**
+  String get scanTipNoShadows;
+
+  /// scanQuotaLeft
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No free scans left this week} =1{1 free scan left this week} other{{count} free scans left this week}}'**
+  String scanQuotaLeft(int count);
+
+  /// scanQuotaUnlimited
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited scans with Pro'**
+  String get scanQuotaUnlimited;
+
+  /// scanNoCrops
+  ///
+  /// In en, this message translates to:
+  /// **'Add your Main Crops to start scanning.'**
+  String get scanNoCrops;
+
+  /// scanAddCrops
+  ///
+  /// In en, this message translates to:
+  /// **'Add crops'**
+  String get scanAddCrops;
 }
 
 class _AppLocalizationsDelegate

@@ -175,7 +175,7 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get cropDetailGrowthTimeline => 'Timeline sa Paglago';
 
   @override
-  String get scanCaptureTitle => 'I-scan ang Imong Tanom';
+  String get scanCaptureTitle => 'I-scan ang tanom';
 
   @override
   String get scanCaptureGuidance =>
@@ -1288,4 +1288,44 @@ class AppLocalizationsCeb extends AppLocalizations {
   @override
   String get homeScanPromptBody =>
       'Makita dayon ang problema. Itutok ang camera sa usa ka dahon.';
+
+  @override
+  String get scanWhichCrop => 'Unsang tanoma kini?';
+
+  @override
+  String get scanTakePhoto => 'Pagkuha og litrato';
+
+  @override
+  String get scanUploadPhoto => 'I-upload';
+
+  @override
+  String get scanTipOneLeaf => 'Usa ka dahon';
+
+  @override
+  String get scanTipFillFrame => 'Pun-a ang frame';
+
+  @override
+  String get scanTipNoShadows => 'Walay landong';
+
+  @override
+  String scanQuotaLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count na lang ka libreng scan karong semanaha',
+      one: '1 na lang ka libreng scan karong semanaha',
+      zero: 'Wala nay libreng scan karong semanaha',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get scanQuotaUnlimited => 'Walay limit nga scan sa Pro';
+
+  @override
+  String get scanNoCrops =>
+      'Idugang ang imong mga panguna nga tanom aron maka-scan.';
+
+  @override
+  String get scanAddCrops => 'Pagdugang og tanom';
 }
