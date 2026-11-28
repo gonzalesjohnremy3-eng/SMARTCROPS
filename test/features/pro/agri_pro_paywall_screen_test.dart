@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'package:smart_crops/app/localization/ceb_fallback_localizations.dart';
 import 'package:smart_crops/features/pro/domain/billing.dart';
 import 'package:smart_crops/features/pro/screens/agri_pro_paywall_screen.dart';
 import 'package:smart_crops/features/pro/services/agri_pro_entitlement.dart';
@@ -73,8 +74,11 @@ Future<void> _pumpPaywall(
   required BillingRepository billing,
   required Map<String, dynamic>? subscriptionRow,
   bool fromQuota = false,
+  Size size = const Size(500, 2200),
+  String locale = 'en',
+  double textScale = 1,
 }) async {
-  await tester.binding.setSurfaceSize(const Size(500, 2200));
+  await tester.binding.setSurfaceSize(size);
   addTearDown(() => tester.binding.setSurfaceSize(null));
 
   final service = SmartCropsService(loader: _StubLoader(snapshot));
@@ -91,13 +95,22 @@ Future<void> _pumpPaywall(
         Provider<BillingRepository>.value(value: billing),
       ],
       child: MaterialApp(
+        locale: Locale(locale),
         localizationsDelegates: const [
           AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
+          CebMaterialLocalizationsDelegate(),
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
+          CebCupertinoLocalizationsDelegate(),
         ],
         supportedLocales: const [Locale('en'), Locale('tl'), Locale('ceb')],
+        builder: (context, child) => MediaQuery(
+          data: MediaQuery.of(
+            context,
+          ).copyWith(textScaler: TextScaler.linear(textScale)),
+          child: child!,
+        ),
         home: AgriProPaywallScreen(fromQuota: fromQuota),
       ),
     ),
@@ -227,5 +240,94 @@ void main() {
       find.descendant(of: table, matching: find.text('₱499/6 months')),
       findsOneWidget,
     );
+  });
+
+  testWidgets('says what Pro adds beyond unlimited scans', (tester) async {
+    await _pumpPaywall(
+      tester,
+      snapshot: _snapshot(),
+      billing: _FakeBilling(outcome: const BillingUnavailable()),
+      subscriptionRow: null,
+    );
+
+    expect(find.text('Priority analysis'), findsOneWidget);
+  });
+
+  testWidgets('shows the Seasonal renewal terms by default', (tester) async {
+    await _pumpPaywall(
+      tester,
+      snapshot: _snapshot(),
+      billing: _FakeBilling(outcome: const BillingUnavailable()),
+      subscriptionRow: null,
+    );
+
+    expect(find.text('Renews every 6 months at ₱499.'), findsOneWidget);
+  });
+
+  testWidgets('choosing Monthly switches the renewal terms and the purchase', (
+    tester,
+  ) async {
+    final billing = _FakeBilling(outcome: const BillingUnavailable());
+    await _pumpPaywall(
+      tester,
+      snapshot: _snapshot(),
+      billing: billing,
+      subscriptionRow: null,
+    );
+    await tester.tap(find.byKey(const Key('pro-plan-monthly')));
+    await tester.pump();
+    await tester.tap(find.text('Start Agri Pro'));
+    await tester.pump();
+
+    expect(billing.purchasedPlan, AgriProPlanId.monthly);
+  });
+
+  testWidgets('has a Back button', (tester) async {
+    await _pumpPaywall(
+      tester,
+      snapshot: _snapshot(),
+      billing: _FakeBilling(outcome: const BillingUnavailable()),
+      subscriptionRow: null,
+    );
+
+    expect(find.byTooltip('Back'), findsOneWidget);
+  });
+
+  for (final locale in ['en', 'tl', 'ceb']) {
+    testWidgets('fits a phone at 200% text in $locale', (tester) async {
+      final errors = <FlutterErrorDetails>[];
+      final original = FlutterError.onError;
+      FlutterError.onError = errors.add;
+      try {
+        await _pumpPaywall(
+          tester,
+          snapshot: _snapshot(scans: List.generate(5, _scanThisWeek)),
+          billing: _FakeBilling(outcome: const BillingUnavailable()),
+          subscriptionRow: null,
+          fromQuota: true,
+          size: const Size(375, 667),
+          locale: locale,
+          textScale: 2,
+        );
+      } finally {
+        FlutterError.onError = original;
+      }
+
+      expect(errors, isEmpty);
+    });
+  }
+
+  testWidgets('meets tap-target and label guidelines', (tester) async {
+    final handle = tester.ensureSemantics();
+    await _pumpPaywall(
+      tester,
+      snapshot: _snapshot(),
+      billing: _FakeBilling(outcome: const BillingUnavailable()),
+      subscriptionRow: null,
+    );
+
+    await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
+    await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
+    handle.dispose();
   });
 }

@@ -1753,7 +1753,7 @@ abstract class AppLocalizations {
   /// agriProManageBilling
   ///
   /// In en, this message translates to:
-  /// **'Pagbayad'**
+  /// **'Billing'**
   String get agriProManageBilling;
 
   /// agriProManageBilledBy

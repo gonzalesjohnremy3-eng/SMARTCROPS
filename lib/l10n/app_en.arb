@@ -1124,7 +1124,7 @@
   "@agriProManageRenewal": {
     "description": "agriProManageRenewal"
   },
-  "agriProManageBilling": "Pagbayad",
+  "agriProManageBilling": "Billing",
   "@agriProManageBilling": {
     "description": "agriProManageBilling"
   },

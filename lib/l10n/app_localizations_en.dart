@@ -879,7 +879,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get agriProManageRenewal => 'Renews';
 
   @override
-  String get agriProManageBilling => 'Pagbayad';
+  String get agriProManageBilling => 'Billing';
 
   @override
   String get agriProManageBilledBy => 'Managed by your app store.';
