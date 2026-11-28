@@ -1,6 +1,9 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -35,6 +38,19 @@ class _StubLoader implements FarmDataLoader {
   Future<FarmSnapshot?> fetchFarmData() async => snapshot;
 }
 
+class _TestService extends SmartCropsService {
+  _TestService({super.loader, this.failAvatar = false});
+
+  final bool failAvatar;
+  Uint8List? avatarBytes;
+
+  @override
+  Future<void> updateAvatar(Uint8List bytes, {String extension = 'jpg'}) async {
+    if (failAvatar) throw Exception('upload failed');
+    avatarBytes = bytes;
+  }
+}
+
 final _maria = UserProfile(
   id: 'u',
   fullName: 'Maria Santos',
@@ -43,18 +59,22 @@ final _maria = UserProfile(
   location: 'Nueva Ecija',
 );
 
-Future<void> _pump(
+Future<_TestService> _pump(
   WidgetTester tester, {
   required Size size,
   UserProfile? profile,
   List<CropItem> crops = const [],
   String locale = 'en',
   double textScale = 1,
+  Future<String?> Function(BuildContext)? pickLocation,
+  Future<XFile?> Function(ImageSource)? pickAvatar,
+  bool failAvatar = false,
 }) async {
   await tester.binding.setSurfaceSize(size);
   addTearDown(() => tester.binding.setSurfaceSize(null));
 
-  final service = SmartCropsService(
+  final service = _TestService(
+    failAvatar: failAvatar,
     loader: _StubLoader(
       FarmSnapshot(
         availableCrops: crops,
@@ -74,7 +94,7 @@ Future<void> _pump(
   await tester.pumpWidget(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(value: service),
+        ChangeNotifierProvider<SmartCropsService>.value(value: service),
         ChangeNotifierProvider.value(value: entitlement),
         ChangeNotifierProvider(
           create: (_) => LocaleProvider(
@@ -99,10 +119,22 @@ Future<void> _pump(
           ).copyWith(textScaler: TextScaler.linear(textScale)),
           child: child!,
         ),
-        home: const ProfileScreen(),
+        home: ProfileScreen(pickLocation: pickLocation, pickAvatar: pickAvatar),
       ),
     ),
   );
+  await tester.pumpAndSettle();
+  return service;
+}
+
+XFile _photo() => XFile.fromData(
+  Uint8List.fromList([1, 2, 3]),
+  name: 'me.jpg',
+  mimeType: 'image/jpeg',
+);
+
+Future<void> _startEditing(WidgetTester tester) async {
+  await tester.tap(find.byKey(const Key('profile_edit')));
   await tester.pumpAndSettle();
 }
 
@@ -175,12 +207,102 @@ void main() {
       expect(find.text('—'), findsOneWidget);
     });
 
-    testWidgets('editing reveals the four fields', (tester) async {
+    testWidgets('editing reveals the name, farm and phone fields', (
+      tester,
+    ) async {
       await _pump(tester, size: const Size(390, 1600), profile: _maria);
-      await tester.tap(find.byKey(const Key('profile_edit')));
+      await _startEditing(tester);
+
+      expect(find.byType(TextField), findsNWidgets(3));
+    });
+
+    testWidgets('the location is chosen from a list, not typed', (
+      tester,
+    ) async {
+      await _pump(tester, size: const Size(390, 1600), profile: _maria);
+      await _startEditing(tester);
+
+      expect(find.byKey(const Key('profile_location_field')), findsOneWidget);
+    });
+
+    testWidgets('the location field shows the current location', (
+      tester,
+    ) async {
+      await _pump(tester, size: const Size(390, 1600), profile: _maria);
+      await _startEditing(tester);
+
+      expect(
+        find.descendant(
+          of: find.byKey(const Key('profile_location_field')),
+          matching: find.text('Nueva Ecija'),
+        ),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('an empty location invites the Farmer to choose one', (
+      tester,
+    ) async {
+      await _pump(
+        tester,
+        size: const Size(390, 1600),
+        profile: UserProfile(
+          id: 'u',
+          fullName: 'Maria',
+          email: 'm@example.com',
+        ),
+      );
+      await _startEditing(tester);
+
+      expect(find.text('Choose your location'), findsOneWidget);
+    });
+
+    testWidgets('tapping the location field opens the location picker', (
+      tester,
+    ) async {
+      var opened = 0;
+      await _pump(
+        tester,
+        size: const Size(390, 1600),
+        profile: _maria,
+        pickLocation: (_) async {
+          opened++;
+          return null;
+        },
+      );
+      await _startEditing(tester);
+      await tester.tap(find.byKey(const Key('profile_location_field')));
       await tester.pumpAndSettle();
 
-      expect(find.byType(TextField), findsNWidgets(4));
+      expect(opened, 1);
+    });
+
+    testWidgets('a chosen location fills the field', (tester) async {
+      await _pump(
+        tester,
+        size: const Size(390, 1600),
+        profile: _maria,
+        pickLocation: (_) async => 'Matti, Digos City, Davao del Sur',
+      );
+      await _startEditing(tester);
+      await tester.tap(find.byKey(const Key('profile_location_field')));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Matti, Digos City, Davao del Sur'), findsOneWidget);
+    });
+
+    testWidgets('closing the picker keeps the old location', (tester) async {
+      await _pump(
+        tester,
+        size: const Size(390, 1600),
+        profile: _maria,
+        pickLocation: (_) async => null,
+      );
+      await _startEditing(tester);
+      await tester.tap(find.byKey(const Key('profile_location_field')));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Nueva Ecija'), findsOneWidget);
     });
 
     testWidgets('editing offers a clearly labelled save', (tester) async {
@@ -189,6 +311,168 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Save changes'), findsOneWidget);
+    });
+  });
+
+  group('Main Crops header', () {
+    testWidgets('Manage sits at the right edge, not beside the title', (
+      tester,
+    ) async {
+      await _pump(tester, size: const Size(390, 1600), profile: _maria);
+
+      expect(tester.getTopRight(find.text('Manage')).dx, greaterThan(390 - 48));
+    });
+
+    testWidgets('Manage is vertically centred on the title', (tester) async {
+      await _pump(tester, size: const Size(390, 1600), profile: _maria);
+
+      final title = tester.getCenter(find.text('Main Crops')).dy;
+      final manage = tester.getCenter(find.text('Manage')).dy;
+
+      expect((title - manage).abs(), lessThan(4));
+    });
+  });
+
+  group('profile photo', () {
+    testWidgets('has no camera badge while just viewing', (tester) async {
+      await _pump(tester, size: const Size(390, 1600), profile: _maria);
+
+      expect(find.byKey(const Key('profile_avatar_badge')), findsNothing);
+    });
+
+    testWidgets('editing adds a camera badge to the photo', (tester) async {
+      await _pump(tester, size: const Size(390, 1600), profile: _maria);
+      await _startEditing(tester);
+
+      expect(find.byKey(const Key('profile_avatar_badge')), findsOneWidget);
+    });
+
+    testWidgets('tapping the photo offers camera or gallery', (tester) async {
+      await _pump(tester, size: const Size(390, 1600), profile: _maria);
+      await _startEditing(tester);
+      await tester.tap(find.byKey(const Key('profile_avatar')));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Choose from gallery'), findsOneWidget);
+      expect(find.text('Take a photo'), findsOneWidget);
+    });
+
+    testWidgets('tapping the photo when not editing does nothing', (
+      tester,
+    ) async {
+      await _pump(tester, size: const Size(390, 1600), profile: _maria);
+      await tester.tap(find.byKey(const Key('profile_avatar')));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Choose from gallery'), findsNothing);
+    });
+
+    testWidgets('a photo from the gallery is uploaded', (tester) async {
+      final service = await _pump(
+        tester,
+        size: const Size(390, 1600),
+        profile: _maria,
+        pickAvatar: (source) async =>
+            source == ImageSource.gallery ? _photo() : null,
+      );
+      await _startEditing(tester);
+      await tester.tap(find.byKey(const Key('profile_avatar')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Choose from gallery'));
+      await tester.pumpAndSettle();
+
+      expect(service.avatarBytes, [1, 2, 3]);
+    });
+
+    testWidgets('a photo from the camera is uploaded', (tester) async {
+      final service = await _pump(
+        tester,
+        size: const Size(390, 1600),
+        profile: _maria,
+        pickAvatar: (source) async =>
+            source == ImageSource.camera ? _photo() : null,
+      );
+      await _startEditing(tester);
+      await tester.tap(find.byKey(const Key('profile_avatar')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Take a photo'));
+      await tester.pumpAndSettle();
+
+      expect(service.avatarBytes, [1, 2, 3]);
+    });
+
+    testWidgets('cancelling the picker uploads nothing', (tester) async {
+      final service = await _pump(
+        tester,
+        size: const Size(390, 1600),
+        profile: _maria,
+        pickAvatar: (_) async => null,
+      );
+      await _startEditing(tester);
+      await tester.tap(find.byKey(const Key('profile_avatar')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Choose from gallery'));
+      await tester.pumpAndSettle();
+
+      expect(service.avatarBytes, isNull);
+    });
+
+    testWidgets('a failed upload says so', (tester) async {
+      await _pump(
+        tester,
+        size: const Size(390, 1600),
+        profile: _maria,
+        pickAvatar: (_) async => _photo(),
+        failAvatar: true,
+      );
+      await _startEditing(tester);
+      await tester.tap(find.byKey(const Key('profile_avatar')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Choose from gallery'));
+      await tester.pumpAndSettle();
+
+      expect(
+        find.text("We couldn't upload your photo. Please try again."),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('a saved photo is shown instead of the initial', (
+      tester,
+    ) async {
+      await _pump(
+        tester,
+        size: const Size(390, 1600),
+        profile: UserProfile(
+          id: 'u',
+          fullName: 'Maria Santos',
+          email: 'maria@example.com',
+          avatarUrl: 'https://example.com/me.jpg',
+        ),
+      );
+
+      expect(find.byKey(const Key('profile_avatar_image')), findsOneWidget);
+    });
+
+    testWidgets('the photo is cropped to a circle', (tester) async {
+      await _pump(
+        tester,
+        size: const Size(390, 1600),
+        profile: UserProfile(
+          id: 'u',
+          fullName: 'Maria Santos',
+          email: 'maria@example.com',
+          avatarUrl: 'https://example.com/me.jpg',
+        ),
+      );
+
+      expect(
+        find.ancestor(
+          of: find.byKey(const Key('profile_avatar_image')),
+          matching: find.byType(ClipOval),
+        ),
+        findsOneWidget,
+      );
     });
   });
 

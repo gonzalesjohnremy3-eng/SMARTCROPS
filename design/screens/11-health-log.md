@@ -8,6 +8,7 @@
 
 ## Layout
 
+- **Back:** a round Back button at the top (Home opens this page with `push`, so Back returns to Home).
 - **Header:** "Health Log" in Fraunces.
 - **Season summary:** one raised surface with three counts in Fraunces: Scans, Healthy (green), Need attention (clay). Demo diagnoses are not counted, so the numbers are never inflated.
 - **History:** scans grouped under a month heading ("January 2026", localized). Each month is one raised surface of rows separated by hairlines. A row shows the crop, the finding, confidence and the localized short date, a severity pill (Healthy, Watch, At Risk), and a "Demo diagnosis" pill for demo scans.

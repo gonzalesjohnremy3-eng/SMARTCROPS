@@ -10,12 +10,16 @@ import 'package:smart_crops/features/crops/screens/crop_detail_screen.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
 import 'package:smart_crops/features/scan/domain/diagnosis_presenter.dart';
 import 'package:smart_crops/features/scan/screens/scan_capture_screen.dart';
+import 'package:smart_crops/app/theme/app_tokens.dart';
+import 'package:smart_crops/app/widgets/app_bottom_bar.dart';
+import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/features/scan/screens/scan_result_screen.dart';
 import 'package:smart_crops/features/scan/screens/scan_review_screen.dart';
 import 'package:smart_crops/features/calendar/screens/field_calendar_screen.dart';
 import 'package:smart_crops/features/calendar/screens/task_detail_screen.dart';
 import 'package:smart_crops/features/profile/screens/profile_screen.dart';
 import 'package:smart_crops/features/profile/screens/profile_setup_screen.dart';
+import 'package:smart_crops/features/profile/screens/manage_crops_screen.dart';
 import 'package:smart_crops/features/onboarding/screens/onboarding_screen.dart';
 import 'package:smart_crops/features/advisories/screens/advisories_screen.dart';
 import 'package:smart_crops/features/care_plan/screens/care_plan_screen.dart';
@@ -59,6 +63,10 @@ GoRouter buildAppRouter({
       GoRoute(
         path: '/auth',
         builder: (context, state) => const AuthScreen(),
+      ),
+      GoRoute(
+        path: '/manage-crops',
+        builder: (context, state) => const ManageCropsScreen(),
       ),
       GoRoute(
         path: '/advisories',
@@ -265,6 +273,8 @@ class _AppShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // Same colour as the screens, so nothing shows behind the floating bar.
+      backgroundColor: AppColors.paper,
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 1120),
@@ -298,6 +308,8 @@ class _ResponsiveBottomNavigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth >= 840) {
@@ -306,73 +318,39 @@ class _ResponsiveBottomNavigation extends StatelessWidget {
             onDestinationSelected: onDestinationSelected,
             labelType: NavigationRailLabelType.all,
             extended: constraints.maxWidth >= 1024,
-            destinations: const [
+            destinations: [
               NavigationRailDestination(
-                icon: Icon(Icons.home_outlined),
-                selectedIcon: Icon(Icons.home),
-                label: Text('Home'),
+                icon: const Icon(Icons.home_outlined),
+                selectedIcon: const Icon(Icons.home),
+                label: Text(l10n.navHome),
               ),
               NavigationRailDestination(
-                icon: Icon(Icons.grass_outlined),
-                selectedIcon: Icon(Icons.grass),
-                label: Text('Crops'),
+                icon: const Icon(Icons.grass_outlined),
+                selectedIcon: const Icon(Icons.grass),
+                label: Text(l10n.navCrops),
               ),
               NavigationRailDestination(
-                icon: Icon(Icons.camera_alt_outlined),
-                selectedIcon: Icon(Icons.camera_alt),
-                label: Text('Scan'),
+                icon: const Icon(Icons.camera_alt_outlined),
+                selectedIcon: const Icon(Icons.camera_alt),
+                label: Text(l10n.navScan),
               ),
               NavigationRailDestination(
-                icon: Icon(Icons.calendar_today_outlined),
-                selectedIcon: Icon(Icons.calendar_today),
-                label: Text('Calendar'),
+                icon: const Icon(Icons.calendar_today_outlined),
+                selectedIcon: const Icon(Icons.calendar_today),
+                label: Text(l10n.navCalendar),
               ),
               NavigationRailDestination(
-                icon: Icon(Icons.person_outline),
-                selectedIcon: Icon(Icons.person),
-                label: Text('Profile'),
+                icon: const Icon(Icons.person_outline),
+                selectedIcon: const Icon(Icons.person),
+                label: Text(l10n.navProfile),
               ),
             ],
           );
         }
 
-        return NavigationBar(
-          key: const Key('bottom_nav_bar'),
-          selectedIndex: currentIndex,
-          onDestinationSelected: onDestinationSelected,
-          destinations: const [
-            NavigationDestination(
-              icon: Icon(Icons.home_outlined),
-              selectedIcon: Icon(Icons.home),
-              label: 'Home',
-              tooltip: 'Home',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.grass_outlined),
-              selectedIcon: Icon(Icons.grass),
-              label: 'Crops',
-              tooltip: 'My Crops',
-            ),
-            NavigationDestination(
-              key: Key('nav_scan'),
-              icon: Icon(Icons.camera_alt_outlined),
-              selectedIcon: Icon(Icons.camera_alt),
-              label: 'Scan',
-              tooltip: 'Scan Crop',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.calendar_today_outlined),
-              selectedIcon: Icon(Icons.calendar_today),
-              label: 'Calendar',
-              tooltip: 'Field Calendar',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.person_outline),
-              selectedIcon: Icon(Icons.person),
-              label: 'Profile',
-              tooltip: 'Profile',
-            ),
-          ],
+        return AppBottomBar(
+          currentIndex: currentIndex,
+          onSelected: onDestinationSelected,
         );
       },
     );

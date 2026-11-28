@@ -7,6 +7,7 @@ import 'package:smart_crops/app/router/onboarding_controller.dart';
 import 'package:smart_crops/app/analytics/analytics.dart';
 import 'package:smart_crops/app/theme/app_tokens.dart';
 import 'package:smart_crops/app/widgets/pill_button.dart';
+import 'package:smart_crops/features/profile/widgets/crop_picker.dart';
 import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/models/app_models.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
@@ -34,11 +35,9 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
   final _farmNameController = TextEditingController();
   final _locationController = TextEditingController();
   final _phoneController = TextEditingController();
-  final _cropSearchController = TextEditingController();
 
   int _currentStep = 0;
   final Set<String> _selectedCrops = {};
-  String _cropSearch = '';
   bool _isSaving = false;
 
   static bool _aboutYouAlreadySet(UserProfile? profile) {
@@ -73,19 +72,12 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
     _farmNameController.dispose();
     _locationController.dispose();
     _phoneController.dispose();
-    _cropSearchController.dispose();
     super.dispose();
   }
 
   List<String> _availableCropNames(SmartCropsService service) {
     final names = service.availableCrops.map((c) => c.cropName).toList();
     return names.isEmpty ? _fallbackCrops : names;
-  }
-
-  List<String> _filteredCrops(List<String> crops) {
-    if (_cropSearch.isEmpty) return crops;
-    final query = _cropSearch.toLowerCase();
-    return crops.where((crop) => crop.toLowerCase().contains(query)).toList();
   }
 
   Future<void> _save(SmartCropsService service) async {
@@ -196,7 +188,6 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
     final l10n = AppLocalizations.of(context);
     final service = context.watch<SmartCropsService>();
     final crops = _availableCropNames(service);
-    final filteredCrops = _filteredCrops(crops);
 
     return Scaffold(
       backgroundColor: AppColors.paper,
@@ -220,11 +211,8 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                     phoneController: _phoneController,
                   ),
                   _MainCropsStep(
-                    searchController: _cropSearchController,
-                    filteredCrops: filteredCrops,
+                    crops: crops,
                     selectedCrops: _selectedCrops,
-                    onSearchChanged: (value) =>
-                        setState(() => _cropSearch = value),
                     onCropToggled: (crop) => setState(() {
                       if (_selectedCrops.contains(crop)) {
                         _selectedCrops.remove(crop);
@@ -450,23 +438,18 @@ class _AboutYouStep extends StatelessWidget {
 
 class _MainCropsStep extends StatelessWidget {
   const _MainCropsStep({
-    required this.searchController,
-    required this.filteredCrops,
+    required this.crops,
     required this.selectedCrops,
-    required this.onSearchChanged,
     required this.onCropToggled,
   });
 
-  final TextEditingController searchController;
-  final List<String> filteredCrops;
+  final List<String> crops;
   final Set<String> selectedCrops;
-  final ValueChanged<String> onSearchChanged;
   final ValueChanged<String> onCropToggled;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final theme = Theme.of(context);
 
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(
@@ -482,98 +465,12 @@ class _MainCropsStep extends StatelessWidget {
             title: l10n.profileSetupStep2Title,
             subtitle: l10n.profileSetupStep2Subtitle,
           ),
-          TextField(
-            controller: searchController,
-            onChanged: onSearchChanged,
-            decoration: InputDecoration(
-              hintText: l10n.searchCrops,
-              prefixIcon: const Icon(Icons.search_rounded),
-              filled: true,
-              fillColor: AppColors.surfaceSunken,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(AppRadius.pill),
-                borderSide: BorderSide.none,
-              ),
-            ),
-          ),
-          const SizedBox(height: AppSpacing.s4),
-          Wrap(
-            spacing: AppSpacing.s2,
-            runSpacing: AppSpacing.s2,
-            children: [
-              for (final crop in filteredCrops)
-                _CropPill(
-                  label: crop,
-                  selected: selectedCrops.contains(crop),
-                  onTap: () => onCropToggled(crop),
-                ),
-            ],
-          ),
-          const SizedBox(height: AppSpacing.s5),
-          Text(
-            l10n.cropsSelectedCount(selectedCrops.length),
-            style: theme.textTheme.labelLarge?.copyWith(
-              color: AppColors.textSecondary,
-            ),
+          CropPicker(
+            crops: crops,
+            selected: selectedCrops,
+            onToggle: onCropToggled,
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _CropPill extends StatelessWidget {
-  const _CropPill({
-    required this.label,
-    required this.selected,
-    required this.onTap,
-  });
-
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Semantics(
-      button: true,
-      selected: selected,
-      child: Material(
-        color: selected ? AppColors.canopy : AppColors.mist,
-        shape: const StadiumBorder(),
-        child: InkWell(
-          customBorder: const StadiumBorder(),
-          onTap: onTap,
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: AppLayout.touchTarget),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.s4),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (selected) ...[
-                    const Icon(
-                      Icons.check_rounded,
-                      size: AppSpacing.s5,
-                      color: AppColors.textInverse,
-                    ),
-                    const SizedBox(width: AppSpacing.s2),
-                  ],
-                  Flexible(
-                    child: Text(
-                      label,
-                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        color: selected
-                            ? AppColors.textInverse
-                            : AppColors.textPrimary,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
       ),
     );
   }

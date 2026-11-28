@@ -174,7 +174,7 @@ class TaskDetailScreen extends StatelessWidget {
                                     Expanded(
                                       child: Text(
                                         '${l10n.calendarWeatherAdjusted}: '
-                                        '${loc.formatShortMonthDay(adjustment.originalDate)} → '
+                                        '${loc.formatShortMonthDay(adjustment.originalDate)} › '
                                         '${loc.formatShortMonthDay(adjustment.adjustedDate)}',
                                         style: theme.textTheme.bodySmall
                                             ?.copyWith(color: AppColors.canopy),

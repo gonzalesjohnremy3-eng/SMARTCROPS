@@ -298,16 +298,19 @@ class _Comparison extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final rows = [
       (
+        Icons.eco_outlined,
         l10n.agriProPlanFree,
         l10n.agriProPriceFree,
         l10n.agriProFreePlanSummary,
       ),
       (
+        Icons.calendar_month_outlined,
         l10n.agriProPlanMonthly,
         l10n.agriProPriceMonthly,
         l10n.agriProFeatureUnlimited,
       ),
       (
+        Icons.agriculture_outlined,
         l10n.agriProPlanSeasonal,
         l10n.agriProPriceSeasonal,
         l10n.agriProFeatureUnlimited,
@@ -318,6 +321,7 @@ class _Comparison extends StatelessWidget {
     return _raised(
       child: Column(
         key: const Key('pro-comparison-table'),
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           for (var i = 0; i < rows.length; i++) ...[
             if (i > 0)
@@ -329,31 +333,48 @@ class _Comparison extends StatelessWidget {
               ),
             Padding(
               padding: const EdgeInsets.all(AppSpacing.s4),
-              child: Column(
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Wrap(
-                    spacing: AppSpacing.s3,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      Text(
-                        rows[i].$1,
-                        style: theme.textTheme.titleMedium?.copyWith(
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
-                      Text(
-                        rows[i].$2,
-                        style: theme.textTheme.titleMedium?.copyWith(
-                          color: AppColors.canopy,
-                        ),
-                      ),
-                    ],
+                  Container(
+                    width: AppLayout.touchTarget,
+                    height: AppLayout.touchTarget,
+                    decoration: BoxDecoration(
+                      color: AppColors.mist,
+                      borderRadius: BorderRadius.circular(AppRadius.card - 4),
+                    ),
+                    child: Icon(rows[i].$1, color: AppColors.canopy),
                   ),
-                  Text(
-                    rows[i].$3,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: AppColors.textSecondary,
+                  const SizedBox(width: AppSpacing.s3),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Wrap(
+                          spacing: AppSpacing.s3,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [
+                            Text(
+                              rows[i].$2,
+                              style: theme.textTheme.titleMedium?.copyWith(
+                                color: AppColors.textPrimary,
+                              ),
+                            ),
+                            Text(
+                              rows[i].$3,
+                              style: theme.textTheme.titleMedium?.copyWith(
+                                color: AppColors.canopy,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          rows[i].$4,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],

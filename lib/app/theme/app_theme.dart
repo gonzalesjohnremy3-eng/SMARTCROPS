@@ -23,6 +23,9 @@ class AppTheme {
       colorScheme: colorScheme,
       scaffoldBackgroundColor: AppColors.surfaceCanvas,
       fontFamily: AppTypography.families['body'],
+      // Flutter's default styles (title medium, title small...) are not in
+      // the brand text theme, so the fallback is set here for all of them.
+      fontFamilyFallback: const ['Roboto'],
       textTheme: _textTheme(),
       appBarTheme: const AppBarTheme(
         backgroundColor: AppColors.surfaceCanvas,

@@ -198,6 +198,9 @@ class AppTypeToken {
 
   TextStyle get style => TextStyle(
     fontFamily: family,
+    // The brand fonts are latin subsets without the peso sign, and relying on
+    // the phone's own fallback left it blank on some devices.
+    fontFamilyFallback: const ['Roboto'],
     fontSize: size,
     height: lineHeight / size,
     fontWeight: weight,

@@ -174,4 +174,24 @@ void main() {
     expect(action.location, '/cooperative');
     expect(action.reason, RouteReason.requested);
   });
+
+  group('with a complete profile', () {
+    RouteAction resolve(String location) => resolveRoute(
+      RouteContext(
+        isAuthenticated: true,
+        onboardingComplete: true,
+        profileComplete: true,
+        requestedLocation: location,
+        requestedAccess: RouteAccess.authenticated,
+      ),
+    );
+
+    test('the setup wizard is not a destination, it goes Home', () {
+      expect(resolve('/setup/profile').location, '/home');
+    });
+
+    test('the Manage crops page is reachable', () {
+      expect(resolve('/manage-crops').location, '/manage-crops');
+    });
+  });
 }

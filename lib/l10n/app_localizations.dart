@@ -196,6 +196,150 @@ abstract class AppLocalizations {
   /// **'Your Field Calendar adjusts tasks based on the forecast so you never waste effort.'**
   String get onboardingBody3;
 
+  /// Bottom navigation label
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get navHome;
+
+  /// Bottom navigation label
+  ///
+  /// In en, this message translates to:
+  /// **'Crops'**
+  String get navCrops;
+
+  /// Bottom navigation label
+  ///
+  /// In en, this message translates to:
+  /// **'Scan'**
+  String get navScan;
+
+  /// Bottom navigation label
+  ///
+  /// In en, this message translates to:
+  /// **'Calendar'**
+  String get navCalendar;
+
+  /// Bottom navigation label
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get navProfile;
+
+  /// Location picker
+  ///
+  /// In en, this message translates to:
+  /// **'Your location'**
+  String get locationPickerTitle;
+
+  /// Location picker
+  ///
+  /// In en, this message translates to:
+  /// **'Use my current location'**
+  String get locationUseCurrent;
+
+  /// Location picker
+  ///
+  /// In en, this message translates to:
+  /// **'Finding your location…'**
+  String get locationFinding;
+
+  /// Location picker
+  ///
+  /// In en, this message translates to:
+  /// **'Province'**
+  String get locationProvinceLabel;
+
+  /// Location picker
+  ///
+  /// In en, this message translates to:
+  /// **'City or municipality'**
+  String get locationChooseArea;
+
+  /// Location picker
+  ///
+  /// In en, this message translates to:
+  /// **'Barangay'**
+  String get locationChooseBarangay;
+
+  /// Location picker
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get locationSearchHint;
+
+  /// Location picker
+  ///
+  /// In en, this message translates to:
+  /// **'Change city or municipality'**
+  String get locationChangeArea;
+
+  /// Location picker: the city was found from the phone, the barangay is still needed
+  ///
+  /// In en, this message translates to:
+  /// **'We found {area}. Now choose your barangay.'**
+  String locationFoundChooseBarangay(String area);
+
+  /// Location picker
+  ///
+  /// In en, this message translates to:
+  /// **'Location permission is off. You can choose your location below.'**
+  String get locationPermissionOff;
+
+  /// Location picker
+  ///
+  /// In en, this message translates to:
+  /// **'Your phone\'s location is off. Turn it on, or choose your location below.'**
+  String get locationServiceOff;
+
+  /// Location picker
+  ///
+  /// In en, this message translates to:
+  /// **'We only cover Davao del Sur for now. Choose your location below.'**
+  String get locationOutsideProvince;
+
+  /// Location picker
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t get your location. Choose it below.'**
+  String get locationUnavailable;
+
+  /// Location picker
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your location'**
+  String get locationChoose;
+
+  /// Profile photo
+  ///
+  /// In en, this message translates to:
+  /// **'Change photo'**
+  String get avatarChange;
+
+  /// Profile photo
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo'**
+  String get avatarTake;
+
+  /// Profile photo
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from gallery'**
+  String get avatarChoose;
+
+  /// Profile photo
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t upload your photo. Please try again.'**
+  String get avatarUploadFailed;
+
+  /// Profile photo
+  ///
+  /// In en, this message translates to:
+  /// **'Photo updated.'**
+  String get avatarUpdated;
+
   /// Form validation: a required field was left empty
   ///
   /// In en, this message translates to:
@@ -1771,7 +1915,7 @@ abstract class AppLocalizations {
   /// agriProManageCancelHow
   ///
   /// In en, this message translates to:
-  /// **'To cancel, open Google Play → Subscriptions → Smart Crops, or the App Store → Subscriptions. Access continues until the end of the paid period.'**
+  /// **'To cancel, open Google Play › Subscriptions › Smart Crops, or the App Store › Subscriptions. Access continues until the end of the paid period.'**
   String get agriProManageCancelHow;
 
   /// agriProRestore

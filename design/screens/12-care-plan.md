@@ -8,6 +8,7 @@
 
 ## Layout
 
+- **Back:** a round Back button at the top (Home opens this page with `push`, so Back returns to Home).
 - **Header:** "Care Plan" in Fraunces. On wide screens the content is held to the reading width, centred.
 - **Sections:** Today, This Week and Preventive, each a Fraunces title over one raised surface of rows separated by hairlines. Empty sections are not shown.
 - **Task row:** a round done button (tooltip "Mark done"; a finished task shows a filled check and is struck through), the title, then "Category · date" in the platform's localized short date. Below it, exactly one reason pill: Weather, Overdue (clay), From scan or Routine, each with its own icon. The old separate "Why now" chip is gone because the pill already says why. A weather-adjusted task adds a canopy note with the old and new dates. Tapping the row opens the task.

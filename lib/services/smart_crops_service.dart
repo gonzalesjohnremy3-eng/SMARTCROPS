@@ -10,6 +10,10 @@ import 'farm_data_loader.dart';
 import 'farm_snapshot.dart';
 import 'service_data_cache_store.dart';
 
+/// How long the Farmer waits for the `scan-crop` function before the offline
+/// demo takes over.
+const aiScanTimeout = Duration(seconds: 60);
+
 class SmartCropsService with ChangeNotifier {
   SmartCropsService({
     SupabaseClient? supabase,
@@ -260,6 +264,30 @@ class SmartCropsService with ChangeNotifier {
     await initializeUserData();
   }
 
+  /// Stores the Farmer's profile photo and points their profile at it. The
+  /// address carries a version so a replaced photo is not served from cache.
+  Future<void> updateAvatar(Uint8List bytes, {String extension = 'jpg'}) async {
+    final session = _supabase.auth.currentSession;
+    if (session == null) return;
+    final userId = session.user.id;
+    final path = '$userId/avatar.$extension';
+    final bucket = _supabase.storage.from('avatars');
+
+    await bucket.uploadBinary(
+      path,
+      bytes,
+      fileOptions: FileOptions(
+        upsert: true,
+        contentType: extension == 'png' ? 'image/png' : 'image/jpeg',
+      ),
+    );
+    final url =
+        '${bucket.getPublicUrl(path)}?v=${DateTime.now().millisecondsSinceEpoch}';
+    await _supabase.from('profiles').update({'avatar_url': url}).eq('id', userId);
+
+    await initializeUserData();
+  }
+
   Future<void> saveUserCrops(List<String> cropIds) async {
     final session = _supabase.auth.currentSession;
     if (session == null) return;
@@ -292,16 +320,23 @@ class SmartCropsService with ChangeNotifier {
 
     try {
       try {
-        // Invoke Supabase Edge Function 'scan-crop'
-        final response = await _supabase.functions.invoke(
-          'scan-crop',
-          body: {
-            'imageUrl': imageUrl,
-            'userId': session.user.id,
-            'cropName': cropName,
-          },
-          headers: {'Authorization': 'Bearer ${session.accessToken}'},
-        );
+        // Invoke Supabase Edge Function 'scan-crop'. The function can spend
+        // minutes rotating through AI keys when providers are failing, so the
+        // Farmer is not left on a spinner: after this wait the catch below
+        // falls back to the labelled offline demo.
+        debugPrint('scan: calling scan-crop');
+        final response = await _supabase.functions
+            .invoke(
+              'scan-crop',
+              body: {
+                'imageUrl': imageUrl,
+                'userId': session.user.id,
+                'cropName': cropName,
+              },
+              headers: {'Authorization': 'Bearer ${session.accessToken}'},
+            )
+            .timeout(aiScanTimeout);
+        debugPrint('scan: scan-crop answered ${response.status}');
 
         // Only a real, AI-backed 200 with parseable data counts as a real scan.
         if (response.status == 200 && response.data != null) {

@@ -395,7 +395,7 @@ class _TaskRow extends StatelessWidget {
                           Expanded(
                             child: Text(
                               '${l10n.calendarWeatherAdjusted}: '
-                              '${loc.formatShortMonthDay(item.originalDate)} → '
+                              '${loc.formatShortMonthDay(item.originalDate)} › '
                               '${loc.formatShortMonthDay(item.adjustedDate)}',
                               style: theme.textTheme.bodySmall?.copyWith(
                                 color: AppColors.canopy,

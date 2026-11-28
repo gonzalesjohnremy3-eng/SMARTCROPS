@@ -5,6 +5,7 @@ class UserProfile {
   final String? phoneNumber;
   final String? farmName;
   final String? location;
+  final String? avatarUrl;
 
   UserProfile({
     required this.id,
@@ -13,6 +14,7 @@ class UserProfile {
     this.phoneNumber,
     this.farmName,
     this.location,
+    this.avatarUrl,
   });
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class UserProfile {
       phoneNumber: json['phone_number'],
       farmName: json['farm_name'],
       location: json['location'],
+      avatarUrl: json['avatar_url'],
     );
   }
 
@@ -33,6 +36,7 @@ class UserProfile {
     'phone_number': phoneNumber,
     'farm_name': farmName,
     'location': location,
+    'avatar_url': avatarUrl,
   };
 }
 

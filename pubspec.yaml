@@ -50,6 +50,8 @@ dependencies:
   firebase_messaging: ^15.2.10
   share_plus: ^10.1.2
   flutter_svg: ^2.3.4
+  geolocator: ^14.0.1
+  geocoding: ^5.0.1
 
 dev_dependencies:
   flutter_test:
@@ -80,6 +82,7 @@ flutter:
     - .env
     - assets/images/overlays/
     - assets/images/brand/
+    - assets/data/
 
   fonts:
     - family: Fraunces
@@ -101,6 +104,15 @@ flutter:
         - asset: assets/fonts/public_sans/public-sans-v21-latin-600.ttf
           weight: 600
         - asset: assets/fonts/public_sans/public-sans-v21-latin-700.ttf
+          weight: 700
+    # Fallback for symbols the latin brand fonts lack (the peso sign).
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/roboto/roboto-regular.ttf
+          weight: 400
+        - asset: assets/fonts/roboto/roboto-medium.ttf
+          weight: 500
+        - asset: assets/fonts/roboto/roboto-bold.ttf
           weight: 700
 
   # An image asset can refer to one or more resolution-specific "variants", see

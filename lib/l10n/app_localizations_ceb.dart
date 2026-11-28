@@ -78,6 +78,85 @@ class AppLocalizationsCeb extends AppLocalizations {
       'Awto nga mo-adjust ang imong Kalendaryo sa Uma base sa forecast aron dili masayang ang pagsikap.';
 
   @override
+  String get navHome => 'Home';
+
+  @override
+  String get navCrops => 'Tanom';
+
+  @override
+  String get navScan => 'I-scan';
+
+  @override
+  String get navCalendar => 'Kalendaryo';
+
+  @override
+  String get navProfile => 'Profile';
+
+  @override
+  String get locationPickerTitle => 'Imong lokasyon';
+
+  @override
+  String get locationUseCurrent => 'Gamita ang akong karon nga lokasyon';
+
+  @override
+  String get locationFinding => 'Gipangita ang imong lokasyon…';
+
+  @override
+  String get locationProvinceLabel => 'Probinsya';
+
+  @override
+  String get locationChooseArea => 'Siyudad o munisipyo';
+
+  @override
+  String get locationChooseBarangay => 'Barangay';
+
+  @override
+  String get locationSearchHint => 'Pangitaa';
+
+  @override
+  String get locationChangeArea => 'Usba ang siyudad o munisipyo';
+
+  @override
+  String locationFoundChooseBarangay(String area) {
+    return 'Nakita namo ang $area. Pilia na karon ang imong barangay.';
+  }
+
+  @override
+  String get locationPermissionOff =>
+      'Naka-off ang pagtugot sa lokasyon. Mapili nimo ang imong lokasyon sa ubos.';
+
+  @override
+  String get locationServiceOff =>
+      'Naka-off ang lokasyon sa imong telepono. I-on kini, o pilia ang imong lokasyon sa ubos.';
+
+  @override
+  String get locationOutsideProvince =>
+      'Davao del Sur pa lang ang among sakop karon. Pilia ang imong lokasyon sa ubos.';
+
+  @override
+  String get locationUnavailable =>
+      'Dili namo makuha ang imong lokasyon. Pilia kini sa ubos.';
+
+  @override
+  String get locationChoose => 'Pilia ang imong lokasyon';
+
+  @override
+  String get avatarChange => 'Usba ang litrato';
+
+  @override
+  String get avatarTake => 'Kuhaa og litrato';
+
+  @override
+  String get avatarChoose => 'Pilia gikan sa gallery';
+
+  @override
+  String get avatarUploadFailed =>
+      'Wala namo ma-upload ang imong litrato. Palihog sulayi pag-usab.';
+
+  @override
+  String get avatarUpdated => 'Nausab na ang litrato.';
+
+  @override
   String get fieldRequired => 'Kinahanglan pun-an kini';
 
   @override
@@ -902,7 +981,7 @@ class AppLocalizationsCeb extends AppLocalizations {
 
   @override
   String get agriProManageCancelHow =>
-      'Para magkansela, abriha ang Google Play → Subscriptions → Smart Crops, o ang App Store → Subscriptions. Magpadayon ang access hangtod matapos ang bayad nga panahon.';
+      'Para magkansela, abriha ang Google Play › Subscriptions › Smart Crops, o ang App Store › Subscriptions. Magpadayon ang access hangtod matapos ang bayad nga panahon.';
 
   @override
   String get agriProRestore => 'Baliki ang gipalit';
