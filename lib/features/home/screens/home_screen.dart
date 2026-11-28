@@ -11,6 +11,7 @@ import 'package:smart_crops/l10n/app_localizations.dart';
 import 'package:smart_crops/models/app_models.dart';
 import 'package:smart_crops/services/smart_crops_service.dart';
 import 'package:smart_crops/services/weather_service.dart';
+import 'package:smart_crops/features/crops/widgets/crop_icon.dart';
 
 typedef BriefingContent = ({
   IconData icon,
@@ -852,7 +853,7 @@ class _ScanRow extends StatelessWidget {
                 color: surface,
                 borderRadius: BorderRadius.circular(AppRadius.card - 4),
               ),
-              child: Icon(Icons.eco_outlined, color: color),
+              child: CropIcon(name: scan.commonCrop, color: color),
             ),
             const SizedBox(width: AppSpacing.s3),
             Expanded(

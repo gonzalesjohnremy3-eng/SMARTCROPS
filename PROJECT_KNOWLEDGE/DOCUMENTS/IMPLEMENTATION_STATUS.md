@@ -170,7 +170,7 @@ The separate CropCare design line was removed so the app has a single design sou
 | CropCare contracts removed | **[x]** | `test/cropcare/`, `test/design/cropcare_prototype_contract_test.dart` deleted |
 | Field Almanac remains the only design line | **[x]** | `design/prototypes/`, `design/prototypes/IMPLEMENTATION_MAP.md` |
 
-Current verification: flutter test (610 passing); flutter analyze (info-level lints, no errors); deno test (23 passing across scan-crop and send-campaign seams).
+Current verification: flutter test (618 passing); flutter analyze (info-level lints, no errors); deno test (23 passing across scan-crop and send-campaign seams).
 
 ---
 
