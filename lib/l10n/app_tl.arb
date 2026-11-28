@@ -328,6 +328,7 @@
   "@languageApply": {
     "description": "languageApply"
   },
+  "profileSave": "I-save ang mga pagbabago",
   "profileUpdated": "Nai-save ang mga pagbabago.",
   "@profileUpdated": {
     "description": "profileUpdated"

@@ -170,7 +170,7 @@ The separate CropCare design line was removed so the app has a single design sou
 | CropCare contracts removed | **[x]** | `test/cropcare/`, `test/design/cropcare_prototype_contract_test.dart` deleted |
 | Field Almanac remains the only design line | **[x]** | `design/prototypes/`, `design/prototypes/IMPLEMENTATION_MAP.md` |
 
-Current verification: flutter test (363 passing); flutter analyze (info-level lints, no errors); deno test (23 passing across scan-crop and send-campaign seams).
+Current verification: flutter test (377 passing); flutter analyze (info-level lints, no errors); deno test (23 passing across scan-crop and send-campaign seams).
 
 ---
 
@@ -224,5 +224,6 @@ The HTML prototypes in `design/prototypes/` were deleted (ADR 0016); the impleme
 | Scan capture redesign | **[x]** | `design/screens/06-scan.md`, `lib/features/scan/screens/scan_capture_screen.dart`|
 | Crops redesign | **[x]** | `design/screens/07-crops.md`, `lib/features/crops/screens/crops_screen.dart` |
 | Calendar redesign | **[x]** | `design/screens/08-calendar.md`, `lib/features/calendar/screens/field_calendar_screen.dart` |
+| Profile redesign | **[x]** | `design/screens/09-profile.md`, `lib/features/profile/screens/profile_screen.dart` |
 | Scan review and result redesign | **[x]** | `design/screens/06a-scan-review.md`, `design/screens/06b-scan-result.md`; `/scan/review` and `/scan/result` are go_router routes above the shell |
 | Crops, calendar, remaining screens | **[ ]** | one pull request each |

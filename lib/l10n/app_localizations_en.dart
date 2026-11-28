@@ -583,6 +583,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageApply => 'Apply';
 
   @override
+  String get profileSave => 'Save changes';
+
+  @override
   String get profileUpdated => 'Changes saved.';
 
   @override

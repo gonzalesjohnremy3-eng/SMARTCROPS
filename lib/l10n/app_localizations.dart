@@ -1168,6 +1168,12 @@ abstract class AppLocalizations {
   /// **'Apply'**
   String get languageApply;
 
+  /// Profile: button that saves edited farm details
+  ///
+  /// In en, this message translates to:
+  /// **'Save changes'**
+  String get profileSave;
+
   /// profileUpdated
   ///
   /// In en, this message translates to:

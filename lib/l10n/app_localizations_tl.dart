@@ -591,6 +591,9 @@ class AppLocalizationsTl extends AppLocalizations {
   String get languageApply => 'Ilapat';
 
   @override
+  String get profileSave => 'I-save ang mga pagbabago';
+
+  @override
   String get profileUpdated => 'Nai-save ang mga pagbabago.';
 
   @override

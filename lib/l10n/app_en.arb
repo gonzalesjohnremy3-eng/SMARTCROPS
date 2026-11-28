@@ -722,6 +722,10 @@
   "@languageApply": {
     "description": "languageApply"
   },
+  "profileSave": "Save changes",
+  "@profileSave": {
+    "description": "Profile: button that saves edited farm details"
+  },
   "profileUpdated": "Changes saved.",
   "@profileUpdated": {
     "description": "profileUpdated"

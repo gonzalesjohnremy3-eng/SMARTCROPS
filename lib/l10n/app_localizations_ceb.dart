@@ -590,6 +590,9 @@ class AppLocalizationsCeb extends AppLocalizations {
   String get languageApply => 'I-apply';
 
   @override
+  String get profileSave => 'I-save ang mga kausaban';
+
+  @override
   String get profileUpdated => 'Na-save ang mga kausaban.';
 
   @override
